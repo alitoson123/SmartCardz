@@ -1,0 +1,196 @@
+
+
+
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+
+
+class AppDimensions2 {
+  AppDimensions2._();
+
+  // Heights
+  static double h(num value) => value.h;
+
+  // Widths
+  static double w(num value) => value.w;
+
+  // Radius
+  static double r(num value) => value.r;
+
+  // Font sizes (sp)
+  static double sp(num value) => value.sp;
+}
+
+class AppDimensions {
+  AppDimensions._();
+
+  // 🔹 Heights (h)
+  static final h1 = 1.h;
+  static final h2 = 2.h;
+  static final h4 = 4.h;
+  static final h5 = 5.h;
+  static final h6 = 6.h;
+  static final h7 = 7.h;
+  static final h8 = 8.h;
+  static final h9 = 9.h;
+  static final h10 = 10.h;
+  static final h11 = 11.h;
+  static final h12 = 12.h;
+  static final h14 = 14.h;
+  static final h15 = 15.h;
+  static final h16 = 16.h;
+  static final h25 = 25.h;
+  static final h50 = 50.h;
+  static final h86 = 86.h;
+  static final h40 = 40.h;
+  static final h60 = 60.h;
+  static final h17 = 17.h;
+  static final h31 = 31.h;
+  static final h34 = 34.h;
+  static final w17 = 17.w;
+  static final w323 = 323.w;
+  static final w48 = 48.w;
+  static final r19 = 19.r;
+  static final r15 = 15.r;
+  static final r30 = 30.r;
+  static final w8 = 8.w;
+  static final w145 = 145.w;
+  static final w14 = 14.w;
+  static final w16 = 16.w;
+  static final h106 = 106.h;
+  static final h49 = 49.h;
+  static final h18 = 18.h;
+  static final h20 = 20.h;
+  static final h23 = 23.h;
+  static final h24 = 24.h;
+  static final h26 = 26.h;
+  static final h28 = 28.h;
+  static final h30 = 30.h;
+  static final h32 = 32.h;
+  static final h33 = 33.h;
+  static final h36 = 36.h;
+  static final h38 = 38.h;
+  static final w46 = 36.w;
+  static final h167 = 167.h;
+  static final w40 = 40.h;
+  static final r8 = 8.r;
+  static final r4 = 4.r;
+  static final w20 = 20.w;
+  static final w212 = 212.w;
+  static final w12 = 12.w;
+  static final r16 = 16.r;
+  static final r25 = 25.r;
+  static final r17 = 17.r;
+  static final w30 = 30.w;
+  static final w309 = 309.w;
+  static final h55 = 55.h;
+  static final r40 = 40.r;
+  static final w0_6 = 0.6.w;
+  static final r24 = 24.r;
+  static final h58=58.h;
+  static final h47 = 47.h;
+  static final h41 = 41.h;
+  static final h42 = 42.h;
+  static final h45 = 45.h;
+  static final h48 = 48.h;
+  static final h51 = 51.h;
+  static final h52 = 52.h;
+  static final h53 = 53.h;
+  static final h61 = 61.h;
+  static final h70 = 70.h;
+  static final h90 = 90.h;
+  static final h110 = 110.h;
+  static final h120 = 120.h;
+  static final h130 = 130.h;
+  static final h145 = 145.h;
+  static final h160 = 160.h;
+  static final h168 = 168.h;
+  static final h176 = 176.h;
+  static final h180 = 180.h;
+  static final h200 = 200.h;
+  static final h235 = 235.h;
+  static final h240 = 240.h;
+  static final h250 = 250.h;
+
+  static final h350 = 350.h;
+  static final h377 = 377.h;
+  static final h395 = 395.h;
+  static final h470 = 470.h;
+  static final h515 = 515.h;
+  static final h532 = 532.h;
+  static final h555 = 555.h;
+  static final h590 = 590.h;
+  static final h740 = 740.h;
+  static final h800 = 800.h;
+  static final h900 = 900.h;
+
+  // 🔹 Widths (w)
+  static final w2_2 = 2.2.w;
+  static final w2_5 = 2.5.w;
+  static final w5 = 5.w;
+  static final w10 = 10.w;
+  static final w23 = 23.w;
+  static final w25 = 25.w;
+  static final w32 = 32.w;
+  static final w45 = 45.w;
+  static final w53 = 53.w;
+  static final w54 = 54.w;
+  static final w60 = 60.w;
+  static final w65 = 65.w;
+  static final w68 = 68.w;
+  static final w69 = 69.w;
+  static final w80 = 80.w;
+  static final w90 = 90.w;
+  static final w100 = 100.w;
+  static final w115 = 115.w;
+  static final w125 = 125.w;
+  static final w130 = 130.w;
+  static final w150 = 150.w;
+  static final w168 = 168.w;
+  static final w180 = 180.w;
+  static final w188 = 188.w;
+
+  static final w190 = 190.w;
+  static final w238 = 238.w;
+  static final w260 = 260.w;
+  static final w299 = 299.w;
+  static final w317 = 317.w;
+  static final w327 = 327.w;
+  static final w328 = 328.w;
+  static final w343 = 343.w;
+  static final w555 = 555.w;
+  static final w600 = 600.w;
+  static final w667 = 667.w;
+  static final w824 = 824.w;
+  static final w_80 = -80.0.w;
+
+  // 🔹 Radius (r)
+  static final r1 = 1.r;
+  static final r2 = 2.r;
+  static final r3 = 3.r;
+  static final r5 = 5.r;
+  static final r7 = 7.r;
+  static final r10 = 10.r;
+  static final r11 = 11.r;
+  static final r12 = 12.r;
+  static final r13 = 13.r;
+  static final r18 = 18.r;
+  static final r20 = 20.r;
+  static final r45 = 45.r;
+  static final r49 = 49.r;
+  static final r50 = 50.r;
+  static final r55 = 55.r;
+  static final r60 = 60.r;
+  static final r65 = 65.r;
+  static final r75 = 75.r;
+  static final r85 = 85.r;
+  static final r110 = 110.r;
+  static final r140 = 140.r;
+  static final r145 = 145.r;
+  static final r200 = 200.r;
+  static final r1_8 = 1.8.r;
+
+  static final sp1 = 1.sp;
+  static final sp2 = 2.sp;
+}
