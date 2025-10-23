@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Auth/Domain/Entities/user_entity.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/row_of_dont_have_an_account_and_sign_up.dart';
-import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/row_of_social_media_logos.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/test_logo.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/text_button_of_forget_password.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/text_fields_of_email_and_password.dart';
