@@ -98,6 +98,4 @@ class CardWithAIModel extends CardWithAIEntity {
       'next_review': nextReview,
     };
   }
-
- 
 }

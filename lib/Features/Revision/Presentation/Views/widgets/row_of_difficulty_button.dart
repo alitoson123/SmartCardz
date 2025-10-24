@@ -42,7 +42,11 @@ class RowOfDifficultyButton extends StatelessWidget {
     );
   }
 
-  void submitRating(BuildContext context, BaseCardEntity card, int quality) async {
+  void submitRating(
+    BuildContext context,
+    BaseCardEntity card,
+    int quality,
+  ) async {
     final cubit = context.read<FetchAndRatingCubit>();
     await cubit.submitRating(card, quality);
 
