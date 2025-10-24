@@ -9,6 +9,9 @@ abstract class BaseCardEntity {
   String get definition => '';
   String get imageBase64 => '';
   String get example => '';
+  ///
+  ///555
+  ///2555
 
 
 
