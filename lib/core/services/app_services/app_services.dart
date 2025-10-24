@@ -52,20 +52,24 @@ class AppServices {
         .limit(limit)
         .get();
 
-  return snap.docs.map<BaseCardEntity>((d) {
-  if (d.data()['card_type'] == 'normal') {
-    return NormalCardModel.fromDoc(d);
-  } else {
-    return CardWithAIModel.fromDoc(d);
-  }
-}).toList();
+    return snap.docs.map<BaseCardEntity>((d) {
+      final data = d.data();
+      final cardType = data['card_type'] as String?;
+      
+      if (cardType == 'normal') {
+        return NormalCardModel.fromDoc(d);
+      } else {
+        // Default to AI card if no type specified or type is 'ai'
+        return CardWithAIModel.fromDoc(d);
+      }
+    }).toList();
   }
 
   /// 🔁 تحديث تقييم الكارت بعد المراجعة بناءً على تقييم المستخدم
   /// quality = 5 (سهل), 3 (متوسط), 1 (صعب)
 
   Future<void> submitRating(
-    Object card,
+    BaseCardEntity card,
     int quality,
     String collectionName,
   ) async {

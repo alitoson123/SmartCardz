@@ -30,6 +30,13 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
     context.read<FetchAndRatingCubit>().fetchDueCards();
   }
 
+  void _resetIndex() {
+    setState(() {
+      currentIndex = 0;
+      showAnswer = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FetchAndRatingCubit, FetchAndRatingStates>(
@@ -48,9 +55,21 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
             );
           }
 
+          // Ensure currentIndex is within bounds - use WidgetsBinding to avoid setState during build
+          if (currentIndex >= cards.length) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _resetIndex();
+            });
+            return const Center(child: CircularProgressIndicator());
+          }
+
           final card = cards[currentIndex];
-          final isAICard = card is CardWithAIEntity;
-          log(card.frontSide);
+          final isAICard = card.isAICard;
+          log('Card front side: ${card.frontSide}');
+          log('Card back side: ${card.backSide}');
+          log('Card type: ${card.cardType}');
+          log('Is AI Card: $isAICard');
+          log('Current index: $currentIndex, Total cards: ${cards.length}');
           return Padding(
             padding: EdgeInsets.all(16.w),
             child: SingleChildScrollView(
@@ -63,10 +82,12 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
 
                   // 👇 لو الكارت AI نعرض الـ FrontSide widget، لو Normal نعرض Text
                   isAICard
-                      ? FrontSide(card: card)
+                      ? FrontSide(card: card as CardWithAIEntity)
                       : CustomCard(
                           child: Text(
-                            card.frontSide,
+                            card.frontSide.isEmpty
+                                ? 'No front side data'
+                                : card.frontSide,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 18.sp,
@@ -82,10 +103,12 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
 
                     // 👇 نفس الفكرة للظهر
                     isAICard
-                        ? BackSide(card: card)
+                        ? BackSide(card: card as CardWithAIEntity)
                         : CustomCard(
                             child: Text(
-                              card.backSide,
+                              card.backSide.isEmpty
+                                  ? 'No back side data'
+                                  : card.backSide,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 18.sp,
@@ -113,12 +136,8 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                               if (currentIndex < cards.length - 1) {
                                 currentIndex++;
                               } else {
-                                // خلص كل الكروت
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("All cards reviewed 🎉"),
-                                  ),
-                                );
+                                // Reset to start from beginning
+                                currentIndex = 0;
                               }
                             });
                           },
@@ -130,6 +149,10 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
         } else if (state is FetchAndRatingFailure) {
           return Center(child: Text('Error: ${state.errorMessage}'));
         } else if (state is SubmitRatingSuccess) {
+          // Reset index when new cards are fetched - use WidgetsBinding to avoid setState during build
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _resetIndex();
+          });
           context.read<FetchAndRatingCubit>().fetchDueCards();
           return const Center(
             child: Text(

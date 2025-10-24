@@ -12,7 +12,6 @@ import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/core/services/Bloc_observes_service/my_Bloc_observe.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
-import 'package:smart_cards/core/services/test_movement.dart';
 import 'package:smart_cards/core/utils/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';

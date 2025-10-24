@@ -5,8 +5,11 @@ class CardWithAIModel extends CardWithAIEntity {
   final String id;
 
   // SM-2 fields
+  @override
   final int repetition; // number of consecutive successful reviews
+  @override
   final double easiness; // easiness factor
+  @override
   final int interval; // days until next review
   final Timestamp? nextReview; // Firestore timestamp for next review
 
@@ -96,31 +99,5 @@ class CardWithAIModel extends CardWithAIEntity {
     };
   }
 
-  Map<String, dynamic> toJson() => toMap();
-
-  CardWithAIModel copyWith({
-    String? id,
-    String? word,
-    String? type,
-    String? definition,
-    String? example,
-    String? imageBase64,
-    int? repetition,
-    double? easiness,
-    int? interval,
-    Timestamp? nextReview,
-  }) {
-    return CardWithAIModel(
-      id: id ?? this.id,
-      word: word ?? this.word,
-      type: type ?? this.type,
-      definition: definition ?? this.definition,
-      example: example ?? this.example,
-      imageBase64: imageBase64 ?? this.imageBase64,
-      repetition: repetition ?? this.repetition,
-      easiness: easiness ?? this.easiness,
-      interval: interval ?? this.interval,
-      nextReview: nextReview ?? this.nextReview,
-    );
-  }
+ 
 }

@@ -11,13 +11,13 @@ class NormalCardRemoteDataSourceImpl extends NormalCardRemoteDataSource {
   Future<void> addNormalCard({
     required String frontSide,
     required String backSide,
-    required String collectionName
+    required String collectionName,
   }) async {
     await appServices.addCard(
       collectionName: collectionName,
       card: {
         'card_type': 'normal',
-        'front_side ': frontSide,
+        'front_side': frontSide,
         'back_side': backSide,
         // قيم SM-2 المبدئية
         'repetition': 0,

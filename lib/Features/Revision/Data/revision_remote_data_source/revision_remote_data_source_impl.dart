@@ -6,6 +6,7 @@ class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
   final AppServices appServices;
   @override
   RevisionRemoteDataSourceImpl({required this.appServices});
+  @override
   Future<List<BaseCardEntity>> fetchDueCards({
     int limit = 50,
     required String collectionName,
@@ -20,7 +21,7 @@ class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
 
   @override
   Future<void> submitRating(
-    Object card,
+    BaseCardEntity card,
     int quality,
     String collectionName,
   ) async {

@@ -5,8 +5,11 @@ class NormalCardModel extends NormalCardEntity {
   final String id;
 
   // SM-2 fields
+  @override
   final int repetition; // number of consecutive successful reviews
+  @override
   final double easiness; // easiness factor
+  @override
   final int interval; // days until next review
   final Timestamp? nextReview; // Firestore timestamp for next review
   NormalCardModel({
@@ -18,7 +21,6 @@ class NormalCardModel extends NormalCardEntity {
     required super.frontSide,
     required super.backSide,
   });
-
 
   /// From Firestore DocumentSnapshot
   factory NormalCardModel.fromDoc(DocumentSnapshot doc) {
@@ -46,6 +48,10 @@ class NormalCardModel extends NormalCardEntity {
   }
 
   Map<String, dynamic> toJson() => toMap();
+
+  // Override BaseCardEntity properties
+  @override
+  String get cardType => 'normal';
 
   NormalCardModel copyWith({
     String? id,

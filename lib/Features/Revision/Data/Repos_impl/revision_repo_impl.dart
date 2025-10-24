@@ -32,7 +32,7 @@ class RevisionRepoImpl extends RevisionRepo {
 
   @override
   Future<Either<Failure, void>> submitRating(
-    Object card,
+    BaseCardEntity card,
     int quality,
     String collectionName,
   ) async {

@@ -1,10 +1,15 @@
 import 'package:smart_cards/core/Entities/base_card_entity.dart';
 
 class CardWithAIEntity extends BaseCardEntity {
+  @override
   final String word;
+  @override
   final String type;
+  @override
   final String definition;
+  @override
   final String imageBase64;
+  @override
   final String example;
 
   CardWithAIEntity({
@@ -15,10 +20,7 @@ class CardWithAIEntity extends BaseCardEntity {
     required this.imageBase64,
   });
 
-  // 👇 هنا نربط الواجهات بمعنى الكارت
+  // Override card type identification
   @override
-  String get frontSide => word;
-
-  @override
-  String get backSide => '$definition\n\nExample: $example';
+  String get cardType => 'ai';
 }
