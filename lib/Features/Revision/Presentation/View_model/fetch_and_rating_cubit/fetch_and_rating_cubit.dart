@@ -8,12 +8,12 @@ class FetchAndRatingCubit extends Cubit<FetchAndRatingStates> {
     : super(FetchAndRatingInitial());
   final RevisionRepoImpl revisionRepoImpl;
 
-  Future<void> fetchDueCards() async {
+  Future<void> fetchDueCards({required String collectionId}) async {
     emit(FetchAndRatingLoading());
 
     final result = await revisionRepoImpl.fetchDueCards(
       limit: 50,
-      collectionName: 'English',
+      collectionId: collectionId,
     );
     result.fold(
       (failure) =>
@@ -24,17 +24,16 @@ class FetchAndRatingCubit extends Cubit<FetchAndRatingStates> {
     );
   }
 
-  Future<void> submitRating(BaseCardEntity card, int quality) async {
+  Future<void> submitRating(BaseCardEntity card, int quality, String collectionId) async {
     final result = await revisionRepoImpl.submitRating(
       card,
-      quality,
-      'English',
+      quality
     );
     result.fold(
       (failure) =>
           emit(FetchAndRatingFailure(errorMessage: failure.errorMessage)),
       (success) async {
-        await fetchDueCards(); // بعد التحديث فعليًا
+        await fetchDueCards(collectionId: collectionId); // بعد التحديث فعليًا
       },
     );
   }

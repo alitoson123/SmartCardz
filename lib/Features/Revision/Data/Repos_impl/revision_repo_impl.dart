@@ -13,12 +13,12 @@ class RevisionRepoImpl extends RevisionRepo {
   @override
   Future<Either<Failure, List<BaseCardEntity>>> fetchDueCards({
     int limit = 50,
-    required String collectionName,
+    required String collectionId,
   }) async {
     try {
       var result = await revisionRemoteDataSaource.fetchDueCards(
         limit: limit,
-        collectionName: collectionName,
+        collectionId: collectionId,
       );
       return right(result);
     } catch (e) {
@@ -34,13 +34,13 @@ class RevisionRepoImpl extends RevisionRepo {
   Future<Either<Failure, void>> submitRating(
     BaseCardEntity card,
     int quality,
-    String collectionName,
+
   ) async {
     try {
       await revisionRemoteDataSaource.submitRating(
         card,
         quality,
-        collectionName,
+
       );
       return right(null);
     } catch (e) {

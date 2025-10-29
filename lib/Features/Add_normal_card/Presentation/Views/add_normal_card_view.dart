@@ -7,7 +7,8 @@ import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
 
 class AddNormalCardView extends StatelessWidget {
-  const AddNormalCardView({super.key});
+  const AddNormalCardView({super.key, required this.collectionId});
+  final String collectionId;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class AddNormalCardView extends StatelessWidget {
               Center(child: CircularProgressIndicator());
             }
           },
-          child: AddNormalCardViewBody(),
+          child: AddNormalCardViewBody(collectionId:  collectionId,),
         ),
       ),
     );

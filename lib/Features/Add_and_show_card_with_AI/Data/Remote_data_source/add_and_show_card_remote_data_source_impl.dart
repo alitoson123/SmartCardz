@@ -27,11 +27,11 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
     required String example,
     required String type,
     String? imageBase64,
-    required String collectionName
+    required String collectionId
   }) async {
     await appServices.addCard(
-      collectionName: collectionName,
-      card: {
+      collectionId: collectionId,
+      cardData: {
         'card_type': 'ai',
         'word': word,
         'definition': definition,

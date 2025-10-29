@@ -9,11 +9,11 @@ class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
   @override
   Future<List<BaseCardEntity>> fetchDueCards({
     int limit = 50,
-    required String collectionName,
+    required String collectionId,
   }) async {
     var result = await appServices.fetchDueCards(
       limit: limit,
-      collectionName: collectionName,
+      collectionId: collectionId,
     );
 
     return result;
@@ -23,8 +23,7 @@ class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
   Future<void> submitRating(
     BaseCardEntity card,
     int quality,
-    String collectionName,
   ) async {
-    await appServices.submitRating(card, quality, collectionName);
+    await appServices.submitRating(card, quality);
   }
 }

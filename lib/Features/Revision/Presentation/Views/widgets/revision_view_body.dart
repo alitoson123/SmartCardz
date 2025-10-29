@@ -27,7 +27,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
   @override
   void initState() {
     super.initState();
-    context.read<FetchAndRatingCubit>().fetchDueCards();
+    context.read<FetchAndRatingCubit>().fetchDueCards(collectionId: '');
   }
 
   void _resetIndex() {
@@ -153,7 +153,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             _resetIndex();
           });
-          context.read<FetchAndRatingCubit>().fetchDueCards();
+          context.read<FetchAndRatingCubit>().fetchDueCards(collectionId: '');
           return const Center(
             child: Text(
               'Rating saved ✅\nLoading next card...',

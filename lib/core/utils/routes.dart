@@ -14,33 +14,39 @@ class AppRoutes {
   static String ForgetPasswordPage = '/ForgetPassword';
   static String SignUpPage = '/SignUp';
   static const String homeScreen = '/home';
+  static const String addNormalCardScreen = '/addNormalCard';
   static const String addAndShowCardScreen = '/addAndShowCard';
   static const String revisionCardScreen = '/revisionCard';
-  static const String addNormalCardScreen = '/addNormalCard';
+  // static const String addNormalCardScreen = '/addNormalCard';
 
   static final route = GoRouter(
     routes: [
       GoRoute(path: homeScreen, builder: (context, state) => const HomeView()),
       GoRoute(
+        path: addNormalCardScreen,
+        builder: (context, state) {
+          return AddNormalCardView(collectionId: state.extra as String);
+        },
+      ),
+      GoRoute(
         path: addAndShowCardScreen,
-        builder: (context, state) => const AddAndShowCardView(),
+        builder: (context, state) {
+          return AddAndShowCardView(collectionId: state.extra as String);
+        },
       ),
       GoRoute(
         path: revisionCardScreen,
         builder: (context, state) => const RevisionView(),
       ),
-      GoRoute(
-        path: addNormalCardScreen,
-        builder: (context, state) => const AddNormalCardView(),
-      ),
+
       GoRoute(
         path: SignInPage,
         builder: (context, state) => const SignInView(),
       ),
-       GoRoute(
-         path: ForgetPasswordPage,
-         builder: (context, state) => const ForgetPasswordView(),
-       ),
+      GoRoute(
+        path: ForgetPasswordPage,
+        builder: (context, state) => const ForgetPasswordView(),
+      ),
       GoRoute(
         path: SignUpPage,
         builder: (context, state) => const SignUpView(),

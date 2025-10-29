@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/add_and_show_card_view_body.dart';
 
 class AddAndShowCardView extends StatelessWidget {
-  const AddAndShowCardView({super.key});
+  const AddAndShowCardView({super.key, required this.collectionId});
+  final String collectionId;
 
   @override
   Widget build(BuildContext context) {

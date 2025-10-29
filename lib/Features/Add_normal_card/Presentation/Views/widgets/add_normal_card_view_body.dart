@@ -6,7 +6,8 @@ import 'package:smart_cards/core/utils/app_button.dart';
 import 'package:smart_cards/core/utils/app_header.dart';
 
 class AddNormalCardViewBody extends StatefulWidget {
-  const AddNormalCardViewBody({super.key});
+  const AddNormalCardViewBody({super.key, required this.collectionId});
+  final String collectionId;
 
   @override
   State<AddNormalCardViewBody> createState() => _AddNormalCardViewBodyState();
@@ -59,7 +60,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                 }
                 context.read<NormalCardCubit>().addNormalCard(
                   frontSide: frontSide,
-                  backSide: backSide,
+                  backSide: backSide, collectionId: widget.collectionId ,
                 );
                 frontSideController.clear();
                 backSideController.clear();

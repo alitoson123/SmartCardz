@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/add_collection_cubit/add_collection_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/add_collection_cubit/add_collection_states.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/home_view_body.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/add_options.dart';
+import 'package:smart_cards/core/messages/message.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -23,7 +27,34 @@ class HomeView extends StatelessWidget {
         ),
       ),
       body: HomeViewBody(),
-      floatingActionButton: AddOptions(),
+      floatingActionButton:
+          BlocConsumer<AddCollectionCubit, AddCollectionStates>(
+            listener: (context, state) {
+              if (state is AddCollectionFailure) {
+                Message().MessageErrorMethod(
+                  context,
+                  message: state.errMessage,
+                );
+              }
+              if (state is AddCollectionSuccess) {
+                Message().MessageSuccessMethod(
+                  context,
+                  message: 'Collection created successfully',
+                );
+              }
+
+              if (state is AddCollectionLoading) {
+                Center(child: CircularProgressIndicator());
+              }
+            },
+            builder: (context, state) {
+              return AddOptions(
+                collectionId: state is AddCollectionSuccess
+                    ? state.collectionModel.collection_id
+                    : '',
+              );
+            },
+          ),
     );
   }
 }

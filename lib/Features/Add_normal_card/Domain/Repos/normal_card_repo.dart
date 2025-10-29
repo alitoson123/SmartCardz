@@ -5,6 +5,6 @@ abstract class NormalCardRepo {
   Future<Either<Failure, void>> addNormalCard({
     required String frontSide,
     required String backSide,
-    required String collectionName
+    required String collectionId
   });
 }

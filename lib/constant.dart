@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 const Color KPrimaryColor = Color(0xff1E88E5);
 const String KUserBox = 'userBox';
+const String KCollectionBox = 'collectionBox';
+
 const String currentUser = 'currentUser';
 
 class Style {

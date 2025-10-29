@@ -48,7 +48,7 @@ class RowOfDifficultyButton extends StatelessWidget {
     int quality,
   ) async {
     final cubit = context.read<FetchAndRatingCubit>();
-    await cubit.submitRating(card, quality);
+    await cubit.submitRating(card, quality,'');
 
     onNextCard(); // 👈 بعد ما يخلص التقييم، نروح للكارت اللي بعده
   }

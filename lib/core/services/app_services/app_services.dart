@@ -5,48 +5,96 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/Algorism/sm2.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
 import 'package:smart_cards/Features/Add_normal_card/Data/models/normal_card_model.dart';
+import 'package:smart_cards/Features/Home/Data/Models/collection_model.dart';
 import 'package:smart_cards/core/Entities/base_card_entity.dart';
 
 class AppServices {
   final Dio dio;
-  //final FirebaseFirestore firebaseStoreOb = FirebaseFirestore.instance;
-  // final String collectionUserName = 'users';
-  final DocumentReference collectionFlashCardsPath = FirebaseFirestore.instance
-      .collection('users')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('user_collections')
-      .doc('user_collections_id');
+  final firestore = FirebaseFirestore.instance;
+
   AppServices({required this.dio});
 
+  /// 🌐 HTTP GET
   Future<Map<String, dynamic>> getMethod({required String URL}) async {
     var result = await dio.get(URL);
     log(result.statusCode.toString());
     return result.data;
   }
 
-  Future<void> createNewCollection({required String collectionName}) async {
-    await collectionFlashCardsPath.collection(collectionName).add({
+  // ======================================================================
+  // 📚 COLLECTIONS
+  // ======================================================================
+
+  /// إنشاء Collection جديدة
+  Future<CollectionModel> createNewCollection({
+    required String collectionName,
+  }) async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+
+    final ref = firestore.collection('collections').doc();
+    await ref.set({
+      'id': ref.id,
+      'ownerId': userId,
+      'name': collectionName,
+      'cards_count': 0,
       'created_at': FieldValue.serverTimestamp(),
+    });
+
+    final snapshot = await ref.get();
+    final model = CollectionModel.fromDoc(snapshot);
+
+    return model; // 👈 نرجع الموديل كامل
+  }
+
+  /// جلب كل الكوليكشنز بتاعت المستخدم
+  Future<List<Map<String, dynamic>>> fetchUserCollections({
+    required String userId,
+  }) async {
+    final snap = await firestore
+        .collection('collections')
+        .where('ownerId', isEqualTo: userId)
+        .get();
+
+    return snap.docs.map((doc) {
+      final data = doc.data();
+      data['collection_id'] = doc.id;
+      return data;
+    }).toList();
+  }
+
+  // ======================================================================
+  // 🃏 CARDS
+  // ======================================================================
+
+  /// إضافة كارت جديد إلى كوليكشن معينة
+  Future<void> addCard({
+    required Map<String, dynamic> cardData,
+    required String collectionId,
+  }) async {
+    final newCard = firestore.collection('cards').doc();
+
+    await newCard.set({
+      ...cardData,
+      'id': newCard.id,
+      'collectionId': collectionId,
+      'created_at': FieldValue.serverTimestamp(),
+    });
+
+    // زيادة عدد الكروت في الكوليكشن
+    await firestore.collection('collections').doc(collectionId).update({
+      'cards_count': FieldValue.increment(1),
     });
   }
 
-  /// 🪄 إضافة كارت جديد إلى Firestore (القيم الابتدائية)
-  Future<void> addCard({
-    required Map<String, dynamic> card,
-    required String collectionName,
-  }) async {
-    await collectionFlashCardsPath.collection(collectionName).add(card);
-  }
-
-  /// 🧠 جلب الكروت المستحقة الآن (next_review <= today)
-  /// بيجيب أول n كارت حسب التاريخ
+  /// جلب الكروت المستحقة الآن (next_review <= today)
   Future<List<BaseCardEntity>> fetchDueCards({
     int limit = 50,
-    required String collectionName,
+    required String collectionId,
   }) async {
     final now = Timestamp.fromDate(DateTime.now());
-    final snap = await collectionFlashCardsPath
-        .collection(collectionName)
+    final snap = await firestore
+        .collection('cards')
+        .where('collectionId', isEqualTo: collectionId)
         .where('next_review', isLessThanOrEqualTo: now)
         .orderBy('next_review')
         .limit(limit)
@@ -55,61 +103,29 @@ class AppServices {
     return snap.docs.map<BaseCardEntity>((d) {
       final data = d.data();
       final cardType = data['card_type'] as String?;
-      
       if (cardType == 'normal') {
         return NormalCardModel.fromDoc(d);
       } else {
-        // Default to AI card if no type specified or type is 'ai'
         return CardWithAIModel.fromDoc(d);
       }
     }).toList();
   }
 
-  /// 🔁 تحديث تقييم الكارت بعد المراجعة بناءً على تقييم المستخدم
-  /// quality = 5 (سهل), 3 (متوسط), 1 (صعب)
+  /// تحديث تقييم الكارت بعد المراجعة (SM-2)
+  Future<void> submitRating(BaseCardEntity card, int quality) async {
+    final res = computeSm2(
+      currentRepetition: card.repetition,
+      currentEasiness: card.easiness,
+      currentInterval: card.interval,
+      quality: quality,
+    );
 
-  Future<void> submitRating(
-    BaseCardEntity card,
-    int quality,
-    String collectionName,
-  ) async {
-    if (card is CardWithAIModel) {
-      final res = computeSm2(
-        currentRepetition: card.repetition,
-        currentEasiness: card.easiness,
-        currentInterval: card.interval,
-        quality: quality,
-      );
-
-      await collectionFlashCardsPath
-          .collection(collectionName)
-          .doc(card.id)
-          .update({
-            'repetition': res.repetition,
-            'easiness': res.easiness,
-            'interval': res.intervalDays,
-            'next_review': res.nextReview,
-            'last_reviewed': FieldValue.serverTimestamp(),
-          });
-    }
-    // ✅ الحالة الثانية: كارت عادي Normal
-    else if (card is NormalCardModel) {
-      final res2 = computeSm2(
-        currentRepetition: card.repetition,
-        currentEasiness: card.easiness,
-        currentInterval: card.interval,
-        quality: quality,
-      );
-      await collectionFlashCardsPath
-          .collection(collectionName)
-          .doc(card.id)
-          .update({
-            'repetition': res2.repetition,
-            'easiness': res2.easiness,
-            'interval': res2.intervalDays,
-            'next_review': res2.nextReview,
-            'last_reviewed': FieldValue.serverTimestamp(),
-          });
-    }
+    await firestore.collection('cards').doc(card.id).update({
+      'repetition': res.repetition,
+      'easiness': res.easiness,
+      'interval': res.intervalDays,
+      'next_review': res.nextReview,
+      'last_reviewed': FieldValue.serverTimestamp(),
+    });
   }
 }

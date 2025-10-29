@@ -10,6 +10,6 @@ abstract class AddAndShowCardRepo {
     required String example,
     required String type,
     String? imageBase64,
-    required String collectionName
+    required String collectionId
   });
 }

@@ -40,11 +40,11 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
     required String example,
     required String type,
     String? imageBase64,
-    required String collectionName,
+    required String collectionId,
   }) async {
     try {
       await addAndShowCardRemoteDataSource.addCard(
-        collectionName: collectionName,
+        collectionId: collectionId,
         word: word,
         definition: definition,
         example: example,

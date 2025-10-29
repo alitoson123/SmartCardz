@@ -36,7 +36,7 @@ class AddAndShowCardCubit extends Cubit<AddAndShowCardStates> {
       example: example,
       type: type,
       imageBase64: imageBase64,
-      collectionName: 'English',
+      collectionId: 'English',
     );
 
     result.fold((failure) {

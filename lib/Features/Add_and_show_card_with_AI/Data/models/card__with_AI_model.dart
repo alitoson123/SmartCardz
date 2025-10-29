@@ -85,17 +85,15 @@ class CardWithAIModel extends CardWithAIEntity {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'word': word,
-      'type': type,
-      'definition': definition,
-      'example': example,
-      'image_base64': imageBase64,
-      'repetition': repetition,
-      'easiness': easiness,
-      'interval': interval,
-      'next_review': nextReview,
-    };
-  }
+  Map<String, dynamic> toMap() => {
+    'word': word,
+    'type': type,
+    'definition': definition,
+    'example': example,
+    'image_base64': imageBase64,
+    'repetition': repetition,
+    'easiness': easiness,
+    'interval': interval,
+    'next_review': nextReview,
+  };
 }
