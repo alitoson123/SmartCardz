@@ -1,4 +1,3 @@
-import 'package:smart_cards/Features/Home/Data/Models/collection_model.dart';
 import 'package:smart_cards/Features/Home/Data/add_collection_remote_data_source/add_collection_remote_data_source.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/core/services/app_services/app_services.dart';
@@ -9,7 +8,7 @@ class AddCollectionRemoteDataSourceImpl extends AddCollectionRemoteDataSource {
   AddCollectionRemoteDataSourceImpl({required this.appServices});
 
   @override
-  Future<CollectionModel> addCollection({
+  Future<CollectionEntity> addCollection({
     required String collectionName,
   }) async {
  var result =   await appServices.createNewCollection(

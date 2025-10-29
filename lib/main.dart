@@ -14,10 +14,12 @@ import 'package:smart_cards/Features/Home/Presentation/View_model/add_collection
 import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/constant.dart';
+import 'package:smart_cards/core/Data/repo_impl/collection_repo_impl/collection_repo_impl.dart';
 import 'package:smart_cards/core/services/Bloc_observes_service/my_Bloc_observe.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
 import 'package:smart_cards/core/utils/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -64,6 +66,11 @@ class SmartCards extends StatelessWidget {
             BlocProvider<AddCollectionCubit>(
               create: (context) => AddCollectionCubit(
                 addCollectionRepo: getIt<AddCollectionRepoImpl>(),
+              ),
+            ),
+            BlocProvider<GetCollectionsCubit>(
+              create: (context) => GetCollectionsCubit(
+                collectionRepoImpl: getIt<CollectionRepoImpl>(),
               ),
             ),
           ],

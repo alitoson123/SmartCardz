@@ -6,11 +6,13 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/Algorism/sm2
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
 import 'package:smart_cards/Features/Add_normal_card/Data/models/normal_card_model.dart';
 import 'package:smart_cards/Features/Home/Data/Models/collection_model.dart';
-import 'package:smart_cards/core/Entities/base_card_entity.dart';
+import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
+import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
 class AppServices {
   final Dio dio;
   final firestore = FirebaseFirestore.instance;
+  final userId = FirebaseAuth.instance.currentUser!.uid;
 
   AppServices({required this.dio});
 
@@ -26,16 +28,14 @@ class AppServices {
   // ======================================================================
 
   /// إنشاء Collection جديدة
-  Future<CollectionModel> createNewCollection({
+  Future<CollectionEntity> createNewCollection({
     required String collectionName,
   }) async {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-
     final ref = firestore.collection('collections').doc();
     await ref.set({
       'id': ref.id,
       'ownerId': userId,
-      'name': collectionName,
+      'collection_name': collectionName,
       'cards_count': 0,
       'created_at': FieldValue.serverTimestamp(),
     });
@@ -47,19 +47,13 @@ class AppServices {
   }
 
   /// جلب كل الكوليكشنز بتاعت المستخدم
-  Future<List<Map<String, dynamic>>> fetchUserCollections({
-    required String userId,
-  }) async {
+  Future<List<CollectionEntity>> fetchUserCollections() async {
     final snap = await firestore
         .collection('collections')
         .where('ownerId', isEqualTo: userId)
         .get();
 
-    return snap.docs.map((doc) {
-      final data = doc.data();
-      data['collection_id'] = doc.id;
-      return data;
-    }).toList();
+    return snap.docs.map((e) => CollectionModel.fromDoc(e)).toList();
   }
 
   // ======================================================================

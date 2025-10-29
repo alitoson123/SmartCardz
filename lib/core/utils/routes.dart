@@ -6,18 +6,19 @@ import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/sign_in_vie
 import 'package:smart_cards/Features/Auth/Sign_up/Presentation/Views/sign_up_view.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/home_view.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/revision_view.dart';
+import 'package:smart_cards/core/views/collection_view.dart';
 
 class AppRoutes {
   //static String KinitialPage = '/';
   //  static String KOnBoardingPage = '/OnBoarding';
-  static String SignInPage = '/';
-  static String ForgetPasswordPage = '/ForgetPassword';
-  static String SignUpPage = '/SignUp';
+  static const String SignInPage = '/';
+  static const String ForgetPasswordPage = '/ForgetPassword';
+  static const String SignUpPage = '/SignUp';
   static const String homeScreen = '/home';
   static const String addNormalCardScreen = '/addNormalCard';
   static const String addAndShowCardScreen = '/addAndShowCard';
   static const String revisionCardScreen = '/revisionCard';
-  // static const String addNormalCardScreen = '/addNormalCard';
+  static const String collectionsScreen = '/collections';
 
   static final route = GoRouter(
     routes: [
@@ -50,6 +51,10 @@ class AppRoutes {
       GoRoute(
         path: SignUpPage,
         builder: (context, state) => const SignUpView(),
+      ),
+      GoRoute(
+        path: collectionsScreen,
+        builder: (context, state) => CollectionView(),
       ),
     ],
   );

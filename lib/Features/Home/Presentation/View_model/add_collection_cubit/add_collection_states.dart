@@ -1,4 +1,3 @@
-import 'package:smart_cards/Features/Home/Data/Models/collection_model.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 
 class AddCollectionStates {}
@@ -8,9 +7,9 @@ class AddCollectionInitial extends AddCollectionStates {}
 class AddCollectionLoading extends AddCollectionStates {}
 
 class AddCollectionSuccess extends AddCollectionStates {
-  final CollectionModel collectionModel;
+  final CollectionEntity collectionEntity;
 
-  AddCollectionSuccess({required this.collectionModel});
+  AddCollectionSuccess({required this.collectionEntity});
 }
 
 class AddCollectionFailure extends AddCollectionStates {

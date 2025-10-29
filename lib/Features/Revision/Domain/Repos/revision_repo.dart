@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:smart_cards/core/Entities/base_card_entity.dart';
+import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 import 'package:smart_cards/core/errors/failure.dart';
 
 abstract class RevisionRepo {

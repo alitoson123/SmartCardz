@@ -1,4 +1,4 @@
-import 'package:smart_cards/core/Entities/base_card_entity.dart';
+import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
 abstract class RevisionRemoteDataSaource {
   Future<List<BaseCardEntity>> fetchDueCards({

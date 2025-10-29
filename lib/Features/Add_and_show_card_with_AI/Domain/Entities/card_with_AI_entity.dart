@@ -1,4 +1,4 @@
-import 'package:smart_cards/core/Entities/base_card_entity.dart';
+import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
 class CardWithAIEntity extends BaseCardEntity {
   @override

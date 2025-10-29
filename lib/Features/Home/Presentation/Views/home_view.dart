@@ -50,7 +50,7 @@ class HomeView extends StatelessWidget {
             builder: (context, state) {
               return AddOptions(
                 collectionId: state is AddCollectionSuccess
-                    ? state.collectionModel.collection_id
+                    ? state.collectionEntity.collection_id
                     : '',
               );
             },

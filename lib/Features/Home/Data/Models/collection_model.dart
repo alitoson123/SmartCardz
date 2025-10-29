@@ -2,14 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 
 class CollectionModel extends CollectionEntity {
-  final String collection_id;
-
   final String owner_id;
 
   CollectionModel({
     required super.collectionName,
     required super.cards_count,
-    required this.collection_id,
+    required super.collection_id,
     required this.owner_id,
   });
 

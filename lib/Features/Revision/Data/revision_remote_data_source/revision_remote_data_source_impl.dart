@@ -1,5 +1,5 @@
 import 'package:smart_cards/Features/Revision/Data/revision_remote_data_source/revision_remote_data_saource.dart';
-import 'package:smart_cards/core/Entities/base_card_entity.dart';
+import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 import 'package:smart_cards/core/services/app_services/app_services.dart';
 
 class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
