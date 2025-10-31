@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +6,7 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/c
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/back_side.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_card.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/front_side.dart';
+import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_states.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/row_of_difficulty_button.dart';
@@ -14,7 +14,8 @@ import 'package:smart_cards/core/Functions/section_title.dart';
 import 'package:smart_cards/core/utils/app_button.dart';
 
 class RevisionViewBody extends StatefulWidget {
-  const RevisionViewBody({super.key});
+  const RevisionViewBody({super.key, required this.collection});
+  final CollectionEntity collection;
 
   @override
   State<RevisionViewBody> createState() => _RevisionViewBodyState();
@@ -27,7 +28,9 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
   @override
   void initState() {
     super.initState();
-    context.read<FetchAndRatingCubit>().fetchDueCards(collectionId: '');
+    context.read<FetchAndRatingCubit>().fetchDueCards(
+      collectionId: widget.collection.collection_id,
+    );
   }
 
   void _resetIndex() {
@@ -45,6 +48,9 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
           return const Center(child: CircularProgressIndicator());
         } else if (state is FetchDueCardsSuccess) {
           final cards = state.cards;
+          log('✅ Cards Loaded: ${cards.length}');
+                    log('✅ Cards Loaded: ${cards.toString()}');
+
 
           if (cards.isEmpty) {
             return const Center(
@@ -130,6 +136,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                           card: card,
                           showAnswer: showAnswer,
                           currentIndex: currentIndex,
+                          collectionId: widget.collection.collection_id,
                           onNextCard: () {
                             setState(() {
                               showAnswer = false;
@@ -140,20 +147,24 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                                 currentIndex = 0;
                               }
                             });
-                          },
+                          }, 
                         ),
                 ],
               ),
             ),
           );
         } else if (state is FetchAndRatingFailure) {
+          log(state.errorMessage);
+
           return Center(child: Text('Error: ${state.errorMessage}'));
         } else if (state is SubmitRatingSuccess) {
           // Reset index when new cards are fetched - use WidgetsBinding to avoid setState during build
           WidgetsBinding.instance.addPostFrameCallback((_) {
             _resetIndex();
           });
-          context.read<FetchAndRatingCubit>().fetchDueCards(collectionId: '');
+          context.read<FetchAndRatingCubit>().fetchDueCards(
+            collectionId: widget.collection.collection_id,
+          );
           return const Center(
             child: Text(
               'Rating saved ✅\nLoading next card...',

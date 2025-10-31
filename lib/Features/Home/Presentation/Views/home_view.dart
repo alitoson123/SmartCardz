@@ -5,6 +5,7 @@ import 'package:smart_cards/Features/Home/Presentation/View_model/add_collection
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/home_view_body.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/add_options.dart';
 import 'package:smart_cards/core/messages/message.dart';
+import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -42,6 +43,8 @@ class HomeView extends StatelessWidget {
                   message: 'Collection created successfully',
                 );
               }
+                //  context.read<GetCollectionsCubit>().getCollections();
+
 
               if (state is AddCollectionLoading) {
                 Center(child: CircularProgressIndicator());

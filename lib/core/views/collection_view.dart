@@ -21,6 +21,7 @@ class _CollectionViewState extends State<CollectionView> {
   void initState() {
     super.initState();
     context.read<GetCollectionsCubit>().getCollections();
+   // log(collections.toString()); 
   }
 
   @override

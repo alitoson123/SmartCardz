@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/revision_view_body.dart';
 
 class RevisionView extends StatelessWidget {
-  const RevisionView({super.key});
+  const RevisionView({super.key,required this.collection});
+  final CollectionEntity collection;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class RevisionView extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: RevisionViewBody(),
+      body: RevisionViewBody(collection: collection,),
     );
   }
 }

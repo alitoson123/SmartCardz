@@ -10,13 +10,14 @@ class RowOfDifficultyButton extends StatelessWidget {
     required this.card,
     required this.showAnswer,
     required this.currentIndex,
-    required this.onNextCard,
+    required this.onNextCard, required this.collectionId,
   });
 
   final BaseCardEntity card;
   final bool showAnswer;
   final int currentIndex;
   final VoidCallback onNextCard;
+  final String collectionId;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class RowOfDifficultyButton extends StatelessWidget {
     int quality,
   ) async {
     final cubit = context.read<FetchAndRatingCubit>();
-    await cubit.submitRating(card, quality,'');
+    await cubit.submitRating(card, quality,collectionId);
 
     onNextCard(); // 👈 بعد ما يخلص التقييم، نروح للكارت اللي بعده
   }

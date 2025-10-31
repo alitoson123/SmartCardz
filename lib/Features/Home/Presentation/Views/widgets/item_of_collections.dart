@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/core/utils/routes.dart';
 
 class ItemOfCollections extends StatelessWidget {
-  const ItemOfCollections({super.key});
+  const ItemOfCollections({super.key, required this.collection});
+  final CollectionEntity collection;
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +19,13 @@ class ItemOfCollections extends StatelessWidget {
           horizontal: 16,
         ),
         title: Text(
-          'English Vocabulary',
+          collection.collectionName,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
-        subtitle: Text('120 cards'),
+        subtitle: Text('${collection.cards_count} cards'),
         trailing: const Icon(Icons.arrow_forward_ios, size: 18),
         onTap: () {
-          context.push(AppRoutes.revisionCardScreen);
+          context.push(AppRoutes.revisionCardScreen, extra: collection);
         },
       ),
     );

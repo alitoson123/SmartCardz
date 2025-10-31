@@ -5,6 +5,7 @@ import 'package:smart_cards/Features/Add_normal_card/Presentation/View_model/nor
 import 'package:smart_cards/Features/Add_normal_card/Presentation/View_model/normal_card_cubit/normal_card_states.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/add_normal_card_view_body.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
+import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
 
 class AddNormalCardView extends StatelessWidget {
   const AddNormalCardView({super.key, required this.collectionId});
@@ -39,14 +40,17 @@ class AddNormalCardView extends StatelessWidget {
             }
             if (state is AddNormalCardSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Card saved successfully')),
+                SnackBar(
+                  content: Text('Card saved successfully'),
+                  duration: const Duration(milliseconds: 500),
+                ),
               );
             }
             if (state is AddNormalCardLoading) {
               Center(child: CircularProgressIndicator());
             }
           },
-          child: AddNormalCardViewBody(collectionId:  collectionId,),
+          child: AddNormalCardViewBody(collectionId: collectionId),
         ),
       ),
     );
