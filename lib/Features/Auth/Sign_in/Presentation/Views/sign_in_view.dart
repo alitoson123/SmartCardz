@@ -5,9 +5,11 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/sign_in_view_body.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/view_model/sign_in_cubit/sign_in_cubit.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/view_model/sign_in_cubit/sign_in_states.dart';
+import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/messages/message.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
-import 'package:smart_cards/core/utils/routes.dart';
+import 'package:smart_cards/core/navigator/routes.dart';
+import 'package:smart_cards/core/services/notifications_service/back_ground_service.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});
@@ -45,9 +47,11 @@ class BloconsumerOfSignInBody extends StatelessWidget {
             context,
             message: 'Sign in successfully',
           );
-          await SharedPreferencesService.setVlaue(value: true);
+          await SharedPreferencesService.instance.setBool(K_IS_LOGIN, true);
 
-          context.push(AppRoutes.homeScreen);
+          BackGroundService().subscribeToTopics();
+
+          context.go(AppRoutes.homeScreen);
         }
       },
       builder: (context, state) {

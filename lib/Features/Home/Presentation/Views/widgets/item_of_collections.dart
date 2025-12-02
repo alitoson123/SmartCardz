@@ -1,7 +1,10 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
-import 'package:smart_cards/core/utils/routes.dart';
+import 'package:smart_cards/core/navigator/routes.dart';
+import 'package:smart_cards/core/services/app_services/app_services.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 class ItemOfCollections extends StatelessWidget {
   const ItemOfCollections({super.key, required this.collection});
@@ -22,12 +25,30 @@ class ItemOfCollections extends StatelessWidget {
           collection.collectionName,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
-        subtitle: Text('${collection.cards_count} cards'),
+        subtitle: FutureBuilder<int>(
+          future: countOfDueCards(),
+          builder: (context, snapshot) {
+            final dueCardsText = snapshot.hasData
+                ? '- ${snapshot.data} due'
+                : '- ...';
+            return Text(
+              '${collection.cards_count} ${S.of(context).cards} $dueCardsText',
+            );
+          },
+        ),
         trailing: const Icon(Icons.arrow_forward_ios, size: 18),
         onTap: () {
           context.push(AppRoutes.revisionCardScreen, extra: collection);
         },
       ),
     );
+  }
+
+  Future<int> countOfDueCards() async {
+    final count = await AppServices.countOfDueCards(
+      collectionId: collection.collection_id,
+    );
+    log(count.toString());
+    return count;
   }
 }

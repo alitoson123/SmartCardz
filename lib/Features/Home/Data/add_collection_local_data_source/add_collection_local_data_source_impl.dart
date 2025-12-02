@@ -8,6 +8,6 @@ class AddCollectionLocalDataSourceImpl extends AddCollectionLocalDataSource {
   AddCollectionLocalDataSourceImpl({required this.generalLocalService});
   @override
   void addCollection({required String collectionName}) {
-    generalLocalService.add(KCollectionBox, collectionName);
+    generalLocalService.add(K_COLLECTION_BOX, collectionName);
   }
 }

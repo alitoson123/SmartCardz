@@ -27,6 +27,7 @@ class AddAndShowCardCubit extends Cubit<AddAndShowCardStates> {
     required String example,
     required String type,
     String? imageBase64,
+    required String collectionId,
   }) async {
     emit(AddAndShowCardLoading());
 
@@ -36,7 +37,7 @@ class AddAndShowCardCubit extends Cubit<AddAndShowCardStates> {
       example: example,
       type: type,
       imageBase64: imageBase64,
-      collectionId: 'English',
+      collectionId: collectionId,
     );
 
     result.fold((failure) {

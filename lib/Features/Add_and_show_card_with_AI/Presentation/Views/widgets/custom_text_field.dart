@@ -9,20 +9,26 @@ class CustomTextField extends StatelessWidget {
     required this.hint,
     this.maxLines = 1,
   });
+
   final void Function(String)? onSubmitted;
   final TextEditingController controller;
   final IconData icon;
   final String hint;
   final int? maxLines;
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.cardColor, // يأخذ من الثيم
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.shade300,
+            color: theme.brightness == Brightness.light
+                ? Colors.grey.shade300
+                : Colors.black.withOpacity(0.4), // ظل مناسب للدارك
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -30,10 +36,20 @@ class CustomTextField extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
+        maxLines: maxLines,
+        style: TextStyle(
+          color: theme.textTheme.bodyLarge!.color, // لون النص من الثيم
+        ),
         decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: Colors.blueAccent),
+          prefixIcon: Icon(
+            icon,
+            color: theme.colorScheme.primary, // لون الأيقونة من الثيم
+          ),
           hintText: hint,
-          hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 16),
+          hintStyle: TextStyle(
+            color: theme.hintColor, // يعتمد على الثيم
+            fontSize: 16,
+          ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,

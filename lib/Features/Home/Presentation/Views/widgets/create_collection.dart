@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/add_collection_cubit/add_collection_cubit.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 
 class CreateCollectionDialog extends StatefulWidget {
@@ -35,18 +36,20 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
 
   @override
   Widget build(BuildContext context) {
+        final themeColors = Theme.of(context).colorScheme;
+
     return AlertDialog(
       insetPadding: EdgeInsets.zero,
       contentPadding: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      backgroundColor: Colors.white,
-      title: const Text(
-        '🗂️ Create a New Collection',
+      backgroundColor: themeColors.surface,
+      title: Text(
+        S.of(context).createCollectionTitle,
         textAlign: TextAlign.center,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 20,
-          color: Colors.black,
+          color: themeColors.onSurface,
         ),
       ),
       content: SizedBox(
@@ -63,10 +66,9 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
               borderSide: const BorderSide(color: Colors.blueAccent),
               borderRadius: BorderRadius.circular(10),
             ),
-            hintText: 'Enter collection name...',
+            hintText: S.of(context).enterCollectionName,
             hintStyle: TextStyle(color: Colors.grey[400]),
             filled: true,
-            fillColor: Colors.white,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
           ),
           onChanged: (value) {
@@ -78,7 +80,7 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+          child:  Text(S.of(context).cancel, style: TextStyle(color: Colors.grey)),
         ),
         ElevatedButton(
           onPressed: isButtonEnabled && !isLoading
@@ -99,7 +101,7 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
                   width: 20,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('Create', style: TextStyle(color: Colors.white)),
+              :  Text(S.of(context).create, style: TextStyle(color: Colors.white)),
         ),
       ],
     );

@@ -6,10 +6,11 @@ import 'package:smart_cards/Features/Auth/Data/Repos/auth_repo_impl.dart';
 import 'package:smart_cards/Features/Auth/Sign_up/Presentation/Views/widgets/sign_up_view_body.dart';
 import 'package:smart_cards/Features/Auth/Sign_up/Presentation/view_model/Sign_up_cubit/sign_up_cubit.dart';
 import 'package:smart_cards/Features/Auth/Sign_up/Presentation/view_model/Sign_up_cubit/sign_up_states.dart';
+import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/messages/message.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
-import 'package:smart_cards/core/utils/routes.dart';
+import 'package:smart_cards/core/navigator/routes.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -56,9 +57,9 @@ class BlocConsumerOfSignUpViewBody extends StatelessWidget {
             message: 'Sign up successfully',
           );
 
-          await SharedPreferencesService.setVlaue(value: true);
+          await SharedPreferencesService.instance.setBool(K_IS_LOGIN, true);
 
-          context.push(AppRoutes.homeScreen);
+          context.go(AppRoutes.homeScreen);
         }
       },
       builder: (context, state) {

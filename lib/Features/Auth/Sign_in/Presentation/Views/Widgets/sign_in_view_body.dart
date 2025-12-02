@@ -7,7 +7,7 @@ import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/tex
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/text_fields_of_email_and_password.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/text_of_title_and_subtitle.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/view_model/sign_in_cubit/sign_in_cubit.dart';
-import 'package:smart_cards/core/utils/app_button.dart';
+import 'package:smart_cards/core/utils/widgets/app_button.dart';
 
 class SignInViewBody extends StatefulWidget {
   const SignInViewBody({super.key});

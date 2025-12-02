@@ -5,8 +5,8 @@ import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/tex
 import 'package:smart_cards/Features/Auth/Sign_up/Data/Models/sign_up_model.dart';
 import 'package:smart_cards/Features/Auth/Sign_up/Presentation/view_model/Sign_up_cubit/sign_up_cubit.dart';
 import 'package:smart_cards/constant.dart';
-import 'package:smart_cards/core/utils/app_button.dart';
-import 'package:smart_cards/core/utils/my_text_field.dart';
+import 'package:smart_cards/core/utils/widgets/app_button.dart';
+import 'package:smart_cards/core/utils/widgets/my_text_field.dart';
 
 class SignUpViewBody extends StatefulWidget {
   const SignUpViewBody({super.key});

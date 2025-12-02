@@ -1,0 +1,82 @@
+{
+  "@@locale": "ar",
+  "home": "البطاقات الذكية",
+  "cards": "بطاقات",
+  "createNewCollection": "إنشاء مجموعة جديدة",
+  "addCard": "إضافة بطاقة",
+  "addCardWithAI": "إضافة بطاقة بالذكاء الاصطناعي",
+  
+  "addNewCardTitle": "إضافة بطاقة جديدة",
+  "addNewCardWithAITitle": "إضافة بطاقة بالذكاء الاصطناعي",
+  "createYourFlashcard": "أنشئ بطاقتك التعليمية",
+  "createFlashcardSubtitle": "أضف كلمة جديدة وتعريفها إلى مجموعتك",
+  
+  "selectCollection": "اختر مجموعة",
+  "enterFrontSide": "أدخل الوجه الأمامي",
+  "enterBackSide": "أدخل الوجه الخلفي",
+  "enterWordToGenerate": "أدخل كلمة للتوليد...",
+  "generatingYourSmartCard": "جاري إنشاء بطاقتك الذكية...",
+
+  "pleaseEnterAWord": "الرجاء إدخال كلمة",
+  "PleaseFillAllFieldsAndSelectACollection": "يرجى ملء جميع الحقول واختيار مجموعة",
+
+  "FrontSide": "الوجه الأمامي",
+  "BackSide": "الوجه الخلفي",
+  "CardSavedSuccessfully": "تم حفظ البطاقة بنجاح",
+
+  "settingsTitle": "الإعدادات",
+  "appearance": "المظهر",
+  "theme": "السمة",
+  "light": "فاتح",
+  "dark": "داكن",
+  "actions": "إجراءات",
+  "logout": "تسجيل الخروج",
+  "appTheme": "سمة التطبيق",
+  
+  "createCollectionTitle": "إنشاء مجموعة جديدة",
+  "enterCollectionName": "أدخل اسم المجموعة...",
+  "create": "إنشاء",
+  "save": "حفظ",
+  "CollectionCreatedSuccessfully": "تم إنشاء المجموعة بنجاح",
+  "NoCollectionsFound": "لم يتم العثور على مجموعات",
+  "SomethingWentWrong": "حدث خطأ ما",
+  
+  "searchCollectionTitle": "البحث عن مجموعة",
+  "searchCollectionHint": "البحث عن مجموعة...",
+  
+  "revisionTitle": "مراجعة",
+  "easy": "سهل",
+  "medium": "متوسط",
+  "hard": "صعب",
+  
+  "add": "إضافة",
+  "cancel": "إلغاء",
+  "noCardsDue": "لا توجد بطاقات للمراجعة 🎉",
+  
+  "noFrontSideData": "لا توجد بيانات في الوجه الأمامي",
+  "noBackSideData": "لا توجد بيانات في الوجه الخلفي",
+  "showAnswer": "عرض الإجابة",
+  "NoFrontSideData": "لا توجد بيانات في الوجه الأمامي",
+  "NoBrontSideData": "لا توجد بيانات في الوجه الخلفي",
+  
+  "ratingSavedLoadingNext": "تم حفظ التقييم ✅\nجاري تحميل البطاقة التالية...",
+  "unexpectedState": "حالة غير متوقعة (لا يوجد معالج)",
+  "errorOccurred": "خطأ: {errorMessage}",
+  "@errorOccurred": {
+    "description": "رسالة الخطأ المعروضة عند فشل الجلب/التقييم",
+    "placeholders": {
+      "errorMessage": {}
+    }
+  },
+  "cardsLabel": "{count} بطاقات",
+  "@cardsLabel": {
+    "description": "عدد البطاقات المعروض في عنوان العنصر الفرعي",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "collectionsTitle": "المجموعات",
+  "newCollection": "مجموعة جديدة",
+  "titleLabel": "العنوان",
+  "cardsCountLabel": "عدد البطاقات"
+}

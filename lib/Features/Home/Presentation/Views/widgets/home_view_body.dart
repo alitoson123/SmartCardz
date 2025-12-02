@@ -1,13 +1,14 @@
-import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_cards/Features/Home/Data/models/collection_model.dart';
-import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
+import 'package:smart_cards/Features/Home/Presentation/Views/widgets/custom_rename_collection.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/item_of_collections.dart';
+import 'package:smart_cards/core/services/app_services/app_services.dart';
 import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({super.key});
@@ -17,12 +18,15 @@ class HomeViewBody extends StatefulWidget {
 }
 
 class _HomeViewBodyState extends State<HomeViewBody> {
+
   @override
   void initState() {
     super.initState();
     // Keep your original Cubit logic
     context.read<GetCollectionsCubit>().getCollections();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
       stream: stream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Center(child: Text('Something went wrong'));
+          return Center(child: Text(S.of(context).SomethingWentWrong));
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -45,7 +49,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
         final docs = snapshot.data?.docs ?? [];
 
         if (docs.isEmpty) {
-          return const Center(child: Text('No collections found'));
+          return Center(child: Text(S.of(context).NoCollectionsFound));
         }
 
         // Convert documents to your model/entity
@@ -57,7 +61,74 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           padding: const EdgeInsets.all(16),
           itemCount: collections.length,
           itemBuilder: (context, index) {
-            return ItemOfCollections(collection: collections[index]);
+            return GestureDetector(
+              onLongPress: () {
+                showDialog(
+                  context: context,
+                  builder: (simpleDialogContext) {
+                    return SimpleDialog(
+                      title: Text(collections[index].collectionName),
+                      children: [
+                        SimpleDialogOption(
+                          child: Text('Rename collection'),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return CustomRenameCollection(
+                                  collection: collections[index],
+                                );
+                              },
+                            );
+                          },
+                        ),
+                        SimpleDialogOption(
+                          child: Text('Delete collection'),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (dialogContext) => AlertDialog(
+                                title: const Text('Delete Collection'),
+                                content: const Text(
+                                  'Are you sure you want to delete this collection? This action cannot be undone.',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      AppServices.deleteCollection(
+                                        collectionId:
+                                            collections[index].collection_id,
+                                      );
+                                      Navigator.pop(
+                                        dialogContext,
+                                      ); // Close AlertDialog
+                                      Navigator.pop(
+                                        simpleDialogContext,
+                                      ); // Close SimpleDialog
+                                    },
+                                    child: const Text(
+                                      'Delete',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+
+              child: ItemOfCollections(collection: collections[index]),
+            );
           },
         );
       },

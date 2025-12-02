@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/item_of_difficulty_button.dart';
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 class RowOfDifficultyButton extends StatelessWidget {
   const RowOfDifficultyButton({
@@ -10,7 +11,8 @@ class RowOfDifficultyButton extends StatelessWidget {
     required this.card,
     required this.showAnswer,
     required this.currentIndex,
-    required this.onNextCard, required this.collectionId,
+    required this.onNextCard,
+    required this.collectionId,
   });
 
   final BaseCardEntity card;
@@ -25,17 +27,17 @@ class RowOfDifficultyButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         ItemOfDifficultyButton(
-          text: 'Easy',
+          text: S.of(context).easy,
           color: Colors.green,
           onPressed: () => submitRating(context, card, 5),
         ),
         ItemOfDifficultyButton(
-          text: 'Medium',
+          text: S.of(context).medium,
           color: Colors.orange,
           onPressed: () => submitRating(context, card, 3),
         ),
         ItemOfDifficultyButton(
-          text: 'Hard',
+          text: S.of(context).hard,
           color: Colors.red,
           onPressed: () => submitRating(context, card, 1),
         ),
@@ -49,7 +51,7 @@ class RowOfDifficultyButton extends StatelessWidget {
     int quality,
   ) async {
     final cubit = context.read<FetchAndRatingCubit>();
-    await cubit.submitRating(card, quality,collectionId);
+    await cubit.submitRating(card, quality, collectionId);
 
     onNextCard(); // 👈 بعد ما يخلص التقييم، نروح للكارت اللي بعده
   }

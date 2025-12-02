@@ -1,3 +1,4 @@
+import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,11 +17,22 @@ import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_
 import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/Data/repo_impl/collection_repo_impl/collection_repo_impl.dart';
 import 'package:smart_cards/core/services/Bloc_observes_service/my_Bloc_observe.dart';
+import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
-import 'package:smart_cards/core/utils/routes.dart';
+import 'package:smart_cards/core/services/notifications_service/back_ground_service.dart';
+import 'package:smart_cards/core/services/notifications_service/local_notification_service.dart';
+import 'package:smart_cards/core/services/notifications_service/push_notification_service_test.dart';
+import 'package:smart_cards/core/services/notifications_service/top-level%20headless_service.dart';
+import 'package:smart_cards/core/utils/app_theme/dark_theme.dart';
+import 'package:smart_cards/core/utils/app_theme/light_theme.dart';
+import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:smart_cards/core/view_model/app_theme_cubit/app_theme_cubit.dart';
+import 'package:smart_cards/core/view_model/app_theme_cubit/app_theme_states.dart';
 import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
 import 'firebase_options.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,17 +42,40 @@ void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(UserModelAdapter());
-  await Hive.openBox<UserModel>(KUserBox);
-  await Hive.openBox<CollectionModel>(KCollectionBox);
 
+  await Hive.openBox<UserModel>(K_USER_BOX);
+  await Hive.openBox<CollectionModel>(K_COLLECTION_BOX);
+
+  await SharedPreferencesService.instance.init();
   // await migrateFlashCardsToEnglish();
+
+  await FirebaseApi().initNotification();
+  //await localnotificationService.init();
+
+  final backgroundService = BackGroundService();
+  await backgroundService.initLocalNotifications();
+
+  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTopLevel);
+  await backgroundService.initBackgroundFetch();
 
   setup();
   runApp(const SmartCards());
 }
 
-class SmartCards extends StatelessWidget {
+class SmartCards extends StatefulWidget {
   const SmartCards({super.key});
+
+  @override
+  State<SmartCards> createState() => _SmartCardsState();
+}
+
+class _SmartCardsState extends State<SmartCards> {
+  @override
+  void initState() {
+    final backgroundService = BackGroundService();
+    backgroundService.updateLastOpened();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +108,26 @@ class SmartCards extends StatelessWidget {
                 collectionRepoImpl: getIt<CollectionRepoImpl>(),
               ),
             ),
+            BlocProvider(create: (context) => ThemeCubit()..loadInitialTheme()),
           ],
-          child: MaterialApp.router(
-            routerConfig: AppRoutes.route,
-            debugShowCheckedModeBanner: false,
+          child: BlocBuilder<ThemeCubit, ThemeState>(
+            builder: (context, state) {
+              return MaterialApp.router(
+                locale: Locale('en'),
+                localizationsDelegates: [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                routerConfig: AppRoutes.route,
+                debugShowCheckedModeBanner: false,
+                themeMode: state.themeMode,
+                theme: lightTheme,
+                darkTheme: darkTheme,
+              );
+            },
           ),
         );
       },

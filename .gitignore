@@ -43,3 +43,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+assets/smart-cards-c1327-firebase-adminsdk-fbsvc-6057146e98.json
+

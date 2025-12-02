@@ -4,8 +4,8 @@ import 'package:smart_cards/Features/Auth/Forget_Password/Presentation/view_mode
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/row_of_dont_have_an_account_and_sign_up.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/text_of_title_and_subtitle.dart';
 import 'package:smart_cards/Features/Auth/Sign_up/Data/Models/sign_up_model.dart';
-import 'package:smart_cards/core/utils/app_button.dart';
-import 'package:smart_cards/core/utils/my_text_field.dart';
+import 'package:smart_cards/core/utils/widgets/app_button.dart';
+import 'package:smart_cards/core/utils/widgets/my_text_field.dart';
 
 class ForgetPasswordViewBody extends StatefulWidget {
   const ForgetPasswordViewBody({super.key});

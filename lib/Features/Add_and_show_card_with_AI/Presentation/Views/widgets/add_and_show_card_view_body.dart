@@ -5,9 +5,12 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_and_show_card_cubit/add_and_show_card_states.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_success_card.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_text_field.dart';
-import 'package:smart_cards/core/utils/constants.dart';
-import 'package:smart_cards/core/utils/custom_loading_indicator.dart';
-import 'package:smart_cards/core/utils/app_header.dart';
+import 'package:smart_cards/core/utils/widgets/app_show_dialog.dart';
+import 'package:smart_cards/core/utils/widgets/custom_loading_indicator.dart';
+import 'package:smart_cards/core/utils/widgets/app_header.dart';
+import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
+import 'package:smart_cards/core/views/collection_view.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 class AddAndShowCardViewBody extends StatefulWidget {
   const AddAndShowCardViewBody({super.key});
@@ -22,6 +25,10 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
   late AnimationController controller;
   late Animation<double> fadeAnimation;
   final TextEditingController textController = TextEditingController();
+  final TextEditingController frontSideController = TextEditingController();
+  final TextEditingController backSideController = TextEditingController();
+  String? selectedCollectionName;
+  String? selectedCollectionId;
   @override
   void initState() {
     super.initState();
@@ -38,7 +45,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
       child: BlocConsumer<AddAndShowCardCubit, AddAndShowCardStates>(
         listener: (context, state) {
           if (state is AddAndShowCardFailure) {
-            AppConstant.buildShowSnackBar(context, state.errorMessage);
+            AppShowDialog.buildShowSnackBar(context, state.errorMessage);
           }
           if (state is ShowCardSuccess) {
             controller.forward(from: 0);
@@ -52,17 +59,62 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
               children: [
                 AppHeader(
                   icon: Icons.auto_awesome,
-                  title: 'Create Your Flashcard',
-                  subTitle: 'Add a new word and its definition to your deck',
+                  title: S.of(context).createYourFlashcard,
+                  subTitle: S.of(context).createFlashcardSubtitle,
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider.value(
+                                value: context.read<GetCollectionsCubit>(),
+                                child: CollectionView(),
+                              ),
+                            ),
+                          );
+
+                          if (result != null &&
+                              result is Map<String, dynamic>) {
+                            setState(() {
+                              selectedCollectionName = result['name'];
+                              selectedCollectionId = result['id'];
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
+                          margin: const EdgeInsets.only(right: 8),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Text(
+                            selectedCollectionName ?? S.of(context).selectCollection,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Icon(Icons.arrow_forward_ios, size: 18),
+                  ],
                 ),
                 SizedBox(height: 30.h),
                 CustomTextField(
                   controller: textController,
                   onSubmitted: (value) {
                     if (value.trim().isEmpty) {
-                      AppConstant.buildShowSnackBar(
+                      AppShowDialog.buildShowSnackBar(
                         context,
-                        'Please enter a word',
+                        S.of(context).pleaseEnterAWord,
                       );
                       return;
                     }
@@ -72,7 +124,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                     );
                   },
                   icon: Icons.search_rounded,
-                  hint: 'Enter a word to generate...',
+                  hint: S.of(context).enterWordToGenerate,
                 ),
                 SizedBox(height: 24.h),
 
@@ -82,8 +134,8 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                       const SizedBox(height: 30),
                       const CustomLoadingIndicator(),
                       SizedBox(height: 12.h),
-                      const Text(
-                        "Generating your smart card...",
+                       Text(
+                        S.of(context).generatingYourSmartCard,
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
@@ -96,7 +148,11 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                 if (state is ShowCardSuccess)
                   FadeTransition(
                     opacity: fadeAnimation,
-                    child: CustomSuccessCard(card: state.card, textController: textController,),
+                    child: CustomSuccessCard(
+                      card: state.card,
+                      textController: textController,
+                      selectedCollectionId: selectedCollectionId,
+                    ),
                   ),
               ],
             ),

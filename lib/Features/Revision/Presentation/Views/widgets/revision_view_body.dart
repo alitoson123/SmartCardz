@@ -1,3 +1,4 @@
+// revision_view_body.dart
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,15 +8,29 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_card.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/front_side.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
+import 'package:smart_cards/Features/Revision/Presentation/View_model/delete_card_cubit/delete_card_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_states.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/row_of_difficulty_button.dart';
 import 'package:smart_cards/core/Functions/section_title.dart';
-import 'package:smart_cards/core/utils/app_button.dart';
+import 'package:smart_cards/core/utils/widgets/app_button.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 class RevisionViewBody extends StatefulWidget {
-  const RevisionViewBody({super.key, required this.collection});
+  const RevisionViewBody({
+    super.key,
+    required this.collection,
+    required this.isWhiteboardEnabled,
+    required this.clearWhiteboardNotifier,
+    required this.changeColorNotifier,
+    required this.deleteCardNotifier,
+  });
+
   final CollectionEntity collection;
+  final bool isWhiteboardEnabled;
+  final ValueNotifier<bool> deleteCardNotifier;
+  final ValueNotifier<bool> clearWhiteboardNotifier;
+  final ValueNotifier<Color?> changeColorNotifier;
 
   @override
   State<RevisionViewBody> createState() => _RevisionViewBodyState();
@@ -25,18 +40,106 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
   bool showAnswer = false;
   int currentIndex = 0;
 
+  // متغيرات السبورة
+  List<DrawingPoint?> drawingPoints = [];
+  Color selectedColor = Colors.red;
+  double strokeWidth = 3.0;
+
   @override
   void initState() {
     super.initState();
     context.read<FetchAndRatingCubit>().fetchDueCards(
       collectionId: widget.collection.collection_id,
     );
+
+    // الاستماع لإشارة المسح
+    widget.clearWhiteboardNotifier.addListener(_clearWhiteboard);
+
+    // الاستماع لتغيير اللون
+    widget.changeColorNotifier.addListener(_changeColor);
+
+    // الاستماع لحذف الكارت
+    widget.deleteCardNotifier.addListener(_deleteCard);
+  }
+
+  @override
+  void dispose() {
+    widget.clearWhiteboardNotifier.removeListener(_clearWhiteboard);
+    widget.changeColorNotifier.removeListener(_changeColor);
+    widget.deleteCardNotifier.removeListener(_deleteCard);
+    super.dispose();
+  }
+
+  void _clearWhiteboard() {
+    setState(() {
+      drawingPoints.clear();
+    });
+  }
+
+  void _changeColor() {
+    if (widget.changeColorNotifier.value != null) {
+      setState(() {
+        selectedColor = widget.changeColorNotifier.value!;
+      });
+    }
+  }
+
+  void _deleteCard() {
+    final state = context.read<FetchAndRatingCubit>().state;
+    if (state is FetchDueCardsSuccess) {
+      final cards = state.cards;
+      if (currentIndex < cards.length) {
+        final card = cards[currentIndex];
+
+        // حذف الكارت من قاعدة البيانات
+        context.read<DeleteCardCubit>().deleteCard(
+          cardId: card.id,
+          collectionId: widget.collection.collection_id,
+        );
+        log(card.id);
+        // إظهار رسالة نجاح
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Card deleted successfully'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+        // تحديث الواجهة والانتقال للكارت التالي
+        setState(() {
+          showAnswer = false;
+          drawingPoints.clear();
+
+          // لو فيه كروت تانية
+          if (cards.length > 1) {
+            // لو الكارت المحذوف هو الأخير، ارجع للأول
+            if (currentIndex >= cards.length - 1) {
+              currentIndex = 0;
+            }
+            // لو مش آخر كارت، خليه زي ما هو (هيعرض الكارت اللي بعده تلقائياً)
+          } else {
+            // لو ده آخر كارت في المجموعة
+            currentIndex = 0;
+          }
+        });
+
+        // إعادة تحميل الكروت من السيرفر بعد نص ثانية
+        Future.delayed(const Duration(milliseconds: 50), () {
+          if (mounted) {
+            context.read<FetchAndRatingCubit>().fetchDueCards(
+              collectionId: widget.collection.collection_id,
+            );
+          }
+        });
+      }
+    }
   }
 
   void _resetIndex() {
     setState(() {
       currentIndex = 0;
       showAnswer = false;
+      drawingPoints.clear();
     });
   }
 
@@ -48,134 +151,211 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
           return const Center(child: CircularProgressIndicator());
         } else if (state is FetchDueCardsSuccess) {
           final cards = state.cards;
-          log('✅ Cards Loaded: ${cards.length}');
-                    log('✅ Cards Loaded: ${cards.toString()}');
-
 
           if (cards.isEmpty) {
-            return const Center(
+            return Center(
               child: Text(
-                'No cards due for review 🎉',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                S.of(context).noCardsDue,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             );
           }
 
-          // Ensure currentIndex is within bounds - use WidgetsBinding to avoid setState during build
           if (currentIndex >= cards.length) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              _resetIndex();
-            });
+            WidgetsBinding.instance.addPostFrameCallback((_) => _resetIndex());
             return const Center(child: CircularProgressIndicator());
           }
 
           final card = cards[currentIndex];
           final isAICard = card.isAICard;
-          log('Card front side: ${card.frontSide}');
-          log('Card back side: ${card.backSide}');
-          log('Card type: ${card.cardType}');
-          log('Is AI Card: $isAICard');
-          log('Current index: $currentIndex, Total cards: ${cards.length}');
-          return Padding(
-            padding: EdgeInsets.all(16.w),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 20.h),
-                  buildSectionTitle(context, 'Front Side'),
-                  SizedBox(height: 10.h),
 
-                  // 👇 لو الكارت AI نعرض الـ FrontSide widget، لو Normal نعرض Text
-                  isAICard
-                      ? FrontSide(card: card as CardWithAIEntity)
-                      : CustomCard(
-                          child: Text(
-                            card.frontSide.isEmpty
-                                ? 'No front side data'
-                                : card.frontSide,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              color: Colors.green,
+          return Scaffold(
+            body: Stack(
+              children: [
+                // المحتوى الأساسي
+                Positioned.fill(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.w),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 20.h),
+                          buildSectionTitle(context, S.of(context).FrontSide),
+                          SizedBox(height: 10.h),
+
+                          // Front Side
+                          isAICard
+                              ? FrontSide(card: card as CardWithAIEntity)
+                              : CustomCard(
+                                  child: Text(
+                                    card.frontSide.isEmpty
+                                        ? S.of(context).NoFrontSideData
+                                        : card.frontSide,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 18.sp,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                ),
+
+                          // Back Side (يظهر لما تضغط Show Answer)
+                          if (showAnswer) ...[
+                            SizedBox(height: 30.h),
+                            buildSectionTitle(context, S.of(context).BackSide),
+                            SizedBox(height: 10.h),
+                            isAICard
+                                ? BackSide(card: card as CardWithAIEntity)
+                                : CustomCard(
+                                    child: Text(
+                                      card.backSide.isEmpty
+                                          ? S.of(context).NoBrontSideData
+                                          : card.backSide,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 18.sp,
+                                        color: Colors.grey.shade800,
+                                      ),
+                                    ),
+                                  ),
+                          ],
+
+                          SizedBox(height: 120.h),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                // طبقة السبورة - تغطي الشاشة كلها
+                if (widget.isWhiteboardEnabled)
+                  Positioned.fill(
+                    child: GestureDetector(
+                      onPanStart: (details) {
+                        setState(() {
+                          drawingPoints.add(
+                            DrawingPoint(
+                              details.localPosition,
+                              selectedColor,
+                              strokeWidth,
                             ),
-                          ),
-                        ),
-
-                  if (showAnswer) ...[
-                    SizedBox(height: 30.h),
-                    buildSectionTitle(context, 'Back Side'),
-                    SizedBox(height: 10.h),
-
-                    // 👇 نفس الفكرة للظهر
-                    isAICard
-                        ? BackSide(card: card as CardWithAIEntity)
-                        : CustomCard(
-                            child: Text(
-                              card.backSide.isEmpty
-                                  ? 'No back side data'
-                                  : card.backSide,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                color: Colors.grey.shade800,
-                              ),
+                          );
+                        });
+                      },
+                      onPanUpdate: (details) {
+                        setState(() {
+                          drawingPoints.add(
+                            DrawingPoint(
+                              details.localPosition,
+                              selectedColor,
+                              strokeWidth,
                             ),
-                          ),
-                  ],
+                          );
+                        });
+                      },
+                      onPanEnd: (details) {
+                        setState(() {
+                          drawingPoints.add(null);
+                        });
+                      },
+                      child: CustomPaint(
+                        painter: DrawingPainter(drawingPoints),
+                        child: Container(color: Colors.transparent),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
 
-                  SizedBox(height: 40.h),
-
-                  !showAnswer
-                      ? AppButton(
-                          text: 'Show Answer',
-                          icon: Icons.visibility,
-                          onPressed: () => setState(() => showAnswer = true),
-                        )
-                      : RowOfDifficultyButton(
-                          card: card,
-                          showAnswer: showAnswer,
-                          currentIndex: currentIndex,
-                          collectionId: widget.collection.collection_id,
-                          onNextCard: () {
-                            setState(() {
-                              showAnswer = false;
-                              if (currentIndex < cards.length - 1) {
-                                currentIndex++;
-                              } else {
-                                // Reset to start from beginning
-                                currentIndex = 0;
-                              }
-                            });
-                          }, 
-                        ),
-                ],
-              ),
+            // الأزرار السفلية
+            bottomNavigationBar: Container(
+              padding: EdgeInsets.only(bottom: 26.h, right: 20.w, left: 20.w),
+              child: !showAnswer
+                  ? AppButton(
+                      text: S.of(context).showAnswer,
+                      icon: Icons.visibility,
+                      onPressed: () => setState(() => showAnswer = true),
+                    )
+                  : RowOfDifficultyButton(
+                      card: card,
+                      showAnswer: showAnswer,
+                      currentIndex: currentIndex,
+                      collectionId: widget.collection.collection_id,
+                      onNextCard: () {
+                        setState(() {
+                          showAnswer = false;
+                          drawingPoints.clear(); // مسح السبورة عند الانتقال
+                          if (currentIndex < cards.length - 1) {
+                            currentIndex++;
+                          } else {
+                            currentIndex = 0;
+                          }
+                        });
+                      },
+                    ),
             ),
           );
         } else if (state is FetchAndRatingFailure) {
-          log(state.errorMessage);
-
           return Center(child: Text('Error: ${state.errorMessage}'));
         } else if (state is SubmitRatingSuccess) {
-          // Reset index when new cards are fetched - use WidgetsBinding to avoid setState during build
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _resetIndex();
-          });
+          WidgetsBinding.instance.addPostFrameCallback((_) => _resetIndex());
           context.read<FetchAndRatingCubit>().fetchDueCards(
             collectionId: widget.collection.collection_id,
           );
-          return const Center(
+          return Center(
             child: Text(
-              'Rating saved ✅\nLoading next card...',
+              S.of(context).ratingSavedLoadingNext,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
           );
         } else {
-          return const Center(child: Text('Unexpected state (no handler)'));
+          return Center(child: Text(S.of(context).unexpectedState));
         }
       },
     );
+  }
+}
+
+// نقطة الرسم
+class DrawingPoint {
+  Offset offset;
+  Color color;
+  double strokeWidth;
+
+  DrawingPoint(this.offset, this.color, this.strokeWidth);
+}
+
+// رسام السبورة
+class DrawingPainter extends CustomPainter {
+  final List<DrawingPoint?> drawingPoints;
+
+  DrawingPainter(this.drawingPoints);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    for (int i = 0; i < drawingPoints.length - 1; i++) {
+      if (drawingPoints[i] != null && drawingPoints[i + 1] != null) {
+        Paint paint = Paint()
+          ..color = drawingPoints[i]!.color
+          ..strokeWidth = drawingPoints[i]!.strokeWidth
+          ..strokeCap = StrokeCap.round;
+
+        canvas.drawLine(
+          drawingPoints[i]!.offset,
+          drawingPoints[i + 1]!.offset,
+          paint,
+        );
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }

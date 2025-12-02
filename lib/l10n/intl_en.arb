@@ -1,0 +1,83 @@
+{
+  "@@locale": "en",
+  "home": "Smart Cards",
+  "cards": "cards",
+  "createNewCollection": "Create New Collection",
+  "addCard": "Add Card",
+  "addCardWithAI": "Add Card with AI",
+  
+  "addNewCardTitle": "Add New Card",
+  "addNewCardWithAITitle": "Add New Card with AI",
+  "createYourFlashcard": "Create Your Flashcard",
+  "createFlashcardSubtitle": "Add a new word and its definition to your deck",
+  
+  "selectCollection": "Select a collection",
+  "enterFrontSide": "Enter the front side",
+  "enterBackSide": "Enter the back side",
+  "enterWordToGenerate": "Enter a word to generate...",
+  "generatingYourSmartCard": "Generating your smart card...",
+  
+  "pleaseEnterAWord": "Please enter a word",
+  "PleaseFillAllFieldsAndSelectACollection": "Please fill all fields and select a collection",
+
+  "FrontSide": "Front Side",
+  "BackSide": "Back Side",
+  "CardSavedSuccessfully": "Card saved successfully",
+
+
+  "settingsTitle": "Settings",
+  "appearance": "Appearance",
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "actions": "Actions",
+  "logout": "Logout",
+  "appTheme": "App Theme",
+  
+  "createCollectionTitle": "Create a New Collection",
+  "enterCollectionName": "Enter collection name...",
+  "create": "Create",
+  "save": "Save",
+  "CollectionCreatedSuccessfully": "Collection created successfully",
+  "NoCollectionsFound": "No collections found",
+  "SomethingWentWrong": "Something went wrong",
+
+  
+  "searchCollectionTitle": "Search for a collection",
+  "searchCollectionHint": "Search for a collection...",
+  
+  "revisionTitle": "Revision",
+  "easy": "Easy",
+  "medium": "Medium",
+  "hard": "Hard",
+  
+  "add": "Add",
+  "cancel": "Cancel",
+  "noCardsDue": "No cards due for review 🎉",
+
+  "noFrontSideData": "No front side data",
+  "noBackSideData": "No back side data",
+  "showAnswer": "Show Answer",
+  "NoFrontSideData": "No front side data",
+  "NoBrontSideData": "No back side data",
+  "ratingSavedLoadingNext": "Rating saved ✅\nLoading next card...",
+  "unexpectedState": "Unexpected state (no handler)",
+  "errorOccurred": "Error: {errorMessage}",
+  "@errorOccurred": {
+    "description": "Error message shown when fetch/rating fails",
+    "placeholders": {
+      "errorMessage": {}
+    }
+  },
+  "cardsLabel": "{count} cards",
+  "@cardsLabel": {
+    "description": "Cards count shown in item subtitle",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "collectionsTitle": "Collections",
+  "newCollection": "New collection",
+  "titleLabel": "Title",
+  "cardsCountLabel": "Cards count"
+}

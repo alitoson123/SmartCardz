@@ -1,10 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_states.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 class CollectionView extends StatefulWidget {
   const CollectionView({super.key});
@@ -28,7 +28,7 @@ class _CollectionViewState extends State<CollectionView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search for a collection'),
+        title:  Text(S.of(context).searchCollectionTitle),
         backgroundColor: Colors.blue,
       ),
       body: BlocBuilder<GetCollectionsCubit, GetCollectionsStates>(
@@ -48,9 +48,9 @@ class _CollectionViewState extends State<CollectionView> {
                 child: TextField(
                   controller: searchController,
                   onChanged: (_) => setState(() {}),
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                     prefixIcon: Icon(Icons.search),
-                    hintText: 'Search for a collection...',
+                    hintText: S.of(context).searchCollectionHint,
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -84,7 +84,7 @@ class _CollectionViewState extends State<CollectionView> {
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
+                child:  Text(S.of(context).cancel),
               ),
             ],
           );

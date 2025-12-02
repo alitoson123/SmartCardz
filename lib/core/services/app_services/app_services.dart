@@ -11,8 +11,7 @@ import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
 class AppServices {
   final Dio dio;
-  final firestore = FirebaseFirestore.instance;
-  final userId = FirebaseAuth.instance.currentUser!.uid;
+  static final firestore = FirebaseFirestore.instance;
 
   AppServices({required this.dio});
 
@@ -34,7 +33,7 @@ class AppServices {
     final ref = firestore.collection('collections').doc();
     await ref.set({
       'id': ref.id,
-      'ownerId': userId,
+      'ownerId': FirebaseAuth.instance.currentUser!.uid,
       'collection_name': collectionName,
       'cards_count': 0,
       'created_at': FieldValue.serverTimestamp(),
@@ -50,10 +49,23 @@ class AppServices {
   Future<List<CollectionEntity>> fetchUserCollections() async {
     final snap = await firestore
         .collection('collections')
-        .where('ownerId', isEqualTo: userId)
+        .where('ownerId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
 
     return snap.docs.map((e) => CollectionModel.fromDoc(e)).toList();
+  }
+
+  static Future<void> deleteCollection({required String collectionId}) async {
+    await firestore.collection('collections').doc(collectionId).delete();
+  }
+
+  static Future<void> renameCollection({
+    required String collectionId,
+    required String newCollectionName,
+  }) async {
+    await firestore.collection('collections').doc(collectionId).update({
+      'collection_name': newCollectionName,
+    });
   }
 
   // ======================================================================
@@ -80,9 +92,36 @@ class AppServices {
     });
   }
 
+  static Future<void> deleteCard({
+    required String cardId,
+    required String collectionId,
+  }) async {
+    await firestore.collection('cards').doc(cardId).delete();
+
+    await firestore.collection('collections').doc(collectionId).update({
+      'cards_count': FieldValue.increment(-1),
+    });
+  }
+
+ static Future<int> countOfDueCards({required String collectionId}) async {
+    int count = 0;
+    final now = Timestamp.fromDate(DateTime.now());
+
+    final snap = await firestore
+        .collection('cards')
+        .where('collectionId', isEqualTo: collectionId)
+        .where('next_review', isLessThanOrEqualTo: now)
+        .limit(100)
+        .count()
+        .get();
+
+    count = snap.count ?? 0;
+    return count;
+  }
+
   /// جلب الكروت المستحقة الآن (next_review <= today)
   Future<List<BaseCardEntity>> fetchDueCards({
-    int limit = 50,
+    int limit = 100,
     required String collectionId,
   }) async {
     final now = Timestamp.fromDate(DateTime.now());
@@ -122,4 +161,6 @@ class AppServices {
       'last_reviewed': FieldValue.serverTimestamp(),
     });
   }
+
+ 
 }

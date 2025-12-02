@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_cards/core/utils/my_text_button.dart';
-import 'package:smart_cards/core/utils/routes.dart';
+import 'package:smart_cards/core/utils/widgets/my_text_button.dart';
+import 'package:smart_cards/core/navigator/routes.dart';
 
 class TextButtonOfForgetPassword extends StatelessWidget {
   const TextButtonOfForgetPassword({super.key});
@@ -13,7 +13,7 @@ class TextButtonOfForgetPassword extends StatelessWidget {
         MyTextButton(
           myText: 'Forgot Password?',
           onPressed: () {
-            context.push(AppRoutes.ForgetPasswordPage);
+            context.push(AppRoutes.ForgetPasswordScreen);
           },
         ),
       ],

@@ -5,28 +5,18 @@ import 'package:smart_cards/Features/Add_normal_card/Presentation/View_model/nor
 import 'package:smart_cards/Features/Add_normal_card/Presentation/View_model/normal_card_cubit/normal_card_states.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/add_normal_card_view_body.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
-import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 class AddNormalCardView extends StatelessWidget {
-  const AddNormalCardView({super.key, required this.collectionId});
-  final String collectionId;
+  const AddNormalCardView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6FA),
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
         elevation: 2,
         centerTitle: true,
-        title: const Text(
-          'Add New Card',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-            color: Colors.white,
-          ),
-        ),
+        title: Text(S.of(context).addNewCardTitle),
       ),
       body: BlocProvider(
         create: (context) =>
@@ -41,7 +31,7 @@ class AddNormalCardView extends StatelessWidget {
             if (state is AddNormalCardSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Card saved successfully'),
+                  content: Text(S.of(context).CardSavedSuccessfully),
                   duration: const Duration(milliseconds: 500),
                 ),
               );
@@ -50,7 +40,7 @@ class AddNormalCardView extends StatelessWidget {
               Center(child: CircularProgressIndicator());
             }
           },
-          child: AddNormalCardViewBody(collectionId: collectionId),
+          child: AddNormalCardViewBody(),
         ),
       ),
     );
