@@ -224,6 +224,36 @@ class S {
     return Intl.message('Settings', name: 'settingsTitle', desc: '', args: []);
   }
 
+  /// `Account`
+  String get Account {
+    return Intl.message('Account', name: 'Account', desc: '', args: []);
+  }
+
+  /// `Email`
+  String get Email {
+    return Intl.message('Email', name: 'Email', desc: '', args: []);
+  }
+
+  /// `Plan`
+  String get Plan {
+    return Intl.message('Plan', name: 'Plan', desc: '', args: []);
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message('Language', name: 'language', desc: '', args: []);
+  }
+
+  /// `Notification`
+  String get Notification {
+    return Intl.message(
+      'Notification',
+      name: 'Notification',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Appearance`
   String get appearance {
     return Intl.message('Appearance', name: 'appearance', desc: '', args: []);
@@ -242,6 +272,16 @@ class S {
   /// `Dark`
   String get dark {
     return Intl.message('Dark', name: 'dark', desc: '', args: []);
+  }
+
+  /// `About App`
+  String get AboutApp {
+    return Intl.message('About App', name: 'AboutApp', desc: '', args: []);
+  }
+
+  /// `Version`
+  String get version {
+    return Intl.message('Version', name: 'version', desc: '', args: []);
   }
 
   /// `Actions`
@@ -367,6 +407,16 @@ class S {
   /// `Cancel`
   String get cancel {
     return Intl.message('Cancel', name: 'cancel', desc: '', args: []);
+  }
+
+  /// `Select Image`
+  String get selectImage {
+    return Intl.message(
+      'Select Image',
+      name: 'selectImage',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `No cards due for review 🎉`

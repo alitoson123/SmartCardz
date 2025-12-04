@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_and_show_card_cubit/add_and_show_card_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_and_show_card_cubit/add_and_show_card_states.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_success_card.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_text_field.dart';
 import 'package:smart_cards/core/utils/widgets/app_show_dialog.dart';
 import 'package:smart_cards/core/utils/widgets/custom_loading_indicator.dart';
 import 'package:smart_cards/core/utils/widgets/app_header.dart';
@@ -21,12 +20,9 @@ class AddAndShowCardViewBody extends StatefulWidget {
 
 class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     with SingleTickerProviderStateMixin {
-  String? word;
   late AnimationController controller;
   late Animation<double> fadeAnimation;
   final TextEditingController textController = TextEditingController();
-  final TextEditingController frontSideController = TextEditingController();
-  final TextEditingController backSideController = TextEditingController();
   String? selectedCollectionName;
   String? selectedCollectionId;
   @override
@@ -98,7 +94,8 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Text(
-                            selectedCollectionName ?? S.of(context).selectCollection,
+                            selectedCollectionName ??
+                                S.of(context).selectCollection,
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
@@ -108,7 +105,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                   ],
                 ),
                 SizedBox(height: 30.h),
-                CustomTextField(
+                /*    CustomTextField(
                   controller: textController,
                   onSubmitted: (value) {
                     if (value.trim().isEmpty) {
@@ -125,7 +122,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                   },
                   icon: Icons.search_rounded,
                   hint: S.of(context).enterWordToGenerate,
-                ),
+                ),*/
                 SizedBox(height: 24.h),
 
                 if (state is AddAndShowCardLoading)
@@ -134,7 +131,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                       const SizedBox(height: 30),
                       const CustomLoadingIndicator(),
                       SizedBox(height: 12.h),
-                       Text(
+                      Text(
                         S.of(context).generatingYourSmartCard,
                         style: TextStyle(
                           fontSize: 16,

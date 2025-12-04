@@ -25,6 +25,11 @@
   "CardSavedSuccessfully": "تم حفظ البطاقة بنجاح",
 
   "settingsTitle": "الإعدادات",
+  "Account": "الحساب",
+  "Email": "البريد الالكتروني",
+  "Plan": "الخطة",
+  "language": "اللغة",
+  "Notification": "الاشعارات",
   "appearance": "المظهر",
   "theme": "السمة",
   "light": "فاتح",

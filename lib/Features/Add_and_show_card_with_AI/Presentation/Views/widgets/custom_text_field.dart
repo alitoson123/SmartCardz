@@ -1,63 +1,92 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
-    this.onSubmitted,
     required this.controller,
     required this.icon,
     required this.hint,
     this.maxLines = 1,
+    this.onImageTap,
+    this.imagePath, this.onImageCanel,
+
   });
 
-  final void Function(String)? onSubmitted;
   final TextEditingController controller;
   final IconData icon;
   final String hint;
   final int? maxLines;
+  final void Function()? onImageTap;
+  final File? imagePath;
+  final void Function()? onImageCanel;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.cardColor, // يأخذ من الثيم
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: theme.brightness == Brightness.light
-                ? Colors.grey.shade300
-                : Colors.black.withOpacity(0.4), // ظل مناسب للدارك
-            blurRadius: 8,
-            offset: const Offset(0, 3),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: theme.cardColor,
+            borderRadius: BorderRadius.circular(14),
+            boxShadow: [
+              BoxShadow(
+                color: theme.brightness == Brightness.light
+                    ? Colors.grey.shade300
+                    : Colors.black.withOpacity(0.4),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: TextField(
-        controller: controller,
-        maxLines: maxLines,
-        style: TextStyle(
-          color: theme.textTheme.bodyLarge!.color, // لون النص من الثيم
+          child: TextField(
+            controller: controller,
+            maxLines: maxLines,
+            decoration: InputDecoration(
+              prefixIcon: Icon(icon, color: theme.colorScheme.primary),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.image, color: Colors.blue),
+                onPressed: onImageTap,
+              ),
+              hintText: hint,
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 18,
+              ),
+            ),
+          ),
         ),
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            icon,
-            color: theme.colorScheme.primary, // لون الأيقونة من الثيم
+
+        if (imagePath != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Stack(
+              children: [
+                ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.file(
+                  imagePath!,
+                  height: 120,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                top: 0,
+                right: -8,
+                child: IconButton(
+                  icon: const Icon(Icons.cancel, color: Colors.red),
+                  onPressed: onImageCanel,
+                ),
+              ),
+            ],
           ),
-          hintText: hint,
-          hintStyle: TextStyle(
-            color: theme.hintColor, // يعتمد على الثيم
-            fontSize: 16,
-          ),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 18,
-          ),
-        ),
-        onSubmitted: onSubmitted,
-      ),
+                    ),
+      ],
     );
   }
 }

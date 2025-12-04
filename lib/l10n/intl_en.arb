@@ -26,10 +26,17 @@
 
 
   "settingsTitle": "Settings",
+  "Account": "Account",
+  "Email": "Email",
+  "Plan": "Plan",
+  "language": "Language",
+  "Notification": "Notification",
   "appearance": "Appearance",
   "theme": "Theme",
   "light": "Light",
   "dark": "Dark",
+  "AboutApp": "About App",
+  "version": "Version",
   "actions": "Actions",
   "logout": "Logout",
   "appTheme": "App Theme",
@@ -53,6 +60,7 @@
   
   "add": "Add",
   "cancel": "Cancel",
+  "selectImage": "Select Image",
   "noCardsDue": "No cards due for review 🎉",
 
   "noFrontSideData": "No front side data",

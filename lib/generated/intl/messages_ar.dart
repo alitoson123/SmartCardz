@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "Account": MessageLookupByLibrary.simpleMessage("الحساب"),
     "BackSide": MessageLookupByLibrary.simpleMessage("الوجه الخلفي"),
     "CardSavedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "تم حفظ البطاقة بنجاح",
@@ -33,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "CollectionCreatedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "تم إنشاء المجموعة بنجاح",
     ),
+    "Email": MessageLookupByLibrary.simpleMessage("البريد الالكتروني"),
     "FrontSide": MessageLookupByLibrary.simpleMessage("الوجه الأمامي"),
     "NoBrontSideData": MessageLookupByLibrary.simpleMessage(
       "لا توجد بيانات في الوجه الخلفي",
@@ -43,6 +45,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "NoFrontSideData": MessageLookupByLibrary.simpleMessage(
       "لا توجد بيانات في الوجه الأمامي",
     ),
+    "Notification": MessageLookupByLibrary.simpleMessage("الاشعارات"),
+    "Plan": MessageLookupByLibrary.simpleMessage("الخطة"),
     "PleaseFillAllFieldsAndSelectACollection":
         MessageLookupByLibrary.simpleMessage(
           "يرجى ملء جميع الحقول واختيار مجموعة",
@@ -98,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "hard": MessageLookupByLibrary.simpleMessage("صعب"),
     "home": MessageLookupByLibrary.simpleMessage("البطاقات الذكية"),
+    "language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "light": MessageLookupByLibrary.simpleMessage("فاتح"),
     "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "medium": MessageLookupByLibrary.simpleMessage("متوسط"),

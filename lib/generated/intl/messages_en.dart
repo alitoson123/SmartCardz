@@ -26,6 +26,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "AboutApp": MessageLookupByLibrary.simpleMessage("About App"),
+    "Account": MessageLookupByLibrary.simpleMessage("Account"),
     "BackSide": MessageLookupByLibrary.simpleMessage("Back Side"),
     "CardSavedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Card saved successfully",
@@ -33,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "CollectionCreatedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Collection created successfully",
     ),
+    "Email": MessageLookupByLibrary.simpleMessage("Email"),
     "FrontSide": MessageLookupByLibrary.simpleMessage("Front Side"),
     "NoBrontSideData": MessageLookupByLibrary.simpleMessage(
       "No back side data",
@@ -43,6 +46,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "NoFrontSideData": MessageLookupByLibrary.simpleMessage(
       "No front side data",
     ),
+    "Notification": MessageLookupByLibrary.simpleMessage("Notification"),
+    "Plan": MessageLookupByLibrary.simpleMessage("Plan"),
     "PleaseFillAllFieldsAndSelectACollection":
         MessageLookupByLibrary.simpleMessage(
           "Please fill all fields and select a collection",
@@ -98,6 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "hard": MessageLookupByLibrary.simpleMessage("Hard"),
     "home": MessageLookupByLibrary.simpleMessage("Smart Cards"),
+    "language": MessageLookupByLibrary.simpleMessage("Language"),
     "light": MessageLookupByLibrary.simpleMessage("Light"),
     "logout": MessageLookupByLibrary.simpleMessage("Logout"),
     "medium": MessageLookupByLibrary.simpleMessage("Medium"),
@@ -126,6 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectCollection": MessageLookupByLibrary.simpleMessage(
       "Select a collection",
     ),
+    "selectImage": MessageLookupByLibrary.simpleMessage("Select Image"),
     "settingsTitle": MessageLookupByLibrary.simpleMessage("Settings"),
     "showAnswer": MessageLookupByLibrary.simpleMessage("Show Answer"),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
@@ -133,5 +140,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "unexpectedState": MessageLookupByLibrary.simpleMessage(
       "Unexpected state (no handler)",
     ),
+    "version": MessageLookupByLibrary.simpleMessage("Version"),
   };
 }
