@@ -134,7 +134,9 @@ class _SettingsViewState extends State<SettingsView> {
                         );
 
                         if (selectedLanguage != null) {
-                          context.read<AppLanguageCubit>().changeLanguage(selectedLanguage);
+                          context.read<AppLanguageCubit>().changeLanguage(
+                            selectedLanguage,
+                          );
                         }
                       },
                     );
@@ -259,6 +261,6 @@ class _SettingsViewState extends State<SettingsView> {
 
     if (!context.mounted) return;
 
-    context.go(AppRoutes.SignInScreen);
+    context.go(AppRoutes.signInScreen);
   }
 }

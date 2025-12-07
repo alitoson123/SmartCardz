@@ -15,7 +15,7 @@ class RowOfDontHaveAnAccountAndSignUp extends StatelessWidget {
         Text(S.of(context).dontHaveAccount, style: Style().textStyle16),
         GestureDetector(
           onTap: () {
-            context.push(AppRoutes.SignUpScreen);
+            context.push(AppRoutes.signUpScreen);
           },
           child: Text(
             S.of(context).signUpTitle,

@@ -6,6 +6,7 @@ import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/sign_in_vie
 import 'package:smart_cards/Features/Auth/Sign_up/Presentation/Views/sign_up_view.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/home_view.dart';
+import 'package:smart_cards/Features/On_Boarding/Presentation/Views/on_boarding_view.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/revision_view.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/settings_view.dart';
 import 'package:smart_cards/Features/Splash/Presentation/views/spalsh_view.dart';
@@ -13,10 +14,10 @@ import 'package:smart_cards/core/views/collection_view.dart';
 
 class AppRoutes {
   static String spalshScreen = '/';
-  //  static String KOnBoardingPage = '/OnBoarding';
-  static const String SignInScreen = '/SignIn';
-  static const String ForgetPasswordScreen = '/ForgetPassword';
-  static const String SignUpScreen = '/SignUp';
+  static String onBoardingPage = '/onBoarding';
+  static const String signInScreen = '/signIn';
+  static const String forgetPasswordScreen = '/forgetPassword';
+  static const String signUpScreen = '/signUp';
   static const String homeScreen = '/home';
   static const String addNormalCardScreen = '/addNormalCard';
   static const String addAndShowCardScreen = '/addAndShowCard';
@@ -31,6 +32,10 @@ class AppRoutes {
         builder: (context, state) => const SplashView(),
       ),
 
+      GoRoute(
+        path: onBoardingPage,
+        builder: (context, state) => const OnBoardingView(),
+      ),
       GoRoute(path: homeScreen, builder: (context, state) => const HomeView()),
       GoRoute(
         path: addNormalCardScreen,
@@ -51,15 +56,15 @@ class AppRoutes {
       ),
 
       GoRoute(
-        path: SignInScreen,
+        path: signInScreen,
         builder: (context, state) => const SignInView(),
       ),
       GoRoute(
-        path: ForgetPasswordScreen,
+        path: forgetPasswordScreen,
         builder: (context, state) => const ForgetPasswordView(),
       ),
       GoRoute(
-        path: SignUpScreen,
+        path: signUpScreen,
         builder: (context, state) => const SignUpView(),
       ),
       GoRoute(

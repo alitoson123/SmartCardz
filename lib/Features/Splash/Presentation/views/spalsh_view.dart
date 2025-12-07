@@ -27,7 +27,7 @@ class _SplashViewState extends State<SplashView> {
     if (isLogin == true) {
       context.go(AppRoutes.homeScreen);
     } else {
-      context.go(AppRoutes.SignInScreen);
+      context.go(AppRoutes.onBoardingPage);
     }
   }
 

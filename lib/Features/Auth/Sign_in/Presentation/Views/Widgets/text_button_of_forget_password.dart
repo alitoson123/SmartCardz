@@ -14,7 +14,7 @@ class TextButtonOfForgetPassword extends StatelessWidget {
         MyTextButton(
           myText: '${S.of(context).forgotPasswordTitle}?',
           onPressed: () {
-            context.push(AppRoutes.ForgetPasswordScreen);
+            context.push(AppRoutes.forgetPasswordScreen);
           },
         ),
       ],
