@@ -1,102 +1,255 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/create_collection.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:smart_cards/core/services/notifications_service/back_ground_service.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
-class AddOptions extends StatelessWidget {
+class AddOptions extends StatefulWidget {
   const AddOptions({super.key});
+
+  @override
+  State<AddOptions> createState() => _AddOptionsState();
+}
+
+class _AddOptionsState extends State<AddOptions> {
+  bool _isExpanded = false;
+
+  void _toggle() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
 
-    return SpeedDial(
-      icon: Icons.add,
-      activeIcon: Icons.close,
-      backgroundColor: Colors.blueAccent,
-      foregroundColor: Colors.white,
-      spacing: 10,
-      spaceBetweenChildren: 8,
-      elevation: 6,
-
-      //   direction: SpeedDialDirection.up,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        SpeedDialChild(
-          backgroundColor: theme.colorScheme.primaryContainer,
-          foregroundColor: theme.colorScheme.onPrimaryContainer,
-          child: const Icon(Icons.auto_awesome),
-          label: S.of(context).addCardWithAI,
-          labelStyle: theme.textTheme.bodyMedium,
-          onTap: () async {
-            final svc = BackGroundService();
-            await svc.initLocalNotifications();
-            await svc.backgroundWork();
-            print("TEST DONE");
-            context.push(AppRoutes.addAndShowCardScreen);
-          },
-        ),
-        SpeedDialChild(
-          backgroundColor: theme.colorScheme.primaryContainer,
-          foregroundColor: theme.colorScheme.onPrimaryContainer,
-          child: const Icon(Icons.add_box),
-          label: S.of(context).addCard,
-          labelStyle: theme.textTheme.bodyMedium,
-          onTap: () async {
-            /*   final sender = FcmSender(
-              'assets/smart-cards-c1327-firebase-adminsdk-fbsvc-6057146e98.json',
-              'smart-cards-c1327',
-            );
-            await sender.init();
-
-            bool success = await sender.sendNotification(
-              deviceToken:
-                  'fUA-Q3M0ReSMPv4wC7zWmL:APA91bGHXF3SaNNv0T2gID4e-g3VQeKxHpwfkWHgzz0Uz-zEnLljDB59eunqNM7B9i7SOkOum6gzKhqtdzKbOtUgGJJY7P2AdeBjntdqruKbfIKIsZ4cKEE', // جهاز المستخدم
-              title: 'مرحبا!',
-              body: 'ده إشعار تجريبي',
-              data: {'type': 'home'},
-            );
-
-            sender.close();*/
-          /*  try {
-              await AppServices.syncAllCollectionCardCounts();
-
-              // Show success message
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('✅ All card counts synced successfully!'),
-                  backgroundColor: Colors.green,
-                  duration: Duration(seconds: 3),
+        // Option 1: Add Card with AI
+        if (_isExpanded) ...[
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                // Label on right for RTL
+                if (isRTL)
+                  Container(
+                    margin: const EdgeInsets.only(right: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      S.of(context).addCardWithAI,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+                // Button
+                FloatingActionButton(
+                  heroTag: 'ai_card',
+                  mini: true,
+                  backgroundColor: theme.colorScheme.primaryContainer,
+                  foregroundColor: theme.colorScheme.onPrimaryContainer,
+                  onPressed: () async {
+                    _toggle();
+                    final svc = BackGroundService();
+                    await svc.initLocalNotifications();
+                    await svc.backgroundWork();
+                    print("TEST DONE");
+                    context.push(AppRoutes.addAndShowCardScreen);
+                  },
+                  child: const Icon(Icons.auto_awesome),
                 ),
-              );
-            } catch (e) {
-              // Show error message
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('❌ Sync failed: $e'),
-                  backgroundColor: Colors.red,
-                  duration: Duration(seconds: 3),
+                // Label on left for LTR
+                if (!isRTL)
+                  Container(
+                    margin: const EdgeInsets.only(left: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      S.of(context).addCardWithAI,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+
+          // Option 2: Add Card
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (isRTL)
+                  Container(
+                    margin: const EdgeInsets.only(right: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      S.of(context).addCard,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+                FloatingActionButton(
+                  heroTag: 'normal_card',
+                  mini: true,
+                  backgroundColor: theme.colorScheme.primaryContainer,
+                  foregroundColor: theme.colorScheme.onPrimaryContainer,
+                  onPressed: () async {
+                    _toggle();
+                    context.push(AppRoutes.addNormalCardScreen);
+                  },
+                  child: const Icon(Icons.add_box),
                 ),
-              );
-            }
-*/
-            context.push(AppRoutes.addNormalCardScreen);
-          },
-        ),
-        SpeedDialChild(
-          backgroundColor: theme.colorScheme.secondaryContainer,
-          foregroundColor: theme.colorScheme.onSecondaryContainer,
-          child: const Icon(Icons.folder_copy),
-          label: S.of(context).createNewCollection,
-          labelStyle: theme.textTheme.bodyMedium,
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) => const CreateCollectionDialog(),
-            );
-          },
+                if (!isRTL)
+                  Container(
+                    margin: const EdgeInsets.only(left: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      S.of(context).addCard,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+
+          // Option 3: Create New Collection
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (isRTL)
+                  Container(
+                    margin: const EdgeInsets.only(right: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      S.of(context).createNewCollection,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+                FloatingActionButton(
+                  heroTag: 'collection',
+                  mini: true,
+                  backgroundColor: theme.colorScheme.secondaryContainer,
+                  foregroundColor: theme.colorScheme.onSecondaryContainer,
+                  onPressed: () {
+                    _toggle();
+                    showDialog(
+                      context: context,
+                      builder: (context) => const CreateCollectionDialog(),
+                    );
+                  },
+                  child: const Icon(Icons.folder_copy),
+                ),
+                if (!isRTL)
+                  Container(
+                    margin: const EdgeInsets.only(left: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      S.of(context).createNewCollection,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+
+        // Main FAB
+        FloatingActionButton(
+          heroTag: 'main_fab',
+          backgroundColor: Colors.blueAccent,
+          foregroundColor: Colors.white,
+          onPressed: _toggle,
+          child: Icon(_isExpanded ? Icons.close : Icons.add),
         ),
       ],
     );

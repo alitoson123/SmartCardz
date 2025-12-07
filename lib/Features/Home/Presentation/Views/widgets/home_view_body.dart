@@ -65,7 +65,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                       title: Text(collections[index].collectionName),
                       children: [
                         SimpleDialogOption(
-                          child: Text('Rename collection'),
+                          child: Text(S.of(context).renameCollection),
                           onPressed: () {
                             showDialog(
                               context: context,
@@ -78,7 +78,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                           },
                         ),
                         SimpleDialogOption(
-                          child: Text('Delete collection'),
+                          child: Text(S.of(context).deleteCollection),
                           onPressed: () {
                             showDialog(
                               context: context,

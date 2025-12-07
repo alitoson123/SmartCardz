@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/text_fields_of_email_and_password.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/text_of_title_and_subtitle.dart';
@@ -35,9 +36,8 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
             children: [
               SizedBox(height: 20),
               TextOfTitleAndSubtitle(
-                title: 'Register Account',
-                subtitle:
-                    'Complete your details or continue \n with social media',
+                title: S.of(context).registerAccount,
+                subtitle: S.of(context).completeDetails,
               ), // shift alt a
               SizedBox(height: 40),
               Row(
@@ -45,8 +45,8 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   Expanded(
                     child: MyTextField(
                       SignUpModelObject: SignUpModel(
-                        myTextLabel: 'First Name',
-                        myHintText: 'Enter your first name',
+                        myTextLabel: S.of(context).firstName,
+                        myHintText: S.of(context).enterFirstName,
                         myIcon: Icon(Icons.person),
                         onChanged: (value) {
                           fName = value;
@@ -58,8 +58,8 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   Expanded(
                     child: MyTextField(
                       SignUpModelObject: SignUpModel(
-                        myTextLabel: 'Last Name',
-                        myHintText: 'Enter your last name',
+                        myTextLabel: S.of(context).lastName,
+                        myHintText: S.of(context).enterLastName,
                         myIcon: Icon(Icons.person),
                         onChanged: (value) {
                           lName = value;
@@ -107,7 +107,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                     });
                   }
                 },
-                text: 'Sign Up',
+                text: S.of(context).signUpTitle,
                 icon: Icons.arrow_forward,
               ),
               SizedBox(height: 30),
@@ -115,7 +115,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
               Opacity(
                 opacity: .6,
                 child: Text(
-                  'By continuing your confirm that you agree \n with our term and condition',
+                  S.of(context).termsCondition,
                   textAlign: TextAlign.center,
                   style: Style().textStyle16,
                 ),

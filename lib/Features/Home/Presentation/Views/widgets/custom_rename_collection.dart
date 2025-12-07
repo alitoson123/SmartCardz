@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/generated/l10n.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/core/services/app_services/app_services.dart';
-
 
 class CustomRenameCollection extends StatefulWidget {
   const CustomRenameCollection({super.key, required this.collection});
@@ -16,15 +16,16 @@ class _CustomRenameCollectionState extends State<CustomRenameCollection> {
   final TextEditingController controller = TextEditingController();
   bool isButtonEnabled = false;
 
-    @override
+  @override
   void dispose() {
     controller.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Rename Collection'),
+      title: Text(S.of(context).renameCollection),
       content: TextField(
         controller: controller,
         onChanged: (value) {
@@ -32,13 +33,16 @@ class _CustomRenameCollectionState extends State<CustomRenameCollection> {
         },
         decoration: InputDecoration(
           border: OutlineInputBorder(),
-          labelText: 'Collection Name',
+          labelText: S.of(context).collectionName,
         ),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel', style: TextStyle(color: Colors.red)),
+          child: Text(
+            S.of(context).cancel,
+            style: TextStyle(color: Colors.red),
+          ),
         ),
         TextButton(
           onPressed: isButtonEnabled
@@ -47,22 +51,24 @@ class _CustomRenameCollectionState extends State<CustomRenameCollection> {
                     collectionId: widget.collection.collection_id,
                     newCollectionName: controller.text,
                   );
-                  Navigator.pop(context); 
                   Navigator.pop(context);
-                } 
+                  Navigator.pop(context);
+                }
               : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: isButtonEnabled
                 ? Colors.blueAccent
                 : Colors.grey[700],
-                  shape: RoundedRectangleBorder(
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          child: const Text('rename', style: TextStyle(color: Colors.white)),
+          child: Text(
+            S.of(context).rename,
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ],
     );
-    
   }
 }

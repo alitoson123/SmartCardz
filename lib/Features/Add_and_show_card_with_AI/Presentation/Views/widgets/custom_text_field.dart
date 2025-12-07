@@ -10,8 +10,9 @@ class CustomTextField extends StatelessWidget {
     required this.hint,
     this.maxLines = 1,
     this.onImageTap,
-    this.imagePath, this.onImageCanel,
-
+    this.imagePath,
+    this.onImageCanel,
+    this.onSubmitted,
   });
 
   final TextEditingController controller;
@@ -21,6 +22,7 @@ class CustomTextField extends StatelessWidget {
   final void Function()? onImageTap;
   final File? imagePath;
   final void Function()? onImageCanel;
+  final Function(String)? onSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class CustomTextField extends StatelessWidget {
           child: TextField(
             controller: controller,
             maxLines: maxLines,
+            onSubmitted: onSubmitted,
             decoration: InputDecoration(
               prefixIcon: Icon(icon, color: theme.colorScheme.primary),
               suffixIcon: IconButton(
@@ -68,24 +71,20 @@ class CustomTextField extends StatelessWidget {
             child: Stack(
               children: [
                 ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.file(
-                  imagePath!,
-                  height: 120,
-                  fit: BoxFit.cover,
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.file(imagePath!, height: 120, fit: BoxFit.cover),
                 ),
-              ),
-              Positioned(
-                top: 0,
-                right: -8,
-                child: IconButton(
-                  icon: const Icon(Icons.cancel, color: Colors.red),
-                  onPressed: onImageCanel,
+                Positioned(
+                  top: 0,
+                  right: -8,
+                  child: IconButton(
+                    icon: const Icon(Icons.cancel, color: Colors.red),
+                    onPressed: onImageCanel,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-                    ),
       ],
     );
   }

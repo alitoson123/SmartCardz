@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -17,17 +18,11 @@ class SignInView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF4F6FA),
-      appBar: AppBarMethod(),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        title: Opacity(opacity: .5, child: Text(S.of(context).signInTitle)),
+      ),
       body: BloconsumerOfSignInBody(),
-    );
-  }
-
-  AppBar AppBarMethod() {
-    return AppBar(
-      centerTitle: true,
-      title: Opacity(opacity: .5, child: Text('Sign In')),
-      backgroundColor: Colors.white,
     );
   }
 }

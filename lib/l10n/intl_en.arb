@@ -5,29 +5,24 @@
   "createNewCollection": "Create New Collection",
   "addCard": "Add Card",
   "addCardWithAI": "Add Card with AI",
-  
   "addNewCardTitle": "Add New Card",
   "addNewCardWithAITitle": "Add New Card with AI",
   "createYourFlashcard": "Create Your Flashcard",
   "createFlashcardSubtitle": "Add a new word and its definition to your deck",
-  
   "selectCollection": "Select a collection",
   "enterFrontSide": "Enter the front side",
   "enterBackSide": "Enter the back side",
   "enterWordToGenerate": "Enter a word to generate...",
   "generatingYourSmartCard": "Generating your smart card...",
-  
   "pleaseEnterAWord": "Please enter a word",
   "PleaseFillAllFieldsAndSelectACollection": "Please fill all fields and select a collection",
-
   "FrontSide": "Front Side",
   "BackSide": "Back Side",
   "CardSavedSuccessfully": "Card saved successfully",
-
-
   "settingsTitle": "Settings",
   "Account": "Account",
   "Email": "Email",
+  "Password": "Password",
   "Plan": "Plan",
   "language": "Language",
   "Notification": "Notification",
@@ -40,7 +35,6 @@
   "actions": "Actions",
   "logout": "Logout",
   "appTheme": "App Theme",
-  
   "createCollectionTitle": "Create a New Collection",
   "enterCollectionName": "Enter collection name...",
   "create": "Create",
@@ -48,21 +42,16 @@
   "CollectionCreatedSuccessfully": "Collection created successfully",
   "NoCollectionsFound": "No collections found",
   "SomethingWentWrong": "Something went wrong",
-
-  
   "searchCollectionTitle": "Search for a collection",
   "searchCollectionHint": "Search for a collection...",
-  
   "revisionTitle": "Revision",
   "easy": "Easy",
   "medium": "Medium",
   "hard": "Hard",
-  
   "add": "Add",
   "cancel": "Cancel",
   "selectImage": "Select Image",
   "noCardsDue": "No cards due for review 🎉",
-
   "noFrontSideData": "No front side data",
   "noBackSideData": "No back side data",
   "showAnswer": "Show Answer",
@@ -78,14 +67,39 @@
     }
   },
   "cardsLabel": "{count} cards",
-  "@cardsLabel": {
-    "description": "Cards count shown in item subtitle",
-    "placeholders": {
-      "count": {}
-    }
-  },
   "collectionsTitle": "Collections",
   "newCollection": "New collection",
   "titleLabel": "Title",
-  "cardsCountLabel": "Cards count"
+  "cardsCountLabel": "Cards count",
+  "welcome": "Welcome",
+  "signInTitle": "Sign In",
+  "signInSubtitle": "Sign in with your email and password \n or continue with social media",
+  "signUpTitle": "Sign Up",
+  "registerAccount": "Register Account",
+  "completeDetails": "Complete your details or continue \n with social media",
+  "firstName": "First Name",
+  "enterFirstName": "Enter your first name",
+  "lastName": "Last Name",
+  "enterLastName": "Enter your last name",
+  "termsCondition": "By continuing your confirm that you agree \n with our term and condition",
+  "forgotPasswordTitle": "Forgot Password",
+  "forgotPasswordSubtitle": "please enter your email and we will send \n you a link to return to your account",
+  "send": "Send",
+  "continueWithGoogle": "Continue with Google",
+  "dontHaveAccount": "Don't have an account? ",
+  "appLanguage": "App Language",
+  "free": "Free",
+  "deleteCollection": "Delete Collection",
+  "deleteCollectionConfirm": "Are you sure you want to delete this collection? This action cannot be undone.",
+  "delete": "Delete",
+  "renameCollection": "Rename Collection",
+  "collectionName": "Collection Name",
+  "rename": "Rename",
+  "deleteCard": "Delete Card",
+  "deleteCardConfirm": "Are you sure you want to delete this card? This action cannot be undone.",
+  "enableDisableWhiteboard": "Enable / Disable whiteboard",
+  "clearWhiteboard": "Clear whiteboard",
+  "disableWhiteboard": "Disable whiteboard",
+  "whiteboardColor": "Whiteboard color:",
+  "deleteCardMenu": "Delete card"
 }

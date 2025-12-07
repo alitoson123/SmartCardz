@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/generated/l10n.dart';
 import 'package:smart_cards/Features/Auth/Sign_up/Data/Models/sign_up_model.dart';
 import 'package:smart_cards/core/utils/widgets/my_text_field.dart';
 
@@ -16,8 +17,8 @@ class TextFieldsOfEmailAndPassword extends StatelessWidget {
       children: [
         MyTextField(
           SignUpModelObject: SignUpModel(
-            myTextLabel: 'Email',
-            myHintText: 'Enter your email',
+            myTextLabel: S.of(context).Email,
+            myHintText: S.of(context).Email,
             myIcon: Icon(Icons.mail),
             onChanged: onChangedForEmail,
           ),
@@ -25,8 +26,8 @@ class TextFieldsOfEmailAndPassword extends StatelessWidget {
         SizedBox(height: 30),
         MyTextField(
           SignUpModelObject: SignUpModel(
-            myTextLabel: 'Password',
-            myHintText: 'Enter your password',
+            myTextLabel: S.of(context).Password,
+            myHintText: S.of(context).Password,
             myIcon: Icon(Icons.lock),
             onChanged: onChangedForPassword,
           ),

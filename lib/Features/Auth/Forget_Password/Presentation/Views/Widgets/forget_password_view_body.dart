@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Auth/Forget_Password/Presentation/view_model/Forget_password_cubit/forget_password_cubit.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/row_of_dont_have_an_account_and_sign_up.dart';
@@ -28,46 +29,41 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
           padding: const EdgeInsets.all(12),
           child: Column(
             children: [
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               TextOfTitleAndSubtitle(
-                  title: 'Forgot Password',
-                  subtitle:
-                      'please enter your email and we will send \n you a link to return to your account'),
-              SizedBox(
-                height: 70,
+                title: S.of(context).forgotPasswordTitle,
+                subtitle: S.of(context).forgotPasswordSubtitle,
               ),
+              SizedBox(height: 70),
               MyTextField(
                 SignUpModelObject: SignUpModel(
-                  myTextLabel: 'Email',
-                  myHintText: 'Enter your email',
+                  myTextLabel: S.of(context).Email,
+                  myHintText: S.of(context).Email,
                   myIcon: Icon(Icons.mail),
                   onChanged: (value) {
                     email = value;
                   },
                 ),
               ),
-              SizedBox(
-                height: 110,
-              ),
+              SizedBox(height: 110),
               AppButton(
                 onPressed: () async {
                   if (myKey.currentState!.validate()) {
                     myKey.currentState!.save();
 
-                    await BlocProvider.of<ForgetPasswordCubit>(context)
-                        .ForgetPasswordCubitMethod(email: email!);
+                    await BlocProvider.of<ForgetPasswordCubit>(
+                      context,
+                    ).ForgetPasswordCubitMethod(email: email!);
                   } else {
                     setState(() {
                       autovalidateMode = AutovalidateMode.always;
                     });
                   }
-                }, text: 'Send', icon: Icons.arrow_forward_rounded,
+                },
+                text: S.of(context).send,
+                icon: Icons.arrow_forward_rounded,
               ),
-              SizedBox(
-                height: 70,
-              ),
+              SizedBox(height: 70),
               RowOfDontHaveAnAccountAndSignUp(),
             ],
           ),

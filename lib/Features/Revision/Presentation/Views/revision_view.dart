@@ -50,7 +50,7 @@ class _RevisionViewState extends State<RevisionView> {
                         color: isWhiteboardEnabled ? Colors.blue : Colors.grey,
                       ),
                       const SizedBox(width: 8),
-                      const Text('Enable whiteboard'),
+                      Text(S.of(context).enableDisableWhiteboard),
                     ],
                   ),
                 ),
@@ -60,31 +60,34 @@ class _RevisionViewState extends State<RevisionView> {
                   PopupMenuItem<String>(
                     value: 'clear_whiteboard',
                     child: Row(
-                      children: const [
+                      children: [
                         Icon(Icons.delete_outline, color: Colors.red),
                         SizedBox(width: 8),
-                        Text('Clear whiteboard'),
+                        Text(S.of(context).clearWhiteboard),
                       ],
                     ),
                   ),
 
-                  PopupMenuItem<String>(
+                 /* PopupMenuItem<String>(
                     value: 'disable_whiteboard',
                     child: Row(
-                      children: const [
+                      children:  [
                         Icon(Icons.close, color: Colors.grey),
                         SizedBox(width: 8),
-                        Text('Disable whiteboard'),
+                        Text(S.of(context).disableWhiteboard),
                       ],
                     ),
-                  ),
+                  ),*/
 
                   const PopupMenuItem<String>(
                     enabled: false,
                     value: 'color_header',
                     child: Text(
                       'Whiteboard color:',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
 
@@ -122,10 +125,10 @@ class _RevisionViewState extends State<RevisionView> {
                 PopupMenuItem<String>(
                   value: 'delete_card',
                   child: Row(
-                    children: const [
+                    children: [
                       Icon(Icons.delete, color: Colors.red),
                       SizedBox(width: 8),
-                      Text('Delete card'),
+                      Text(S.of(context).deleteCardMenu),
                     ],
                   ),
                 ),
@@ -136,12 +139,13 @@ class _RevisionViewState extends State<RevisionView> {
                     isWhiteboardEnabled = !isWhiteboardEnabled;
                   });
                 } else if (value == 'clear_whiteboard') {
-                  clearWhiteboardNotifier.value = !clearWhiteboardNotifier.value;
-                } else if (value == 'disable_whiteboard') {
+                  clearWhiteboardNotifier.value =
+                      !clearWhiteboardNotifier.value;
+                } /*else if (value == 'disable_whiteboard') {
                   setState(() {
                     isWhiteboardEnabled = false;
                   });
-                } else if (value.startsWith('color_')) {
+                }*/ else if (value.startsWith('color_')) {
                   final index = int.parse(value.split('_')[1]);
                   changeColorNotifier.value = WhiteboardColors.colors[index];
                 } else if (value == 'delete_card') {
@@ -149,22 +153,21 @@ class _RevisionViewState extends State<RevisionView> {
                   showDialog(
                     context: context,
                     builder: (dialogContext) => AlertDialog(
-                      title: const Text('Delete Card'),
-                      content: const Text(
-                        'Are you sure you want to delete this card? This action cannot be undone.',
-                      ),
+                      title: Text(S.of(context).deleteCard),
+                      content: Text(S.of(context).deleteCardConfirm),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(dialogContext),
-                          child: const Text('Cancel'),
+                          child: Text(S.of(context).cancel),
                         ),
                         TextButton(
                           onPressed: () {
                             Navigator.pop(dialogContext);
-                            deleteCardNotifier.value = !deleteCardNotifier.value;
+                            deleteCardNotifier.value =
+                                !deleteCardNotifier.value;
                           },
-                          child: const Text(
-                            'Delete',
+                          child: Text(
+                            S.of(context).delete,
                             style: TextStyle(color: Colors.red),
                           ),
                         ),

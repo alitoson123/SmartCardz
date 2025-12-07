@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 class AppTheme extends StatefulWidget {
   final String initialTheme;
@@ -15,7 +16,7 @@ class _AppThemeState extends State<AppTheme> {
   @override
   void initState() {
     super.initState();
-    theme = widget.initialTheme; // ← جَبنا الثيم المختار مسبقًا
+    theme = widget.initialTheme;
   }
 
   @override
@@ -26,7 +27,7 @@ class _AppThemeState extends State<AppTheme> {
       backgroundColor: themeColors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       title: Text(
-        'App Theme',
+        S.of(context).appTheme,
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 20,
@@ -37,7 +38,7 @@ class _AppThemeState extends State<AppTheme> {
 
       content: Container(
         decoration: BoxDecoration(
-          color:  themeColors.surface ,
+          color: themeColors.surface,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -45,15 +46,21 @@ class _AppThemeState extends State<AppTheme> {
           children: [
             RadioListTile(
               activeColor: Colors.blueAccent,
-              title: Text('Light', style: TextStyle(color: themeColors.onSurface)),
-              value: 'Light',
+              title: Text(
+                S.of(context).light,
+                style: TextStyle(color: themeColors.onSurface),
+              ),
+              value: S.of(context).light,
               groupValue: theme,
               onChanged: (val) => setState(() => theme = val),
             ),
             RadioListTile(
               activeColor: Colors.blueAccent,
-              title: Text('Dark', style: TextStyle(color: themeColors.onSurface)),
-              value: 'Dark',
+              title: Text(
+                S.of(context).dark,
+                style: TextStyle(color: themeColors.onSurface),
+              ),
+              value: S.of(context).dark,
               groupValue: theme,
               onChanged: (val) => setState(() => theme = val),
             ),
@@ -64,11 +71,17 @@ class _AppThemeState extends State<AppTheme> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text('Cancel', style: TextStyle(color: themeColors.primary)),
+          child: Text(
+            S.of(context).cancel,
+            style: TextStyle(color: themeColors.primary),
+          ),
         ),
         TextButton(
           onPressed: () => Navigator.pop(context, theme),
-          child: Text('Save', style: TextStyle(color: themeColors.primary)),
+          child: Text(
+            S.of(context).save,
+            style: TextStyle(color: themeColors.primary),
+          ),
         ),
       ],
     );

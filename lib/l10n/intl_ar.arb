@@ -5,28 +5,24 @@
   "createNewCollection": "إنشاء مجموعة جديدة",
   "addCard": "إضافة بطاقة",
   "addCardWithAI": "إضافة بطاقة بالذكاء الاصطناعي",
-  
   "addNewCardTitle": "إضافة بطاقة جديدة",
   "addNewCardWithAITitle": "إضافة بطاقة بالذكاء الاصطناعي",
   "createYourFlashcard": "أنشئ بطاقتك التعليمية",
   "createFlashcardSubtitle": "أضف كلمة جديدة وتعريفها إلى مجموعتك",
-  
   "selectCollection": "اختر مجموعة",
   "enterFrontSide": "أدخل الوجه الأمامي",
   "enterBackSide": "أدخل الوجه الخلفي",
   "enterWordToGenerate": "أدخل كلمة للتوليد...",
   "generatingYourSmartCard": "جاري إنشاء بطاقتك الذكية...",
-
   "pleaseEnterAWord": "الرجاء إدخال كلمة",
   "PleaseFillAllFieldsAndSelectACollection": "يرجى ملء جميع الحقول واختيار مجموعة",
-
   "FrontSide": "الوجه الأمامي",
   "BackSide": "الوجه الخلفي",
   "CardSavedSuccessfully": "تم حفظ البطاقة بنجاح",
-
   "settingsTitle": "الإعدادات",
   "Account": "الحساب",
   "Email": "البريد الالكتروني",
+  "Password": "كلمة المرور",
   "Plan": "الخطة",
   "language": "اللغة",
   "Notification": "الاشعارات",
@@ -34,10 +30,11 @@
   "theme": "السمة",
   "light": "فاتح",
   "dark": "داكن",
+  "AboutApp": "حول التطبيق",
+  "version": "الإصدار",
   "actions": "إجراءات",
   "logout": "تسجيل الخروج",
   "appTheme": "سمة التطبيق",
-  
   "createCollectionTitle": "إنشاء مجموعة جديدة",
   "enterCollectionName": "أدخل اسم المجموعة...",
   "create": "إنشاء",
@@ -45,25 +42,21 @@
   "CollectionCreatedSuccessfully": "تم إنشاء المجموعة بنجاح",
   "NoCollectionsFound": "لم يتم العثور على مجموعات",
   "SomethingWentWrong": "حدث خطأ ما",
-  
   "searchCollectionTitle": "البحث عن مجموعة",
   "searchCollectionHint": "البحث عن مجموعة...",
-  
   "revisionTitle": "مراجعة",
   "easy": "سهل",
   "medium": "متوسط",
   "hard": "صعب",
-  
   "add": "إضافة",
   "cancel": "إلغاء",
+  "selectImage": "اختر صورة",
   "noCardsDue": "لا توجد بطاقات للمراجعة 🎉",
-  
   "noFrontSideData": "لا توجد بيانات في الوجه الأمامي",
   "noBackSideData": "لا توجد بيانات في الوجه الخلفي",
   "showAnswer": "عرض الإجابة",
   "NoFrontSideData": "لا توجد بيانات في الوجه الأمامي",
   "NoBrontSideData": "لا توجد بيانات في الوجه الخلفي",
-  
   "ratingSavedLoadingNext": "تم حفظ التقييم ✅\nجاري تحميل البطاقة التالية...",
   "unexpectedState": "حالة غير متوقعة (لا يوجد معالج)",
   "errorOccurred": "خطأ: {errorMessage}",
@@ -74,14 +67,39 @@
     }
   },
   "cardsLabel": "{count} بطاقات",
-  "@cardsLabel": {
-    "description": "عدد البطاقات المعروض في عنوان العنصر الفرعي",
-    "placeholders": {
-      "count": {}
-    }
-  },
   "collectionsTitle": "المجموعات",
   "newCollection": "مجموعة جديدة",
   "titleLabel": "العنوان",
-  "cardsCountLabel": "عدد البطاقات"
+  "cardsCountLabel": "عدد البطاقات",
+  "welcome": "مرحباً",
+  "signInTitle": "تسجيل الدخول",
+  "signInSubtitle": "سجل الدخول باستخدام بريدك الإلكتروني وكلمة المرور \n أو استمر مع وسائل التواصل الاجتماعي",
+  "signUpTitle": "إنشاء حساب",
+  "registerAccount": "تسجيل حساب",
+  "completeDetails": "أكمل بياناتك أو استمر \n مع وسائل التواصل الاجتماعي",
+  "firstName": "الاسم الأول",
+  "enterFirstName": "أدخل اسمك الأول",
+  "lastName": "اسم العائلة",
+  "enterLastName": "أدخل اسم عائلتك",
+  "termsCondition": "بالمتابعة، فإنك تؤكد موافقتك \n على شروطنا وأحكامنا",
+  "forgotPasswordTitle": "نسيت كلمة المرور",
+  "forgotPasswordSubtitle": "يرجى إدخال بريدك الإلكتروني وسنرسل لك \n رابطاً للعودة إلى حسابك",
+  "send": "إرسال",
+  "continueWithGoogle": "المتابعة مع جوجل",
+  "dontHaveAccount": "ليس لديك حساب؟ ",
+  "appLanguage": "لغة التطبيق",
+  "free": "مجاني",
+  "deleteCollection": "حذف المجموعة",
+  "deleteCollectionConfirm": "هل أنت متأكد أنك تريد حذف هذه المجموعة؟ لا يمكن التراجع عن هذا الإجراء.",
+  "delete": "حذف",
+  "renameCollection": "إعادة تسمية المجموعة",
+  "collectionName": "اسم المجموعة",
+  "rename": "إعادة تسمية",
+  "deleteCard": "حذف البطاقة",
+  "deleteCardConfirm": "هل أنت متأكد أنك تريد حذف هذه البطاقة؟ لا يمكن التراجع عن هذا الإجراء.",
+  "enableWhiteboard": "تفعيل السبورة",
+  "clearWhiteboard": "مسح السبورة",
+  "disableWhiteboard": "تعطيل السبورة",
+  "whiteboardColor": "لون السبورة:",
+  "deleteCardMenu": "حذف البطاقة"
 }

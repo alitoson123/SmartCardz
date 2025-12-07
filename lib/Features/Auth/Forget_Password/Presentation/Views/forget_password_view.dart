@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -15,14 +16,14 @@ class ForgetPasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ForgetPasswordCubit(
-        getIt<AuthRepoImpl>(),
-      ),
+      create: (context) => ForgetPasswordCubit(getIt<AuthRepoImpl>()),
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Opacity(opacity: .5, child: Text('Forgot Password')),
-          backgroundColor: Colors.white,
+          title: Opacity(
+            opacity: .5,
+            child: Text(S.of(context).forgotPasswordTitle),
+          ),
         ),
         body: blocConsumerOfForgetPasswordViewBody(),
       ),
@@ -31,18 +32,18 @@ class ForgetPasswordView extends StatelessWidget {
 }
 
 class blocConsumerOfForgetPasswordViewBody extends StatelessWidget {
-  const blocConsumerOfForgetPasswordViewBody({
-    super.key,
-  });
+  const blocConsumerOfForgetPasswordViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ForgetPasswordCubit, ForgetPasswordStates>(
       listener: (context, state) {
         if (state is ForgetPasswordSuccessState) {
-          Message().MessageSuccessMethod(context,
-              message:
-                  'Password Reset Email Sent Successfully, please check your email and login with your new password.');
+          Message().MessageSuccessMethod(
+            context,
+            message:
+                'Password Reset Email Sent Successfully, please check your email and login with your new password.',
+          );
           GoRouter.of(context).pop();
         }
         if (state is ForgetPasswordFailureState) {
@@ -51,8 +52,9 @@ class blocConsumerOfForgetPasswordViewBody extends StatelessWidget {
       },
       builder: (context, state) {
         return ModalProgressHUD(
-            inAsyncCall: state is ForgetPasswordLoadingState ? true : false,
-            child: ForgetPasswordViewBody());
+          inAsyncCall: state is ForgetPasswordLoadingState ? true : false,
+          child: ForgetPasswordViewBody(),
+        );
       },
     );
   }

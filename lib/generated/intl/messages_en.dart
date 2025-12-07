@@ -47,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "No front side data",
     ),
     "Notification": MessageLookupByLibrary.simpleMessage("Notification"),
+    "Password": MessageLookupByLibrary.simpleMessage("Password"),
     "Plan": MessageLookupByLibrary.simpleMessage("Plan"),
     "PleaseFillAllFieldsAndSelectACollection":
         MessageLookupByLibrary.simpleMessage(
@@ -63,13 +64,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "addNewCardWithAITitle": MessageLookupByLibrary.simpleMessage(
       "Add New Card with AI",
     ),
+    "appLanguage": MessageLookupByLibrary.simpleMessage("App Language"),
     "appTheme": MessageLookupByLibrary.simpleMessage("App Theme"),
     "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "cards": MessageLookupByLibrary.simpleMessage("cards"),
     "cardsCountLabel": MessageLookupByLibrary.simpleMessage("Cards count"),
     "cardsLabel": m0,
+    "clearWhiteboard": MessageLookupByLibrary.simpleMessage("Clear whiteboard"),
+    "collectionName": MessageLookupByLibrary.simpleMessage("Collection Name"),
     "collectionsTitle": MessageLookupByLibrary.simpleMessage("Collections"),
+    "completeDetails": MessageLookupByLibrary.simpleMessage(
+      "Complete your details or continue \n with social media",
+    ),
+    "continueWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "Continue with Google",
+    ),
     "create": MessageLookupByLibrary.simpleMessage("Create"),
     "createCollectionTitle": MessageLookupByLibrary.simpleMessage(
       "Create a New Collection",
@@ -84,26 +94,62 @@ class MessageLookup extends MessageLookupByLibrary {
       "Create Your Flashcard",
     ),
     "dark": MessageLookupByLibrary.simpleMessage("Dark"),
+    "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+    "deleteCard": MessageLookupByLibrary.simpleMessage("Delete Card"),
+    "deleteCardConfirm": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to delete this card? This action cannot be undone.",
+    ),
+    "deleteCardMenu": MessageLookupByLibrary.simpleMessage("Delete card"),
+    "deleteCollection": MessageLookupByLibrary.simpleMessage(
+      "Delete Collection",
+    ),
+    "deleteCollectionConfirm": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to delete this collection? This action cannot be undone.",
+    ),
+    "disableWhiteboard": MessageLookupByLibrary.simpleMessage(
+      "Disable whiteboard",
+    ),
+    "dontHaveAccount": MessageLookupByLibrary.simpleMessage(
+      "Don\'t have an account? ",
+    ),
     "easy": MessageLookupByLibrary.simpleMessage("Easy"),
+    "enableDisableWhiteboard": MessageLookupByLibrary.simpleMessage(
+      "Enable / Disable whiteboard",
+    ),
     "enterBackSide": MessageLookupByLibrary.simpleMessage(
       "Enter the back side",
     ),
     "enterCollectionName": MessageLookupByLibrary.simpleMessage(
       "Enter collection name...",
     ),
+    "enterFirstName": MessageLookupByLibrary.simpleMessage(
+      "Enter your first name",
+    ),
     "enterFrontSide": MessageLookupByLibrary.simpleMessage(
       "Enter the front side",
+    ),
+    "enterLastName": MessageLookupByLibrary.simpleMessage(
+      "Enter your last name",
     ),
     "enterWordToGenerate": MessageLookupByLibrary.simpleMessage(
       "Enter a word to generate...",
     ),
     "errorOccurred": m1,
+    "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
+    "forgotPasswordSubtitle": MessageLookupByLibrary.simpleMessage(
+      "please enter your email and we will send \n you a link to return to your account",
+    ),
+    "forgotPasswordTitle": MessageLookupByLibrary.simpleMessage(
+      "Forgot Password",
+    ),
+    "free": MessageLookupByLibrary.simpleMessage("Free"),
     "generatingYourSmartCard": MessageLookupByLibrary.simpleMessage(
       "Generating your smart card...",
     ),
     "hard": MessageLookupByLibrary.simpleMessage("Hard"),
     "home": MessageLookupByLibrary.simpleMessage("Smart Cards"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
+    "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
     "light": MessageLookupByLibrary.simpleMessage("Light"),
     "logout": MessageLookupByLibrary.simpleMessage("Logout"),
     "medium": MessageLookupByLibrary.simpleMessage("Medium"),
@@ -121,6 +167,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "ratingSavedLoadingNext": MessageLookupByLibrary.simpleMessage(
       "Rating saved ✅\nLoading next card...",
     ),
+    "registerAccount": MessageLookupByLibrary.simpleMessage("Register Account"),
+    "rename": MessageLookupByLibrary.simpleMessage("Rename"),
+    "renameCollection": MessageLookupByLibrary.simpleMessage(
+      "Rename Collection",
+    ),
     "revisionTitle": MessageLookupByLibrary.simpleMessage("Revision"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "searchCollectionHint": MessageLookupByLibrary.simpleMessage(
@@ -133,13 +184,26 @@ class MessageLookup extends MessageLookupByLibrary {
       "Select a collection",
     ),
     "selectImage": MessageLookupByLibrary.simpleMessage("Select Image"),
+    "send": MessageLookupByLibrary.simpleMessage("Send"),
     "settingsTitle": MessageLookupByLibrary.simpleMessage("Settings"),
     "showAnswer": MessageLookupByLibrary.simpleMessage("Show Answer"),
+    "signInSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Sign in with your email and password \n or continue with social media",
+    ),
+    "signInTitle": MessageLookupByLibrary.simpleMessage("Sign In"),
+    "signUpTitle": MessageLookupByLibrary.simpleMessage("Sign Up"),
+    "termsCondition": MessageLookupByLibrary.simpleMessage(
+      "By continuing your confirm that you agree \n with our term and condition",
+    ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "titleLabel": MessageLookupByLibrary.simpleMessage("Title"),
     "unexpectedState": MessageLookupByLibrary.simpleMessage(
       "Unexpected state (no handler)",
     ),
     "version": MessageLookupByLibrary.simpleMessage("Version"),
+    "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
+    "whiteboardColor": MessageLookupByLibrary.simpleMessage(
+      "Whiteboard color:",
+    ),
   };
 }

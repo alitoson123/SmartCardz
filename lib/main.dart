@@ -20,13 +20,14 @@ import 'package:smart_cards/core/services/Bloc_observes_service/my_Bloc_observe.
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
 import 'package:smart_cards/core/services/notifications_service/back_ground_service.dart';
-import 'package:smart_cards/core/services/notifications_service/local_notification_service.dart';
 import 'package:smart_cards/core/services/notifications_service/push_notification_service_test.dart';
 import 'package:smart_cards/core/services/notifications_service/top-level%20headless_service.dart';
 import 'package:smart_cards/core/utils/app_theme/dark_theme.dart';
 import 'package:smart_cards/core/utils/app_theme/light_theme.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:smart_cards/core/view_model/app_language_cubit/app_language_cubit.dart';
+import 'package:smart_cards/core/view_model/app_language_cubit/app_language_states.dart';
 import 'package:smart_cards/core/view_model/app_theme_cubit/app_theme_cubit.dart';
 import 'package:smart_cards/core/view_model/app_theme_cubit/app_theme_states.dart';
 import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
@@ -109,23 +110,30 @@ class _SmartCardsState extends State<SmartCards> {
               ),
             ),
             BlocProvider(create: (context) => ThemeCubit()..loadInitialTheme()),
+            BlocProvider(
+              create: (context) => AppLanguageCubit()..loadInitialLanguage(),
+            ),
           ],
           child: BlocBuilder<ThemeCubit, ThemeState>(
-            builder: (context, state) {
-              return MaterialApp.router(
-                locale: Locale('en'),
-                localizationsDelegates: [
-                  S.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: S.delegate.supportedLocales,
-                routerConfig: AppRoutes.route,
-                debugShowCheckedModeBanner: false,
-                themeMode: state.themeMode,
-                theme: lightTheme,
-                darkTheme: darkTheme,
+            builder: (context, themeState) {
+              return BlocBuilder<AppLanguageCubit, AppLanguageState>(
+                builder: (context, languageState) {
+                  return MaterialApp.router(
+                    locale: Locale(languageState.appLanguage),
+                    localizationsDelegates: [
+                      S.delegate,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
+                    supportedLocales: S.delegate.supportedLocales,
+                    routerConfig: AppRoutes.route,
+                    debugShowCheckedModeBanner: false,
+                    themeMode: themeState.themeMode,
+                    theme: lightTheme,
+                    darkTheme: darkTheme,
+                  );
+                },
               );
             },
           ),

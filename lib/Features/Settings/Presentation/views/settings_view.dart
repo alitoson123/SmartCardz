@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_cards/Features/Settings/Presentation/views/widgets/app_language.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/widgets/app_theme.dart';
 import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:smart_cards/core/services/Local_service/local_service_with_hive.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
+import 'package:smart_cards/core/view_model/app_language_cubit/app_language_cubit.dart';
+import 'package:smart_cards/core/view_model/app_language_cubit/app_language_states.dart';
 import 'package:smart_cards/core/view_model/app_theme_cubit/app_theme_cubit.dart';
 import 'package:smart_cards/core/view_model/app_theme_cubit/app_theme_states.dart';
 import 'package:smart_cards/generated/l10n.dart';
@@ -29,7 +32,6 @@ class _SettingsViewState extends State<SettingsView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Text(
                 S.of(context).Account,
                 style: TextStyle(fontSize: 20, color: Colors.grey.shade600),
@@ -116,13 +118,27 @@ class _SettingsViewState extends State<SettingsView> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: ListTile(
-                  leading: const Icon(Icons.language),
-                  title: Text(
-                    S.of(context).language,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onTap: () async {},
+                child: BlocBuilder<AppLanguageCubit, AppLanguageState>(
+                  builder: (context, state) {
+                    return ListTile(
+                      leading: const Icon(Icons.language),
+                      title: Text(
+                        S.of(context).language,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      onTap: () async {
+                        final selectedLanguage = await showDialog(
+                          context: context,
+                          builder: (context) =>
+                              AppLanguage(initialLanguage: state.appLanguage),
+                        );
+
+                        if (selectedLanguage != null) {
+                          context.read<AppLanguageCubit>().changeLanguage(selectedLanguage);
+                        }
+                      },
+                    );
+                  },
                 ),
               ),
               Text(

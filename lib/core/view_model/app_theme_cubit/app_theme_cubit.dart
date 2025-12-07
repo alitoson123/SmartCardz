@@ -7,10 +7,10 @@ class ThemeCubit extends Cubit<ThemeState> {
   ThemeCubit() : super(ThemeInitialState());
 
   Future<void> changeTheme(String theme) async {
-    if (theme == "Light") {
+    if (theme == "Light" || theme == "فاتح") {
       await SharedPreferencesService.instance.setString(K_APP_THEME, 'Light');
       emit(ThemeLightState());
-    } else if (theme == "Dark") {
+    } else if (theme == "Dark" || theme == "داكن") {
       await SharedPreferencesService.instance.setString(K_APP_THEME, 'Dark');
       emit(ThemeDarkState());
     }
@@ -24,12 +24,11 @@ class ThemeCubit extends Cubit<ThemeState> {
   }
 
   Future<void> loadInitialTheme() async {
-  String saved = await getTheme();
-  if (saved == "Light") {
-    emit(const ThemeLightState());
-  } else {
-    emit(const ThemeDarkState());
+    String saved = await getTheme();
+    if (saved == "Light") {
+      emit(const ThemeLightState());
+    } else {
+      emit(const ThemeDarkState());
+    }
   }
-}
-
 }

@@ -234,6 +234,11 @@ class S {
     return Intl.message('Email', name: 'Email', desc: '', args: []);
   }
 
+  /// `Password`
+  String get Password {
+    return Intl.message('Password', name: 'Password', desc: '', args: []);
+  }
+
   /// `Plan`
   String get Plan {
     return Intl.message('Plan', name: 'Plan', desc: '', args: []);
@@ -509,7 +514,7 @@ class S {
     return Intl.message(
       '$count cards',
       name: 'cardsLabel',
-      desc: 'Cards count shown in item subtitle',
+      desc: '',
       args: [count],
     );
   }
@@ -544,6 +549,266 @@ class S {
     return Intl.message(
       'Cards count',
       name: 'cardsCountLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome`
+  String get welcome {
+    return Intl.message('Welcome', name: 'welcome', desc: '', args: []);
+  }
+
+  /// `Sign In`
+  String get signInTitle {
+    return Intl.message('Sign In', name: 'signInTitle', desc: '', args: []);
+  }
+
+  /// `Sign in with your email and password \n or continue with social media`
+  String get signInSubtitle {
+    return Intl.message(
+      'Sign in with your email and password \n or continue with social media',
+      name: 'signInSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign Up`
+  String get signUpTitle {
+    return Intl.message('Sign Up', name: 'signUpTitle', desc: '', args: []);
+  }
+
+  /// `Register Account`
+  String get registerAccount {
+    return Intl.message(
+      'Register Account',
+      name: 'registerAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Complete your details or continue \n with social media`
+  String get completeDetails {
+    return Intl.message(
+      'Complete your details or continue \n with social media',
+      name: 'completeDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First Name`
+  String get firstName {
+    return Intl.message('First Name', name: 'firstName', desc: '', args: []);
+  }
+
+  /// `Enter your first name`
+  String get enterFirstName {
+    return Intl.message(
+      'Enter your first name',
+      name: 'enterFirstName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last Name`
+  String get lastName {
+    return Intl.message('Last Name', name: 'lastName', desc: '', args: []);
+  }
+
+  /// `Enter your last name`
+  String get enterLastName {
+    return Intl.message(
+      'Enter your last name',
+      name: 'enterLastName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By continuing your confirm that you agree \n with our term and condition`
+  String get termsCondition {
+    return Intl.message(
+      'By continuing your confirm that you agree \n with our term and condition',
+      name: 'termsCondition',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forgot Password`
+  String get forgotPasswordTitle {
+    return Intl.message(
+      'Forgot Password',
+      name: 'forgotPasswordTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `please enter your email and we will send \n you a link to return to your account`
+  String get forgotPasswordSubtitle {
+    return Intl.message(
+      'please enter your email and we will send \n you a link to return to your account',
+      name: 'forgotPasswordSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get send {
+    return Intl.message('Send', name: 'send', desc: '', args: []);
+  }
+
+  /// `Continue with Google`
+  String get continueWithGoogle {
+    return Intl.message(
+      'Continue with Google',
+      name: 'continueWithGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't have an account? `
+  String get dontHaveAccount {
+    return Intl.message(
+      'Don\'t have an account? ',
+      name: 'dontHaveAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App Language`
+  String get appLanguage {
+    return Intl.message(
+      'App Language',
+      name: 'appLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Free`
+  String get free {
+    return Intl.message('Free', name: 'free', desc: '', args: []);
+  }
+
+  /// `Delete Collection`
+  String get deleteCollection {
+    return Intl.message(
+      'Delete Collection',
+      name: 'deleteCollection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this collection? This action cannot be undone.`
+  String get deleteCollectionConfirm {
+    return Intl.message(
+      'Are you sure you want to delete this collection? This action cannot be undone.',
+      name: 'deleteCollectionConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message('Delete', name: 'delete', desc: '', args: []);
+  }
+
+  /// `Rename Collection`
+  String get renameCollection {
+    return Intl.message(
+      'Rename Collection',
+      name: 'renameCollection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Collection Name`
+  String get collectionName {
+    return Intl.message(
+      'Collection Name',
+      name: 'collectionName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rename`
+  String get rename {
+    return Intl.message('Rename', name: 'rename', desc: '', args: []);
+  }
+
+  /// `Delete Card`
+  String get deleteCard {
+    return Intl.message('Delete Card', name: 'deleteCard', desc: '', args: []);
+  }
+
+  /// `Are you sure you want to delete this card? This action cannot be undone.`
+  String get deleteCardConfirm {
+    return Intl.message(
+      'Are you sure you want to delete this card? This action cannot be undone.',
+      name: 'deleteCardConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enable / Disable whiteboard`
+  String get enableDisableWhiteboard {
+    return Intl.message(
+      'Enable / Disable whiteboard',
+      name: 'enableDisableWhiteboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear whiteboard`
+  String get clearWhiteboard {
+    return Intl.message(
+      'Clear whiteboard',
+      name: 'clearWhiteboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disable whiteboard`
+  String get disableWhiteboard {
+    return Intl.message(
+      'Disable whiteboard',
+      name: 'disableWhiteboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Whiteboard color:`
+  String get whiteboardColor {
+    return Intl.message(
+      'Whiteboard color:',
+      name: 'whiteboardColor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete card`
+  String get deleteCardMenu {
+    return Intl.message(
+      'Delete card',
+      name: 'deleteCardMenu',
       desc: '',
       args: [],
     );

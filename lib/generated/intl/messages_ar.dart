@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "AboutApp": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
     "Account": MessageLookupByLibrary.simpleMessage("الحساب"),
     "BackSide": MessageLookupByLibrary.simpleMessage("الوجه الخلفي"),
     "CardSavedSuccessfully": MessageLookupByLibrary.simpleMessage(
@@ -46,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "لا توجد بيانات في الوجه الأمامي",
     ),
     "Notification": MessageLookupByLibrary.simpleMessage("الاشعارات"),
+    "Password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "Plan": MessageLookupByLibrary.simpleMessage("الخطة"),
     "PleaseFillAllFieldsAndSelectACollection":
         MessageLookupByLibrary.simpleMessage(
@@ -64,13 +66,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "addNewCardWithAITitle": MessageLookupByLibrary.simpleMessage(
       "إضافة بطاقة بالذكاء الاصطناعي",
     ),
+    "appLanguage": MessageLookupByLibrary.simpleMessage("لغة التطبيق"),
     "appTheme": MessageLookupByLibrary.simpleMessage("سمة التطبيق"),
     "appearance": MessageLookupByLibrary.simpleMessage("المظهر"),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
     "cards": MessageLookupByLibrary.simpleMessage("بطاقات"),
     "cardsCountLabel": MessageLookupByLibrary.simpleMessage("عدد البطاقات"),
     "cardsLabel": m0,
+    "clearWhiteboard": MessageLookupByLibrary.simpleMessage("مسح السبورة"),
+    "collectionName": MessageLookupByLibrary.simpleMessage("اسم المجموعة"),
     "collectionsTitle": MessageLookupByLibrary.simpleMessage("المجموعات"),
+    "completeDetails": MessageLookupByLibrary.simpleMessage(
+      "أكمل بياناتك أو استمر \n مع وسائل التواصل الاجتماعي",
+    ),
+    "continueWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "المتابعة مع جوجل",
+    ),
     "create": MessageLookupByLibrary.simpleMessage("إنشاء"),
     "createCollectionTitle": MessageLookupByLibrary.simpleMessage(
       "إنشاء مجموعة جديدة",
@@ -85,24 +96,47 @@ class MessageLookup extends MessageLookupByLibrary {
       "أنشئ بطاقتك التعليمية",
     ),
     "dark": MessageLookupByLibrary.simpleMessage("داكن"),
+    "delete": MessageLookupByLibrary.simpleMessage("حذف"),
+    "deleteCard": MessageLookupByLibrary.simpleMessage("حذف البطاقة"),
+    "deleteCardConfirm": MessageLookupByLibrary.simpleMessage(
+      "هل أنت متأكد أنك تريد حذف هذه البطاقة؟ لا يمكن التراجع عن هذا الإجراء.",
+    ),
+    "deleteCardMenu": MessageLookupByLibrary.simpleMessage("حذف البطاقة"),
+    "deleteCollection": MessageLookupByLibrary.simpleMessage("حذف المجموعة"),
+    "deleteCollectionConfirm": MessageLookupByLibrary.simpleMessage(
+      "هل أنت متأكد أنك تريد حذف هذه المجموعة؟ لا يمكن التراجع عن هذا الإجراء.",
+    ),
+    "disableWhiteboard": MessageLookupByLibrary.simpleMessage("تعطيل السبورة"),
+    "dontHaveAccount": MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟ "),
     "easy": MessageLookupByLibrary.simpleMessage("سهل"),
     "enterBackSide": MessageLookupByLibrary.simpleMessage("أدخل الوجه الخلفي"),
     "enterCollectionName": MessageLookupByLibrary.simpleMessage(
       "أدخل اسم المجموعة...",
     ),
+    "enterFirstName": MessageLookupByLibrary.simpleMessage("أدخل اسمك الأول"),
     "enterFrontSide": MessageLookupByLibrary.simpleMessage(
       "أدخل الوجه الأمامي",
     ),
+    "enterLastName": MessageLookupByLibrary.simpleMessage("أدخل اسم عائلتك"),
     "enterWordToGenerate": MessageLookupByLibrary.simpleMessage(
       "أدخل كلمة للتوليد...",
     ),
     "errorOccurred": m1,
+    "firstName": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
+    "forgotPasswordSubtitle": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال بريدك الإلكتروني وسنرسل لك \n رابطاً للعودة إلى حسابك",
+    ),
+    "forgotPasswordTitle": MessageLookupByLibrary.simpleMessage(
+      "نسيت كلمة المرور",
+    ),
+    "free": MessageLookupByLibrary.simpleMessage("مجاني"),
     "generatingYourSmartCard": MessageLookupByLibrary.simpleMessage(
       "جاري إنشاء بطاقتك الذكية...",
     ),
     "hard": MessageLookupByLibrary.simpleMessage("صعب"),
     "home": MessageLookupByLibrary.simpleMessage("البطاقات الذكية"),
     "language": MessageLookupByLibrary.simpleMessage("اللغة"),
+    "lastName": MessageLookupByLibrary.simpleMessage("اسم العائلة"),
     "light": MessageLookupByLibrary.simpleMessage("فاتح"),
     "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "medium": MessageLookupByLibrary.simpleMessage("متوسط"),
@@ -122,6 +156,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "ratingSavedLoadingNext": MessageLookupByLibrary.simpleMessage(
       "تم حفظ التقييم ✅\nجاري تحميل البطاقة التالية...",
     ),
+    "registerAccount": MessageLookupByLibrary.simpleMessage("تسجيل حساب"),
+    "rename": MessageLookupByLibrary.simpleMessage("إعادة تسمية"),
+    "renameCollection": MessageLookupByLibrary.simpleMessage(
+      "إعادة تسمية المجموعة",
+    ),
     "revisionTitle": MessageLookupByLibrary.simpleMessage("مراجعة"),
     "save": MessageLookupByLibrary.simpleMessage("حفظ"),
     "searchCollectionHint": MessageLookupByLibrary.simpleMessage(
@@ -131,12 +170,25 @@ class MessageLookup extends MessageLookupByLibrary {
       "البحث عن مجموعة",
     ),
     "selectCollection": MessageLookupByLibrary.simpleMessage("اختر مجموعة"),
+    "selectImage": MessageLookupByLibrary.simpleMessage("اختر صورة"),
+    "send": MessageLookupByLibrary.simpleMessage("إرسال"),
     "settingsTitle": MessageLookupByLibrary.simpleMessage("الإعدادات"),
     "showAnswer": MessageLookupByLibrary.simpleMessage("عرض الإجابة"),
+    "signInSubtitle": MessageLookupByLibrary.simpleMessage(
+      "سجل الدخول باستخدام بريدك الإلكتروني وكلمة المرور \n أو استمر مع وسائل التواصل الاجتماعي",
+    ),
+    "signInTitle": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+    "signUpTitle": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
+    "termsCondition": MessageLookupByLibrary.simpleMessage(
+      "بالمتابعة، فإنك تؤكد موافقتك \n على شروطنا وأحكامنا",
+    ),
     "theme": MessageLookupByLibrary.simpleMessage("السمة"),
     "titleLabel": MessageLookupByLibrary.simpleMessage("العنوان"),
     "unexpectedState": MessageLookupByLibrary.simpleMessage(
       "حالة غير متوقعة (لا يوجد معالج)",
     ),
+    "version": MessageLookupByLibrary.simpleMessage("الإصدار"),
+    "welcome": MessageLookupByLibrary.simpleMessage("مرحباً"),
+    "whiteboardColor": MessageLookupByLibrary.simpleMessage("لون السبورة:"),
   };
 }

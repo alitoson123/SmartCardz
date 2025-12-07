@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Auth/Domain/Entities/user_entity.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/row_of_dont_have_an_account_and_sign_up.dart';
@@ -34,9 +35,8 @@ class _SignInViewBodyState extends State<SignInViewBody> {
             children: [
               SizedBox(height: 20),
               TextOfTitleAndSubtitle(
-                title: 'Welcome',
-                subtitle:
-                    'Sign in with your email and password \n or continue with social media',
+                title: S.of(context).welcome,
+                subtitle: S.of(context).signInSubtitle,
               ),
               SizedBox(height: 50),
               TextFieldsOfEmailAndPassword(
@@ -68,7 +68,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                     });
                   }
                 },
-                text: 'Sign In',
+                text: S.of(context).signInTitle,
                 icon: Icons.login,
               ),
 
