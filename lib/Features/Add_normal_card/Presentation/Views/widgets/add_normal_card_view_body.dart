@@ -2,9 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_text_field.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/View_model/normal_card_cubit/normal_card_cubit.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/camera_or_gallery_dialog.dart';
+import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/type_of_collections.dart';
 import 'package:smart_cards/core/utils/widgets/app_button.dart';
 import 'package:smart_cards/core/utils/widgets/app_header.dart';
 import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
@@ -24,6 +26,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
   String? selectedCollectionName;
   String? selectedCollectionId;
+  String selectedType = "Basic";
 
   File? frontImage;
   File? backImage;
@@ -54,7 +57,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,7 +67,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
               title: S.of(context).createYourFlashcard,
               subTitle: S.of(context).createFlashcardSubtitle,
             ),
-            const SizedBox(height: 30),
+            SizedBox(height: 30.h),
 
             // ===== Select Collection =====
             Row(
@@ -91,28 +94,69 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                       }
                     },
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 10,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 10.h,
                       ),
-                      margin: const EdgeInsets.only(right: 8),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade400),
+                      margin: EdgeInsets.only(right: 8.w),
+                      /* decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
                         borderRadius: BorderRadius.circular(5),
-                      ),
+                      ),*/
                       child: Text(
                         selectedCollectionName ??
                             S.of(context).selectCollection,
-                        style: const TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16.sp),
                       ),
                     ),
                   ),
                 ),
-                const Icon(Icons.arrow_forward_ios, size: 18),
+                Icon(Icons.arrow_forward_ios, size: 18.sp),
               ],
             ),
+            SizedBox(height: 15.h),
 
-            const SizedBox(height: 20),
+            // ===== Select the type =====
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () async {
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TypeOfCollections(),
+                        ),
+                      );
+
+                      if (result != null) {
+                        setState(() {
+                          selectedType = result['name'];
+                        });
+                      }
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 10.h,
+                      ),
+                      margin: EdgeInsets.only(right: 8.w),
+                      /*  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                        borderRadius: BorderRadius.circular(5),
+                      ),*/
+                      child: Text(
+                        selectedType,
+                        style: TextStyle(fontSize: 16.sp),
+                      ),
+                    ),
+                  ),
+                ),
+                Icon(Icons.arrow_forward_ios, size: 18.sp),
+              ],
+            ),
+            SizedBox(height: 20.h),
 
             CustomTextField(
               controller: frontSideController,
@@ -143,38 +187,41 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
               },
             ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
-            CustomTextField(
-              controller: backSideController,
-              hint: "Back Side",
-              icon: Icons.edit,
-              imagePath: backImage,
-              onImageCanel: () {
-                setState(() {
-                  backImage = null;
-                });
-              },
-              onImageTap: () {
-                showDialog(
-                  context: context,
-                  builder: (simpleDialogContext) {
-                    return CameraOrGalleryDialog(
-                      onPressedGallery: () async {
-                        backImage = await pickImageFromGallery();
-                        Navigator.pop(context);
-                      },
-                      onPressedCamera: () async {
-                        backImage = await pickImageFromCamera();
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                );
-              },
+            Visibility(
+              visible: selectedType == "Basic" ? true : false,
+              child: CustomTextField(
+                controller: backSideController,
+                hint: "Back Side",
+                icon: Icons.edit,
+                imagePath: backImage,
+                onImageCanel: () {
+                  setState(() {
+                    backImage = null;
+                  });
+                },
+                onImageTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (simpleDialogContext) {
+                      return CameraOrGalleryDialog(
+                        onPressedGallery: () async {
+                          backImage = await pickImageFromGallery();
+                          Navigator.pop(context);
+                        },
+                        onPressedCamera: () async {
+                          backImage = await pickImageFromCamera();
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
             ),
 
-            const SizedBox(height: 30),
+            SizedBox(height: 30.h),
 
             // ===== Submit button =====
             AppButton(
@@ -183,20 +230,32 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                 final frontSide = frontSideController.text.trim();
                 final backSide = backSideController.text.trim();
 
-                if (frontSide.isEmpty ||
-                    backSide.isEmpty ||
-                    selectedCollectionId == null ||
-                    frontImage == null ||
-                    backImage == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        S.of(context).PleaseFillAllFieldsAndSelectACollection,
+                if (selectedType == "Basic") {
+                  if (frontSide.isEmpty ||
+                      backSide.isEmpty ||
+                      selectedCollectionId == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          S.of(context).PleaseFillAllFieldsAndSelectACollection,
+                        ),
+                        backgroundColor: Colors.red,
                       ),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                  return;
+                    );
+                    return;
+                  }
+                } else if (selectedType == "Front") {
+                  if (frontSide.isEmpty || selectedCollectionId == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          S.of(context).PleaseFillAllFieldsAndSelectACollection,
+                        ),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                    return;
+                  }
                 }
 
                 context.read<NormalCardCubit>().addNormalCard(

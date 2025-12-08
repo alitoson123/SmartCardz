@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
@@ -34,14 +35,14 @@ class CustomTextField extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             color: theme.cardColor,
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(14.r),
             boxShadow: [
               BoxShadow(
                 color: theme.brightness == Brightness.light
                     ? Colors.grey.shade300
                     : Colors.black.withOpacity(0.4),
-                blurRadius: 8,
-                offset: const Offset(0, 3),
+                blurRadius: 8.r,
+                offset: Offset(0, 3.h),
               ),
             ],
           ),
@@ -57,9 +58,9 @@ class CustomTextField extends StatelessWidget {
               ),
               hintText: hint,
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 18,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 16.w,
+                vertical: 18.h,
               ),
             ),
           ),
@@ -67,16 +68,20 @@ class CustomTextField extends StatelessWidget {
 
         if (imagePath != null)
           Padding(
-            padding: const EdgeInsets.only(top: 8),
+            padding: EdgeInsets.only(top: 8.h),
             child: Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.file(imagePath!, height: 120, fit: BoxFit.cover),
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Image.file(
+                    imagePath!,
+                    height: 120.h,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Positioned(
                   top: 0,
-                  right: -8,
+                  right: -8.w,
                   child: IconButton(
                     icon: const Icon(Icons.cancel, color: Colors.red),
                     onPressed: onImageCanel,

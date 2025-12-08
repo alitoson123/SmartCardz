@@ -8,6 +8,7 @@ import 'package:smart_cards/Features/Home/Presentation/Views/widgets/custom_rena
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/item_of_collections.dart';
 import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/generated/l10n.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({super.key});
@@ -53,7 +54,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
             .toList();
 
         return ListView.builder(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           itemCount: collections.length,
           itemBuilder: (context, index) {
             return GestureDetector(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
 class AppTheme extends StatefulWidget {
@@ -25,12 +26,12 @@ class _AppThemeState extends State<AppTheme> {
 
     return AlertDialog(
       backgroundColor: themeColors.surface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       title: Text(
         S.of(context).appTheme,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 20,
+          fontSize: 20.sp,
           fontWeight: FontWeight.bold,
           color: themeColors.onSurface,
         ),
@@ -39,7 +40,7 @@ class _AppThemeState extends State<AppTheme> {
       content: Container(
         decoration: BoxDecoration(
           color: themeColors.surface,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -5,6 +5,7 @@ import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart
 import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:smart_cards/core/services/app_services/app_services.dart';
 import 'package:smart_cards/generated/l10n.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ItemOfCollections extends StatelessWidget {
   const ItemOfCollections({super.key, required this.collection});
@@ -13,17 +14,14 @@ class ItemOfCollections extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      margin: EdgeInsets.only(bottom: 16.h),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       elevation: 3,
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 12,
-          horizontal: 16,
-        ),
+        contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
         title: Text(
           collection.collectionName,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
         ),
         subtitle: FutureBuilder<int>(
           future: countOfDueCards(),
@@ -33,10 +31,11 @@ class ItemOfCollections extends StatelessWidget {
                 : '- ...';
             return Text(
               '${collection.cards_count} ${S.of(context).cards} $dueCardsText',
+              style: TextStyle(fontSize: 14.sp),
             );
           },
         ),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+        trailing: Icon(Icons.arrow_forward_ios, size: 18.sp),
         onTap: () {
           context.push(AppRoutes.revisionCardScreen, extra: collection);
         },

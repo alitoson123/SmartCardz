@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_cards/Features/Auth/Sign_up/Data/Models/sign_up_model.dart';
 import 'package:smart_cards/constant.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyTextField extends StatelessWidget {
   const MyTextField({
@@ -32,7 +33,7 @@ class MyTextField extends StatelessWidget {
         labelText: SignUpModelObject.myTextLabel,
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         floatingLabelStyle: TextStyle(color: K_PRIMARY_COLOR),
-        contentPadding: EdgeInsets.symmetric(horizontal: 30, vertical: 18),
+        contentPadding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 18.h),
         suffixIcon: SignUpModelObject.myIcon,
         hintText: SignUpModelObject.myHintText,
         focusedBorder: focusOutLineInputBorder(),
@@ -42,12 +43,12 @@ class MyTextField extends StatelessWidget {
   }
 
   OutlineInputBorder borderOutLineInputBorder() {
-    return OutlineInputBorder(borderRadius: BorderRadius.circular(20));
+    return OutlineInputBorder(borderRadius: BorderRadius.circular(20.r));
   }
 
   OutlineInputBorder focusOutLineInputBorder() {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(20.r),
       borderSide: BorderSide(color: Colors.black),
     );
   }

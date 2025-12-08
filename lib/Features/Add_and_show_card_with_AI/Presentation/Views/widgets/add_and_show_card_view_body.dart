@@ -61,7 +61,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                   title: S.of(context).createYourFlashcard,
                   subTitle: S.of(context).createFlashcardSubtitle,
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -87,24 +87,24 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                           }
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 10,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 10.h,
                           ),
-                          margin: const EdgeInsets.only(right: 8),
+                          margin: EdgeInsets.only(right: 8.w),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(5),
+                            borderRadius: BorderRadius.circular(5.r),
                           ),
                           child: Text(
                             selectedCollectionName ??
                                 S.of(context).selectCollection,
-                            style: const TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 16.sp),
                           ),
                         ),
                       ),
                     ),
-                    const Icon(Icons.arrow_forward_ios, size: 18),
+                    Icon(Icons.arrow_forward_ios, size: 18.sp),
                   ],
                 ),
                 SizedBox(height: 30.h),
@@ -131,13 +131,13 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                 if (state is AddAndShowCardLoading)
                   Column(
                     children: [
-                      const SizedBox(height: 30),
+                      SizedBox(height: 30.h),
                       const CustomLoadingIndicator(),
                       SizedBox(height: 12.h),
                       Text(
                         S.of(context).generatingYourSmartCard,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           color: Colors.grey,
                           fontWeight: FontWeight.w500,
                         ),

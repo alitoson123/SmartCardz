@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
 class GoogleSignInButton extends StatelessWidget {
@@ -11,7 +12,7 @@ class GoogleSignInButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     return SizedBox(
-      height: 56,
+      height: 56.h,
       width: double.infinity,
       child: ElevatedButton(
         onPressed: onPressed,
@@ -19,19 +20,19 @@ class GoogleSignInButton extends StatelessWidget {
           backgroundColor: theme.cardColor,
           elevation: 3,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
           ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/google.png', height: 24, width: 24),
-            const SizedBox(width: 10),
+            Image.asset('assets/images/google.png', height: 24.h, width: 24.w),
+            SizedBox(width: 10.w),
             Text(
               S.of(context).continueWithGoogle,
               style: TextStyle(
                 color: theme.textTheme.bodyLarge?.color ?? Colors.black87,
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),

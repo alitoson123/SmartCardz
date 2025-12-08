@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:smart_cards/Features/Auth/Sign_up/Data/Models/sign_up_model.dart';
 import 'package:smart_cards/core/utils/widgets/my_text_field.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextFieldsOfEmailAndPassword extends StatelessWidget {
   const TextFieldsOfEmailAndPassword({
@@ -23,7 +24,7 @@ class TextFieldsOfEmailAndPassword extends StatelessWidget {
             onChanged: onChangedForEmail,
           ),
         ),
-        SizedBox(height: 30),
+        SizedBox(height: 30.h),
         MyTextField(
           SignUpModelObject: SignUpModel(
             myTextLabel: S.of(context).Password,

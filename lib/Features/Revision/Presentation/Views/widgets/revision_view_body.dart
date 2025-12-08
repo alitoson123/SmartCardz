@@ -156,8 +156,8 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
             return Center(
               child: Text(
                 S.of(context).noCardsDue,
-                style: const TextStyle(
-                  fontSize: 18,
+                style: TextStyle(
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -178,7 +178,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                 // المحتوى الأساسي
                 Positioned.fill(
                   child: Padding(
-                    padding: EdgeInsets.all(16.w),
+                    padding: EdgeInsets.all(16.r),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -204,7 +204,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                                 ),
 
                           // Back Side (يظهر لما تضغط Show Answer)
-                          if (showAnswer) ...[
+                          if (showAnswer && card.backSide.isNotEmpty) ...[
                             SizedBox(height: 30.h),
                             buildSectionTitle(context, S.of(context).BackSide),
                             SizedBox(height: 10.h),
@@ -212,9 +212,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                                 ? BackSide(card: card as CardWithAIEntity)
                                 : CustomCard(
                                     child: Text(
-                                      card.backSide.isEmpty
-                                          ? S.of(context).NoBrontSideData
-                                          : card.backSide,
+                                      card.backSide,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 18.sp,
@@ -274,7 +272,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
             // الأزرار السفلية
             bottomNavigationBar: Container(
               padding: EdgeInsets.only(bottom: 26.h, right: 20.w, left: 20.w),
-              child: !showAnswer
+              child: !showAnswer && card.backSide.isNotEmpty
                   ? AppButton(
                       text: S.of(context).showAnswer,
                       icon: Icons.visibility,
@@ -310,7 +308,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
             child: Text(
               S.of(context).ratingSavedLoadingNext,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500),
             ),
           );
         } else {

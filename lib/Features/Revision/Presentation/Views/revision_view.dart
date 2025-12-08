@@ -5,6 +5,7 @@ import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart
 import 'package:smart_cards/Features/Revision/Presentation/View_model/delete_card_cubit/delete_card_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/revision_view_body.dart';
 import 'package:smart_cards/generated/l10n.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RevisionView extends StatefulWidget {
   const RevisionView({super.key, required this.collection});
@@ -49,7 +50,7 @@ class _RevisionViewState extends State<RevisionView> {
                             : Icons.check_box_outline_blank,
                         color: isWhiteboardEnabled ? Colors.blue : Colors.grey,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                       Text(S.of(context).enableDisableWhiteboard),
                     ],
                   ),
@@ -62,13 +63,13 @@ class _RevisionViewState extends State<RevisionView> {
                     child: Row(
                       children: [
                         Icon(Icons.delete_outline, color: Colors.red),
-                        SizedBox(width: 8),
+                        SizedBox(width: 8.w),
                         Text(S.of(context).clearWhiteboard),
                       ],
                     ),
                   ),
 
-                 /* PopupMenuItem<String>(
+                  /* PopupMenuItem<String>(
                     value: 'disable_whiteboard',
                     child: Row(
                       children:  [
@@ -78,15 +79,14 @@ class _RevisionViewState extends State<RevisionView> {
                       ],
                     ),
                   ),*/
-
-                  const PopupMenuItem<String>(
+                  PopupMenuItem<String>(
                     enabled: false,
                     value: 'color_header',
                     child: Text(
                       'Whiteboard color:',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                       ),
                     ),
                   ),
@@ -100,18 +100,18 @@ class _RevisionViewState extends State<RevisionView> {
                       child: Row(
                         children: [
                           Container(
-                            width: 24,
-                            height: 24,
+                            width: 24.w,
+                            height: 24.w,
                             decoration: BoxDecoration(
                               color: color,
                               shape: BoxShape.circle,
                               border: Border.all(
                                 color: Colors.grey.shade400,
-                                width: 1,
+                                width: 1.w,
                               ),
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8.w),
                           Text(WhiteboardColors.getColorName(color)),
                         ],
                       ),
@@ -127,7 +127,7 @@ class _RevisionViewState extends State<RevisionView> {
                   child: Row(
                     children: [
                       Icon(Icons.delete, color: Colors.red),
-                      SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                       Text(S.of(context).deleteCardMenu),
                     ],
                   ),

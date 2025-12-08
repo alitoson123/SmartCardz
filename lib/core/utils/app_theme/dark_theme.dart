@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   scaffoldBackgroundColor: const Color(0xFF121212),
   primaryColor: const Color(0xFF4A90E2),
 
-  appBarTheme: const AppBarTheme(
-    backgroundColor: Color(0xFF1E1E1E),
+  appBarTheme: AppBarTheme(
+    backgroundColor: const Color(0xFF1E1E1E),
     elevation: 2,
     centerTitle: true,
     titleTextStyle: TextStyle(
       color: Colors.white,
-      fontSize: 20,
+      fontSize: 20.sp,
       fontWeight: FontWeight.bold,
     ),
-    iconTheme: IconThemeData(color: Colors.white),
+    iconTheme: const IconThemeData(color: Colors.white),
   ),
 
   cardColor: const Color(0xFF1E1E1E),
@@ -29,7 +30,7 @@ final ThemeData darkTheme = ThemeData(
     filled: true,
     fillColor: const Color(0xFF1E1E1E),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(14.r),
       borderSide: BorderSide.none,
     ),
     hintStyle: const TextStyle(color: Colors.white54),

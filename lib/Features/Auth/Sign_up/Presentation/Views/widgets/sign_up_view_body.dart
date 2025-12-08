@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/text_fields_of_email_and_password.dart';
@@ -27,19 +28,19 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.r),
       child: SingleChildScrollView(
         child: Form(
           key: myKey,
           autovalidateMode: autovalidateMode,
           child: Column(
             children: [
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               TextOfTitleAndSubtitle(
                 title: S.of(context).registerAccount,
                 subtitle: S.of(context).completeDetails,
               ), // shift alt a
-              SizedBox(height: 40),
+              SizedBox(height: 40.h),
               Row(
                 children: [
                   Expanded(
@@ -54,7 +55,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 12), // مسافة صغيرة بين الاتنين
+                  SizedBox(width: 12.w), // مسافة صغيرة بين الاتنين
                   Expanded(
                     child: MyTextField(
                       SignUpModelObject: SignUpModel(
@@ -69,7 +70,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   ),
                 ],
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 30.h),
               TextFieldsOfEmailAndPassword(
                 onChangedForEmail: (value) {
                   email = value;
@@ -89,7 +90,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   },
                 ),
               ),*/
-              SizedBox(height: 40),
+              SizedBox(height: 40.h),
               AppButton(
                 onPressed: () async {
                   if (myKey.currentState!.validate()) {
@@ -110,7 +111,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                 text: S.of(context).signUpTitle,
                 icon: Icons.arrow_forward,
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 30.h),
 
               Opacity(
                 opacity: .6,

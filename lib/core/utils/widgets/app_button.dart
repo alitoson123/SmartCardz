@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppButton extends StatelessWidget {
-  const AppButton({super.key, this.onPressed, required this.text, required this.icon});
+  const AppButton({
+    super.key,
+    this.onPressed,
+    required this.text,
+    required this.icon,
+  });
   final void Function()? onPressed;
   final String text;
   final IconData icon;
@@ -11,17 +17,17 @@ class AppButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: onPressed,
-        icon:  Icon(icon, color: Colors.white),
-        label:  Text(
+        icon: Icon(icon, color: Colors.white, size: 24.sp),
+        label: Text(
           text,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blueAccent,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: EdgeInsets.symmetric(vertical: 16.h),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
           ),
           elevation: 5,
         ),

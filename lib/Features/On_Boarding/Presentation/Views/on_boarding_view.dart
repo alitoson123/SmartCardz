@@ -3,6 +3,7 @@ import 'package:smart_cards/Features/On_Boarding/Presentation/Views/Widgets/goTo
 import 'package:smart_cards/Features/On_Boarding/Presentation/Views/Widgets/myListGenerate.dart';
 import 'package:smart_cards/Features/On_Boarding/Presentation/Views/Widgets/onBboardingBody.dart';
 import 'package:smart_cards/core/utils/widgets/app_button.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OnBoardingView extends StatefulWidget {
   const OnBoardingView({super.key});
@@ -31,7 +32,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
               ),
             ),
             Mylistgenerate(currentIndex: currentIndex),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             AppButton(
               onPressed: () {
                 helper().goToNextPageMethod(
@@ -43,7 +44,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
               text: '',
               icon: Icons.arrow_forward,
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
           ],
         ),
       ),

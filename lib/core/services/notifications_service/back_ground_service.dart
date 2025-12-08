@@ -175,7 +175,7 @@ class BackGroundService {
     print('Due cards today: $count');
 
     final prefs = await SharedPreferences.getInstance();
-    final lastDate = prefs.getString('last_due_notif_date');
+   // final lastDate = prefs.getString('last_due_notif_date');
 
     if (count >= DUE_CARDS_THRESHOLD) {
       await showLocalNotification(

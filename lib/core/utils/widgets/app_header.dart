@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppHeader extends StatelessWidget {
   const AppHeader({
@@ -20,12 +21,12 @@ class AppHeader extends StatelessWidget {
             color: Colors.blueAccent.withOpacity(0.1),
             shape: BoxShape.circle,
           ),
-          padding: const EdgeInsets.all(18),
-          child: Icon(icon, size: 50, color: Colors.blueAccent),
+          padding: EdgeInsets.all(18.r),
+          child: Icon(icon, size: 50.sp, color: Colors.blueAccent),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Text(title),
-        const SizedBox(height: 6),
+        SizedBox(height: 6.h),
         Text(subTitle, textAlign: TextAlign.center),
       ],
     );

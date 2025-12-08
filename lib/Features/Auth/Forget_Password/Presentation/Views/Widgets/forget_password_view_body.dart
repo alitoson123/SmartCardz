@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Auth/Forget_Password/Presentation/view_model/Forget_password_cubit/forget_password_cubit.dart';
@@ -26,15 +27,15 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
       autovalidateMode: autovalidateMode,
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(12.r),
           child: Column(
             children: [
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               TextOfTitleAndSubtitle(
                 title: S.of(context).forgotPasswordTitle,
                 subtitle: S.of(context).forgotPasswordSubtitle,
               ),
-              SizedBox(height: 70),
+              SizedBox(height: 70.h),
               MyTextField(
                 SignUpModelObject: SignUpModel(
                   myTextLabel: S.of(context).Email,
@@ -45,7 +46,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
                   },
                 ),
               ),
-              SizedBox(height: 110),
+              SizedBox(height: 110.h),
               AppButton(
                 onPressed: () async {
                   if (myKey.currentState!.validate()) {
@@ -63,7 +64,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
                 text: S.of(context).send,
                 icon: Icons.arrow_forward_rounded,
               ),
-              SizedBox(height: 70),
+              SizedBox(height: 70.h),
               RowOfDontHaveAnAccountAndSignUp(),
             ],
           ),

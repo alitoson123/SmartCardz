@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/add_collection_cubit/add_collection_cubit.dart';
 import 'package:smart_cards/generated/l10n.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CreateCollectionDialog extends StatefulWidget {
   const CreateCollectionDialog({super.key});
@@ -36,24 +36,24 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
 
   @override
   Widget build(BuildContext context) {
-        final themeColors = Theme.of(context).colorScheme;
+    final themeColors = Theme.of(context).colorScheme;
 
     return AlertDialog(
       insetPadding: EdgeInsets.zero,
-      contentPadding: const EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      contentPadding: EdgeInsets.all(16.r),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       backgroundColor: themeColors.surface,
       title: Text(
         S.of(context).createCollectionTitle,
         textAlign: TextAlign.center,
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 20,
+          fontSize: 20.sp,
           color: themeColors.onSurface,
         ),
       ),
       content: SizedBox(
-        width: MediaQuery.of(context).size.width * .75, // 👈 makes it wider
+        width: 0.75.sw, // 👈 makes it wider
         child: TextField(
           cursorColor: Colors.blueAccent,
           controller: controller,
@@ -64,12 +64,14 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
             focusColor: Colors.blueAccent,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Colors.blueAccent),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
             hintText: S.of(context).enterCollectionName,
             hintStyle: TextStyle(color: Colors.grey[400]),
             filled: true,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.r),
+            ),
           ),
           onChanged: (value) {
             setState(() => isButtonEnabled = value.trim().isNotEmpty);
@@ -80,7 +82,10 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child:  Text(S.of(context).cancel, style: TextStyle(color: Colors.grey)),
+          child: Text(
+            S.of(context).cancel,
+            style: TextStyle(color: Colors.grey),
+          ),
         ),
         ElevatedButton(
           onPressed: isButtonEnabled && !isLoading
@@ -91,17 +96,20 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
                 ? Colors.blueAccent
                 : Colors.grey[700],
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
           ),
           child: isLoading
-              ? const SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+              ? SizedBox(
+                  height: 20.h,
+                  width: 20.w,
+                  child: CircularProgressIndicator(strokeWidth: 2.w),
                 )
-              :  Text(S.of(context).create, style: TextStyle(color: Colors.white)),
+              : Text(
+                  S.of(context).create,
+                  style: TextStyle(color: Colors.white),
+                ),
         ),
       ],
     );

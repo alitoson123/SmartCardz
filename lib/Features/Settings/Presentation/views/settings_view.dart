@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/widgets/app_language.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/widgets/app_theme.dart';
@@ -27,21 +28,21 @@ class _SettingsViewState extends State<SettingsView> {
     return Scaffold(
       appBar: AppBar(title: Text(S.of(context).settingsTitle)),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 30),
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 30.h),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 S.of(context).Account,
-                style: TextStyle(fontSize: 20, color: Colors.grey.shade600),
+                style: TextStyle(fontSize: 20.sp, color: Colors.grey.shade600),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
 
               Container(
-                padding: const EdgeInsets.all(5),
+                padding: EdgeInsets.all(5.r),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Column(
                   children: [
@@ -49,11 +50,11 @@ class _SettingsViewState extends State<SettingsView> {
                       leading: const Icon(Icons.email_outlined, size: 30),
                       title: Text(
                         S.of(context).Email,
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 20.sp),
                       ),
                       subtitle: Text(
                         LocalServiceWithHive().getUser()?.email ?? 'Email',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18.sp),
                       ),
                     ),
                     const Divider(color: Colors.grey, thickness: .4, height: 4),
@@ -61,32 +62,32 @@ class _SettingsViewState extends State<SettingsView> {
                       leading: const Icon(Icons.person_outline, size: 30),
                       title: Text(
                         S.of(context).Plan,
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 20.sp),
                       ),
-                      subtitle: Text('Free', style: TextStyle(fontSize: 18)),
+                      subtitle: Text('Free', style: TextStyle(fontSize: 18.sp)),
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
 
               Text(
                 S.of(context).Notification,
-                style: TextStyle(fontSize: 20, color: Colors.grey.shade600),
+                style: TextStyle(fontSize: 20.sp, color: Colors.grey.shade600),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
 
               Container(
-                padding: const EdgeInsets.all(5),
+                padding: EdgeInsets.all(5.r),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: ListTile(
                   leading: const Icon(Icons.notifications_outlined),
                   title: Text(
                     S.of(context).Notification,
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20.sp),
                   ),
 
                   trailing: Switch(
@@ -105,18 +106,18 @@ class _SettingsViewState extends State<SettingsView> {
                 ),
               ),
 
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
 
               Text(
                 S.of(context).language,
-                style: TextStyle(fontSize: 20, color: Colors.grey.shade600),
+                style: TextStyle(fontSize: 20.sp, color: Colors.grey.shade600),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
 
               Container(
-                padding: const EdgeInsets.all(5),
+                padding: EdgeInsets.all(5.r),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: BlocBuilder<AppLanguageCubit, AppLanguageState>(
                   builder: (context, state) {
@@ -124,7 +125,7 @@ class _SettingsViewState extends State<SettingsView> {
                       leading: const Icon(Icons.language),
                       title: Text(
                         S.of(context).language,
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 20.sp),
                       ),
                       onTap: () async {
                         final selectedLanguage = await showDialog(
@@ -145,14 +146,14 @@ class _SettingsViewState extends State<SettingsView> {
               ),
               Text(
                 S.of(context).appearance,
-                style: TextStyle(fontSize: 20, color: Colors.grey.shade600),
+                style: TextStyle(fontSize: 20.sp, color: Colors.grey.shade600),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
 
               Container(
-                padding: const EdgeInsets.all(5),
+                padding: EdgeInsets.all(5.r),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: BlocBuilder<ThemeCubit, ThemeState>(
                   builder: (context, state) {
@@ -171,37 +172,37 @@ class _SettingsViewState extends State<SettingsView> {
                           context.read<ThemeCubit>().changeTheme(selectedTheme);
                         }
                       },
-                      leading: const Icon(Icons.palette_outlined, size: 30),
+                      leading: Icon(Icons.palette_outlined, size: 30.sp),
                       title: Text(
                         S.of(context).theme,
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 20.sp),
                       ),
                       subtitle: Text(
                         state.themeMode == ThemeMode.dark
                             ? S.of(context).dark
                             : S.of(context).light,
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+                      trailing: Icon(Icons.arrow_forward_ios, size: 18.sp),
                     );
                   },
                 ),
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
 
               Text(
                 S.of(context).AboutApp,
-                style: TextStyle(fontSize: 20, color: Colors.grey.shade600),
+                style: TextStyle(fontSize: 20.sp, color: Colors.grey.shade600),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
 
               Container(
-                padding: const EdgeInsets.all(5),
+                padding: EdgeInsets.all(5.r),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Column(
                   children: [
@@ -209,7 +210,7 @@ class _SettingsViewState extends State<SettingsView> {
                       leading: const Icon(Icons.info_outline),
                       title: Text(
                         S.of(context).AboutApp,
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 20.sp),
                       ),
                       onTap: () {},
                     ),
@@ -217,32 +218,35 @@ class _SettingsViewState extends State<SettingsView> {
                       leading: const Icon(Icons.info_outline),
                       title: Text(
                         S.of(context).version,
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 20.sp),
                       ),
-                      subtitle: Text('1.0.0', style: TextStyle(fontSize: 18)),
+                      subtitle: Text(
+                        '1.0.0',
+                        style: TextStyle(fontSize: 18.sp),
+                      ),
                       onTap: () {},
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
 
               Text(
                 S.of(context).actions,
-                style: TextStyle(fontSize: 20, color: Colors.grey.shade600),
+                style: TextStyle(fontSize: 20.sp, color: Colors.grey.shade600),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
 
               Container(
-                padding: const EdgeInsets.all(5),
+                padding: EdgeInsets.all(5.r),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: ListTile(
                   leading: const Icon(Icons.logout, color: Colors.red),
                   title: Text(
                     S.of(context).logout,
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20.sp),
                   ),
                   onTap: () async {
                     await logout(context);

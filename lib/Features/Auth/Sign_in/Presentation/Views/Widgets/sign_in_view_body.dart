@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/Features/Auth/Domain/Entities/user_entity.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/row_of_dont_have_an_account_and_sign_up.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/test_logo.dart';
@@ -26,19 +27,19 @@ class _SignInViewBodyState extends State<SignInViewBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.r),
       child: SingleChildScrollView(
         child: Form(
           key: myKey,
           autovalidateMode: autovalidateMode,
           child: Column(
             children: [
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               TextOfTitleAndSubtitle(
                 title: S.of(context).welcome,
                 subtitle: S.of(context).signInSubtitle,
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 50.h),
               TextFieldsOfEmailAndPassword(
                 onChangedForEmail: (value) {
                   email = value;
@@ -48,9 +49,9 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                 },
               ),
 
-              SizedBox(height: 15),
+              SizedBox(height: 15.h),
               TextButtonOfForgetPassword(),
-              SizedBox(height: 15),
+              SizedBox(height: 15.h),
               AppButton(
                 onPressed: () async {
                   if (myKey.currentState!.validate()) {
@@ -72,7 +73,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
                 icon: Icons.login,
               ),
 
-              SizedBox(height: 35),
+              SizedBox(height: 35.h),
 
               GoogleSignInButton(
                 onPressed: () async {
@@ -83,7 +84,7 @@ class _SignInViewBodyState extends State<SignInViewBody> {
               ),
 
               //  RowOfSocialMediaLogos(),
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               RowOfDontHaveAnAccountAndSignUp(),
             ],
           ),

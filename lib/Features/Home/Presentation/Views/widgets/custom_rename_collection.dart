@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/core/services/app_services/app_services.dart';
@@ -60,7 +61,7 @@ class _CustomRenameCollectionState extends State<CustomRenameCollection> {
                 ? Colors.blueAccent
                 : Colors.grey[700],
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
           ),
           child: Text(
