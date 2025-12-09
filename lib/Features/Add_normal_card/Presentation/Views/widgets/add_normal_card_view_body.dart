@@ -1,8 +1,12 @@
+import 'dart:developer';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path/path.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_text_field.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/View_model/normal_card_cubit/normal_card_cubit.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/camera_or_gallery_dialog.dart';
@@ -30,28 +34,65 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
   File? frontImage;
   File? backImage;
-  File? image;
+  
+  // Store XFile references for upload
+  XFile? frontImageXFile;
+  XFile? backImageXFile;
 
+  // Pick image from gallery and return File
   Future<File?> pickImageFromGallery() async {
     final picker = ImagePicker();
-    XFile? imagepicked = await picker.pickImage(source: ImageSource.gallery);
-    if (imagepicked == null) return null;
-
-    setState(() {
-      image = File(imagepicked.path);
-    });
-    return image;
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    
+    if (pickedImage == null) return null;
+    
+    return File(pickedImage.path);
   }
 
+  // Pick image from camera and return File
   Future<File?> pickImageFromCamera() async {
     final picker = ImagePicker();
-    XFile? imagepicked = await picker.pickImage(source: ImageSource.camera);
-    if (imagepicked == null) return null;
+    final pickedImage = await picker.pickImage(source: ImageSource.camera);
+    
+    if (pickedImage == null) return null;
+    
+    return File(pickedImage.path);
+  }
 
-    setState(() {
-      image = File(imagepicked.path);
-    });
-    return image;
+  // Upload image and get download URL
+  Future<String> uploadAndGetImageUrl(File imageFile) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      
+    
+
+      final storageRef = FirebaseStorage.instance.ref();
+      final String userId = user!.uid;
+      final String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      
+      // Create unique filename to avoid overwriting
+      
+      // Path matches Storage rules: /cards/{userId}/...
+      final imageRef = storageRef.child("cards/$userId/image_$timestamp");
+
+      
+      // Upload the file
+      await imageRef.putFile(imageFile);
+      
+      // Get download URL
+      final imageUrl = await imageRef.getDownloadURL();
+      
+      log('✅ Upload successful!');
+      log('✅ Download URL: $imageUrl');
+      
+      return imageUrl;
+    } on FirebaseException catch (e) {
+      log('❌ Firebase error: ${e.code} - ${e.message}');
+      return "";
+    } catch (e) {
+      log('❌ Upload error: $e');
+      return "";
+    }
   }
 
   @override
@@ -99,10 +140,6 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                         vertical: 10.h,
                       ),
                       margin: EdgeInsets.only(right: 8.w),
-                      /* decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade400),
-                        borderRadius: BorderRadius.circular(5),
-                      ),*/
                       child: Text(
                         selectedCollectionName ??
                             S.of(context).selectCollection,
@@ -142,10 +179,6 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                         vertical: 10.h,
                       ),
                       margin: EdgeInsets.only(right: 8.w),
-                      /*  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade400),
-                        borderRadius: BorderRadius.circular(5),
-                      ),*/
                       child: Text(
                         selectedType,
                         style: TextStyle(fontSize: 16.sp),
@@ -158,6 +191,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
             ),
             SizedBox(height: 20.h),
 
+            // ===== Front Side Field =====
             CustomTextField(
               controller: frontSideController,
               hint: "Front Side",
@@ -174,11 +208,21 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   builder: (simpleDialogContext) {
                     return CameraOrGalleryDialog(
                       onPressedGallery: () async {
-                        frontImage = await pickImageFromGallery();
+                        final picked = await pickImageFromGallery();
+                        if (picked != null) {
+                          setState(() {
+                            frontImage = picked;
+                          });
+                        }
                         Navigator.pop(context);
                       },
                       onPressedCamera: () async {
-                        frontImage = await pickImageFromCamera();
+                        final picked = await pickImageFromCamera();
+                        if (picked != null) {
+                          setState(() {
+                            frontImage = picked;
+                          });
+                        }
                         Navigator.pop(context);
                       },
                     );
@@ -189,8 +233,9 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
             SizedBox(height: 20.h),
 
+            // ===== Back Side Field (only for Basic type) =====
             Visibility(
-              visible: selectedType == "Basic" ? true : false,
+              visible: selectedType == "Basic",
               child: CustomTextField(
                 controller: backSideController,
                 hint: "Back Side",
@@ -207,11 +252,21 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                     builder: (simpleDialogContext) {
                       return CameraOrGalleryDialog(
                         onPressedGallery: () async {
-                          backImage = await pickImageFromGallery();
+                          final picked = await pickImageFromGallery();
+                          if (picked != null) {
+                            setState(() {
+                              backImage = picked;
+                            });
+                          }
                           Navigator.pop(context);
                         },
                         onPressedCamera: () async {
-                          backImage = await pickImageFromCamera();
+                          final picked = await pickImageFromCamera();
+                          if (picked != null) {
+                            setState(() {
+                              backImage = picked;
+                            });
+                          }
                           Navigator.pop(context);
                         },
                       );
@@ -226,10 +281,11 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
             // ===== Submit button =====
             AppButton(
               text: S.of(context).addCard,
-              onPressed: () {
+              onPressed: () async {
                 final frontSide = frontSideController.text.trim();
                 final backSide = backSideController.text.trim();
 
+                // Validation
                 if (selectedType == "Basic") {
                   if (frontSide.isEmpty ||
                       backSide.isEmpty ||
@@ -258,19 +314,90 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   }
                 }
 
-                context.read<NormalCardCubit>().addNormalCard(
-                  frontSide: frontSide,
-                  backSide: backSide,
-                  collectionId: selectedCollectionId!,
-                  //imagePath: selectedImage!.path, // ← أهو
+                // Show loading indicator
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
 
-                frontSideController.clear();
-                backSideController.clear();
-                setState(() {
-                  frontImage = null;
-                  backImage = null;
-                });
+                try {
+                  // Upload images and get URLs
+                  String? frontImageUrl;
+                  String? backImageUrl;
+
+                  if (frontImage != null) {
+                    frontImageUrl = await uploadAndGetImageUrl(frontImage!);
+                    if (frontImageUrl.isEmpty) {
+                      // Upload failed
+                      Navigator.pop(context); // Close loading dialog
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Failed to upload front image'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+                  }
+
+                  if (backImage != null && selectedType == "Basic") {
+                    backImageUrl = await uploadAndGetImageUrl(backImage!);
+                    if (backImageUrl.isEmpty) {
+                      // Upload failed
+                      Navigator.pop(context); // Close loading dialog
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Failed to upload back image'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+                  }
+
+                  // Close loading dialog
+                  Navigator.pop(context);
+
+                  // Add card to Firestore
+                  context.read<NormalCardCubit>().addNormalCard(
+                    frontSide: frontSide,
+                    backSide: backSide,
+                    collectionId: selectedCollectionId!,
+                    imagePath: frontImageUrl ?? "", // Pass front image URL
+                    // If you have a backImagePath parameter, pass backImageUrl here
+                  );
+
+                  // Clear form
+                  frontSideController.clear();
+                  backSideController.clear();
+                  setState(() {
+                    frontImage = null;
+                    backImage = null;
+                  });
+
+                  // Show success message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Card added successfully!'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+
+                } catch (e) {
+                  // Close loading dialog if still open
+                  Navigator.pop(context);
+                  
+                  log('❌ Error adding card: $e');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Error adding card: $e'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               },
               icon: Icons.add,
             ),

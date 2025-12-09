@@ -20,7 +20,6 @@ import 'package:smart_cards/core/services/Bloc_observes_service/my_Bloc_observe.
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
 import 'package:smart_cards/core/services/notifications_service/back_ground_service.dart';
-import 'package:smart_cards/core/services/notifications_service/push_notification_service_test.dart';
 import 'package:smart_cards/core/services/notifications_service/top-level%20headless_service.dart';
 import 'package:smart_cards/core/utils/app_theme/dark_theme.dart';
 import 'package:smart_cards/core/utils/app_theme/light_theme.dart';
@@ -50,7 +49,7 @@ void main() async {
   await SharedPreferencesService.instance.init();
   // await migrateFlashCardsToEnglish();
 
-  await FirebaseApi().initNotification();
+ // await FirebaseApi().initNotification();
   //await localnotificationService.init();
 
   final backgroundService = BackGroundService();
