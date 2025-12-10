@@ -5,6 +5,8 @@ abstract class BaseCardEntity {
   /// 🪄 Core properties that all cards must have
   String get frontSide => '';
   String get backSide => '';
+  String get frontImageUrl => '';
+  String get backImageUrl => '';
 
   /// 🤖 AI-specific properties (used only for AI cards)
   String get word => '';

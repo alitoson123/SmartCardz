@@ -10,13 +10,17 @@ class NormalCardCubit extends Cubit<NormalCardStates> {
   Future<void> addNormalCard({
     required String frontSide,
     required String backSide,
+    required String frontImageUrl,
+    required String backImageUrl,
     required String collectionId,
-    required String imagePath,
   }) async {
     emit(AddNormalCardLoading());
     final result = await normalCardRepoImpl.addNormalCard(
       frontSide: frontSide,
-      backSide: backSide, collectionId: collectionId,
+      backSide: backSide,
+      frontImageUrl: frontImageUrl,
+      backImageUrl: backImageUrl,
+      collectionId: collectionId,
     );
     result.fold(
       (failure) =>

@@ -20,6 +20,8 @@ class NormalCardModel extends NormalCardEntity {
     required this.nextReview,
     required super.frontSide,
     required super.backSide,
+    required super.frontImageUrl,
+    required super.backImageUrl,
   });
 
   /// From Firestore DocumentSnapshot
@@ -29,6 +31,8 @@ class NormalCardModel extends NormalCardEntity {
       id: doc.id,
       frontSide: m['front_side'] ?? '',
       backSide: m['back_side'] ?? '',
+      frontImageUrl: m['front_image_url'] ?? '',
+      backImageUrl: m['back_image_url'] ?? '',
       repetition: (m['repetition'] ?? 0) as int,
       easiness: (m['easiness'] ?? 2.5).toDouble(),
       interval: (m['interval'] ?? 0) as int,
@@ -40,6 +44,8 @@ class NormalCardModel extends NormalCardEntity {
     return {
       'front_side': frontSide,
       'back_side': backSide,
+      'front_image_url': frontImageUrl,
+      'back_image_url': backImageUrl,
       'repetition': repetition,
       'easiness': easiness,
       'interval': interval,
@@ -53,25 +59,7 @@ class NormalCardModel extends NormalCardEntity {
   @override
   String get cardType => 'normal';
 
-  NormalCardModel copyWith({
-    String? id,
-    String? frontSide,
-    String? backSide,
-    int? repetition,
-    double? easiness,
-    int? interval,
-    Timestamp? nextReview,
-  }) {
-    return NormalCardModel(
-      id: id ?? this.id,
-      frontSide: frontSide ?? this.frontSide,
-      backSide: backSide ?? this.backSide,
-      repetition: repetition ?? this.repetition,
-      easiness: easiness ?? this.easiness,
-      interval: interval ?? this.interval,
-      nextReview: nextReview ?? this.nextReview,
-    );
-  }
+  
 }
 
 

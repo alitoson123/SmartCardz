@@ -11,6 +11,8 @@ class NormalCardRemoteDataSourceImpl extends NormalCardRemoteDataSource {
   Future<void> addNormalCard({
     required String frontSide,
     required String backSide,
+    required String frontImageUrl,
+    required String backImageUrl,
     required String collectionId,
   }) async {
     await appServices.addCard(
@@ -19,6 +21,8 @@ class NormalCardRemoteDataSourceImpl extends NormalCardRemoteDataSource {
         'card_type': 'normal',
         'front_side': frontSide,
         'back_side': backSide,
+        'front_image_url': frontImageUrl,
+        'back_image_url': backImageUrl,
         // قيم SM-2 المبدئية
         'repetition': 0,
         'easiness': 2.5,

@@ -191,33 +191,56 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                           isAICard
                               ? FrontSide(card: card as CardWithAIEntity)
                               : CustomCard(
-                                  child: Text(
-                                    card.frontSide.isEmpty
-                                        ? S.of(context).NoFrontSideData
-                                        : card.frontSide,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 18.sp,
-                                      color: Colors.green,
-                                    ),
+                                  child: Column(
+                                    children: [
+                                      if (card.frontImageUrl.isNotEmpty)
+                                        Image.network(
+                                          card.frontImageUrl,
+                                          height: 200.h,
+                                          width: 200.w,
+                                          fit: BoxFit.cover,
+                                        ),  
+                                      Text(
+                                        card.frontSide.isEmpty
+                                            ? '' // S.of(context).NoFrontSideData
+                                            : card.frontSide,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 18.sp,
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                    
+                                    ],
                                   ),
                                 ),
 
                           // Back Side (يظهر لما تضغط Show Answer)
-                          if (showAnswer && card.backSide.isNotEmpty) ...[
+                          if (showAnswer && (card.backSide.isNotEmpty || card.backImageUrl.isNotEmpty)) ...[
                             SizedBox(height: 30.h),
                             buildSectionTitle(context, S.of(context).BackSide),
                             SizedBox(height: 10.h),
                             isAICard
                                 ? BackSide(card: card as CardWithAIEntity)
                                 : CustomCard(
-                                    child: Text(
-                                      card.backSide,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 18.sp,
-                                        color: Colors.grey.shade800,
-                                      ),
+                                    child: Column(
+                                      children: [
+                                        if (card.backImageUrl.isNotEmpty)
+                                          Image.network(
+                                            card.backImageUrl,
+                                            height: 200.h,
+                                            width: 200.w,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        Text(
+                                          card.backSide,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 18.sp,
+                                            color: Colors.grey.shade800,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                           ],
@@ -272,7 +295,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
             // الأزرار السفلية
             bottomNavigationBar: Container(
               padding: EdgeInsets.only(bottom: 26.h, right: 20.w, left: 20.w),
-              child: !showAnswer && card.backSide.isNotEmpty
+              child: !showAnswer && (card.backSide.isNotEmpty || card.backImageUrl.isNotEmpty)
                   ? AppButton(
                       text: S.of(context).showAnswer,
                       icon: Icons.visibility,

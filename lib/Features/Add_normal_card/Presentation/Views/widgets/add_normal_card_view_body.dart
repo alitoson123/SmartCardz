@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:path/path.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_text_field.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/View_model/normal_card_cubit/normal_card_cubit.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/camera_or_gallery_dialog.dart';
@@ -16,6 +15,8 @@ import 'package:smart_cards/core/utils/widgets/app_header.dart';
 import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/core/views/collection_view.dart';
 import 'package:smart_cards/generated/l10n.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AddNormalCardViewBody extends StatefulWidget {
   const AddNormalCardViewBody({super.key});
@@ -34,18 +35,14 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
   File? frontImage;
   File? backImage;
-  
-  // Store XFile references for upload
-  XFile? frontImageXFile;
-  XFile? backImageXFile;
 
   // Pick image from gallery and return File
   Future<File?> pickImageFromGallery() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-    
+
     if (pickedImage == null) return null;
-    
+
     return File(pickedImage.path);
   }
 
@@ -53,47 +50,54 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
   Future<File?> pickImageFromCamera() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.camera);
-    
+
     if (pickedImage == null) return null;
-    
+
     return File(pickedImage.path);
   }
 
-  // Upload image and get download URL
-  Future<String> uploadAndGetImageUrl(File imageFile) async {
-    try {
-      User? user = FirebaseAuth.instance.currentUser;
-      
-    
+  Future<File> compressImage(File file) async {
+    final dir = await getTemporaryDirectory();
+    final targetPath =
+        '${dir.path}/${DateTime.now().millisecondsSinceEpoch}.webp';
 
-      final storageRef = FirebaseStorage.instance.ref();
-      final String userId = user!.uid;
-      final String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-      
-      // Create unique filename to avoid overwriting
-      
-      // Path matches Storage rules: /cards/{userId}/...
-      final imageRef = storageRef.child("cards/$userId/image_$timestamp");
+    final result = await FlutterImageCompress.compressAndGetFile(
+      file.path,
+      targetPath,
+      quality: 75, // جودة ممتازة وحجم قليل
+      minWidth: 1080, // تصغير العرض لـ1080
+      format: CompressFormat.webp, // WebP يقلل الحجم جداً
+    );
 
-      
-      // Upload the file
-      await imageRef.putFile(imageFile);
-      
-      // Get download URL
-      final imageUrl = await imageRef.getDownloadURL();
-      
-      log('✅ Upload successful!');
-      log('✅ Download URL: $imageUrl');
-      
-      return imageUrl;
-    } on FirebaseException catch (e) {
-      log('❌ Firebase error: ${e.code} - ${e.message}');
-      return "";
-    } catch (e) {
-      log('❌ Upload error: $e');
-      return "";
-    }
+    return File(result!.path);
   }
+
+  // Upload image and get download URL
+Future<String> uploadAndGetImageUrl(File imageFile) async {
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    final storageRef = FirebaseStorage.instance.ref();
+    final String userId = user!.uid;
+    final String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+
+    // اضغط الصورة
+    final compressedImage = await compressImage(imageFile);
+
+    final imageRef = storageRef.child("cards/$userId/image_$timestamp.webp");
+
+    await imageRef.putFile(compressedImage);
+
+    final imageUrl = await imageRef.getDownloadURL();
+
+    log('✅ Upload successful!');
+
+    return imageUrl;
+  } catch (e) {
+    log('❌ Upload error: $e');
+    return "";
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -287,8 +291,8 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
                 // Validation
                 if (selectedType == "Basic") {
-                  if (frontSide.isEmpty ||
-                      backSide.isEmpty ||
+                  if ((frontSide.isEmpty && frontImage == null) ||
+                      (backSide.isEmpty && backImage == null) ||
                       selectedCollectionId == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -301,7 +305,8 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                     return;
                   }
                 } else if (selectedType == "Front") {
-                  if (frontSide.isEmpty || selectedCollectionId == null) {
+                  if ((frontSide.isEmpty && frontImage == null) ||
+                      selectedCollectionId == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
@@ -318,9 +323,8 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                 showDialog(
                   context: context,
                   barrierDismissible: false,
-                  builder: (context) => Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  builder: (context) =>
+                      Center(child: CircularProgressIndicator()),
                 );
 
                 try {
@@ -365,8 +369,10 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   context.read<NormalCardCubit>().addNormalCard(
                     frontSide: frontSide,
                     backSide: backSide,
+                    frontImageUrl: frontImageUrl ?? '',
+                    backImageUrl: backImageUrl ?? '',
                     collectionId: selectedCollectionId!,
-                    imagePath: frontImageUrl ?? "", // Pass front image URL
+                    // Pass front image URL
                     // If you have a backImagePath parameter, pass backImageUrl here
                   );
 
@@ -385,11 +391,10 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                       backgroundColor: Colors.green,
                     ),
                   );
-
                 } catch (e) {
                   // Close loading dialog if still open
                   Navigator.pop(context);
-                  
+
                   log('❌ Error adding card: $e');
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

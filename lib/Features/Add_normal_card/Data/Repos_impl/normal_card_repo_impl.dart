@@ -12,12 +12,16 @@ class NormalCardRepoImpl extends NormalCardRepo {
   Future<Either<Failure, void>> addNormalCard({
     required String frontSide,
     required String backSide,
+    required String frontImageUrl,
+    required String backImageUrl,
     required String collectionId
   }) async {
     try {
       await normalCardRemoteDataSourceImpl.addNormalCard(
         frontSide: frontSide,
         backSide: backSide,
+        frontImageUrl: frontImageUrl,
+        backImageUrl: backImageUrl,
         collectionId: collectionId
       );
       return right(null);
