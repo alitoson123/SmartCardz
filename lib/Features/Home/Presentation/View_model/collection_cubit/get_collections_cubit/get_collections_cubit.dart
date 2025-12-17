@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_cards/core/Data/repo_impl/collection_repo_impl/collection_repo_impl.dart';
-import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_states.dart';
+import 'package:smart_cards/Features/Home/Data/Repo_impl/collection_repo_impl.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_states.dart';
 
 class GetCollectionsCubit extends Cubit<GetCollectionsStates> {
   GetCollectionsCubit({required this.collectionRepoImpl})

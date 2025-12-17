@@ -1,3 +1,3 @@
-abstract class AddCollectionLocalDataSource {
+abstract class CollectionLocalDataSource {
   void addCollection({required String collectionName});
 }

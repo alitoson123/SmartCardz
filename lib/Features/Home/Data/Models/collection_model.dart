@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hive/hive.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
+part 'collection_model.g.dart';
 
-class CollectionModel extends CollectionEntity {
+@HiveType(typeId: 0)
+class CollectionModel extends CollectionEntity with HiveObjectMixin {
+  @HiveField(0)
   final String owner_id;
 
   CollectionModel({

@@ -1,17 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
+import 'package:hive/hive.dart';
+part 'card__with_AI_model.g.dart';
 
-class CardWithAIModel extends CardWithAIEntity {
+@HiveType(typeId: 0)
+class CardWithAIModel extends CardWithAIEntity with HiveObjectMixin {
+  @HiveField(0)
   @override
   final String id;
 
   // SM-2 fields
+  @HiveField(1)
   @override
   final int repetition; // number of consecutive successful reviews
+  @HiveField(2)
   @override
   final double easiness; // easiness factor
+  @HiveField(3)
   @override
   final int interval; // days until next review
+  @HiveField(4)
   final Timestamp? nextReview; // Firestore timestamp for next review
 
   CardWithAIModel({

@@ -9,8 +9,8 @@ import 'package:smart_cards/Features/Auth/Data/Repos/auth_repo_impl.dart';
 import 'package:smart_cards/Features/Auth/Data/models/user_model.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/view_model/sign_in_cubit/sign_in_cubit.dart';
 import 'package:smart_cards/Features/Home/Data/Models/collection_model.dart';
-import 'package:smart_cards/Features/Home/Data/Repo_impl/add_collection_repo_impl.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/add_collection_cubit/add_collection_cubit.dart';
+import 'package:smart_cards/Features/Home/Data/Repo_impl/collection_repo_impl.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/add_collection_cubit1.dart/add_collection_cubit.dart';
 import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/constant.dart';
@@ -28,7 +28,7 @@ import 'package:smart_cards/core/view_model/app_language_cubit/app_language_cubi
 import 'package:smart_cards/core/view_model/app_language_cubit/app_language_states.dart';
 import 'package:smart_cards/core/view_model/app_theme_cubit/app_theme_cubit.dart';
 import 'package:smart_cards/core/view_model/app_theme_cubit/app_theme_states.dart';
-import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
@@ -99,7 +99,7 @@ class _SmartCardsState extends State<SmartCards> {
             ),
             BlocProvider<AddCollectionCubit>(
               create: (context) => AddCollectionCubit(
-                addCollectionRepo: getIt<AddCollectionRepoImpl>(),
+                addCollectionRepo: getIt<CollectionRepoImpl>(),
               ),
             ),
             BlocProvider<GetCollectionsCubit>(

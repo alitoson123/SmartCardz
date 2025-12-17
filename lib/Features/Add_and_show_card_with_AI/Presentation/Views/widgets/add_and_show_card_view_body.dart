@@ -8,7 +8,7 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View
 import 'package:smart_cards/core/utils/widgets/app_show_dialog.dart';
 import 'package:smart_cards/core/utils/widgets/custom_loading_indicator.dart';
 import 'package:smart_cards/core/utils/widgets/app_header.dart';
-import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/core/views/collection_view.dart';
 import 'package:smart_cards/generated/l10n.dart';
 

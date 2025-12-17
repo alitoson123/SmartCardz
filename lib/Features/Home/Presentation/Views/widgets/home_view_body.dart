@@ -6,7 +6,7 @@ import 'package:smart_cards/Features/Home/Data/models/collection_model.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/custom_delete_collection.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/custom_rename_collection.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/item_of_collections.dart';
-import 'package:smart_cards/core/view_model/get_collections_cubit/get_collections_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

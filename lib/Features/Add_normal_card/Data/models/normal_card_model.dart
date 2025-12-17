@@ -1,17 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_cards/Features/Add_normal_card/Domain/Entities/normal_card_entity.dart';
+import 'package:hive/hive.dart';
+part 'normal_card_model.g.dart';
 
-class NormalCardModel extends NormalCardEntity {
+@HiveType(typeId: 0)
+class NormalCardModel extends NormalCardEntity with HiveObjectMixin {
+  @HiveField(0)
   @override
   final String id;
 
   // SM-2 fields
+  @HiveField(1)
   @override
   final int repetition; // number of consecutive successful reviews
+  @HiveField(2)
   @override
   final double easiness; // easiness factor
+  @HiveField(3)
   @override
   final int interval; // days until next review
+  @HiveField(4)
   final Timestamp? nextReview; // Firestore timestamp for next review
   NormalCardModel({
     required this.id,

@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_cards/Features/Home/Domain/Repos/add_collection_repo/add_collection_repo.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/add_collection_cubit/add_collection_states.dart';
+import 'package:smart_cards/Features/Home/Domain/Repos/collection_repo/collection_repo.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/add_collection_cubit1.dart/add_collection_states.dart';
 
 class AddCollectionCubit extends Cubit<AddCollectionStates> {
   AddCollectionCubit({required this.addCollectionRepo})
     : super(AddCollectionInitial());
 
-  final AddCollectionRepo addCollectionRepo;
+  final CollectionRepo addCollectionRepo;
 
   Future<void> addCollectionMethod({required String collectionName}) async {
     emit(AddCollectionLoading());
