@@ -27,7 +27,7 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
     required String example,
     required String type,
     String? imageBase64,
-    required String collectionId
+    required String collectionId,
   }) async {
     await appServices.addCard(
       collectionId: collectionId,
@@ -44,7 +44,7 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
         'interval': 0,
         'next_review': Timestamp.fromDate(DateTime.now()),
         'created_at': FieldValue.serverTimestamp(),
-      }, 
+      },
     );
   }
 }

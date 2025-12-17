@@ -14,7 +14,7 @@ class CustomSuccessCard extends StatelessWidget {
     super.key,
     required this.card,
     required this.textController,
-     this.selectedCollectionId,
+    this.selectedCollectionId,
   });
   final CardWithAIEntity card;
   final TextEditingController textController;
@@ -37,19 +37,19 @@ class CustomSuccessCard extends StatelessWidget {
         AppButton(
           text: S.of(context).addCard,
           onPressed: () {
-               final theWord = textController.text.trim();
+            final theWord = textController.text.trim();
 
-                if (theWord.isEmpty || selectedCollectionId == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                     SnackBar(
-                      content: Text(S.of(context).PleaseFillAllFieldsAndSelectACollection),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                  return;
-                }
-
-             
+            if (theWord.isEmpty || selectedCollectionId == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    S.of(context).PleaseFillAllFieldsAndSelectACollection,
+                  ),
+                  backgroundColor: Colors.red,
+                ),
+              );
+              return;
+            }
 
             context.read<AddAndShowCardCubit>().addCard(
               word: card.word,

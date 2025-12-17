@@ -156,10 +156,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
             return Center(
               child: Text(
                 S.of(context).noCardsDue,
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500),
               ),
             );
           }
@@ -199,7 +196,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                                           height: 200.h,
                                           width: 200.w,
                                           fit: BoxFit.cover,
-                                        ),  
+                                        ),
                                       Text(
                                         card.frontSide.isEmpty
                                             ? '' // S.of(context).NoFrontSideData
@@ -210,13 +207,14 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                                           color: Colors.green,
                                         ),
                                       ),
-                                    
                                     ],
                                   ),
                                 ),
 
                           // Back Side (يظهر لما تضغط Show Answer)
-                          if (showAnswer && (card.backSide.isNotEmpty || card.backImageUrl.isNotEmpty)) ...[
+                          if (showAnswer &&
+                              (card.backSide.isNotEmpty ||
+                                  card.backImageUrl.isNotEmpty)) ...[
                             SizedBox(height: 30.h),
                             buildSectionTitle(context, S.of(context).BackSide),
                             SizedBox(height: 10.h),
@@ -295,7 +293,9 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
             // الأزرار السفلية
             bottomNavigationBar: Container(
               padding: EdgeInsets.only(bottom: 26.h, right: 20.w, left: 20.w),
-              child: !showAnswer && (card.backSide.isNotEmpty || card.backImageUrl.isNotEmpty)
+              child:
+                  !showAnswer &&
+                      (card.backSide.isNotEmpty || card.backImageUrl.isNotEmpty)
                   ? AppButton(
                       text: S.of(context).showAnswer,
                       icon: Icons.visibility,

@@ -112,7 +112,6 @@ class BackGroundService {
         print('Notification clicked');
       },
     );
-
   }
 
   void subscribeToTopics() {
@@ -175,7 +174,7 @@ class BackGroundService {
     print('Due cards today: $count');
 
     final prefs = await SharedPreferences.getInstance();
-   // final lastDate = prefs.getString('last_due_notif_date');
+    // final lastDate = prefs.getString('last_due_notif_date');
 
     if (count >= DUE_CARDS_THRESHOLD) {
       await showLocalNotification(
@@ -239,7 +238,7 @@ class BackGroundService {
       await showLocalNotification(
         title: 'وحشتنا!',
         body:
-            'مدّيت ${diffDays} يوم من غير ما تفتح التطبيق — ارجع راجع بطاقاتك.',
+            'مدّيت $diffDays يوم من غير ما تفتح التطبيق — ارجع راجع بطاقاتك.',
       );
       // لو عايز تمنع التكرار: حدث last_opened ليوم النهارده أو خزّن flag أن الاشعار اتبعت
       // مثلاً:

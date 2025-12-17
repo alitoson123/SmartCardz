@@ -73,31 +73,31 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
   }
 
   // Upload image and get download URL
-Future<String> uploadAndGetImageUrl(File imageFile) async {
-  try {
-    User? user = FirebaseAuth.instance.currentUser;
+  Future<String> uploadAndGetImageUrl(File imageFile) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
 
-    final storageRef = FirebaseStorage.instance.ref();
-    final String userId = user!.uid;
-    final String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final storageRef = FirebaseStorage.instance.ref();
+      final String userId = user!.uid;
+      final String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
 
-    // اضغط الصورة
-    final compressedImage = await compressImage(imageFile);
+      // اضغط الصورة
+      final compressedImage = await compressImage(imageFile);
 
-    final imageRef = storageRef.child("cards/$userId/image_$timestamp.webp");
+      final imageRef = storageRef.child("cards/$userId/image_$timestamp.webp");
 
-    await imageRef.putFile(compressedImage);
+      await imageRef.putFile(compressedImage);
 
-    final imageUrl = await imageRef.getDownloadURL();
+      final imageUrl = await imageRef.getDownloadURL();
 
-    log('✅ Upload successful!');
+      log('✅ Upload successful!');
 
-    return imageUrl;
-  } catch (e) {
-    log('❌ Upload error: $e');
-    return "";
+      return imageUrl;
+    } catch (e) {
+      log('❌ Upload error: $e');
+      return "";
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {

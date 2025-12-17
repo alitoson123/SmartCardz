@@ -15,13 +15,13 @@ abstract class AuthRepo {
     required String Fname,
     required String Lname,
   });
-  Future<Either<Failure, void>> forgetPassword({
-    required String email,
-  });
+  Future<Either<Failure, void>> forgetPassword({required String email});
   Future<Either<Failure, UserEntity>> signInWithGoogle();
-  
-  Future<void> addUser(
-      {required UserEntity data, required Map<String, dynamic> MapOfData});
+
+  Future<void> addUser({
+    required UserEntity data,
+    required Map<String, dynamic> MapOfData,
+  });
   Future<UserModel> getUser();
   Future<void> deleteUser({required String useruid});
 

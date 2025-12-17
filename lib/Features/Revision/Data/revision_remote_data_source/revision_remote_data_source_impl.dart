@@ -20,10 +20,7 @@ class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
   }
 
   @override
-  Future<void> submitRating(
-    BaseCardEntity card,
-    int quality,
-  ) async {
+  Future<void> submitRating(BaseCardEntity card, int quality) async {
     await appServices.submitRating(card, quality);
   }
 }

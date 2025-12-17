@@ -39,8 +39,7 @@ class FirebaseApi {
       showNotification(message);
       firebaseMessage.subscribeToTopic('all');
 
-    //  firebaseMessage.unsubscribeFromTopic('all');  we use it in logout
-
+      //  firebaseMessage.unsubscribeFromTopic('all');  we use it in logout
     });
   }
 
@@ -159,7 +158,9 @@ class FcmSender {
   }
 
   Future<Map<String, dynamic>> readServiceAccountFromAssets() async {
-    final jsonStr = await rootBundle.loadString('assets/smart-cards-c1327-firebase-adminsdk-fbsvc-6057146e98.json');
+    final jsonStr = await rootBundle.loadString(
+      'assets/smart-cards-c1327-firebase-adminsdk-fbsvc-6057146e98.json',
+    );
     return jsonDecode(jsonStr);
   }
 }

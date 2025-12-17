@@ -13,7 +13,6 @@ class TypeOfCollections extends StatelessWidget {
       ),
       body: Column(
         children: [
-       
           Expanded(
             child: ListView(
               children: [

@@ -2,9 +2,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class localnotificationService {
-static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-static  ontap (NotificationResponse datails) {}
+  static ontap(NotificationResponse datails) {}
   static Future<void> init() async {
     InitializationSettings initializationSettings = InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
@@ -17,7 +17,7 @@ static  ontap (NotificationResponse datails) {}
     );
   }
 
- static Future<void> showBasicNotification(RemoteMessage message) async {
+  static Future<void> showBasicNotification(RemoteMessage message) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
           'id_1', //
@@ -41,7 +41,7 @@ static  ontap (NotificationResponse datails) {}
     );
   }
 
- static Future<void> showRepeatedNotification(RemoteMessage message) async {
+  static Future<void> showRepeatedNotification(RemoteMessage message) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
           'id_2', //
@@ -67,7 +67,7 @@ static  ontap (NotificationResponse datails) {}
     );
   }
 
- static Future<void> cancelNotification(int id) async {
-   await flutterLocalNotificationsPlugin.cancel(id);
+  static Future<void> cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
   }
 }

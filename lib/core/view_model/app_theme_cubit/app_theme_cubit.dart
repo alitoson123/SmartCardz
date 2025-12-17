@@ -17,7 +17,7 @@ class ThemeCubit extends Cubit<ThemeState> {
   }
 
   Future<String> getTheme() async {
-    var currentTheme = await SharedPreferencesService.instance.getString(
+    var currentTheme = SharedPreferencesService.instance.getString(
       K_APP_THEME,
     );
     return currentTheme ?? 'Light';

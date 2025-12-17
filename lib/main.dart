@@ -2,7 +2,6 @@ import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/add_and_show_card_repo_impl/add_and_show_card_repo_impl.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_and_show_card_cubit/add_and_show_card_cubit.dart';
@@ -49,7 +48,7 @@ void main() async {
   await SharedPreferencesService.instance.init();
   // await migrateFlashCardsToEnglish();
 
- // await FirebaseApi().initNotification();
+  // await FirebaseApi().initNotification();
   //await localnotificationService.init();
 
   final backgroundService = BackGroundService();

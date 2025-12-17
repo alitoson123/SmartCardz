@@ -5,9 +5,5 @@ abstract class RevisionRemoteDataSaource {
     int limit = 50,
     required String collectionId,
   });
-  Future<void> submitRating(
-    BaseCardEntity card,
-    int quality,
-
-  );
+  Future<void> submitRating(BaseCardEntity card, int quality);
 }

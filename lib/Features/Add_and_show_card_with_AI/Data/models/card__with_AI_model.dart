@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
 
 class CardWithAIModel extends CardWithAIEntity {
+  @override
   final String id;
 
   // SM-2 fields

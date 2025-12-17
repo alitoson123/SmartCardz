@@ -8,10 +8,8 @@ class CollectionRemoteDataSourceImpl extends CollectionRemoteDataSource {
   CollectionRemoteDataSourceImpl({required this.appServices});
 
   @override
-  Future<List<CollectionEntity>> getCollections(
-
-  ) async {
-   var result = await appServices.fetchUserCollections();
+  Future<List<CollectionEntity>> getCollections() async {
+    var result = await appServices.fetchUserCollections();
 
     return result;
   }

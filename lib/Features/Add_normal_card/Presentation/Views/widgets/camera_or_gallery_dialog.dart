@@ -20,12 +20,12 @@ class _CameraOrGalleryDialogState extends State<CameraOrGalleryDialog> {
       title: Text('Choose an option'),
       children: [
         SimpleDialogOption(
-          child: Text('Choose from gallery'),
           onPressed: widget.onPressedGallery,
+          child: Text('Choose from gallery'),
         ),
         SimpleDialogOption(
-          child: Text('Choose from camera'),
           onPressed: widget.onPressedCamera,
+          child: Text('Choose from camera'),
         ),
       ],
     );

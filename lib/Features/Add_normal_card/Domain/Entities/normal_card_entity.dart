@@ -9,12 +9,15 @@ class NormalCardEntity extends BaseCardEntity {
   final String frontImageUrl;
   @override
   final String backImageUrl;
-  
-  NormalCardEntity({required this.frontSide, required this.backSide, required this.frontImageUrl, required this.backImageUrl});
-  
+
+  NormalCardEntity({
+    required this.frontSide,
+    required this.backSide,
+    required this.frontImageUrl,
+    required this.backImageUrl,
+  });
+
   // Override card type identification
   @override
   String get cardType => 'normal';
-  
-
 }

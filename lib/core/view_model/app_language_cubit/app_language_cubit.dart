@@ -17,7 +17,7 @@ class AppLanguageCubit extends Cubit<AppLanguageState> {
   }
 
   Future<String> getLanguage() async {
-    var currentLanguage = await SharedPreferencesService.instance.getString(
+    var currentLanguage = SharedPreferencesService.instance.getString(
       K_APP_LANGUAGE,
     );
     return currentLanguage ?? 'en';

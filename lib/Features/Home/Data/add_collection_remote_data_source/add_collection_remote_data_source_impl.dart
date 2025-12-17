@@ -11,7 +11,7 @@ class AddCollectionRemoteDataSourceImpl extends AddCollectionRemoteDataSource {
   Future<CollectionEntity> addCollection({
     required String collectionName,
   }) async {
- var result =   await appServices.createNewCollection(
+    var result = await appServices.createNewCollection(
       collectionName: collectionName,
     );
     return result;

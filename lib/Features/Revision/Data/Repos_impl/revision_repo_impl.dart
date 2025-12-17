@@ -34,14 +34,9 @@ class RevisionRepoImpl extends RevisionRepo {
   Future<Either<Failure, void>> submitRating(
     BaseCardEntity card,
     int quality,
-
   ) async {
     try {
-      await revisionRemoteDataSaource.submitRating(
-        card,
-        quality,
-
-      );
+      await revisionRemoteDataSaource.submitRating(card, quality);
       return right(null);
     } catch (e) {
       if (e is DioException) {

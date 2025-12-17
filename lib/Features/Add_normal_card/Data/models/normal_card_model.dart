@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_cards/Features/Add_normal_card/Domain/Entities/normal_card_entity.dart';
 
 class NormalCardModel extends NormalCardEntity {
+  @override
   final String id;
 
   // SM-2 fields
@@ -58,12 +59,9 @@ class NormalCardModel extends NormalCardEntity {
   // Override BaseCardEntity properties
   @override
   String get cardType => 'normal';
-
-  
 }
 
-
-  /*factory CardModel.fromJson(List<dynamic> json, {String id = ''}) {
+/*factory CardModel.fromJson(List<dynamic> json, {String id = ''}) {
     return CardModel(
       id: id,
       word: json[0]['word'] ?? '',
@@ -83,8 +81,8 @@ class NormalCardModel extends NormalCardEntity {
   }
 */
 
-  /// From a simple JSON (e.g., from AI/mock). Sets sane SM-2 defaults.
-  /* factory NormalCardModel.fromJson(Map<String, dynamic> json, {String id = ''}) {
+/// From a simple JSON (e.g., from AI/mock). Sets sane SM-2 defaults.
+/* factory NormalCardModel.fromJson(Map<String, dynamic> json, {String id = ''}) {
     return NormalCardModel(
       id: id,
       word: json['word'] ?? '',

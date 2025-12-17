@@ -33,6 +33,4 @@ class SignInCubit extends Cubit<SignInStates> {
       (Sucess) => emit(SignInSuccessState(userEntity: Sucess)),
     );
   }
-
-
 }

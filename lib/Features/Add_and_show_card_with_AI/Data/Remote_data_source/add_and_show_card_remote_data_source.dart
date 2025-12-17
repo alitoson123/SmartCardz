@@ -8,6 +8,6 @@ abstract class AddAndShowCardRemoteDataSource {
     required String example,
     required String type,
     String? imageBase64,
-    required String collectionId
+    required String collectionId,
   });
 }

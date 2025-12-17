@@ -3,7 +3,8 @@ import 'package:smart_cards/Features/Add_normal_card/Data/Repos_impl/normal_card
 import 'package:smart_cards/Features/Add_normal_card/Presentation/View_model/normal_card_cubit/normal_card_states.dart';
 
 class NormalCardCubit extends Cubit<NormalCardStates> {
-  NormalCardCubit({required this.normalCardRepoImpl}) : super(AddNormalCardInitial());
+  NormalCardCubit({required this.normalCardRepoImpl})
+    : super(AddNormalCardInitial());
 
   final NormalCardRepoImpl normalCardRepoImpl;
 

@@ -1,4 +1,3 @@
-
 class AppLanguageState {
   final String appLanguage;
   const AppLanguageState(this.appLanguage);

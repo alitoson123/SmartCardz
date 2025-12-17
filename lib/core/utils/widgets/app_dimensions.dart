@@ -1,10 +1,4 @@
-
-
-
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-
 
 class AppDimensions2 {
   AppDimensions2._();
@@ -88,7 +82,7 @@ class AppDimensions {
   static final r40 = 40.r;
   static final w0_6 = 0.6.w;
   static final r24 = 24.r;
-  static final h58=58.h;
+  static final h58 = 58.h;
   static final h47 = 47.h;
   static final h41 = 41.h;
   static final h42 = 42.h;

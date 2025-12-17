@@ -7,6 +7,6 @@ abstract class NormalCardRepo {
     required String backSide,
     required String frontImageUrl,
     required String backImageUrl,
-    required String collectionId
+    required String collectionId,
   });
 }

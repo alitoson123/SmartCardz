@@ -24,11 +24,12 @@ class FetchAndRatingCubit extends Cubit<FetchAndRatingStates> {
     );
   }
 
-  Future<void> submitRating(BaseCardEntity card, int quality, String collectionId) async {
-    final result = await revisionRepoImpl.submitRating(
-      card,
-      quality
-    );
+  Future<void> submitRating(
+    BaseCardEntity card,
+    int quality,
+    String collectionId,
+  ) async {
+    final result = await revisionRepoImpl.submitRating(card, quality);
     result.fold(
       (failure) =>
           emit(FetchAndRatingFailure(errorMessage: failure.errorMessage)),

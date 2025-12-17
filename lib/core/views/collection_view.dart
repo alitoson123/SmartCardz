@@ -21,14 +21,14 @@ class _CollectionViewState extends State<CollectionView> {
   void initState() {
     super.initState();
     context.read<GetCollectionsCubit>().getCollections();
-   // log(collections.toString()); 
+    // log(collections.toString());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text(S.of(context).searchCollectionTitle),
+        title: Text(S.of(context).searchCollectionTitle),
         backgroundColor: Colors.blue,
       ),
       body: BlocBuilder<GetCollectionsCubit, GetCollectionsStates>(
@@ -48,7 +48,7 @@ class _CollectionViewState extends State<CollectionView> {
                 child: TextField(
                   controller: searchController,
                   onChanged: (_) => setState(() {}),
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     hintText: S.of(context).searchCollectionHint,
                     border: OutlineInputBorder(),
@@ -84,7 +84,7 @@ class _CollectionViewState extends State<CollectionView> {
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child:  Text(S.of(context).cancel),
+                child: Text(S.of(context).cancel),
               ),
             ],
           );

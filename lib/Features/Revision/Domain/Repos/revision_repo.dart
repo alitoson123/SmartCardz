@@ -8,9 +8,5 @@ abstract class RevisionRepo {
     required String collectionId,
   });
 
-  Future<Either<Failure, void>> submitRating(
-    BaseCardEntity card,
-    int quality,
-
-  );
+  Future<Either<Failure, void>> submitRating(BaseCardEntity card, int quality);
 }

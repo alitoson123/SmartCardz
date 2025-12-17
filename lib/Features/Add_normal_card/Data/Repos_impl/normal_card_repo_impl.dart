@@ -14,7 +14,7 @@ class NormalCardRepoImpl extends NormalCardRepo {
     required String backSide,
     required String frontImageUrl,
     required String backImageUrl,
-    required String collectionId
+    required String collectionId,
   }) async {
     try {
       await normalCardRemoteDataSourceImpl.addNormalCard(
@@ -22,7 +22,7 @@ class NormalCardRepoImpl extends NormalCardRepo {
         backSide: backSide,
         frontImageUrl: frontImageUrl,
         backImageUrl: backImageUrl,
-        collectionId: collectionId
+        collectionId: collectionId,
       );
       return right(null);
     } catch (e) {

@@ -116,7 +116,7 @@ class _RevisionViewState extends State<RevisionView> {
                         ],
                       ),
                     );
-                  }).toList(),
+                  }),
                 ],
 
                 const PopupMenuDivider(),

@@ -103,15 +103,17 @@ class AppServices {
     });
   }
 
- static Future<int> countOfDueCards({required String collectionId}) async {
+  static Future<int> countOfDueCards({required String collectionId}) async {
     int count = 0;
+    int limit = 100;
+
     final now = Timestamp.fromDate(DateTime.now());
 
     final snap = await firestore
         .collection('cards')
         .where('collectionId', isEqualTo: collectionId)
         .where('next_review', isLessThanOrEqualTo: now)
-        .limit(100)
+        .limit(limit)
         .count()
         .get();
 
@@ -161,6 +163,4 @@ class AppServices {
       'last_reviewed': FieldValue.serverTimestamp(),
     });
   }
-
- 
 }

@@ -23,7 +23,7 @@ class _SplashViewState extends State<SplashView> {
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
 
-    final isLogin = await SharedPreferencesService.instance.getBool(K_IS_LOGIN);
+    final isLogin = SharedPreferencesService.instance.getBool(K_IS_LOGIN);
 
     if (isLogin == true) {
       context.go(AppRoutes.homeScreen);

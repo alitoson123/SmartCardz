@@ -4,7 +4,7 @@ import 'package:smart_cards/Features/Auth/Forget_Password/Presentation/view_mode
 
 class ForgetPasswordCubit extends Cubit<ForgetPasswordStates> {
   ForgetPasswordCubit(this.authRepoObject)
-      : super(ForgetPasswordInitialState());
+    : super(ForgetPasswordInitialState());
 
   final AuthRepo authRepoObject;
   Future<void> ForgetPasswordCubitMethod({required String email}) async {

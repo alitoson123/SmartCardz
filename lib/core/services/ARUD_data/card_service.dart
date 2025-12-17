@@ -1,4 +1,1 @@
-
-class CardService {
- 
-}
+class CardService {}

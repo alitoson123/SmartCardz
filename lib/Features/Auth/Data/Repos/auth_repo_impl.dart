@@ -61,9 +61,7 @@ class AuthRepoImpl extends AuthRepo {
         MapOfData: userEntity.toMapOfSignUp(),
       ); // Step 1
 
-      return right(
-        userEntity,
-      );
+      return right(userEntity);
     } catch (e) {
       final errorMessage = e.toString().replaceFirst('Exception: ', '');
       return left(ServerFailure(errorMessage: errorMessage));

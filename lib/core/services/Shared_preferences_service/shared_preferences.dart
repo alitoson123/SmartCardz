@@ -2,7 +2,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
   SharedPreferencesService._privateConstructor();
-  static final SharedPreferencesService instance = SharedPreferencesService._privateConstructor();
+  static final SharedPreferencesService instance =
+      SharedPreferencesService._privateConstructor();
 
   late SharedPreferences _prefs;
 

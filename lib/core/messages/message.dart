@@ -5,15 +5,14 @@ class Message {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          content: Text(message),
-        );
+        return AlertDialog(content: Text(message));
       },
     );
   }
 
   void MessageSuccessMethod(BuildContext context, {required String message}) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 }

@@ -25,7 +25,10 @@ class CustomDeleteCollection extends StatelessWidget {
             Navigator.pop(context); // Close AlertDialog
             Navigator.pop(context); // Close SimpleDialog
           },
-          child: Text(S.of(context).delete, style: TextStyle(color: Colors.red)),
+          child: Text(
+            S.of(context).delete,
+            style: TextStyle(color: Colors.red),
+          ),
         ),
       ],
     );
