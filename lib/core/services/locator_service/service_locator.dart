@@ -40,13 +40,7 @@ void setup() {
   getIt.registerSingleton<AuthRepoImpl>(
     AuthRepoImpl(authObject: Auth(), arudUserObject: ArudUser()),
   );
-  getIt.registerSingleton<CollectionRepoImpl>(
-    CollectionRepoImpl(
-      collectionRemoteDataSource: CollectionRemoteDataSourceImpl(
-        appServices: AppServices(dio: Dio()),
-      ), // addCollectionLocalDataSource: null,
-    ),
-  );
+
   getIt.registerSingleton<CollectionRepoImpl>(
     CollectionRepoImpl(
       collectionRemoteDataSource: CollectionRemoteDataSourceImpl(
