@@ -1,4 +1,6 @@
-abstract class BaseCardEntity {
+import 'package:hive_flutter/adapters.dart';
+
+abstract class BaseCardEntity extends HiveObject {
   /// 🆔 Unique identifier for the card document in Firestore
   String get id => '';
 

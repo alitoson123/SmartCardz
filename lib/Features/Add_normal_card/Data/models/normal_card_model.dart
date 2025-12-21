@@ -3,8 +3,8 @@ import 'package:smart_cards/Features/Add_normal_card/Domain/Entities/normal_card
 import 'package:hive/hive.dart';
 part 'normal_card_model.g.dart';
 
-@HiveType(typeId: 0)
-class NormalCardModel extends NormalCardEntity with HiveObjectMixin {
+@HiveType(typeId: 3)
+class NormalCardModel extends NormalCardEntity {
   @HiveField(0)
   @override
   final String id;
@@ -21,17 +21,35 @@ class NormalCardModel extends NormalCardEntity with HiveObjectMixin {
   final int interval; // days until next review
   @HiveField(4)
   final Timestamp? nextReview; // Firestore timestamp for next review
+  @HiveField(5)
+  @override
+  final String frontSide;
+  @HiveField(6)
+  @override
+  final String backSide;
+  @HiveField(7)
+  @override
+  final String frontImageUrl;
+  @HiveField(8)
+  @override
+  final String backImageUrl;
+
   NormalCardModel({
     required this.id,
     required this.repetition,
     required this.easiness,
     required this.interval,
     required this.nextReview,
-    required super.frontSide,
-    required super.backSide,
-    required super.frontImageUrl,
-    required super.backImageUrl,
-  });
+    required this.frontSide,
+    required this.backSide,
+    required this.frontImageUrl,
+    required this.backImageUrl,
+  }) : super(
+         frontSide: frontSide,
+         backSide: backSide,
+         frontImageUrl: frontImageUrl,
+         backImageUrl: backImageUrl,
+       );
 
   /// From Firestore DocumentSnapshot
   factory NormalCardModel.fromDoc(DocumentSnapshot doc) {

@@ -8,7 +8,7 @@ part of 'collection_model.dart';
 
 class CollectionModelAdapter extends TypeAdapter<CollectionModel> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
   CollectionModel read(BinaryReader reader) {
@@ -17,19 +17,25 @@ class CollectionModelAdapter extends TypeAdapter<CollectionModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CollectionModel(
-      owner_id: fields[0] as String,
       collectionName: fields[1] as String,
       cards_count: fields[2] as int,
       collection_id: fields[3] as String,
+      owner_id: fields[0] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CollectionModel obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.owner_id);
+      ..write(obj.owner_id)
+      ..writeByte(1)
+      ..write(obj.collectionName)
+      ..writeByte(2)
+      ..write(obj.cards_count)
+      ..writeByte(3)
+      ..write(obj.collection_id);
   }
 
   @override

@@ -8,7 +8,7 @@ part of 'normal_card_model.dart';
 
 class NormalCardModelAdapter extends TypeAdapter<NormalCardModel> {
   @override
-  final int typeId = 0;
+  final int typeId = 3;
 
   @override
   NormalCardModel read(BinaryReader reader) {
@@ -32,7 +32,7 @@ class NormalCardModelAdapter extends TypeAdapter<NormalCardModel> {
   @override
   void write(BinaryWriter writer, NormalCardModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -42,7 +42,15 @@ class NormalCardModelAdapter extends TypeAdapter<NormalCardModel> {
       ..writeByte(3)
       ..write(obj.interval)
       ..writeByte(4)
-      ..write(obj.nextReview);
+      ..write(obj.nextReview)
+      ..writeByte(5)
+      ..write(obj.frontSide)
+      ..writeByte(6)
+      ..write(obj.backSide)
+      ..writeByte(7)
+      ..write(obj.frontImageUrl)
+      ..writeByte(8)
+      ..write(obj.backImageUrl);
   }
 
   @override

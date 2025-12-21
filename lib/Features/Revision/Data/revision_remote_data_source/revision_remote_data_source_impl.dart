@@ -1,5 +1,8 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:smart_cards/Features/Revision/Data/revision_remote_data_source/revision_remote_data_saource.dart';
+import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
+import 'package:smart_cards/core/services/Local_service/general_local_service.dart';
 import 'package:smart_cards/core/services/app_services/app_services.dart';
 
 class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
@@ -11,12 +14,24 @@ class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
     int limit = 50,
     required String collectionId,
   }) async {
-    var result = await appServices.fetchDueCards(
-      limit: limit,
-      collectionId: collectionId,
-    );
+    final connectivity = await Connectivity().checkConnectivity();
 
-    return result;
+    if (connectivity != ConnectivityResult.none) {
+      // Online
+      var result = await appServices.fetchDueCards(
+        limit: limit,
+        collectionId: collectionId,
+      );
+      final localService = GeneralLocalService();
+      await localService.clearBox<BaseCardEntity>(K_DUE_CARDS_BOX);
+      for (var card in result) {
+        await localService.add<BaseCardEntity>(K_DUE_CARDS_BOX, card);
+      }
+      return result;
+    } else {
+      // Offline
+      return GeneralLocalService().getAll(K_DUE_CARDS_BOX);
+    }
   }
 
   @override

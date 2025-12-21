@@ -210,7 +210,43 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                                     ],
                                   ),
                                 ),
+                          if (showAnswer && isAICard) ...[
+                            SizedBox(height: 30.h),
+                            buildSectionTitle(context, S.of(context).BackSide),
+                            SizedBox(height: 10.h),
+                            BackSide(card: card as CardWithAIEntity),
+                          ],
 
+                          if (showAnswer &&
+                              !isAICard &&
+                              (card.backSide.isNotEmpty ||
+                                  card.backImageUrl.isNotEmpty)) ...[
+                            SizedBox(height: 30.h),
+                            buildSectionTitle(context, S.of(context).BackSide),
+                            SizedBox(height: 10.h),
+                            CustomCard(
+                              child: Column(
+                                children: [
+                                  if (card.backImageUrl.isNotEmpty)
+                                    Image.network(
+                                      card.backImageUrl,
+                                      height: 200.h,
+                                      width: 200.w,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  Text(
+                                    card.backSide,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 18.sp,
+                                      color: Colors.grey.shade800,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                          /*
                           // Back Side (يظهر لما تضغط Show Answer)
                           if (showAnswer &&
                               (card.backSide.isNotEmpty ||
@@ -242,7 +278,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                                     ),
                                   ),
                           ],
-
+*/
                           SizedBox(height: 120.h),
                         ],
                       ),
@@ -293,9 +329,36 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
             // الأزرار السفلية
             bottomNavigationBar: Container(
               padding: EdgeInsets.only(bottom: 26.h, right: 20.w, left: 20.w),
-              child:
-                  !showAnswer &&
-                      (card.backSide.isNotEmpty || card.backImageUrl.isNotEmpty)
+              child: isAICard
+                  ? !showAnswer
+                        ? AppButton(
+                            text: S.of(context).showAnswer,
+                            icon: Icons.visibility,
+                            onPressed: () => setState(() => showAnswer = true),
+                          )
+                        : RowOfDifficultyButton(
+                            card: card,
+                            showAnswer: showAnswer,
+                            currentIndex: currentIndex,
+                            collectionId: widget.collection.collection_id,
+                            onNextCard: () {
+                              setState(() {
+                                showAnswer = false;
+                                drawingPoints.clear();
+                                // The card will be removed from the list by the Cubit.
+                                // So we don't necessarily need to increment currentIndex.
+                                // However, we ensure it stays within the (new) bounds.
+                                if (currentIndex >= cards.length - 1) {
+                                  currentIndex = 0;
+                                }
+                                // If it's not the last card, staying at the same currentIndex
+                                // will effectively show the next card in the shifted list.
+                              });
+                            },
+                          )
+                  : !showAnswer &&
+                        (card.backSide.isNotEmpty ||
+                            card.backImageUrl.isNotEmpty)
                   ? AppButton(
                       text: S.of(context).showAnswer,
                       icon: Icons.visibility,
@@ -309,12 +372,15 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                       onNextCard: () {
                         setState(() {
                           showAnswer = false;
-                          drawingPoints.clear(); // مسح السبورة عند الانتقال
-                          if (currentIndex < cards.length - 1) {
-                            currentIndex++;
-                          } else {
+                          drawingPoints.clear();
+                          // The card will be removed from the list by the Cubit.
+                          // So we don't necessarily need to increment currentIndex.
+                          // However, we ensure it stays within the (new) bounds.
+                          if (currentIndex >= cards.length - 1) {
                             currentIndex = 0;
                           }
+                          // If it's not the last card, staying at the same currentIndex
+                          // will effectively show the next card in the shifted list.
                         });
                       },
                     ),
@@ -322,18 +388,6 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
           );
         } else if (state is FetchAndRatingFailure) {
           return Center(child: Text('Error: ${state.errorMessage}'));
-        } else if (state is SubmitRatingSuccess) {
-          WidgetsBinding.instance.addPostFrameCallback((_) => _resetIndex());
-          context.read<FetchAndRatingCubit>().fetchDueCards(
-            collectionId: widget.collection.collection_id,
-          );
-          return Center(
-            child: Text(
-              S.of(context).ratingSavedLoadingNext,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500),
-            ),
-          );
         } else {
           return Center(child: Text(S.of(context).unexpectedState));
         }

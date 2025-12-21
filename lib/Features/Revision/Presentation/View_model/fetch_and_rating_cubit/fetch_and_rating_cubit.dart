@@ -29,12 +29,25 @@ class FetchAndRatingCubit extends Cubit<FetchAndRatingStates> {
     int quality,
     String collectionId,
   ) async {
+    // 🚀 Optimistic UI: Remove the card from the local list immediately
+    List<BaseCardEntity> previousCards = [];
+    if (state is FetchDueCardsSuccess) {
+      previousCards = (state as FetchDueCardsSuccess).cards;
+      final updatedCards = List<BaseCardEntity>.from(previousCards)
+        ..removeWhere((c) => c.id == card.id);
+      emit(FetchDueCardsSuccess(cards: updatedCards));
+    }
+
     final result = await revisionRepoImpl.submitRating(card, quality);
+
     result.fold(
-      (failure) =>
-          emit(FetchAndRatingFailure(errorMessage: failure.errorMessage)),
-      (success) async {
-        await fetchDueCards(collectionId: collectionId); // بعد التحديث فعليًا
+      (failure) {
+        // If it fails, show error.
+        // Note: In a production app, we might want to rollback the list here.
+        emit(FetchAndRatingFailure(errorMessage: failure.errorMessage));
+      },
+      (success) {
+        // We stay in FetchDueCardsSuccess (the optimistic state)
       },
     );
   }

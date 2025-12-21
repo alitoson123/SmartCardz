@@ -3,8 +3,8 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/c
 import 'package:hive/hive.dart';
 part 'card__with_AI_model.g.dart';
 
-@HiveType(typeId: 0)
-class CardWithAIModel extends CardWithAIEntity with HiveObjectMixin {
+@HiveType(typeId: 2)
+class CardWithAIModel extends CardWithAIEntity {
   @HiveField(0)
   @override
   final String id;
@@ -21,19 +21,40 @@ class CardWithAIModel extends CardWithAIEntity with HiveObjectMixin {
   final int interval; // days until next review
   @HiveField(4)
   final Timestamp? nextReview; // Firestore timestamp for next review
+  @HiveField(5)
+  @override
+  final String word;
+  @HiveField(6)
+  @override
+  final String type;
+  @HiveField(7)
+  @override
+  final String definition;
+  @HiveField(8)
+  @override
+  final String example;
+  @HiveField(9)
+  @override
+  final String imageBase64;
 
   CardWithAIModel({
     required this.id,
-    required super.word,
-    required super.type,
-    required super.definition,
-    required super.example,
-    required super.imageBase64,
+    required this.word,
+    required this.type,
+    required this.definition,
+    required this.example,
+    required this.imageBase64,
     required this.repetition,
     required this.easiness,
     required this.interval,
     required this.nextReview,
-  });
+  }) : super(
+         word: word,
+         type: type,
+         definition: definition,
+         example: example,
+         imageBase64: imageBase64,
+       );
   /*factory CardModel.fromJson(List<dynamic> json, {String id = ''}) {
     return CardModel(
       id: id,

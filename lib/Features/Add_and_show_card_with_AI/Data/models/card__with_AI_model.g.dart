@@ -8,7 +8,7 @@ part of 'card__with_AI_model.dart';
 
 class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
   @override
-  final int typeId = 0;
+  final int typeId = 2;
 
   @override
   CardWithAIModel read(BinaryReader reader) {
@@ -18,22 +18,22 @@ class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
     };
     return CardWithAIModel(
       id: fields[0] as String,
-      repetition: fields[1] as int,
-      easiness: fields[2] as double,
-      interval: fields[3] as int,
-      nextReview: fields[4] as Timestamp?,
       word: fields[5] as String,
       type: fields[6] as String,
       definition: fields[7] as String,
       example: fields[8] as String,
       imageBase64: fields[9] as String,
+      repetition: fields[1] as int,
+      easiness: fields[2] as double,
+      interval: fields[3] as int,
+      nextReview: fields[4] as Timestamp?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CardWithAIModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -43,7 +43,17 @@ class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
       ..writeByte(3)
       ..write(obj.interval)
       ..writeByte(4)
-      ..write(obj.nextReview);
+      ..write(obj.nextReview)
+      ..writeByte(5)
+      ..write(obj.word)
+      ..writeByte(6)
+      ..write(obj.type)
+      ..writeByte(7)
+      ..write(obj.definition)
+      ..writeByte(8)
+      ..write(obj.example)
+      ..writeByte(9)
+      ..write(obj.imageBase64);
   }
 
   @override

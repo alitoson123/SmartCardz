@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -41,6 +42,8 @@ class RevisionRepoImpl extends RevisionRepo {
     } catch (e) {
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));
+      } else if (e is FirebaseException) {
+        return left(ServerFailure(errorMessage: e.message ?? 'Firebase error'));
       } else {
         return left(ServerFailure(errorMessage: e.toString()));
       }
