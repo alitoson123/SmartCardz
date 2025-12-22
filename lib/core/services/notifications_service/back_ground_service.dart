@@ -237,8 +237,7 @@ class BackGroundService {
     if (diffDays >= INACTIVE_DAYS_THRESHOLD) {
       await showLocalNotification(
         title: 'وحشتنا!',
-        body:
-            'مدّيت $diffDays يوم من غير ما تفتح التطبيق — ارجع راجع بطاقاتك.',
+        body: 'مدّيت $diffDays يوم من غير ما تفتح التطبيق — ارجع راجع بطاقاتك.',
       );
       // لو عايز تمنع التكرار: حدث last_opened ليوم النهارده أو خزّن flag أن الاشعار اتبعت
       // مثلاً:

@@ -4,7 +4,7 @@ import 'package:smart_cards/core/errors/failure.dart';
 
 abstract class RevisionRepo {
   Future<Either<Failure, List<BaseCardEntity>>> fetchDueCards({
-    int limit = 50,
+    required int limit,
     required String collectionId,
   });
 

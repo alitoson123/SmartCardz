@@ -8,6 +8,7 @@ import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:smart_cards/core/services/Local_service/local_service_with_hive.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
+import 'package:smart_cards/core/services/notifications_service/push_notification_service.dart';
 import 'package:smart_cards/core/view_model/app_language_cubit/app_language_cubit.dart';
 import 'package:smart_cards/core/view_model/app_language_cubit/app_language_states.dart';
 import 'package:smart_cards/core/view_model/app_theme_cubit/app_theme_cubit.dart';
@@ -262,7 +263,7 @@ class _SettingsViewState extends State<SettingsView> {
 
   Future<void> logout(BuildContext context) async {
     await SharedPreferencesService.instance.remove(K_IS_LOGIN);
-
+    await PushNotificationService.removeFcmToken();
     if (!context.mounted) return;
 
     context.go(AppRoutes.signInScreen);

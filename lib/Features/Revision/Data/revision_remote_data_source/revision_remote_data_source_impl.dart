@@ -11,7 +11,7 @@ class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
   RevisionRemoteDataSourceImpl({required this.appServices});
   @override
   Future<List<BaseCardEntity>> fetchDueCards({
-    int limit = 50,
+    required int limit,
     required String collectionId,
   }) async {
     final connectivity = await Connectivity().checkConnectivity();

@@ -13,7 +13,7 @@ class RevisionRepoImpl extends RevisionRepo {
   RevisionRepoImpl({required this.revisionRemoteDataSaource});
   @override
   Future<Either<Failure, List<BaseCardEntity>>> fetchDueCards({
-    int limit = 50,
+    required int limit,
     required String collectionId,
   }) async {
     try {

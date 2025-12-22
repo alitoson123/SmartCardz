@@ -123,7 +123,7 @@ class AppServices {
 
   /// جلب الكروت المستحقة الآن (next_review <= today)
   Future<List<BaseCardEntity>> fetchDueCards({
-    int limit = 100,
+    required int limit,
     required String collectionId,
   }) async {
     final now = Timestamp.fromDate(DateTime.now());

@@ -8,11 +8,14 @@ class FetchAndRatingCubit extends Cubit<FetchAndRatingStates> {
     : super(FetchAndRatingInitial());
   final RevisionRepoImpl revisionRepoImpl;
 
-  Future<void> fetchDueCards({required String collectionId}) async {
+  Future<void> fetchDueCards({
+    required int limit,
+    required String collectionId,
+  }) async {
     emit(FetchAndRatingLoading());
 
     final result = await revisionRepoImpl.fetchDueCards(
-      limit: 50,
+      limit: limit,
       collectionId: collectionId,
     );
     result.fold(

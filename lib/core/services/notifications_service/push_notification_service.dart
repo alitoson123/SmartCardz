@@ -1,43 +1,55 @@
-import 'dart:developer';
-
-import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class PushNotificationService {
-  static FirebaseMessaging messaging = FirebaseMessaging.instance;
+  static final FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   static Future<void> init() async {
-    requestNotificationPermission();
-    getTokenAndSend();
-    refreshToken();
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-    myOnMessage();
+    await requestPermission();
+    listenForTokenRefresh();
   }
 
-  static void requestNotificationPermission() async {
-    await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+  static Future<void> requestPermission() async {
+    await messaging.requestPermission(alert: true, badge: true, sound: true);
   }
 
-  static void getTokenAndSend() async {
-    await FirebaseMessaging.instance.getToken().then((value) {
-      sendMyToken(value!);
+  static Future<void> saveToken() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    final token = await messaging.getToken();
+    if (token == null) return;
+
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+      'fcmToken': token,
+    }, SetOptions(merge: true));
+  }
+
+  static void listenForTokenRefresh() {
+    messaging.onTokenRefresh.listen((newToken) async {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
+
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'fcmToken': newToken,
+      }, SetOptions(merge: true));
     });
   }
 
-  static void refreshToken() {
-    messaging.onTokenRefresh.listen((value) {
-      sendMyToken(value);
-    });
-  }
+  static Future<void> removeFcmToken() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
 
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+      'fcmToken': FieldValue.delete(),
+    });
+
+    await messaging.deleteToken();
+  }
+}
+
+/*
   static Future<void> firebaseMessagingBackgroundHandler(
     RemoteMessage message,
   ) async {
@@ -65,7 +77,7 @@ class PushNotificationService {
 
   static void sendMyToken(String token) {}
 }
-
+*/
 /*import 'dart:convert';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';

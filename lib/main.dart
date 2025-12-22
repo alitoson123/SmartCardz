@@ -1,4 +1,3 @@
-import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,14 +14,13 @@ import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
 import 'package:smart_cards/Features/Add_normal_card/Data/models/normal_card_model.dart';
+import 'package:smart_cards/core/services/notifications_service/push_notification_service.dart';
 import 'package:smart_cards/core/utils/hive_adapters/timestamp_adapter.dart';
 import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 import 'package:smart_cards/core/services/Bloc_observes_service/my_Bloc_observe.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
-import 'package:smart_cards/core/services/notifications_service/back_ground_service.dart';
-import 'package:smart_cards/core/services/notifications_service/top-level%20headless_service.dart';
 import 'package:smart_cards/core/utils/app_theme/dark_theme.dart';
 import 'package:smart_cards/core/utils/app_theme/light_theme.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
@@ -40,32 +38,25 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  Bloc.observer = MyBlocObserver();
+  Bloc.observer = MyBlocObserver(); // bloc observer
 
-  await Hive.initFlutter();
-  Hive.registerAdapter(UserModelAdapter());
-  Hive.registerAdapter(CollectionModelAdapter());
-  Hive.registerAdapter(CardWithAIModelAdapter());
-  Hive.registerAdapter(NormalCardModelAdapter());
-  Hive.registerAdapter(TimestampAdapter());
+  await Hive.initFlutter(); // hive
+  Hive.registerAdapter(UserModelAdapter()); // hive
+  Hive.registerAdapter(CollectionModelAdapter()); // hive
+  Hive.registerAdapter(CardWithAIModelAdapter()); // hive
+  Hive.registerAdapter(NormalCardModelAdapter()); // hive
+  Hive.registerAdapter(TimestampAdapter()); // hive
 
-  await Hive.openBox<UserModel>(K_USER_BOX);
-  await Hive.openBox<CollectionModel>(K_COLLECTION_BOX);
-  await Hive.openBox<BaseCardEntity>(K_DUE_CARDS_BOX);
+  await Hive.openBox<UserModel>(K_USER_BOX); // hive
+  await Hive.openBox<CollectionModel>(K_COLLECTION_BOX); // hive
+  await Hive.openBox<BaseCardEntity>(K_DUE_CARDS_BOX); // hive
 
-  await SharedPreferencesService.instance.init();
-  // await migrateFlashCardsToEnglish();
+  await SharedPreferencesService.instance.init(); // shared preferences
 
-  // await FirebaseApi().initNotification();
-  //await localnotificationService.init();
+  await PushNotificationService.init(); // notification
 
-  final backgroundService = BackGroundService();
-  await backgroundService.initLocalNotifications();
+  setup(); // locator service
 
-  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTopLevel);
-  await backgroundService.initBackgroundFetch();
-
-  setup();
   runApp(const SmartCards());
 }
 
@@ -79,8 +70,8 @@ class SmartCards extends StatefulWidget {
 class _SmartCardsState extends State<SmartCards> {
   @override
   void initState() {
-    final backgroundService = BackGroundService();
-    backgroundService.updateLastOpened();
+    // final backgroundService = BackGroundService();
+    // backgroundService.updateLastOpened();
     super.initState();
   }
 

@@ -39,6 +39,7 @@ class RevisionViewBody extends StatefulWidget {
 class _RevisionViewBodyState extends State<RevisionViewBody> {
   bool showAnswer = false;
   int currentIndex = 0;
+  int limit = 100;
 
   // متغيرات السبورة
   List<DrawingPoint?> drawingPoints = [];
@@ -50,6 +51,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
     super.initState();
     context.read<FetchAndRatingCubit>().fetchDueCards(
       collectionId: widget.collection.collection_id,
+      limit: limit,
     );
 
     // الاستماع لإشارة المسح
@@ -128,6 +130,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
           if (mounted) {
             context.read<FetchAndRatingCubit>().fetchDueCards(
               collectionId: widget.collection.collection_id,
+              limit: limit,
             );
           }
         });
