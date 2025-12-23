@@ -83,6 +83,7 @@ class AppServices {
       ...cardData,
       'id': newCard.id,
       'collectionId': collectionId,
+      'ownerId': FirebaseAuth.instance.currentUser!.uid,
       'created_at': FieldValue.serverTimestamp(),
     });
 
@@ -163,4 +164,55 @@ class AppServices {
       'last_reviewed': FieldValue.serverTimestamp(),
     });
   }
+
+Future<void> migrateOldCardsAddOwnerId() async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user == null) return;
+
+  final uid = user.uid;
+  final firestore = FirebaseFirestore.instance;
+
+  print('Migration started for user: $uid');
+
+  // هات كل collections بتاعة المستخدم
+  final collectionsSnap = await firestore
+      .collection('collections')
+      .where('ownerId', isEqualTo: uid)
+      .get();
+
+  if (collectionsSnap.docs.isEmpty) {
+    print('No collections found');
+    return;
+  }
+
+  final collectionIds = collectionsSnap.docs.map((e) => e.id).toList();
+
+  // هات كل cards اللي معندهاش ownerId
+  final cardsSnap = await firestore
+      .collection('cards')
+      .where('collectionId', whereIn: collectionIds)
+      .get();
+
+  final batch = firestore.batch();
+  int updatedCount = 0;
+
+  for (final doc in cardsSnap.docs) {
+    final data = doc.data();
+
+    if (!data.containsKey('ownerId')) {
+      batch.update(doc.reference, {
+        'ownerId': uid,
+      });
+      updatedCount++;
+    }
+  }
+
+  if (updatedCount > 0) {
+    await batch.commit();
+  }
+
+  print('Migration finished. Updated cards: $updatedCount');
+}
+
+
 }
