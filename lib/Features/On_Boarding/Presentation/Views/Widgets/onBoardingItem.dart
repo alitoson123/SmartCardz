@@ -7,27 +7,56 @@ class Onboardingitem extends StatelessWidget {
   final OnboardingModel onboardingModel;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
       children: [
-        Text(
-          'SmartCardz',
-          style: TextStyle(
-            color: Color(0xff1E88E5),
-            fontSize: 50.sp,
-            fontWeight: FontWeight.bold,
+        // Top area for image
+        Align(
+          alignment: Alignment.topCenter,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  onboardingModel.image,
+                  width: 310.w,
+                  height: 420.h,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
           ),
         ),
-        SizedBox(height: 40.h),
-        Image.asset(onboardingModel.image, height: 300.h, fit: BoxFit.contain),
-        SizedBox(height: 40.h),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
-          child: Text(
-            onboardingModel.description,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16.sp, height: 1.5),
+        // Bottom white rounded container
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32.r),
+                topRight: Radius.circular(32.r),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 32.h),
+                Text(
+                  onboardingModel.description,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    height: 1.5,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 16.h),
+              ],
+            ),
           ),
         ),
       ],

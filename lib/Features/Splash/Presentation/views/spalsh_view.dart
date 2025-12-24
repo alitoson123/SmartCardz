@@ -20,7 +20,7 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future<void> goNext() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 1000));
     if (!mounted) return;
 
     final isLogin = SharedPreferencesService.instance.getBool(K_IS_LOGIN);
@@ -41,22 +41,16 @@ class _SplashViewState extends State<SplashView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.flash_on,
-              size: 80.sp,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            SizedBox(height: 20.h),
             Text(
-              "Smart Cards",
+              "Smart Cardz",
               style: TextStyle(
-                fontSize: 26.sp,
+                fontSize: 36.sp,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
+                color: Colors.blue.shade900,
               ),
             ),
-            SizedBox(height: 20.h),
-            const CircularProgressIndicator(),
+        //    SizedBox(height: 20.h),
+         //   const CircularProgressIndicator(),
           ],
         ),
       ),

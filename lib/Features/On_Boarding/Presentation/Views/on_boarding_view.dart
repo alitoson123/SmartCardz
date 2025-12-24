@@ -18,35 +18,47 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Onbboardingbody(
-                myOnPageChanged: (value) {
-                  setState(() {
-                    currentIndex = value;
-                  });
-                },
-                controller: pageController,
+      backgroundColor: const Color(0xffE6F2FF),
+      body: Column(
+        children: [
+          Expanded(
+            child: Onbboardingbody(
+              myOnPageChanged: (value) {
+                setState(() {
+                  currentIndex = value;
+                });
+              },
+              controller: pageController,
+            ),
+          ),
+          Container(
+            color: Colors.white,
+            child: SafeArea(
+              top: false,
+              child: Column(
+                children: [
+                  Mylistgenerate(currentIndex: currentIndex),
+                  SizedBox(height: 24.h),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: AppButton(
+                      onPressed: () {
+                        helper().goToNextPageMethod(
+                          context: context,
+                          currentIndex: currentIndex,
+                          pageController: pageController,
+                        );
+                      },
+                      text: 'Continue',
+                      icon: Icons.arrow_forward,
+                    ),
+                  ),
+                  SizedBox(height: 32.h),
+                ],
               ),
             ),
-            Mylistgenerate(currentIndex: currentIndex),
-            SizedBox(height: 20.h),
-            AppButton(
-              onPressed: () {
-                helper().goToNextPageMethod(
-                  context: context,
-                  currentIndex: currentIndex,
-                  pageController: pageController,
-                );
-              },
-              text: '',
-              icon: Icons.arrow_forward,
-            ),
-            SizedBox(height: 20.h),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

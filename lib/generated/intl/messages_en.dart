@@ -59,10 +59,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "actions": MessageLookupByLibrary.simpleMessage("Actions"),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
     "addCard": MessageLookupByLibrary.simpleMessage("Add Card"),
-    "addCardWithAI": MessageLookupByLibrary.simpleMessage("Add Card with AI"),
+    "addCardWithAI": MessageLookupByLibrary.simpleMessage("AI Card Generation"),
     "addNewCardTitle": MessageLookupByLibrary.simpleMessage("Add New Card"),
     "addNewCardWithAITitle": MessageLookupByLibrary.simpleMessage(
-      "Add New Card with AI",
+      "AI Card Generation",
     ),
     "appLanguage": MessageLookupByLibrary.simpleMessage("App Language"),
     "appTheme": MessageLookupByLibrary.simpleMessage("App Theme"),

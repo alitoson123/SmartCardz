@@ -19,17 +19,17 @@ class _OnbboardingbodyState extends State<Onbboardingbody> {
     OnboardingModel(
       description:
           'Master any subject with spaced repetition and active recall - the scientifically proven way to remember better.',
-      image: 'assets/images/onboarding_spaced_repetition.png',
+      image: 'assets/images/smart_spaced_repetition.png',
     ),
     OnboardingModel(
       description:
           'Paste words in any language and let AI create complete flashcards with images, definitions, word types, and examples.',
-      image: 'assets/images/onboarding_ai_cards.png',
+      image: 'assets/images/Gemini_Generated_Image_bz2bfbbz2bfbbz2b.png',
     ),
     OnboardingModel(
       description:
           'Organize your cards into collections, track your progress, and achieve your learning goals faster.',
-      image: 'assets/images/onboarding_card_organization.png',
+      image: 'assets/images/ai_card_generation (4).png',
     ),
   ];
 

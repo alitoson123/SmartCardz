@@ -17,15 +17,16 @@ class AppButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: onPressed,
-        icon: Icon(icon, color: Colors.white, size: 24.sp),
         label: Text(
           text,
-          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold),
         ),
+        icon: Icon(icon, color: Colors.white, size: 21.sp),
+        iconAlignment: IconAlignment.end,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blueAccent,
           foregroundColor: Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 16.h),
+          padding: EdgeInsets.symmetric(vertical: 14.h),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.r),
           ),

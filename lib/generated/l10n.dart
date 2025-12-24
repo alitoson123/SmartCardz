@@ -79,10 +79,10 @@ class S {
     return Intl.message('Add Card', name: 'addCard', desc: '', args: []);
   }
 
-  /// `Add Card with AI`
+  /// `AI Card Generation`
   String get addCardWithAI {
     return Intl.message(
-      'Add Card with AI',
+      'AI Card Generation',
       name: 'addCardWithAI',
       desc: '',
       args: [],
@@ -99,10 +99,10 @@ class S {
     );
   }
 
-  /// `Add New Card with AI`
+  /// `AI Card Generation`
   String get addNewCardWithAITitle {
     return Intl.message(
-      'Add New Card with AI',
+      'AI Card Generation',
       name: 'addNewCardWithAITitle',
       desc: '',
       args: [],

@@ -18,7 +18,7 @@ class Mylistgenerate extends StatelessWidget {
               height: 6.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30.r),
-                color: Colors.black,
+                color: Colors.blue,
               ),
             ),
           ),

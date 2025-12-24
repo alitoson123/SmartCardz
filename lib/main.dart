@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,7 +14,6 @@ import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
 import 'package:smart_cards/Features/Add_normal_card/Data/models/normal_card_model.dart';
-import 'package:smart_cards/core/services/app_services/app_services.dart';
 import 'package:smart_cards/core/services/notifications_service/push_notification_service.dart';
 import 'package:smart_cards/core/utils/hive_adapters/timestamp_adapter.dart';
 import 'package:smart_cards/constant.dart';
