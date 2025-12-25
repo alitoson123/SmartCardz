@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive_flutter/adapters.dart';
 
 abstract class BaseCardEntity extends HiveObject {
@@ -9,6 +10,10 @@ abstract class BaseCardEntity extends HiveObject {
   String get backSide => '';
   String get frontImageUrl => '';
   String get backImageUrl => '';
+
+  /// 📦 Metadata
+  String get collectionId => '';
+  Timestamp? get nextReview => null;
 
   /// 🤖 AI-specific properties (used only for AI cards)
   String get word => '';

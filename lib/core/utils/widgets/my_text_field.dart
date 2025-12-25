@@ -17,11 +17,6 @@ class MyTextField extends StatelessWidget {
     return TextFormField(
       keyboardType: SignUpModelObject.keyboardType,
       initialValue: initialValue,
-      obscureText:
-          SignUpModelObject.myTextLabel == 'Password' ||
-              SignUpModelObject.myTextLabel == 'Confirm Password'
-          ? true
-          : false,
       onChanged: SignUpModelObject.onChanged,
       validator: (value) {
         if (value!.isEmpty) {
@@ -33,7 +28,7 @@ class MyTextField extends StatelessWidget {
         labelText: SignUpModelObject.myTextLabel,
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         floatingLabelStyle: TextStyle(color: K_PRIMARY_COLOR),
-        contentPadding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 18.h),
+        contentPadding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 14.r),
         suffixIcon: SignUpModelObject.myIcon,
         hintText: SignUpModelObject.myHintText,
         focusedBorder: focusOutLineInputBorder(),

@@ -31,6 +31,7 @@ class Onboardingitem extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
+            height: 190.h,
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 24.w),
             decoration: BoxDecoration(
@@ -42,8 +43,9 @@ class Onboardingitem extends StatelessWidget {
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 32.h),
+                SizedBox(height: 20.h),
                 Text(
                   onboardingModel.description,
                   textAlign: TextAlign.center,
@@ -54,6 +56,7 @@ class Onboardingitem extends StatelessWidget {
                     color: Colors.black87,
                   ),
                 ),
+
                 SizedBox(height: 16.h),
               ],
             ),

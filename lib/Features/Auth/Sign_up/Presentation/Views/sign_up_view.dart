@@ -36,7 +36,6 @@ class _SignUpViewState extends State<SignUpView> {
 
   AppBar myAppbar() {
     return AppBar(
-      centerTitle: true,
       title: Opacity(opacity: .5, child: Text(S.of(context).signUpTitle)),
     );
   }

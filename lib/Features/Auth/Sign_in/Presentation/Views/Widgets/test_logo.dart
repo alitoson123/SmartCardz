@@ -12,7 +12,7 @@ class GoogleSignInButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     return SizedBox(
-      height: 56.h,
+      height: 50.h,
       width: double.infinity,
       child: ElevatedButton(
         onPressed: onPressed,

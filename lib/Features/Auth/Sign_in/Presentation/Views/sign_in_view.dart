@@ -11,7 +11,6 @@ import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/messages/message.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
-import 'package:smart_cards/core/services/notifications_service/back_ground_service.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});

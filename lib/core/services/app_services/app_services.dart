@@ -55,9 +55,18 @@ class AppServices {
     return snap.docs.map((e) => CollectionModel.fromDoc(e)).toList();
   }
 
-  static Future<void> deleteCollection({required String collectionId}) async {
-    await firestore.collection('collections').doc(collectionId).delete();
+static Future<void> deleteCollection({required String collectionId}) async {
+  final cardsSnap = await firestore
+      .collection('cards')
+      .where('collectionId', isEqualTo: collectionId)
+      .get();
+
+  for (final doc in cardsSnap.docs) {
+    await doc.reference.delete();
   }
+
+  await firestore.collection('collections').doc(collectionId).delete();
+}
 
   static Future<void> renameCollection({
     required String collectionId,

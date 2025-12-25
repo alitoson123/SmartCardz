@@ -32,6 +32,24 @@ class _AddOptionsState extends State<AddOptions> {
       children: [
         if (isExpanded) ...[
           AddOptionItem(
+            label: S.of(context).createNewCollection,
+            heroTag: 'collection',
+            icon: Icons.folder_copy,
+            backgroundColor: theme.colorScheme.secondaryContainer,
+            foregroundColor: theme.colorScheme.onSecondaryContainer,
+            isRTL: isRTL,
+            theme: theme,
+            onPressed: () {
+              reverseIsExpanded();
+              showDialog(
+                context: context,
+                builder: (context) => const CreateCollectionDialog(),
+              );
+            },
+          ),
+
+          // Option 2: Add Card
+          AddOptionItem(
             label: S.of(context).addCardWithAI,
             heroTag: 'ai_card',
             icon: Icons.auto_awesome,
@@ -48,8 +66,6 @@ class _AddOptionsState extends State<AddOptions> {
               context.push(AppRoutes.addAndShowCardScreen);
             },
           ),
-
-          // Option 2: Add Card
           AddOptionItem(
             label: S.of(context).addCard,
             heroTag: 'normal_card',
@@ -61,23 +77,6 @@ class _AddOptionsState extends State<AddOptions> {
             onPressed: () async {
               reverseIsExpanded();
               context.push(AppRoutes.addNormalCardScreen);
-            },
-          ),
-
-          AddOptionItem(
-            label: S.of(context).createNewCollection,
-            heroTag: 'collection',
-            icon: Icons.folder_copy,
-            backgroundColor: theme.colorScheme.secondaryContainer,
-            foregroundColor: theme.colorScheme.onSecondaryContainer,
-            isRTL: isRTL,
-            theme: theme,
-            onPressed: () {
-              reverseIsExpanded();
-              showDialog(
-                context: context,
-                builder: (context) => const CreateCollectionDialog(),
-              );
             },
           ),
         ],

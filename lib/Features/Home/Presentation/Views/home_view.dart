@@ -22,7 +22,7 @@ class HomeView extends StatelessWidget {
             onPressed: () {
               context.push(AppRoutes.settingsScreen);
             },
-            icon: Icon(Icons.settings, color: Colors.white),
+            icon: Icon(Icons.settings),
           ),
         ],
       ),

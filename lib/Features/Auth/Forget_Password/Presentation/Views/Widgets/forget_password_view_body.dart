@@ -30,12 +30,12 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
           padding: EdgeInsets.all(12.r),
           child: Column(
             children: [
-              SizedBox(height: 20.h),
+              SizedBox(height: 25.h),
               TextOfTitleAndSubtitle(
                 title: S.of(context).forgotPasswordTitle,
                 subtitle: S.of(context).forgotPasswordSubtitle,
               ),
-              SizedBox(height: 70.h),
+              SizedBox(height: 40.h),
               MyTextField(
                 SignUpModelObject: SignUpModel(
                   myTextLabel: S.of(context).Email,
@@ -46,7 +46,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
                   },
                 ),
               ),
-              SizedBox(height: 110.h),
+              SizedBox(height: 50.h),
               AppButton(
                 onPressed: () async {
                   if (myKey.currentState!.validate()) {
@@ -64,7 +64,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
                 text: S.of(context).send,
                 icon: Icons.arrow_forward_rounded,
               ),
-              SizedBox(height: 70.h),
+              SizedBox(height: 30.h),
               RowOfDontHaveAnAccountAndSignUp(),
             ],
           ),

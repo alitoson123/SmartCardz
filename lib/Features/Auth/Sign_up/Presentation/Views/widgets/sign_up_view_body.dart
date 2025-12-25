@@ -28,19 +28,19 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(12.r),
+      padding: EdgeInsets.all(16.r),
       child: SingleChildScrollView(
         child: Form(
           key: myKey,
           autovalidateMode: autovalidateMode,
           child: Column(
             children: [
-              SizedBox(height: 20.h),
+              SizedBox(height: 25.h),
               TextOfTitleAndSubtitle(
                 title: S.of(context).registerAccount,
                 subtitle: S.of(context).completeDetails,
               ), // shift alt a
-              SizedBox(height: 40.h),
+              SizedBox(height: 30.h),
               Row(
                 children: [
                   Expanded(
@@ -55,7 +55,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 12.w), // مسافة صغيرة بين الاتنين
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: MyTextField(
                       SignUpModelObject: SignUpModel(
@@ -70,7 +70,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   ),
                 ],
               ),
-              SizedBox(height: 30.h),
+              SizedBox(height: 20.h),
               TextFieldsOfEmailAndPassword(
                 onChangedForEmail: (value) {
                   email = value;
@@ -90,7 +90,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   },
                 ),
               ),*/
-              SizedBox(height: 40.h),
+              SizedBox(height: 35.h),
               AppButton(
                 onPressed: () async {
                   if (myKey.currentState!.validate()) {
@@ -119,6 +119,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   S.of(context).termsCondition,
                   textAlign: TextAlign.center,
                   style: Style().textStyle16,
+
                 ),
               ),
             ],

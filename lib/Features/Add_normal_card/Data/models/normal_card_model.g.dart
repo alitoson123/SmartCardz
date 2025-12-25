@@ -26,13 +26,14 @@ class NormalCardModelAdapter extends TypeAdapter<NormalCardModel> {
       backSide: fields[6] as String,
       frontImageUrl: fields[7] as String,
       backImageUrl: fields[8] as String,
+      collectionId: fields[9] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, NormalCardModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class NormalCardModelAdapter extends TypeAdapter<NormalCardModel> {
       ..writeByte(7)
       ..write(obj.frontImageUrl)
       ..writeByte(8)
-      ..write(obj.backImageUrl);
+      ..write(obj.backImageUrl)
+      ..writeByte(9)
+      ..write(obj.collectionId);
   }
 
   @override

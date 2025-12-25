@@ -27,19 +27,19 @@ class _SignInViewBodyState extends State<SignInViewBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(12.r),
+      padding: EdgeInsets.all(16.r),
       child: SingleChildScrollView(
         child: Form(
           key: myKey,
           autovalidateMode: autovalidateMode,
           child: Column(
             children: [
-              SizedBox(height: 20.h),
+              SizedBox(height: 25.h),
               TextOfTitleAndSubtitle(
                 title: S.of(context).welcome,
                 subtitle: S.of(context).signInSubtitle,
               ),
-              SizedBox(height: 50.h),
+              SizedBox(height: 30.h),
               TextFieldsOfEmailAndPassword(
                 onChangedForEmail: (value) {
                   email = value;

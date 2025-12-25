@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/constant.dart';
 
 class TextOfTitleAndSubtitle extends StatelessWidget {
@@ -14,6 +15,7 @@ class TextOfTitleAndSubtitle extends StatelessWidget {
     return Column(
       children: [
         Text(title, style: Style().textStyle28),
+        SizedBox(height: 8.h),
         Opacity(
           opacity: .6,
           child: Text(subtitle, textAlign: TextAlign.center),

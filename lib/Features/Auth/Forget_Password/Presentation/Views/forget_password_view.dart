@@ -19,7 +19,6 @@ class ForgetPasswordView extends StatelessWidget {
       create: (context) => ForgetPasswordCubit(getIt<AuthRepoImpl>()),
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           title: Opacity(
             opacity: .5,
             child: Text(S.of(context).forgotPasswordTitle),

@@ -54,9 +54,9 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Smart Cards`
+  /// `Smart Cardz`
   String get home {
-    return Intl.message('Smart Cards', name: 'home', desc: '', args: []);
+    return Intl.message('Smart Cardz', name: 'home', desc: '', args: []);
   }
 
   /// `cards`
@@ -629,10 +629,10 @@ class S {
     );
   }
 
-  /// `By continuing your confirm that you agree \n with our term and condition`
+  /// `By continuing your confirm that you agree with our term and condition`
   String get termsCondition {
     return Intl.message(
-      'By continuing your confirm that you agree \n with our term and condition',
+      'By continuing your confirm that you agree with our term and condition',
       name: 'termsCondition',
       desc: '',
       args: [],

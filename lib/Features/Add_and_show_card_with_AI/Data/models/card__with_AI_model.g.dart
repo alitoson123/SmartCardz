@@ -27,13 +27,14 @@ class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
       easiness: fields[2] as double,
       interval: fields[3] as int,
       nextReview: fields[4] as Timestamp?,
+      collectionId: fields[10] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CardWithAIModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -53,7 +54,9 @@ class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
       ..writeByte(8)
       ..write(obj.example)
       ..writeByte(9)
-      ..write(obj.imageBase64);
+      ..write(obj.imageBase64)
+      ..writeByte(10)
+      ..write(obj.collectionId);
   }
 
   @override

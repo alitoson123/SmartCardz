@@ -20,7 +20,11 @@ class NormalCardModel extends NormalCardEntity {
   @override
   final int interval; // days until next review
   @HiveField(4)
+  @override
   final Timestamp? nextReview; // Firestore timestamp for next review
+  @HiveField(9)
+  @override
+  final String collectionId;
   @HiveField(5)
   @override
   final String frontSide;
@@ -44,6 +48,7 @@ class NormalCardModel extends NormalCardEntity {
     required this.backSide,
     required this.frontImageUrl,
     required this.backImageUrl,
+    required this.collectionId,
   }) : super(
          frontSide: frontSide,
          backSide: backSide,
@@ -64,6 +69,7 @@ class NormalCardModel extends NormalCardEntity {
       easiness: (m['easiness'] ?? 2.5).toDouble(),
       interval: (m['interval'] ?? 0) as int,
       nextReview: m['next_review'] as Timestamp?,
+      collectionId: m['collectionId'] ?? '',
     );
   }
 
@@ -77,6 +83,7 @@ class NormalCardModel extends NormalCardEntity {
       'easiness': easiness,
       'interval': interval,
       'next_review': nextReview,
+      'collectionId': collectionId,
     };
   }
 

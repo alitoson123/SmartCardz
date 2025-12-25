@@ -24,7 +24,7 @@ class TextFieldsOfEmailAndPassword extends StatelessWidget {
             onChanged: onChangedForEmail,
           ),
         ),
-        SizedBox(height: 30.h),
+        SizedBox(height: 25.h),
         MyTextField(
           SignUpModelObject: SignUpModel(
             myTextLabel: S.of(context).Password,

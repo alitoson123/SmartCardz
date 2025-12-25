@@ -147,7 +147,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Generating your smart card...",
     ),
     "hard": MessageLookupByLibrary.simpleMessage("Hard"),
-    "home": MessageLookupByLibrary.simpleMessage("Smart Cards"),
+    "home": MessageLookupByLibrary.simpleMessage("Smart Cardz"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
     "light": MessageLookupByLibrary.simpleMessage("Light"),
@@ -193,7 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "signInTitle": MessageLookupByLibrary.simpleMessage("Sign In"),
     "signUpTitle": MessageLookupByLibrary.simpleMessage("Sign Up"),
     "termsCondition": MessageLookupByLibrary.simpleMessage(
-      "By continuing your confirm that you agree \n with our term and condition",
+      "By continuing your confirm that you agree with our term and condition",
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "titleLabel": MessageLookupByLibrary.simpleMessage("Title"),

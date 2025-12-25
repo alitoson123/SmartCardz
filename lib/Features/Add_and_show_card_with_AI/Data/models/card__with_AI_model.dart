@@ -20,7 +20,11 @@ class CardWithAIModel extends CardWithAIEntity {
   @override
   final int interval; // days until next review
   @HiveField(4)
+  @override
   final Timestamp? nextReview; // Firestore timestamp for next review
+  @HiveField(10)
+  @override
+  final String collectionId;
   @HiveField(5)
   @override
   final String word;
@@ -48,6 +52,7 @@ class CardWithAIModel extends CardWithAIEntity {
     required this.easiness,
     required this.interval,
     required this.nextReview,
+    required this.collectionId,
   }) : super(
          word: word,
          type: type,
@@ -95,6 +100,7 @@ class CardWithAIModel extends CardWithAIEntity {
           : (json['next_review'] != null
                 ? Timestamp.fromDate(DateTime.parse(json['next_review']))
                 : null),
+      collectionId: json['collectionId'] ?? '',
     );
   }
 
@@ -107,11 +113,12 @@ class CardWithAIModel extends CardWithAIEntity {
       type: m['type'] ?? '',
       definition: m['definition'] ?? '',
       example: m['example'] ?? '',
-      imageBase64: m['image_base64'] ?? '',
+      imageBase64: m['imageBase64'] ?? m['image_base64'] ?? '',
       repetition: (m['repetition'] ?? 0) as int,
       easiness: (m['easiness'] ?? 2.5).toDouble(),
       interval: (m['interval'] ?? 0) as int,
       nextReview: m['next_review'] as Timestamp?,
+      collectionId: m['collectionId'] ?? '',
     );
   }
 
@@ -125,5 +132,6 @@ class CardWithAIModel extends CardWithAIEntity {
     'easiness': easiness,
     'interval': interval,
     'next_review': nextReview,
+    'collectionId': collectionId,
   };
 }

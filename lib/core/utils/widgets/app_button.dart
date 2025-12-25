@@ -21,12 +21,12 @@ class AppButton extends StatelessWidget {
           text,
           style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold),
         ),
-        icon: Icon(icon, color: Colors.white, size: 21.sp),
+        icon: Icon(icon, color: Colors.white, size: 22.r),
         iconAlignment: IconAlignment.end,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blueAccent,
           foregroundColor: Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 14.h),
+          padding: EdgeInsets.symmetric(vertical: 13.r),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.r),
           ),
