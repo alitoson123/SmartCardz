@@ -27,8 +27,8 @@ final ThemeData darkTheme = ThemeData(
   ),
 
   inputDecorationTheme: InputDecorationTheme(
-    filled: true,
-    fillColor: const Color(0xFF1E1E1E),
+    //filled: true,
+  //  fillColor: const Color(0xFF1E1E1E),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(14.r),
       borderSide: BorderSide.none,

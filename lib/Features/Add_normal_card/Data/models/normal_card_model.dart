@@ -89,6 +89,32 @@ class NormalCardModel extends NormalCardEntity {
 
   Map<String, dynamic> toJson() => toMap();
 
+  NormalCardModel copyWith({
+    String? id,
+    int? repetition,
+    double? easiness,
+    int? interval,
+    Timestamp? nextReview,
+    String? collectionId,
+    String? frontSide,
+    String? backSide,
+    String? frontImageUrl,
+    String? backImageUrl,
+  }) {
+    return NormalCardModel(
+      id: id ?? this.id,
+      repetition: repetition ?? this.repetition,
+      easiness: easiness ?? this.easiness,
+      interval: interval ?? this.interval,
+      nextReview: nextReview ?? this.nextReview,
+      collectionId: collectionId ?? this.collectionId,
+      frontSide: frontSide ?? this.frontSide,
+      backSide: backSide ?? this.backSide,
+      frontImageUrl: frontImageUrl ?? this.frontImageUrl,
+      backImageUrl: backImageUrl ?? this.backImageUrl,
+    );
+  }
+
   // Override BaseCardEntity properties
   @override
   String get cardType => 'normal';

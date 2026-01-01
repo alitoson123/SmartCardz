@@ -60,9 +60,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "addCardWithAI": MessageLookupByLibrary.simpleMessage(
       "إضافة بطاقة بالذكاء الاصطناعي",
     ),
-    "addNewCardTitle": MessageLookupByLibrary.simpleMessage(
-      "إضافة بطاقة جديدة",
-    ),
     "addNewCardWithAITitle": MessageLookupByLibrary.simpleMessage(
       "إضافة بطاقة بالذكاء الاصطناعي",
     ),

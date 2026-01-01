@@ -14,9 +14,8 @@ class AddNormalCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
-        centerTitle: true,
-        title: Text(S.of(context).addNewCardTitle),
+       
+        title: Text(S.of(context).addCard),
       ),
       body: BlocProvider(
         create: (context) =>
@@ -28,14 +27,7 @@ class AddNormalCardView extends StatelessWidget {
                 context,
               ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
             }
-            if (state is AddNormalCardSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(S.of(context).CardSavedSuccessfully),
-                  duration: const Duration(milliseconds: 500),
-                ),
-              );
-            }
+          
             if (state is AddNormalCardLoading) {
               Center(child: CircularProgressIndicator());
             }

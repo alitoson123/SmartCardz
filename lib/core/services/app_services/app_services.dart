@@ -55,18 +55,18 @@ class AppServices {
     return snap.docs.map((e) => CollectionModel.fromDoc(e)).toList();
   }
 
-static Future<void> deleteCollection({required String collectionId}) async {
-  final cardsSnap = await firestore
-      .collection('cards')
-      .where('collectionId', isEqualTo: collectionId)
-      .get();
+  static Future<void> deleteCollection({required String collectionId}) async {
+    final cardsSnap = await firestore
+        .collection('cards')
+        .where('collectionId', isEqualTo: collectionId)
+        .get();
 
-  for (final doc in cardsSnap.docs) {
-    await doc.reference.delete();
+    for (final doc in cardsSnap.docs) {
+      await doc.reference.delete();
+    }
+
+    await firestore.collection('collections').doc(collectionId).delete();
   }
-
-  await firestore.collection('collections').doc(collectionId).delete();
-}
 
   static Future<void> renameCollection({
     required String collectionId,
@@ -156,15 +156,8 @@ static Future<void> deleteCollection({required String collectionId}) async {
     }).toList();
   }
 
-  /// تحديث تقييم الكارت بعد المراجعة (SM-2)
-  Future<void> submitRating(BaseCardEntity card, int quality) async {
-    final res = computeSm2(
-      currentRepetition: card.repetition,
-      currentEasiness: card.easiness,
-      currentInterval: card.interval,
-      quality: quality,
-    );
-
+  /// تحديث تقييم الكارت بعد المراجعة (Firestore Only)
+  Future<void> submitRating(BaseCardEntity card, Sm2Result res) async {
     await firestore.collection('cards').doc(card.id).update({
       'repetition': res.repetition,
       'easiness': res.easiness,
@@ -174,54 +167,50 @@ static Future<void> deleteCollection({required String collectionId}) async {
     });
   }
 
-Future<void> migrateOldCardsAddOwnerId() async {
-  final user = FirebaseAuth.instance.currentUser;
-  if (user == null) return;
+  Future<void> migrateOldCardsAddOwnerId() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
 
-  final uid = user.uid;
-  final firestore = FirebaseFirestore.instance;
+    final uid = user.uid;
+    final firestore = FirebaseFirestore.instance;
 
-  print('Migration started for user: $uid');
+    print('Migration started for user: $uid');
 
-  // هات كل collections بتاعة المستخدم
-  final collectionsSnap = await firestore
-      .collection('collections')
-      .where('ownerId', isEqualTo: uid)
-      .get();
+    // هات كل collections بتاعة المستخدم
+    final collectionsSnap = await firestore
+        .collection('collections')
+        .where('ownerId', isEqualTo: uid)
+        .get();
 
-  if (collectionsSnap.docs.isEmpty) {
-    print('No collections found');
-    return;
-  }
-
-  final collectionIds = collectionsSnap.docs.map((e) => e.id).toList();
-
-  // هات كل cards اللي معندهاش ownerId
-  final cardsSnap = await firestore
-      .collection('cards')
-      .where('collectionId', whereIn: collectionIds)
-      .get();
-
-  final batch = firestore.batch();
-  int updatedCount = 0;
-
-  for (final doc in cardsSnap.docs) {
-    final data = doc.data();
-
-    if (!data.containsKey('ownerId')) {
-      batch.update(doc.reference, {
-        'ownerId': uid,
-      });
-      updatedCount++;
+    if (collectionsSnap.docs.isEmpty) {
+      print('No collections found');
+      return;
     }
+
+    final collectionIds = collectionsSnap.docs.map((e) => e.id).toList();
+
+    // هات كل cards اللي معندهاش ownerId
+    final cardsSnap = await firestore
+        .collection('cards')
+        .where('collectionId', whereIn: collectionIds)
+        .get();
+
+    final batch = firestore.batch();
+    int updatedCount = 0;
+
+    for (final doc in cardsSnap.docs) {
+      final data = doc.data();
+
+      if (!data.containsKey('ownerId')) {
+        batch.update(doc.reference, {'ownerId': uid});
+        updatedCount++;
+      }
+    }
+
+    if (updatedCount > 0) {
+      await batch.commit();
+    }
+
+    print('Migration finished. Updated cards: $updatedCount');
   }
-
-  if (updatedCount > 0) {
-    await batch.commit();
-  }
-
-  print('Migration finished. Updated cards: $updatedCount');
-}
-
-
 }

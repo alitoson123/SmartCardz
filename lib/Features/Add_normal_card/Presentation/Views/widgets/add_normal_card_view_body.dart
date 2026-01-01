@@ -112,14 +112,18 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
               title: S.of(context).createYourFlashcard,
               subTitle: S.of(context).createFlashcardSubtitle,
             ),
-            SizedBox(height: 30.h),
+            SizedBox(height: 25.h),
 
-            // ===== Select Collection =====
+            // ===== Selection Tiles (Horizontal) =====
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: InkWell(
+                  child: _buildSelectionTile(
+                    label:
+                        selectedCollectionName ??
+                        //  S.of(context).selectCollection,
+                        'Collection',
+                    icon: Icons.collections_bookmark_rounded,
                     onTap: () async {
                       final result = await Navigator.push(
                         context,
@@ -138,31 +142,13 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                         });
                       }
                     },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 10.h,
-                      ),
-                      margin: EdgeInsets.only(right: 8.w),
-                      child: Text(
-                        selectedCollectionName ??
-                            S.of(context).selectCollection,
-                        style: TextStyle(fontSize: 16.sp),
-                      ),
-                    ),
                   ),
                 ),
-                Icon(Icons.arrow_forward_ios, size: 18.sp),
-              ],
-            ),
-            SizedBox(height: 15.h),
-
-            // ===== Select the type =====
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+                SizedBox(width: 12.w),
                 Expanded(
-                  child: InkWell(
+                  child: _buildSelectionTile(
+                    label: selectedType,
+                    icon: Icons.style_rounded,
                     onTap: () async {
                       final result = await Navigator.push(
                         context,
@@ -177,23 +163,11 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                         });
                       }
                     },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 10.h,
-                      ),
-                      margin: EdgeInsets.only(right: 8.w),
-                      child: Text(
-                        selectedType,
-                        style: TextStyle(fontSize: 16.sp),
-                      ),
-                    ),
                   ),
                 ),
-                Icon(Icons.arrow_forward_ios, size: 18.sp),
               ],
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 24.h),
 
             // ===== Front Side Field =====
             CustomTextField(
@@ -235,7 +209,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
               },
             ),
 
-            SizedBox(height: 20.h),
+            SizedBox(height: 16.h),
 
             // ===== Back Side Field (only for Basic type) =====
             Visibility(
@@ -280,7 +254,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
               ),
             ),
 
-            SizedBox(height: 30.h),
+            SizedBox(height: 50.h),
 
             // ===== Submit button =====
             AppButton(
@@ -388,6 +362,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Card added successfully!'),
+                      duration: Duration(milliseconds: 800 ),
                       backgroundColor: Colors.green,
                     ),
                   );
@@ -405,6 +380,65 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                 }
               },
               icon: Icons.add,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSelectionTile({
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    final theme = Theme.of(context);
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16.r),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
+        decoration: BoxDecoration(
+          color: theme.cardColor,
+          borderRadius: BorderRadius.circular(16.r),
+          border: Border.all(
+            color: theme.brightness == Brightness.light
+                ? Colors.grey.shade200
+                : Colors.white10,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(10.r),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: theme.colorScheme.primary, size: 16.sp),
+            ),
+            SizedBox(width: 10.w),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                  color: theme.textTheme.bodyLarge?.color,
+                ),
+              ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: theme.hintColor,
+              size: 24.sp,
             ),
           ],
         ),

@@ -89,16 +89,6 @@ class S {
     );
   }
 
-  /// `Add New Card`
-  String get addNewCardTitle {
-    return Intl.message(
-      'Add New Card',
-      name: 'addNewCardTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `AI Card Generation`
   String get addNewCardWithAITitle {
     return Intl.message(
@@ -119,20 +109,20 @@ class S {
     );
   }
 
-  /// `Add a new word and its definition to your deck`
+  /// `Learn smarter with active recall and spaced repetition`
   String get createFlashcardSubtitle {
     return Intl.message(
-      'Add a new word and its definition to your deck',
+      'Learn smarter with active recall and spaced repetition',
       name: 'createFlashcardSubtitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Select a collection`
+  /// `Collection`
   String get selectCollection {
     return Intl.message(
-      'Select a collection',
+      'Collection',
       name: 'selectCollection',
       desc: '',
       args: [],

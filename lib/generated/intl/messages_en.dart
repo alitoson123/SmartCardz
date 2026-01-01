@@ -60,7 +60,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "add": MessageLookupByLibrary.simpleMessage("Add"),
     "addCard": MessageLookupByLibrary.simpleMessage("Add Card"),
     "addCardWithAI": MessageLookupByLibrary.simpleMessage("AI Card Generation"),
-    "addNewCardTitle": MessageLookupByLibrary.simpleMessage("Add New Card"),
     "addNewCardWithAITitle": MessageLookupByLibrary.simpleMessage(
       "AI Card Generation",
     ),
@@ -85,7 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Create a New Collection",
     ),
     "createFlashcardSubtitle": MessageLookupByLibrary.simpleMessage(
-      "Add a new word and its definition to your deck",
+      "Learn smarter with active recall and spaced repetition",
     ),
     "createNewCollection": MessageLookupByLibrary.simpleMessage(
       "Create New Collection",
@@ -180,9 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchCollectionTitle": MessageLookupByLibrary.simpleMessage(
       "Search for a collection",
     ),
-    "selectCollection": MessageLookupByLibrary.simpleMessage(
-      "Select a collection",
-    ),
+    "selectCollection": MessageLookupByLibrary.simpleMessage("Collection"),
     "selectImage": MessageLookupByLibrary.simpleMessage("Select Image"),
     "send": MessageLookupByLibrary.simpleMessage("Send"),
     "settingsTitle": MessageLookupByLibrary.simpleMessage("Settings"),

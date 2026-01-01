@@ -134,4 +134,32 @@ class CardWithAIModel extends CardWithAIEntity {
     'next_review': nextReview,
     'collectionId': collectionId,
   };
+
+  CardWithAIModel copyWith({
+    String? id,
+    int? repetition,
+    double? easiness,
+    int? interval,
+    Timestamp? nextReview,
+    String? collectionId,
+    String? word,
+    String? type,
+    String? definition,
+    String? example,
+    String? imageBase64,
+  }) {
+    return CardWithAIModel(
+      id: id ?? this.id,
+      repetition: repetition ?? this.repetition,
+      easiness: easiness ?? this.easiness,
+      interval: interval ?? this.interval,
+      nextReview: nextReview ?? this.nextReview,
+      collectionId: collectionId ?? this.collectionId,
+      word: word ?? this.word,
+      type: type ?? this.type,
+      definition: definition ?? this.definition,
+      example: example ?? this.example,
+      imageBase64: imageBase64 ?? this.imageBase64,
+    );
+  }
 }
