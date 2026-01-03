@@ -26,7 +26,7 @@ class BackSide extends StatelessWidget {
                 ),
                 const TextSpan(text: '  '),
                 TextSpan(
-                  text: '(${card.type})',
+                  text: '(${card.type[0]})',
                   style: TextStyle(
                     fontSize: 18.sp,
                     color: Colors.grey.shade600,
@@ -40,7 +40,7 @@ class BackSide extends StatelessWidget {
           Divider(color: Colors.grey.shade300),
           SizedBox(height: 12.h),
           Text(
-            '"${card.example}"',
+            '"${card.example[0]}"',
             style: TextStyle(
               fontSize: 18.sp,
               fontStyle: FontStyle.italic,

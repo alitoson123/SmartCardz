@@ -11,10 +11,16 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
   @override
   Future<CardWithAIEntity> showCard({required String word}) async {
     var result = await appServices.getMethod(
-      URL: 'https://smartcardz-ai-eq1y.onrender.com/generate/$word',
+      URL:
+          'https://n8n.srv1209874.hstgr.cloud/webhook/smartcardiz?words=$word&lang=%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A&age=56&level=%D9%85%D8%A8%D8%AA%D8%AF%D8%A1&style=%D8%B1%D8%B3%D9%85&country=%D9%85%D8%B5%D8%B1',
     );
 
+
+
+    // https://smartcardz-ai-eq1y.onrender.com/generate/$word
     // If result is a single Map, convert it directly to CardModel
+
+
     final card = CardWithAIModel.fromJson(result);
 
     return card;
@@ -24,8 +30,8 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
   Future<void> addCard({
     required String word,
     required String definition,
-    required String example,
-    required String type,
+    required List<dynamic> example,
+    required List<dynamic> type,
     String? imageBase64,
     required String collectionId,
   }) async {

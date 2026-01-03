@@ -62,51 +62,32 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                   subTitle: S.of(context).createFlashcardSubtitle,
                 ),
                 SizedBox(height: 20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: InkWell(
-                        onTap: () async {
-                          final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BlocProvider.value(
-                                value: context.read<GetCollectionsCubit>(),
-                                child: CollectionView(),
-                              ),
-                            ),
-                          );
-
-                          if (result != null &&
-                              result is Map<String, dynamic>) {
-                            setState(() {
-                              selectedCollectionName = result['name'];
-                              selectedCollectionId = result['id'];
-                            });
-                          }
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 10.h,
-                          ),
-                          margin: EdgeInsets.only(right: 8.w),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(5.r),
-                          ),
-                          child: Text(
-                            selectedCollectionName ??
-                                S.of(context).selectCollection,
-                            style: TextStyle(fontSize: 16.sp),
+                _buildSelectionTile(
+                    label:
+                        selectedCollectionName ??
+                        //  S.of(context).selectCollection,
+                        'Collection',
+                    icon: Icons.collections_bookmark_rounded,
+                    onTap: () async {
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider.value(
+                            value: context.read<GetCollectionsCubit>(),
+                            child: CollectionView(),
                           ),
                         ),
-                      ),
-                    ),
-                    Icon(Icons.arrow_forward_ios, size: 18.sp),
-                  ],
-                ),
+                      );
+
+                      if (result != null && result is Map<String, dynamic>) {
+                        setState(() {
+                          selectedCollectionName = result['name'];
+                          selectedCollectionId = result['id'];
+                        });
+                      }
+                    },
+                  ),
+
                 SizedBox(height: 30.h),
                 CustomTextField(
                   controller: textController,
@@ -167,5 +148,64 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     controller.dispose();
     textController.dispose();
     super.dispose();
+  }
+
+  Widget _buildSelectionTile({
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    final theme = Theme.of(context);
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16.r),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
+        decoration: BoxDecoration(
+          color: theme.cardColor,
+          borderRadius: BorderRadius.circular(16.r),
+          border: Border.all(
+            color: theme.brightness == Brightness.light
+                ? Colors.grey.shade200
+                : Colors.white10,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(10.r),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: theme.colorScheme.primary, size: 16.sp),
+            ),
+            SizedBox(width: 10.w),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                  color: theme.textTheme.bodyLarge?.color,
+                ),
+              ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: theme.hintColor,
+              size: 24.sp,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

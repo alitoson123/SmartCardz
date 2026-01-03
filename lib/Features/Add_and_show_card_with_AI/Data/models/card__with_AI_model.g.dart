@@ -19,10 +19,10 @@ class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
     return CardWithAIModel(
       id: fields[0] as String,
       word: fields[5] as String,
-      type: fields[6] as String,
+      type: fields[6] as List<dynamic>,
       definition: fields[7] as String,
-      example: fields[8] as String,
-      imageBase64: fields[9] as String,
+      example: fields[8] as List<dynamic>,
+      image_url: fields[9] as String,
       repetition: fields[1] as int,
       easiness: fields[2] as double,
       interval: fields[3] as int,
@@ -54,7 +54,7 @@ class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
       ..writeByte(8)
       ..write(obj.example)
       ..writeByte(9)
-      ..write(obj.imageBase64)
+      ..write(obj.image_url)
       ..writeByte(10)
       ..write(obj.collectionId);
   }

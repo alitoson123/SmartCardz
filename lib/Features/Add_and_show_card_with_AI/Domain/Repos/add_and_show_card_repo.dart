@@ -7,8 +7,8 @@ abstract class AddAndShowCardRepo {
   Future<Either<Failure, void>> addCard({
     required String word,
     required String definition,
-    required String example,
-    required String type,
+    required List<dynamic> example,
+    required List<dynamic> type,
     String? imageBase64,
     required String collectionId,
   });

@@ -30,16 +30,16 @@ class CardWithAIModel extends CardWithAIEntity {
   final String word;
   @HiveField(6)
   @override
-  final String type;
+  final List<dynamic> type;
   @HiveField(7)
   @override
   final String definition;
   @HiveField(8)
   @override
-  final String example;
+  final List<dynamic> example;
   @HiveField(9)
   @override
-  final String imageBase64;
+  final String image_url;
 
   CardWithAIModel({
     required this.id,
@@ -47,7 +47,7 @@ class CardWithAIModel extends CardWithAIEntity {
     required this.type,
     required this.definition,
     required this.example,
-    required this.imageBase64,
+    required this.image_url,
     required this.repetition,
     required this.easiness,
     required this.interval,
@@ -58,7 +58,7 @@ class CardWithAIModel extends CardWithAIEntity {
          type: type,
          definition: definition,
          example: example,
-         imageBase64: imageBase64,
+         image_url: image_url,
        );
   /*factory CardModel.fromJson(List<dynamic> json, {String id = ''}) {
     return CardModel(
@@ -88,10 +88,10 @@ class CardWithAIModel extends CardWithAIEntity {
     return CardWithAIModel(
       id: id,
       word: json['word'] ?? '',
-      type: json['type'] ?? '',
-      definition: json['definition'] ?? '',
-      example: json['example'] ?? '',
-      imageBase64: json['image_base64'] ?? '',
+      type:  (json['type/s'] ?? [] )as List<dynamic>,
+      definition: json['description'] ?? '' ,
+      example: (json['examples'] ?? []) as List<dynamic>,
+      image_url: json['image_url'] ?? '',
       repetition: (json['repetition'] ?? 0) as int,
       easiness: (json['easiness'] ?? 2.5).toDouble(),
       interval: (json['interval'] ?? 0) as int,
@@ -113,7 +113,7 @@ class CardWithAIModel extends CardWithAIEntity {
       type: m['type'] ?? '',
       definition: m['definition'] ?? '',
       example: m['example'] ?? '',
-      imageBase64: m['imageBase64'] ?? m['image_base64'] ?? '',
+      image_url: m['image_url'] ?? m['image_url'] ?? '',
       repetition: (m['repetition'] ?? 0) as int,
       easiness: (m['easiness'] ?? 2.5).toDouble(),
       interval: (m['interval'] ?? 0) as int,
@@ -127,7 +127,7 @@ class CardWithAIModel extends CardWithAIEntity {
     'type': type,
     'definition': definition,
     'example': example,
-    'image_base64': imageBase64,
+    'image_url': image_url,
     'repetition': repetition,
     'easiness': easiness,
     'interval': interval,
@@ -143,9 +143,9 @@ class CardWithAIModel extends CardWithAIEntity {
     Timestamp? nextReview,
     String? collectionId,
     String? word,
-    String? type,
+    List<dynamic>? type,
     String? definition,
-    String? example,
+    List<dynamic>? example,
     String? imageBase64,
   }) {
     return CardWithAIModel(
@@ -159,7 +159,7 @@ class CardWithAIModel extends CardWithAIEntity {
       type: type ?? this.type,
       definition: definition ?? this.definition,
       example: example ?? this.example,
-      imageBase64: imageBase64 ?? this.imageBase64,
+      image_url: imageBase64 ?? this.image_url,
     );
   }
 }

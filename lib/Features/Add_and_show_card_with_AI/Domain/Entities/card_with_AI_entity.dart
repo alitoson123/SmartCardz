@@ -4,20 +4,20 @@ class CardWithAIEntity extends BaseCardEntity {
   @override
   final String word;
   @override
-  final String type;
+  final List<dynamic> type;
   @override
   final String definition;
   @override
-  final String imageBase64;
+  final String image_url;
   @override
-  final String example;
+  final List<dynamic> example;
 
   CardWithAIEntity({
     required this.word,
     required this.type,
     required this.definition,
     required this.example,
-    required this.imageBase64,
+    required this.image_url,
   });
 
   // Override card type identification

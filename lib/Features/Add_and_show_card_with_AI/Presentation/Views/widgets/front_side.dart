@@ -18,8 +18,8 @@ class FrontSide extends StatelessWidget {
             height: 300.h,
             fit: BoxFit.contain,
           ), */
-          Image.asset(
-            'assets/images/garden.png',
+          Image.network(
+            card.image_url,
             height: 300.h,
             fit: BoxFit.contain,
           ),

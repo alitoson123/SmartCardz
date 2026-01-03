@@ -17,10 +17,10 @@ abstract class BaseCardEntity extends HiveObject {
 
   /// 🤖 AI-specific properties (used only for AI cards)
   String get word => '';
-  String get type => '';
+  List<dynamic> get type => [];
   String get definition => '';
-  String get imageBase64 => '';
-  String get example => '';
+  String get image_url => '';
+  List<dynamic> get example => [];
 
   /// 🧠 SM-2 algorithm properties
   int get repetition => 0;
