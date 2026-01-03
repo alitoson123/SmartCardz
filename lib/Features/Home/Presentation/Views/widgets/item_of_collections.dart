@@ -13,32 +13,51 @@ class ItemOfCollections extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.only(bottom: 16.h),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-      elevation: 3,
-      child: ListTile(
-        contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-        title: Text(
-          collection.collectionName,
-          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(16.r),
+          border: Border.all(
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.grey.shade200
+                : Colors.white10,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
-        subtitle: FutureBuilder<int>(
-          future: countOfDueCards(),
-          builder: (context, snapshot) {
-            final dueCardsText = snapshot.hasData
-                ? '- ${snapshot.data} due'
-                : '- ...';
-            return Text(
-              '${collection.cards_count} ${S.of(context).cards} $dueCardsText',
-              style: TextStyle(fontSize: 14.sp),
-            );
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 8.h,
+            horizontal: 16.w,
+          ),
+          title: Text(
+            collection.collectionName,
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
+          ),
+          subtitle: FutureBuilder<int>(
+            future: countOfDueCards(),
+            builder: (context, snapshot) {
+              final dueCardsText = snapshot.hasData
+                  ? '- ${snapshot.data} due'
+                  : '- ...';
+              return Text(
+                '${collection.cards_count} ${S.of(context).cards} $dueCardsText',
+                style: TextStyle(fontSize: 14.sp),
+              );
+            },
+          ),
+          trailing: Icon(Icons.arrow_forward_ios, size: 18.sp),
+          onTap: () {
+            context.push(AppRoutes.revisionCardScreen, extra: collection);
           },
         ),
-        trailing: Icon(Icons.arrow_forward_ios, size: 18.sp),
-        onTap: () {
-          context.push(AppRoutes.revisionCardScreen, extra: collection);
-        },
       ),
     );
   }

@@ -57,10 +57,12 @@ class CustomTextField extends StatelessWidget {
             onSubmitted: onSubmitted,
             decoration: InputDecoration(
               prefixIcon: Icon(icon, color: theme.colorScheme.primary),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.image, color: Colors.blue),
-                onPressed: onImageTap,
-              ),
+              suffixIcon: onImageTap != null
+                  ? IconButton(
+                      icon: const Icon(Icons.image, color: Colors.blue),
+                      onPressed: onImageTap,
+                    )
+                  : null,
               hintText: hint,
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(

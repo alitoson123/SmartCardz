@@ -21,14 +21,14 @@ final ThemeData darkTheme = ThemeData(
   cardColor: const Color(0xFF1E1E1E),
 
   listTileTheme: const ListTileThemeData(
-    tileColor: Color(0xFF1E1E1E),
+  // tileColor: Color(0xFF1E1E1E),
     iconColor: Colors.white,
     textColor: Colors.white,
   ),
 
   inputDecorationTheme: InputDecorationTheme(
     //filled: true,
-  //  fillColor: const Color(0xFF1E1E1E),
+    //  fillColor: const Color(0xFF1E1E1E),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(14.r),
       borderSide: BorderSide.none,

@@ -6,6 +6,7 @@ import 'package:smart_cards/Features/Settings/Presentation/views/widgets/app_lan
 import 'package:smart_cards/Features/Settings/Presentation/views/widgets/app_theme.dart';
 import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
+import 'package:smart_cards/core/utils/widgets/app_header.dart';
 import 'package:smart_cards/core/services/Local_service/local_service_with_hive.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
 import 'package:smart_cards/core/services/notifications_service/push_notification_service.dart';
@@ -27,70 +28,45 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(S.of(context).settingsTitle)),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 30.h),
+      body: SafeArea(
         child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                S.of(context).Account,
-                style: TextStyle(fontSize: 20.sp, color: Colors.grey.shade600),
+              AppHeader(
+                icon: Icons.settings_rounded,
+                title: S.of(context).settingsTitle,
               ),
-              SizedBox(height: 10.h),
-
-              Container(
-                padding: EdgeInsets.all(5.r),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
+              SizedBox(height: 30.h),
+              buildSectionHeader(S.of(context).Account),
+              buildSettingsGroup([
+                _buildListTile(
+                  icon: Icons.email_outlined,
+                  title: S.of(context).Email,
+                  subtitle: LocalServiceWithHive().getUser()?.email ?? 'Email',
                 ),
-                child: Column(
-                  children: [
-                    ListTile(
-                      leading: const Icon(Icons.email_outlined, size: 30),
-                      title: Text(
-                        S.of(context).Email,
-                        style: TextStyle(fontSize: 20.sp),
-                      ),
-                      subtitle: Text(
-                        LocalServiceWithHive().getUser()?.email ?? 'Email',
-                        style: TextStyle(fontSize: 18.sp),
-                      ),
-                    ),
-                    const Divider(color: Colors.grey, thickness: .4, height: 4),
-                    ListTile(
-                      leading: const Icon(Icons.person_outline, size: 30),
-                      title: Text(
-                        S.of(context).Plan,
-                        style: TextStyle(fontSize: 20.sp),
-                      ),
-                      subtitle: Text('Free', style: TextStyle(fontSize: 18.sp)),
-                    ),
-                  ],
+                _buildDivider(),
+                _buildListTile(
+                  icon: Icons.person_outline,
+                  title: S.of(context).Plan,
+                  subtitle: 'Free',
                 ),
-              ),
+              ]),
+              SizedBox(height: 24.h),
 
-              SizedBox(height: 15.h),
-
-              Text(
-                S.of(context).Notification,
-                style: TextStyle(fontSize: 20.sp, color: Colors.grey.shade600),
-              ),
-              SizedBox(height: 10.h),
-
-              Container(
-                padding: EdgeInsets.all(5.r),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: ListTile(
+              buildSectionHeader(S.of(context).Notification),
+              buildSettingsGroup([
+                ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
                   leading: const Icon(Icons.notifications_outlined),
                   title: Text(
                     S.of(context).Notification,
-                    style: TextStyle(fontSize: 20.sp),
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-
                   trailing: Switch(
                     value: isNotification,
                     onChanged: (value) {
@@ -105,29 +81,19 @@ class _SettingsViewState extends State<SettingsView> {
                     });
                   },
                 ),
-              ),
+              ]),
+              SizedBox(height: 24.h),
 
-              SizedBox(height: 15.h),
-
-              Text(
-                S.of(context).language,
-                style: TextStyle(fontSize: 20.sp, color: Colors.grey.shade600),
-              ),
-              SizedBox(height: 10.h),
-
-              Container(
-                padding: EdgeInsets.all(5.r),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: BlocBuilder<AppLanguageCubit, AppLanguageState>(
+              buildSectionHeader(S.of(context).language),
+              buildSettingsGroup([
+                BlocBuilder<AppLanguageCubit, AppLanguageState>(
                   builder: (context, state) {
-                    return ListTile(
-                      leading: const Icon(Icons.language),
-                      title: Text(
-                        S.of(context).language,
-                        style: TextStyle(fontSize: 20.sp),
-                      ),
+                    return _buildListTile(
+                      icon: Icons.language,
+                      title: S.of(context).language,
+                      subtitle: state.appLanguage == 'en'
+                          ? 'English'
+                          : 'العربية',
                       onTap: () async {
                         final selectedLanguage = await showDialog(
                           context: context,
@@ -144,21 +110,20 @@ class _SettingsViewState extends State<SettingsView> {
                     );
                   },
                 ),
-              ),
-              Text(
-                S.of(context).appearance,
-                style: TextStyle(fontSize: 20.sp, color: Colors.grey.shade600),
-              ),
-              SizedBox(height: 10.h),
+              ]),
+              SizedBox(height: 24.h),
 
-              Container(
-                padding: EdgeInsets.all(5.r),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: BlocBuilder<ThemeCubit, ThemeState>(
+              buildSectionHeader(S.of(context).appearance),
+              buildSettingsGroup([
+                BlocBuilder<ThemeCubit, ThemeState>(
                   builder: (context, state) {
-                    return ListTile(
+                    return _buildListTile(
+                      icon: Icons.palette_outlined,
+                      title: S.of(context).theme,
+                      subtitle: state.themeMode == ThemeMode.dark
+                          ? S.of(context).dark
+                          : S.of(context).light,
+                      trailing: Icon(Icons.chevron_right_rounded, size: 24.sp),
                       onTap: () async {
                         final selectedTheme = await showDialog(
                           context: context,
@@ -173,91 +138,142 @@ class _SettingsViewState extends State<SettingsView> {
                           context.read<ThemeCubit>().changeTheme(selectedTheme);
                         }
                       },
-                      leading: Icon(Icons.palette_outlined, size: 30.sp),
-                      title: Text(
-                        S.of(context).theme,
-                        style: TextStyle(fontSize: 20.sp),
-                      ),
-                      subtitle: Text(
-                        state.themeMode == ThemeMode.dark
-                            ? S.of(context).dark
-                            : S.of(context).light,
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 18.sp),
                     );
                   },
                 ),
-              ),
-              SizedBox(height: 15.h),
+              ]),
+              SizedBox(height: 24.h),
 
-              Text(
-                S.of(context).AboutApp,
-                style: TextStyle(fontSize: 20.sp, color: Colors.grey.shade600),
-              ),
-              SizedBox(height: 10.h),
-
-              Container(
-                padding: EdgeInsets.all(5.r),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
+              buildSectionHeader(S.of(context).AboutApp),
+              buildSettingsGroup([
+                _buildListTile(
+                  icon: Icons.info_outline,
+                  title: S.of(context).AboutApp,
                 ),
-                child: Column(
-                  children: [
-                    ListTile(
-                      leading: const Icon(Icons.info_outline),
-                      title: Text(
-                        S.of(context).AboutApp,
-                        style: TextStyle(fontSize: 20.sp),
-                      ),
-                      onTap: () {},
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.info_outline),
-                      title: Text(
-                        S.of(context).version,
-                        style: TextStyle(fontSize: 20.sp),
-                      ),
-                      subtitle: Text(
-                        '1.0.0',
-                        style: TextStyle(fontSize: 18.sp),
-                      ),
-                      onTap: () {},
-                    ),
-                  ],
+                _buildDivider(),
+                _buildListTile(
+                  icon: Icons.verified_outlined,
+                  title: S.of(context).version,
+                  subtitle: '1.0.0',
                 ),
-              ),
-              SizedBox(height: 15.h),
+              ]),
+              SizedBox(height: 24.h),
 
-              Text(
-                S.of(context).actions,
-                style: TextStyle(fontSize: 20.sp, color: Colors.grey.shade600),
-              ),
-              SizedBox(height: 10.h),
-
-              Container(
-                padding: EdgeInsets.all(5.r),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: ListTile(
-                  leading: const Icon(Icons.logout, color: Colors.red),
-                  title: Text(
-                    S.of(context).logout,
-                    style: TextStyle(fontSize: 20.sp),
-                  ),
+              buildSectionHeader(S.of(context).actions),
+              buildSettingsGroup([
+                _buildListTile(
+                  icon: Icons.logout,
+                  iconColor: Colors.red,
+                  title: S.of(context).logout,
+                  titleColor: Colors.red,
                   onTap: () async {
                     await logout(context);
                   },
                 ),
-              ),
+              ]),
+              SizedBox(height: 40.h),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildSectionHeader(String title) {
+    return Padding(
+      padding: EdgeInsets.only(left: 4.w, bottom: 8.h),
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.bold,
+            color: Colors.blueAccent,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildSettingsGroup(List<Widget> children) {
+    final theme = Theme.of(context);
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(
+          color: theme.brightness == Brightness.light
+              ? Colors.grey.shade200
+              : Colors.white10,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(children: children),
+    );
+  }
+
+  Widget _buildListTile({
+    required IconData icon,
+    required String title,
+    String? subtitle,
+    VoidCallback? onTap,
+    Widget? trailing,
+    Color? iconColor,
+    Color? titleColor,
+  }) {
+    final theme = Theme.of(context);
+    return ListTile(
+      onTap: onTap,
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+      leading: Container(
+        padding: EdgeInsets.all(8.r),
+        decoration: BoxDecoration(
+          color: (iconColor ?? theme.colorScheme.primary).withOpacity(0.1),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          color: iconColor ?? theme.colorScheme.primary,
+          size: 20.sp,
+        ),
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
+          color: titleColor ?? theme.textTheme.bodyLarge?.color,
+        ),
+      ),
+      subtitle: subtitle != null
+          ? Text(
+              subtitle,
+              style: TextStyle(fontSize: 13.sp, color: theme.hintColor),
+            )
+          : null,
+      trailing:
+          trailing ??
+          (onTap != null
+              ? Icon(Icons.chevron_right_rounded, color: theme.hintColor)
+              : null),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Divider(
+      height: 1,
+      thickness: 0.5,
+      indent: 56.w,
+      endIndent: 16.w,
+      color: Colors.grey.withOpacity(0.2),
     );
   }
 

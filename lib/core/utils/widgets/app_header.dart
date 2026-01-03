@@ -6,11 +6,11 @@ class AppHeader extends StatelessWidget {
     super.key,
     required this.icon,
     required this.title,
-    required this.subTitle,
+    this.subTitle,
   });
   final IconData icon;
   final String title;
-  final String subTitle;
+  final String? subTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,14 @@ class AppHeader extends StatelessWidget {
           child: Icon(icon, size: 50.sp, color: Colors.blueAccent),
         ),
         SizedBox(height: 16.h),
-        Text(title),
-        SizedBox(height: 6.h),
-        Text(subTitle, textAlign: TextAlign.center),
+        Text(
+          title,
+          style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
+        ),
+        if (subTitle != null) ...[
+          SizedBox(height: 6.h),
+          Text(subTitle!, textAlign: TextAlign.center),
+        ],
       ],
     );
   }
