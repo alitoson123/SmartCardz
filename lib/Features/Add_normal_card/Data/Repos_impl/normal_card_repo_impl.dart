@@ -10,18 +10,24 @@ class NormalCardRepoImpl extends NormalCardRepo {
   NormalCardRepoImpl({required this.normalCardRemoteDataSourceImpl});
   @override
   Future<Either<Failure, void>> addNormalCard({
+    required String cardId,
     required String frontSide,
     required String backSide,
     required String frontImageUrl,
     required String backImageUrl,
+    required String frontImagePath,
+    required String backImagePath,
     required String collectionId,
   }) async {
     try {
       await normalCardRemoteDataSourceImpl.addNormalCard(
+        cardId: cardId,
         frontSide: frontSide,
         backSide: backSide,
         frontImageUrl: frontImageUrl,
         backImageUrl: backImageUrl,
+        frontImagePath: frontImagePath,
+        backImagePath: backImagePath,
         collectionId: collectionId,
       );
       return right(null);

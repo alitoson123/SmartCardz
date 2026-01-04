@@ -14,26 +14,31 @@ import 'package:smart_cards/core/services/app_services/app_services.dart';
 import 'package:smart_cards/core/services/firebase_auth_service/firebase_auth_service.dart';
 
 final getIt = GetIt.instance;
+final Dio dio = Dio();
 
 void setup() {
+  // 1. Register AppServices first
+  getIt.registerLazySingleton<AppServices>(() => AppServices(dio: dio));
+
+  // 2. Register Repos utilizing the singleton
   getIt.registerSingleton<AddAndShowCardRepoImpl>(
     AddAndShowCardRepoImpl(
       addAndShowCardRemoteDataSource: ShowCardRemoteDataSourceImpl(
-        appServices: AppServices(dio: Dio()),
+        appServices: getIt<AppServices>(),
       ),
     ),
   );
   getIt.registerSingleton<RevisionRepoImpl>(
     RevisionRepoImpl(
       revisionRemoteDataSaource: RevisionRemoteDataSourceImpl(
-        appServices: AppServices(dio: Dio()),
+        appServices: getIt<AppServices>(),
       ),
     ),
   );
   getIt.registerSingleton<NormalCardRepoImpl>(
     NormalCardRepoImpl(
       normalCardRemoteDataSourceImpl: NormalCardRemoteDataSourceImpl(
-        appServices: AppServices(dio: Dio()),
+        appServices: getIt<AppServices>(),
       ),
     ),
   );
@@ -44,7 +49,7 @@ void setup() {
   getIt.registerSingleton<CollectionRepoImpl>(
     CollectionRepoImpl(
       collectionRemoteDataSource: CollectionRemoteDataSourceImpl(
-        appServices: AppServices(dio: Dio()),
+        appServices: getIt<AppServices>(),
       ),
     ),
   );

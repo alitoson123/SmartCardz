@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,10 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
   File? frontImage;
   File? backImage;
+  Reference? frontImageRef;
+  Reference? backImageRef;
+  
+    final cardId = FirebaseFirestore.instance.collection('cards').doc().id;
 
   // Pick image from gallery and return File
   Future<File?> pickImageFromGallery() async {
@@ -72,21 +77,23 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
     return File(result!.path);
   }
 
-  // Upload image and get download URL
-  Future<String> uploadAndGetImageUrl(File imageFile) async {
+  // Generate storage reference for image
+  Reference? generateImageReference({required String side}) {
+    User? user = FirebaseAuth.instance.currentUser;
+    final String userId = user!.uid;
+
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final imageRef = storageRef.child('cards/$userId/${cardId}/$side.webp');
+
+    return imageRef;
+  }
+
+  Future<String> putAndGetUrl(Reference? imageRef, File imageFile) async {
     try {
-      User? user = FirebaseAuth.instance.currentUser;
-
-      final storageRef = FirebaseStorage.instance.ref();
-      final String userId = user!.uid;
-      final String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-
-      // اضغط الصورة
       final compressedImage = await compressImage(imageFile);
 
-      final imageRef = storageRef.child("cards/$userId/image_$timestamp.webp");
-
-      await imageRef.putFile(compressedImage);
+      await imageRef!.putFile(compressedImage);
 
       final imageUrl = await imageRef.getDownloadURL();
 
@@ -307,12 +314,16 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   String? backImageUrl;
 
                   if (frontImage != null) {
-                    frontImageUrl = await uploadAndGetImageUrl(frontImage!);
+                    frontImageRef = generateImageReference(side:'front');
+                    frontImageUrl = await putAndGetUrl(
+                      frontImageRef,
+                      frontImage!,
+                    );
                     if (frontImageUrl.isEmpty) {
                       // Upload failed
                       Navigator.pop(context); // Close loading dialog
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Failed to upload front image'),
                           backgroundColor: Colors.red,
                         ),
@@ -322,12 +333,13 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   }
 
                   if (backImage != null && selectedType == "Basic") {
-                    backImageUrl = await uploadAndGetImageUrl(backImage!);
+                    backImageRef = generateImageReference(side:'back');
+                    backImageUrl = await putAndGetUrl(backImageRef, backImage!);
                     if (backImageUrl.isEmpty) {
                       // Upload failed
                       Navigator.pop(context); // Close loading dialog
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Failed to upload back image'),
                           backgroundColor: Colors.red,
                         ),
@@ -339,12 +351,16 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   // Close loading dialog
                   Navigator.pop(context);
 
+
                   // Add card to Firestore
                   context.read<NormalCardCubit>().addNormalCard(
+                    cardId: cardId,
                     frontSide: frontSide,
                     backSide: backSide,
                     frontImageUrl: frontImageUrl ?? '',
                     backImageUrl: backImageUrl ?? '',
+                    frontImagePath: frontImageRef!.fullPath.toString(),
+                    backImagePath: backImageRef!.fullPath.toString(),
                     collectionId: selectedCollectionId!,
                     // Pass front image URL
                     // If you have a backImagePath parameter, pass backImageUrl here
@@ -356,13 +372,15 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   setState(() {
                     frontImage = null;
                     backImage = null;
+                    frontImageRef = null;
+                    backImageRef = null;
                   });
 
                   // Show success message
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Card added successfully!'),
-                      duration: Duration(milliseconds: 800 ),
+                      duration: Duration(milliseconds: 800),
                       backgroundColor: Colors.green,
                     ),
                   );

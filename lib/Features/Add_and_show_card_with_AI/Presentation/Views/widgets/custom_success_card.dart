@@ -56,7 +56,7 @@ class CustomSuccessCard extends StatelessWidget {
               definition: card.definition,
               example: card.example,
               type: card.type,
-              imageBase64: 'card.imageBase64',
+              image_url: card.image_url,
               collectionId: selectedCollectionId!,
             );
             ScaffoldMessenger.of(context).showSnackBar(

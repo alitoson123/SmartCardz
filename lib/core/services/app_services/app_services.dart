@@ -85,12 +85,11 @@ class AppServices {
   Future<void> addCard({
     required Map<String, dynamic> cardData,
     required String collectionId,
+    required String cardId,
   }) async {
-    final newCard = firestore.collection('cards').doc();
-
-    await newCard.set({
+    await firestore.collection('cards').doc(cardId).set({
       ...cardData,
-      'id': newCard.id,
+      'id': cardId,
       'collectionId': collectionId,
       'ownerId': FirebaseAuth.instance.currentUser!.uid,
       'created_at': FieldValue.serverTimestamp(),
@@ -166,6 +165,66 @@ class AppServices {
       'last_reviewed': FieldValue.serverTimestamp(),
     });
   }
+/*
+  Future<void> migrateCardsToListType() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    final uid = user.uid;
+    print('Migration to List type started for user: $uid');
+
+    // Fetch all AI cards for this user
+    final cardsSnap = await firestore
+        .collection('cards')
+        .where('ownerId', isEqualTo: uid)
+        .where('card_type', isEqualTo: 'ai')
+        .get();
+
+    final batch = firestore.batch();
+    int updatedCount = 0;
+
+    for (final doc in cardsSnap.docs) {
+      final data = doc.data();
+      bool needsUpdate = false;
+      Map<String, dynamic> updates = {};
+
+      // Check 'type'
+      if (data['type'] is String) {
+        updates['type'] = [data['type']];
+        needsUpdate = true;
+      } else if (data['type'] == null) {
+        updates['type'] = [];
+        needsUpdate = true;
+      }
+
+      // Check 'example'
+      if (data['example'] is String) {
+        updates['example'] = [data['example']];
+        needsUpdate = true;
+      } else if (data['example'] == null) {
+        updates['example'] = [];
+        needsUpdate = true;
+      }
+
+      // Check 'image_url' rename
+      if (data.containsKey('imageBase64')) {
+        updates['image_url'] = data['imageBase64'];
+        updates['imageBase64'] = FieldValue.delete();
+        needsUpdate = true;
+      }
+
+      if (needsUpdate) {
+        batch.update(doc.reference, updates);
+        updatedCount++;
+      }
+    }
+
+    if (updatedCount > 0) {
+      await batch.commit();
+    }
+
+    print('Migration finished. Updated cards to list type: $updatedCount');
+  }
 
   Future<void> migrateOldCardsAddOwnerId() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -213,4 +272,5 @@ class AppServices {
 
     print('Migration finished. Updated cards: $updatedCount');
   }
+  */
 }

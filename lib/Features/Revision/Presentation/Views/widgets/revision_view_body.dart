@@ -45,6 +45,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
   List<DrawingPoint?> drawingPoints = [];
   Color selectedColor = Colors.red;
   double strokeWidth = 3.0;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -69,6 +70,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
     widget.clearWhiteboardNotifier.removeListener(_clearWhiteboard);
     widget.changeColorNotifier.removeListener(_changeColor);
     widget.deleteCardNotifier.removeListener(_deleteCard);
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -143,6 +145,9 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
       currentIndex = 0;
       showAnswer = false;
       drawingPoints.clear();
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(0);
+      }
     });
   }
 
@@ -180,6 +185,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                   child: Padding(
                     padding: EdgeInsets.all(16.r),
                     child: SingleChildScrollView(
+                      controller: _scrollController,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -337,7 +343,18 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                         ? AppButton(
                             text: S.of(context).showAnswer,
                             icon: Icons.visibility,
-                            onPressed: () => setState(() => showAnswer = true),
+                            onPressed: () {
+                              setState(() => showAnswer = true);
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                if (_scrollController.hasClients) {
+                                  _scrollController.animateTo(
+                                    _scrollController.position.maxScrollExtent,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeOut,
+                                  );
+                                }
+                              });
+                            },
                           )
                         : RowOfDifficultyButton(
                             card: card,
@@ -354,8 +371,9 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                                 if (currentIndex >= cards.length - 1) {
                                   currentIndex = 0;
                                 }
-                                // If it's not the last card, staying at the same currentIndex
-                                // will effectively show the next card in the shifted list.
+                                if (_scrollController.hasClients) {
+                                  _scrollController.jumpTo(0);
+                                }
                               });
                             },
                           )
@@ -365,7 +383,18 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                   ? AppButton(
                       text: S.of(context).showAnswer,
                       icon: Icons.visibility,
-                      onPressed: () => setState(() => showAnswer = true),
+                      onPressed: () {
+                        setState(() => showAnswer = true);
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (_scrollController.hasClients) {
+                            _scrollController.animateTo(
+                              _scrollController.position.maxScrollExtent,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeOut,
+                            );
+                          }
+                        });
+                      },
                     )
                   : RowOfDifficultyButton(
                       card: card,
@@ -382,8 +411,9 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                           if (currentIndex >= cards.length - 1) {
                             currentIndex = 0;
                           }
-                          // If it's not the last card, staying at the same currentIndex
-                          // will effectively show the next card in the shifted list.
+                          if (_scrollController.hasClients) {
+                            _scrollController.jumpTo(0);
+                          }
                         });
                       },
                     ),

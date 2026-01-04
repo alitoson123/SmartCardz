@@ -39,7 +39,7 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
     required String definition,
     required List<dynamic> example,
     required List<dynamic> type,
-    String? imageBase64,
+    String? image_url,
     required String collectionId,
   }) async {
     try {
@@ -49,7 +49,7 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
         definition: definition,
         example: example,
         type: type,
-        imageBase64: imageBase64,
+        image_url: image_url,
       );
       return right(null);
     } catch (e) {

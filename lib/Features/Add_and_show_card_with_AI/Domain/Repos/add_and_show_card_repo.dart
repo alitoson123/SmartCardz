@@ -9,7 +9,7 @@ abstract class AddAndShowCardRepo {
     required String definition,
     required List<dynamic> example,
     required List<dynamic> type,
-    String? imageBase64,
+    String? image_url,
     required String collectionId,
   });
 }

@@ -60,25 +60,7 @@ class CardWithAIModel extends CardWithAIEntity {
          example: example,
          image_url: image_url,
        );
-  /*factory CardModel.fromJson(List<dynamic> json, {String id = ''}) {
-    return CardModel(
-      id: id,
-      word: json[0]['word'] ?? '',
-      type: json[0]["meanings"][0]["partOfSpeech"] ?? '',
-      definition: json[0]["meanings"][0]["definitions"][0]["definition"] ?? '',
-      example: json[0]["meanings"][0]["definitions"][0]["example"] ?? '',
-      imageUrl: json[0]['word']  ?? '',
-      repetition: (1 ?? 0) as int,
-      easiness: (5.5 ?? 2.5).toDouble(),
-      interval: (1 ?? 0) as int,
-      nextReview: Timestamp.now() is Timestamp
-          ? Timestamp.now() as Timestamp
-          : (Timestamp.now() != null
-              ? Timestamp.fromDate(DateTime.parse(Timestamp.now().toString()))
-              : null),
-    );
-  }
-*/
+  
 
   /// From a simple JSON (e.g., from AI/mock). Sets sane SM-2 defaults.
   factory CardWithAIModel.fromJson(
@@ -88,8 +70,8 @@ class CardWithAIModel extends CardWithAIEntity {
     return CardWithAIModel(
       id: id,
       word: json['word'] ?? '',
-      type:  (json['type/s'] ?? [] )as List<dynamic>,
-      definition: json['description'] ?? '' ,
+      type: (json['type/s'] ?? []) as List<dynamic>,
+      definition: json['description'] ?? '',
       example: (json['examples'] ?? []) as List<dynamic>,
       image_url: json['image_url'] ?? '',
       repetition: (json['repetition'] ?? 0) as int,
@@ -110,10 +92,10 @@ class CardWithAIModel extends CardWithAIEntity {
     return CardWithAIModel(
       id: doc.id,
       word: m['word'] ?? '',
-      type: m['type'] ?? '',
+      type: m['type'] ?? [],
       definition: m['definition'] ?? '',
-      example: m['example'] ?? '',
-      image_url: m['image_url'] ?? m['image_url'] ?? '',
+      example: m['example'] ?? [],
+      image_url: m['image_url'] ?? '',
       repetition: (m['repetition'] ?? 0) as int,
       easiness: (m['easiness'] ?? 2.5).toDouble(),
       interval: (m['interval'] ?? 0) as int,
@@ -146,7 +128,7 @@ class CardWithAIModel extends CardWithAIEntity {
     List<dynamic>? type,
     String? definition,
     List<dynamic>? example,
-    String? imageBase64,
+    String? image_url,
   }) {
     return CardWithAIModel(
       id: id ?? this.id,
@@ -159,7 +141,7 @@ class CardWithAIModel extends CardWithAIEntity {
       type: type ?? this.type,
       definition: definition ?? this.definition,
       example: example ?? this.example,
-      image_url: imageBase64 ?? this.image_url,
+      image_url: image_url ?? this.image_url,
     );
   }
 }

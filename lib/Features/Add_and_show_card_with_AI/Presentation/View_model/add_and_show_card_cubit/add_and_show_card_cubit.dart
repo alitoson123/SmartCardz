@@ -26,7 +26,7 @@ class AddAndShowCardCubit extends Cubit<AddAndShowCardStates> {
     required String definition,
     required List<dynamic> example,
     required List<dynamic> type,
-    String? imageBase64,
+    String? image_url,
     required String collectionId,
   }) async {
     emit(AddAndShowCardLoading());
@@ -36,7 +36,7 @@ class AddAndShowCardCubit extends Cubit<AddAndShowCardStates> {
       definition: definition,
       example: example,
       type: type,
-      imageBase64: imageBase64,
+      image_url: image_url,
       collectionId: collectionId,
     );
 

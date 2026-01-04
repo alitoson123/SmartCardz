@@ -32,18 +32,19 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
     required String definition,
     required List<dynamic> example,
     required List<dynamic> type,
-    String? imageBase64,
+    String? image_url,
     required String collectionId,
   }) async {
     await appServices.addCard(
       collectionId: collectionId,
+      cardId: FirebaseFirestore.instance.collection('cards').doc().id,
       cardData: {
         'card_type': 'ai',
         'word': word,
         'definition': definition,
         'example': example,
         'type': type,
-        'imageBase64': imageBase64,
+        'image_url': image_url,
         // قيم SM-2 المبدئية
         'repetition': 0,
         'easiness': 2.5,

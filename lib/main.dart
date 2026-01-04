@@ -14,10 +14,10 @@ import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
 import 'package:smart_cards/Features/Add_normal_card/Data/models/normal_card_model.dart';
+import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 import 'package:smart_cards/core/services/notifications_service/push_notification_service.dart';
 import 'package:smart_cards/core/utils/hive_adapters/timestamp_adapter.dart';
 import 'package:smart_cards/constant.dart';
-import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 import 'package:smart_cards/core/services/Bloc_observes_service/my_Bloc_observe.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
@@ -49,7 +49,7 @@ void main() async {
 
   await Hive.openBox<UserModel>(K_USER_BOX); // hive
   await Hive.openBox<CollectionModel>(K_COLLECTION_BOX); // hive
-  //await Hive.openBox<BaseCardEntity>(K_DUE_CARDS_BOX); // hive
+  await Hive.openBox<BaseCardEntity>(K_DUE_CARDS_BOX);
   await Hive.openBox<Map<String, dynamic>>(K_PENDING_RATINGS_BOX); // hive
 
   await SharedPreferencesService.instance.init(); // shared preferences
@@ -57,8 +57,6 @@ void main() async {
   await PushNotificationService.init(); // notification
 
   setup(); // locator service
-
-  //  await AppServices(dio: Dio()).migrateOldCardsAddOwnerId();
 
   runApp(const SmartCards());
 }

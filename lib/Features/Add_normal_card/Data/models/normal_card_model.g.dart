@@ -44,6 +44,8 @@ class NormalCardModelAdapter extends TypeAdapter<NormalCardModel> {
       ..write(obj.interval)
       ..writeByte(4)
       ..write(obj.nextReview)
+      ..writeByte(9)
+      ..write(obj.collectionId)
       ..writeByte(5)
       ..write(obj.frontSide)
       ..writeByte(6)
@@ -51,9 +53,7 @@ class NormalCardModelAdapter extends TypeAdapter<NormalCardModel> {
       ..writeByte(7)
       ..write(obj.frontImageUrl)
       ..writeByte(8)
-      ..write(obj.backImageUrl)
-      ..writeByte(9)
-      ..write(obj.collectionId);
+      ..write(obj.backImageUrl);
   }
 
   @override
