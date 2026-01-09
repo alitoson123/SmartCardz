@@ -16,11 +16,28 @@ class AppServices {
   AppServices({required this.dio});
 
   /// 🌐 HTTP GET
-  Future<Map<String, dynamic>> getMethod({required String URL}) async {
+  Future<List<dynamic>> getMethod({required String URL}) async {
     var result = await dio.get(URL);
     log(result.statusCode.toString());
     return result.data;
   }
+
+  Future<void> requestAICard({required String word}) async {
+  final now = DateTime.now();
+
+  await FirebaseFirestore.instance
+      .collection("ai_requests")
+      .add({
+    "userId": FirebaseAuth.instance.currentUser!.uid,
+    "word": word,
+    "status": "pending",
+    "result": null,
+    "createdAt": FieldValue.serverTimestamp(),
+    "expiresAt": Timestamp.fromDate(
+      now.add(const Duration(hours: 24)),
+    ),
+  });
+}
 
   // ======================================================================
   // 📚 COLLECTIONS
@@ -82,14 +99,18 @@ class AppServices {
   // ======================================================================
 
   /// إضافة كارت جديد إلى كوليكشن معينة
+  /// [cardId] - Optional: if provided, uses this ID; otherwise generates a new one
   Future<void> addCard({
     required Map<String, dynamic> cardData,
     required String collectionId,
-    required String cardId,
+    String? cardId,
   }) async {
-    await firestore.collection('cards').doc(cardId).set({
+    // Use provided cardId or generate a new one
+    final newCard = firestore.collection('cards').doc(cardId);
+
+    await newCard.set({
       ...cardData,
-      'id': cardId,
+      'id': newCard.id,
       'collectionId': collectionId,
       'ownerId': FirebaseAuth.instance.currentUser!.uid,
       'created_at': FieldValue.serverTimestamp(),
@@ -165,7 +186,8 @@ class AppServices {
       'last_reviewed': FieldValue.serverTimestamp(),
     });
   }
-/*
+
+  /*
   Future<void> migrateCardsToListType() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;

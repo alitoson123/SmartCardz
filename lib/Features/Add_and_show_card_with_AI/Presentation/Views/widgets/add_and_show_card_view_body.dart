@@ -1,10 +1,18 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_and_show_card_cubit/add_and_show_card_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_and_show_card_cubit/add_and_show_card_states.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/back_side.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_success_card.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_text_field.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/front_side.dart';
+import 'package:smart_cards/core/Functions/section_title.dart';
+import 'package:smart_cards/core/utils/widgets/app_button.dart';
 import 'package:smart_cards/core/utils/widgets/app_show_dialog.dart';
 import 'package:smart_cards/core/utils/widgets/custom_loading_indicator.dart';
 import 'package:smart_cards/core/utils/widgets/app_header.dart';
@@ -45,6 +53,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
         listener: (context, state) {
           if (state is AddAndShowCardFailure) {
             AppShowDialog.buildShowSnackBar(context, state.errorMessage);
+            log(state.errorMessage);
           }
           if (state is ShowCardSuccess) {
             controller.forward(from: 0);
@@ -63,30 +72,30 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                 ),
                 SizedBox(height: 20.h),
                 _buildSelectionTile(
-                    label:
-                        selectedCollectionName ??
-                        //  S.of(context).selectCollection,
-                        'Collection',
-                    icon: Icons.collections_bookmark_rounded,
-                    onTap: () async {
-                      final result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BlocProvider.value(
-                            value: context.read<GetCollectionsCubit>(),
-                            child: CollectionView(),
-                          ),
+                  label:
+                      selectedCollectionName ??
+                      //  S.of(context).selectCollection,
+                      'Collection',
+                  icon: Icons.collections_bookmark_rounded,
+                  onTap: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider.value(
+                          value: context.read<GetCollectionsCubit>(),
+                          child: CollectionView(),
                         ),
-                      );
+                      ),
+                    );
 
-                      if (result != null && result is Map<String, dynamic>) {
-                        setState(() {
-                          selectedCollectionName = result['name'];
-                          selectedCollectionId = result['id'];
-                        });
-                      }
-                    },
-                  ),
+                    if (result != null && result is Map<String, dynamic>) {
+                      setState(() {
+                        selectedCollectionName = result['name'];
+                        selectedCollectionId = result['id'];
+                      });
+                    }
+                  },
+                ),
 
                 SizedBox(height: 30.h),
                 CustomTextField(
@@ -127,13 +136,67 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                   ),
 
                 if (state is ShowCardSuccess)
-                  FadeTransition(
-                    opacity: fadeAnimation,
-                    child: CustomSuccessCard(
-                      card: state.card,
-                      textController: textController,
-                      selectedCollectionId: selectedCollectionId,
-                    ),
+                  /*AIPreviewScreen(
+                    selectedCollectionId: selectedCollectionId,
+                    textController: textController,
+                  ),*/
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: state.card.length,
+                    itemBuilder: (context, index) {
+                      return FadeTransition(
+                        opacity: fadeAnimation,
+                        child: CustomSuccessCard(
+                          card: state.card[index],
+                          textController: textController,
+                          selectedCollectionId: selectedCollectionId,
+                        ),
+                      );
+                    },
+                  ),
+                if (state is ShowCardSuccess)
+                  AppButton(
+                    text: S.of(context).addCard,
+                    onPressed: () {
+                      final theWord = textController.text.trim();
+
+                      if (theWord.isEmpty || selectedCollectionId == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              S
+                                  .of(context)
+                                  .PleaseFillAllFieldsAndSelectACollection,
+                            ),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                        return;
+                      }
+
+                      for (var item in state.card) {
+                        context.read<AddAndShowCardCubit>().addCard(
+                          word: item.word,
+                          definition: item.definition,
+                          example: item.example,
+                          type: item.type,
+                          image_url: item.image_url,
+                          collectionId: selectedCollectionId!,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(S.of(context).CardSavedSuccessfully),
+                            backgroundColor: Colors.blueAccent,
+                            duration: Duration(milliseconds: 1500),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                      textController.clear();
+                    },
+
+                    icon: Icons.add,
                   ),
               ],
             ),
@@ -206,6 +269,103 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
           ],
         ),
       ),
+    );
+  }
+}
+
+class AIPreviewScreen extends StatelessWidget {
+  final String? selectedCollectionId;
+  final TextEditingController textController;
+
+  const AIPreviewScreen({
+    super.key,
+    this.selectedCollectionId,
+    required this.textController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final requestId = ModalRoute.of(context)!.settings.arguments as String;
+
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('ai_requests')
+          .doc(requestId)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return CircularProgressIndicator();
+
+        final data = snapshot.data!.data()!;
+        final result = data['result'];
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 16.h),
+            buildSectionTitle(context, S.of(context).FrontSide),
+            SizedBox(height: 16.h),
+            FrontSide(
+              card: CardWithAIEntity(
+                word: result['word'],
+                definition: result['definition'],
+                example: result['example'],
+                type: result['type'],
+                image_url: result['image_url'],
+              ),
+            ),
+            SizedBox(height: 28.h),
+            buildSectionTitle(context, S.of(context).BackSide),
+            SizedBox(height: 16.h),
+            BackSide(
+              card: CardWithAIEntity(
+                word: result['word'],
+                definition: result['definition'],
+                example: result['example'],
+                type: result['type'],
+                image_url: result['image_url'],
+              ),
+            ),
+            SizedBox(height: 40.h),
+            AppButton(
+              text: S.of(context).addCard,
+              onPressed: () {
+                final theWord = result['word'];
+
+                if (theWord.isEmpty || selectedCollectionId == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        S.of(context).PleaseFillAllFieldsAndSelectACollection,
+                      ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return;
+                }
+
+                context.read<AddAndShowCardCubit>().addCard(
+                  word: result['word'],
+                  definition: result['definition'],
+                  example: result['example'],
+                  type: result['type'],
+                  image_url: result['image_url'],
+                  collectionId: selectedCollectionId!,
+                );
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(S.of(context).CardSavedSuccessfully),
+                    backgroundColor: Colors.blueAccent,
+                    duration: Duration(milliseconds: 1500),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+                textController.clear();
+              },
+              icon: Icons.add,
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -9,7 +9,6 @@ class NormalCardRemoteDataSourceImpl extends NormalCardRemoteDataSource {
 
   @override
   Future<void> addNormalCard({
-    required String cardId,
     required String frontSide,
     required String backSide,
     required String frontImageUrl,
@@ -17,6 +16,7 @@ class NormalCardRemoteDataSourceImpl extends NormalCardRemoteDataSource {
     required String frontImagePath,
     required String backImagePath,
     required String collectionId,
+    String? cardId,
   }) async {
     await appServices.addCard(
       collectionId: collectionId,

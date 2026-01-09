@@ -38,8 +38,6 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
   File? backImage;
   Reference? frontImageRef;
   Reference? backImageRef;
-  
-    final cardId = FirebaseFirestore.instance.collection('cards').doc().id;
 
   // Pick image from gallery and return File
   Future<File?> pickImageFromGallery() async {
@@ -78,13 +76,16 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
   }
 
   // Generate storage reference for image
-  Reference? generateImageReference({required String side}) {
+  Reference? generateImageReference({
+    required String side,
+    required String cardId,
+  }) {
     User? user = FirebaseAuth.instance.currentUser;
     final String userId = user!.uid;
 
     final storageRef = FirebaseStorage.instance.ref();
 
-    final imageRef = storageRef.child('cards/$userId/${cardId}/$side.webp');
+    final imageRef = storageRef.child('cards/$userId/$cardId/$side.webp');
 
     return imageRef;
   }
@@ -309,12 +310,21 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                 );
 
                 try {
+                  // Pre-generate the Firestore document ID for this card
+                  final cardId = FirebaseFirestore.instance
+                      .collection('cards')
+                      .doc()
+                      .id;
+
                   // Upload images and get URLs
                   String? frontImageUrl;
                   String? backImageUrl;
 
                   if (frontImage != null) {
-                    frontImageRef = generateImageReference(side:'front');
+                    frontImageRef = generateImageReference(
+                      side: 'front',
+                      cardId: cardId,
+                    );
                     frontImageUrl = await putAndGetUrl(
                       frontImageRef,
                       frontImage!,
@@ -333,7 +343,10 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   }
 
                   if (backImage != null && selectedType == "Basic") {
-                    backImageRef = generateImageReference(side:'back');
+                    backImageRef = generateImageReference(
+                      side: 'back',
+                      cardId: cardId,
+                    );
                     backImageUrl = await putAndGetUrl(backImageRef, backImage!);
                     if (backImageUrl.isEmpty) {
                       // Upload failed
@@ -351,19 +364,16 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   // Close loading dialog
                   Navigator.pop(context);
 
-
                   // Add card to Firestore
                   context.read<NormalCardCubit>().addNormalCard(
-                    cardId: cardId,
                     frontSide: frontSide,
                     backSide: backSide,
                     frontImageUrl: frontImageUrl ?? '',
                     backImageUrl: backImageUrl ?? '',
-                    frontImagePath: frontImageRef!.fullPath.toString(),
-                    backImagePath: backImageRef!.fullPath.toString(),
+                    frontImagePath: frontImageRef?.fullPath ?? '',
+                    backImagePath: backImageRef?.fullPath ?? '',
                     collectionId: selectedCollectionId!,
-                    // Pass front image URL
-                    // If you have a backImagePath parameter, pass backImageUrl here
+                    cardId: cardId,
                   );
 
                   // Clear form

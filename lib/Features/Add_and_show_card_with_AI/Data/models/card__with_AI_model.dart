@@ -30,13 +30,13 @@ class CardWithAIModel extends CardWithAIEntity {
   final String word;
   @HiveField(6)
   @override
-  final List<dynamic> type;
+  final String type;
   @HiveField(7)
   @override
   final String definition;
   @HiveField(8)
   @override
-  final List<dynamic> example;
+  final String example;
   @HiveField(9)
   @override
   final String image_url;
@@ -60,7 +60,6 @@ class CardWithAIModel extends CardWithAIEntity {
          example: example,
          image_url: image_url,
        );
-  
 
   /// From a simple JSON (e.g., from AI/mock). Sets sane SM-2 defaults.
   factory CardWithAIModel.fromJson(
@@ -70,10 +69,10 @@ class CardWithAIModel extends CardWithAIEntity {
     return CardWithAIModel(
       id: id,
       word: json['word'] ?? '',
-      type: (json['type/s'] ?? []) as List<dynamic>,
+      type: (json['type'] ?? '') as String,
       definition: json['description'] ?? '',
-      example: (json['examples'] ?? []) as List<dynamic>,
-      image_url: json['image_url'] ?? '',
+      example: (json['examples'] ?? '') as String,
+      image_url: _convertDriveUrl(json['URL'] ?? '') ?? '',
       repetition: (json['repetition'] ?? 0) as int,
       easiness: (json['easiness'] ?? 2.5).toDouble(),
       interval: (json['interval'] ?? 0) as int,
@@ -92,9 +91,9 @@ class CardWithAIModel extends CardWithAIEntity {
     return CardWithAIModel(
       id: doc.id,
       word: m['word'] ?? '',
-      type: m['type'] ?? [],
+      type: m['type'] ?? '[]',
       definition: m['definition'] ?? '',
-      example: m['example'] ?? [],
+      example: m['example'] ?? '',
       image_url: m['image_url'] ?? '',
       repetition: (m['repetition'] ?? 0) as int,
       easiness: (m['easiness'] ?? 2.5).toDouble(),
@@ -125,9 +124,9 @@ class CardWithAIModel extends CardWithAIEntity {
     Timestamp? nextReview,
     String? collectionId,
     String? word,
-    List<dynamic>? type,
+    String? type,
     String? definition,
-    List<dynamic>? example,
+    String? example,
     String? image_url,
   }) {
     return CardWithAIModel(
@@ -143,5 +142,28 @@ class CardWithAIModel extends CardWithAIEntity {
       example: example ?? this.example,
       image_url: image_url ?? this.image_url,
     );
+  }
+
+  static String? _convertDriveUrl(String? url) {
+    if (url == null || url.isEmpty) return url;
+    if (!url.contains('drive.google.com')) return url;
+
+    try {
+      // Regex to extract ID from: https://drive.google.com/file/d/[ID]/view...
+      // or https://drive.google.com/open?id=[ID]...
+      final idRegExp = RegExp(r'(?:/d/|id=)([\w-]+)');
+      final match = idRegExp.firstMatch(url);
+
+      if (match != null && match.groupCount >= 1) {
+        final id = match.group(1);
+        if (id != null && id.isNotEmpty) {
+          return 'https://drive.google.com/uc?export=view&id=$id';
+        }
+      }
+    } catch (e) {
+      // If parsing fails, return original
+      return url;
+    }
+    return url;
   }
 }

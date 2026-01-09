@@ -8,36 +8,41 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
   final AppServices appServices;
 
   ShowCardRemoteDataSourceImpl({required this.appServices});
+
   @override
-  Future<CardWithAIEntity> showCard({required String word}) async {
+  Future<void> requestAI({required String word}) async {
+    await appServices.requestAICard(word: word);
+  }
+
+  @override
+  Future<List<CardWithAIEntity>> showCard({required String word}) async {
     var result = await appServices.getMethod(
       URL:
-          'https://n8n.srv1209874.hstgr.cloud/webhook/smartcardiz?words=$word&lang=%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A&age=56&level=%D9%85%D8%A8%D8%AA%D8%AF%D8%A1&style=%D8%B1%D8%B3%D9%85&country=%D9%85%D8%B5%D8%B1',
+          'https://n8n.srv1209874.hstgr.cloud/webhook/smartcardiz?words=$word&age=25&level=مبتدء&style=واقعي&country=مصر',
     );
-
-
 
     // https://smartcardz-ai-eq1y.onrender.com/generate/$word
     // If result is a single Map, convert it directly to CardModel
+    List<CardWithAIEntity> cards = [];
 
+    for (var item in result) {
+      cards.add(CardWithAIModel.fromJson(item));
+    }
 
-    final card = CardWithAIModel.fromJson(result);
-
-    return card;
+    return cards;
   }
 
   @override
   Future<void> addCard({
     required String word,
     required String definition,
-    required List<dynamic> example,
-    required List<dynamic> type,
+    required String example,
+    required String type,
     String? image_url,
     required String collectionId,
   }) async {
     await appServices.addCard(
       collectionId: collectionId,
-      cardId: FirebaseFirestore.instance.collection('cards').doc().id,
       cardData: {
         'card_type': 'ai',
         'word': word,

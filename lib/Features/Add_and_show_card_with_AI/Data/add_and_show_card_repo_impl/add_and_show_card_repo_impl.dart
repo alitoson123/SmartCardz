@@ -12,16 +12,32 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
 
   AddAndShowCardRepoImpl({required this.addAndShowCardRemoteDataSource});
 
+
+    
   @override
-  Future<Either<Failure, CardWithAIEntity>> showCard({
+  Future<Either<Failure, void>> requestAI({required String word}) async {
+    try {
+      await addAndShowCardRemoteDataSource.requestAI(word: word);
+      return right(null);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      } else {
+        return left(ServerFailure(errorMessage: e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CardWithAIEntity>>> showCard({
     required String word,
   }) async {
     try {
       var result = await addAndShowCardRemoteDataSource.showCard(word: word);
-      log('The word is ${result.word}');
-      log('The type is ${result.type}');
-      log('The definition is ${result.definition}');
-      log('The example is ${result.example}');
+      log('The word is ${result[0].word}');
+      log('The type is ${result[0].type}');
+      log('The definition is ${result[0].definition}');
+      log('The example is ${result[0].image_url}');
 
       return right(result);
     } catch (e) {
@@ -37,8 +53,8 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
   Future<Either<Failure, void>> addCard({
     required String word,
     required String definition,
-    required List<dynamic> example,
-    required List<dynamic> type,
+    required String example,
+    required String type,
     String? image_url,
     required String collectionId,
   }) async {
@@ -60,4 +76,5 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
       }
     }
   }
+
 }

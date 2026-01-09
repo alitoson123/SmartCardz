@@ -34,43 +34,7 @@ class CustomSuccessCard extends StatelessWidget {
         SizedBox(height: 16.h),
         BackSide(card: card),
         SizedBox(height: 40.h),
-        AppButton(
-          text: S.of(context).addCard,
-          onPressed: () {
-            final theWord = textController.text.trim();
-
-            if (theWord.isEmpty || selectedCollectionId == null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    S.of(context).PleaseFillAllFieldsAndSelectACollection,
-                  ),
-                  backgroundColor: Colors.red,
-                ),
-              );
-              return;
-            }
-
-            context.read<AddAndShowCardCubit>().addCard(
-              word: card.word,
-              definition: card.definition,
-              example: card.example,
-              type: card.type,
-              image_url: card.image_url,
-              collectionId: selectedCollectionId!,
-            );
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(S.of(context).CardSavedSuccessfully),
-                backgroundColor: Colors.blueAccent,
-                duration: Duration(milliseconds: 1500),
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
-            textController.clear();
-          },
-          icon: Icons.add,
-        ),
+       
       ],
     );
   }

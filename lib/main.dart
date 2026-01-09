@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -55,14 +56,30 @@ void main() async {
   await SharedPreferencesService.instance.init(); // shared preferences
 
   await PushNotificationService.init(); // notification
-
+  FirebaseMessaging.onBackgroundMessage(
+    firebaseMessagingBackgroundHandler,
+  );
   setup(); // locator service
 
   runApp(const SmartCards());
 }
 
-class SmartCards extends StatelessWidget {
+class SmartCards extends StatefulWidget {
   const SmartCards({super.key});
+
+  @override
+  State<SmartCards> createState() => _SmartCardsState();
+}
+
+class _SmartCardsState extends State<SmartCards> {
+  @override
+  void initState() {
+    super.initState();
+
+  PushNotificationService.init();
+  PushNotificationService.handleNotificationTap(context);
+  PushNotificationService.handleInitialMessage(context);
+  }
 
   @override
   Widget build(BuildContext context) {

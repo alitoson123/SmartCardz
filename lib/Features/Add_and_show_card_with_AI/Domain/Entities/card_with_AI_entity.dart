@@ -4,13 +4,13 @@ class CardWithAIEntity extends BaseCardEntity {
   @override
   final String word;
   @override
-  final List<dynamic> type;
+  final String type;
   @override
   final String definition;
   @override
   final String image_url;
   @override
-  final List<dynamic> example;
+  final String example;
 
   CardWithAIEntity({
     required this.word,

@@ -1,80 +1,175 @@
 import { onSchedule } from "firebase-functions/v2/scheduler";
+import { onDocumentCreated, onDocumentDeleted } from "firebase-functions/v2/firestore";
 import * as admin from "firebase-admin";
 
 admin.initializeApp();
 
-// Configuration
-const BATCH_SIZE = 500; // Process 500 users at a time to stay under memory/timeout limits
+/* =========================
+   1️⃣ DUE CARDS NOTIFICATION
+========================= */
+const BATCH_SIZE = 500;
 
-export const dueCardsNotification = onSchedule({
-  schedule: "0 0 */5 * *",
-  timeZone: "Africa/Cairo",
-  timeoutSeconds: 540, // Increase timeout to 9 minutes for large datasets
-  memory: "512MiB",    // Slightly more memory for processing batches
-}, async () => {
-  const db = admin.firestore();
-  const now = admin.firestore.Timestamp.now();
-  let lastDoc = null;
-  let totalProcessed = 0;
+export const dueCardsNotification = onSchedule(
+  {
+    schedule: "0 0 */5 * *",
+    timeZone: "Africa/Cairo",
+    timeoutSeconds: 540,
+    memory: "512MiB",
+  },
+  async () => {
+    const db = admin.firestore();
+    const now = admin.firestore.Timestamp.now();
+    let lastDoc: FirebaseFirestore.QueryDocumentSnapshot | null = null;
 
-  console.log("Starting notification cycle...");
+    while (true) {
+      let query = db.collection("users").orderBy("__name__").limit(BATCH_SIZE);
+      if (lastDoc) query = query.startAfter(lastDoc);
 
-  while (true) {
-    // 1. Fetch users in batches using pagination
-    let query = db.collection("users").orderBy("__name__").limit(BATCH_SIZE);
-    
-    if (lastDoc) {
-      query = query.startAfter(lastDoc);
-    }
+      const usersSnap = await query.get();
+      if (usersSnap.empty) break;
 
-    const usersSnap = await query.get();
+      await Promise.all(
+        usersSnap.docs.map(async (userDoc) => {
+          const token = userDoc.data().fcmToken;
+          if (!token) return;
 
-    if (usersSnap.empty) {
-      break; // No more users to process
-    }
+          const cardsSnap = await db
+            .collection("cards")
+            .where("ownerId", "==", userDoc.id)
+            .where("next_review", "<=", now)
+            .get();
 
-    // 2. Process the current batch of users
-    await Promise.all(
-      usersSnap.docs.map(async (userDoc) => {
-        const userId = userDoc.id;
-        const data = userDoc.data();
-        const token = data.fcmToken;
-
-        if (!token) return;
-
-        // 3. Count due cards for this specific user
-        const cardsSnap = await db.collection("cards")
-          .where("ownerId", "==", userId)
-          .where("next_review", "<=", now)
-          .get();
-
-        const dueCount = cardsSnap.size;
-
-        if (dueCount >= 10) {
-          try {
+          if (cardsSnap.size >= 10) {
             await admin.messaging().send({
               token,
               notification: {
                 title: "مجدول للمراجعة",
-                body: `عندك ${dueCount} بطاقة محتاجة مراجعة`,
-              },
-              data: {
-                type: "due_cards",
-                count: dueCount.toString(),
+                body: `عندك ${cardsSnap.size} بطاقة محتاجة مراجعة`,
               },
             });
-          } catch (error) {
-            console.error(`Failed to send to user ${userId}:`, error);
           }
-        }
-      })
-    );
+        })
+      );
 
-    totalProcessed += usersSnap.docs.length;
-    lastDoc = usersSnap.docs[usersSnap.docs.length - 1];
-    
-    console.log(`Processed ${totalProcessed} users so far...`);
+      lastDoc = usersSnap.docs.at(-1)!;
+    }
+  }
+);
+
+/* =========================
+   2️⃣ DELETE CARD IMAGES
+========================= */
+export const deleteCardImages = onDocumentDeleted(
+  "cards/{cardId}",
+  async (event) => {
+    const data = event.data?.data();
+    if (!data) return;
+
+    const bucket = admin.storage().bucket();
+    const paths = [data.front_image_path, data.back_image_path].filter(Boolean);
+
+    await Promise.all(
+      paths.map((path: string) =>
+        bucket.file(path).delete().catch(err =>
+          console.error("Failed to delete image:", err)
+        )
+      )
+    );
+  }
+);
+
+/* =========================
+   3️⃣ AI PROCESSING
+========================= */
+interface AIResponse {
+  word: string;
+  definition: string;
+  example: string;
+  type: string;
+  image_url?: string;
+}
+
+
+async function fetchAI(word: string): Promise<AIResponse> {
+  const url =
+    `https://n8n.srv1209874.hstgr.cloud/webhook/smartcardiz` +
+    `?words=${encodeURIComponent(word)}` +
+    `&lang=العربي` +
+    `&age=56` +
+    `&level=مبتدئ` +
+    `&style=رسم` +
+    `&country=مصر`;
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Accept": "application/json",
+    },
+  });
+
+  const text = await response.text();
+
+  if (!response.ok) {
+    console.error("AI raw response:", text);
+    throw new Error(`AI request failed: ${response.status}`);
   }
 
-  console.log("Notification cycle complete.");
-});
+  if (!text) {
+    throw new Error("AI returned empty response");
+  }
+
+  try {
+    return JSON.parse(text) as AIResponse;
+  } catch (err) {
+    console.error("Invalid JSON from AI:", text);
+    throw new Error("AI response is not valid JSON");
+  }
+}
+
+export const processAICard = onDocumentCreated(
+  "ai_requests/{requestId}",
+  async (event) => {
+    const data = event.data?.data();
+    if (!data || data.status !== "pending") return;
+
+    const ref = event.data!.ref;
+
+    try {
+      await ref.update({ status: "processing" });
+
+      const ai = await fetchAI(data.word);
+
+      await ref.update({
+        status: "done",
+        result: ai,
+      });
+
+      const user = await admin.firestore()
+        .collection("users")
+        .doc(data.userId)
+        .get();
+
+      const token = user.data()?.fcmToken;
+      if (token) {
+        await admin.messaging().send({
+          token,
+          notification: {
+            title: "الكارت جاهز 🎉",
+            body: "اضغط لمعاينة الكارت",
+          },
+          data: {
+            type: "ai_preview",
+            requestId: event.params.requestId,
+          },
+        });
+      }
+    } catch (err: any) {
+      console.error("AI FAILED:", err);
+
+      await ref.update({
+        status: "error",
+        errorMessage: err.message ?? "AI generation failed",
+      });
+    }
+  }
+);

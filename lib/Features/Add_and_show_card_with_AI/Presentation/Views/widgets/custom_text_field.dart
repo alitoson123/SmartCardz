@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/custom_cached_image.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
@@ -80,8 +80,8 @@ class CustomTextField extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
-                  child: Image.file(
-                    imagePath!,
+                  child: CachedImage(
+                    imageUrl: imagePath!.path,      
                     height: 120.h,
                     fit: BoxFit.cover,
                   ),

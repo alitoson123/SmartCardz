@@ -3,7 +3,6 @@ import 'package:smart_cards/core/errors/failure.dart';
 
 abstract class NormalCardRepo {
   Future<Either<Failure, void>> addNormalCard({
-    required String cardId,
     required String frontSide,
     required String backSide,
     required String frontImageUrl,
@@ -11,5 +10,6 @@ abstract class NormalCardRepo {
     required String frontImagePath,
     required String backImagePath,
     required String collectionId,
+    String? cardId,
   });
 }

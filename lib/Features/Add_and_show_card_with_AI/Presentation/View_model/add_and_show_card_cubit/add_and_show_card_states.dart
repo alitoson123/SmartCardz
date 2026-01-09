@@ -7,7 +7,7 @@ class AddAndShowCardInitial extends AddAndShowCardStates {}
 class AddAndShowCardLoading extends AddAndShowCardStates {}
 
 class ShowCardSuccess extends AddAndShowCardStates {
-  final CardWithAIEntity card;
+  final List<CardWithAIEntity> card;
 
   ShowCardSuccess({required this.card});
 }
@@ -19,3 +19,5 @@ class AddAndShowCardFailure extends AddAndShowCardStates {
 
   AddAndShowCardFailure({required this.errorMessage});
 }
+
+class RequestAISuccess extends AddAndShowCardStates {}

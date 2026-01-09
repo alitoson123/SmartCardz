@@ -11,6 +11,7 @@ import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart
 import 'package:smart_cards/Features/Revision/Presentation/View_model/delete_card_cubit/delete_card_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_states.dart';
+import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/custom_cached_image.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/row_of_difficulty_button.dart';
 import 'package:smart_cards/core/Functions/section_title.dart';
 import 'package:smart_cards/core/utils/widgets/app_button.dart';
@@ -200,8 +201,8 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                                   child: Column(
                                     children: [
                                       if (card.frontImageUrl.isNotEmpty)
-                                        Image.network(
-                                          card.frontImageUrl,
+                                        CachedImage(
+                                          imageUrl: card.frontImageUrl,
                                           height: 200.h,
                                           width: 200.w,
                                           fit: BoxFit.cover,
@@ -237,8 +238,8 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                               child: Column(
                                 children: [
                                   if (card.backImageUrl.isNotEmpty)
-                                    Image.network(
-                                      card.backImageUrl,
+                                    CachedImage(
+                                      imageUrl: card.backImageUrl,
                                       height: 200.h,
                                       width: 200.w,
                                       fit: BoxFit.cover,
