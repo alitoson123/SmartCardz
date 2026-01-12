@@ -40,7 +40,17 @@ class BackSide extends StatelessWidget {
           Divider(color: Colors.grey.shade300),
           SizedBox(height: 12.h),
           Text(
-            '"${card.example}"',
+            '"${card.example[0]}"',
+            style: TextStyle(
+              fontSize: 18.sp,
+              fontStyle: FontStyle.italic,
+              color: Colors.grey.shade700,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 12.h),
+          Text(
+            '"${card.example[1]}"',
             style: TextStyle(
               fontSize: 18.sp,
               fontStyle: FontStyle.italic,

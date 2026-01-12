@@ -21,7 +21,7 @@ class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
       word: fields[5] as String,
       type: fields[6] as String,
       definition: fields[7] as String,
-      example: fields[8] as String,
+      example: fields[8] as List<String>,
       image_url: fields[9] as String,
       repetition: fields[1] as int,
       easiness: fields[2] as double,

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
 import 'package:hive/hive.dart';
@@ -36,7 +37,7 @@ class CardWithAIModel extends CardWithAIEntity {
   final String definition;
   @HiveField(8)
   @override
-  final String example;
+  final List<String> example;
   @HiveField(9)
   @override
   final String image_url;
@@ -71,7 +72,7 @@ class CardWithAIModel extends CardWithAIEntity {
       word: json['word'] ?? '',
       type: (json['type'] ?? '') as String,
       definition: json['description'] ?? '',
-      example: (json['examples'] ?? '') as String,
+      example: _parseExamples(json['examples']),
       image_url: _convertDriveUrl(json['URL'] ?? '') ?? '',
       repetition: (json['repetition'] ?? 0) as int,
       easiness: (json['easiness'] ?? 2.5).toDouble(),
@@ -85,6 +86,28 @@ class CardWithAIModel extends CardWithAIEntity {
     );
   }
 
+  static List<String> _parseExamples(dynamic input) {
+    if (input == null) return [];
+    if (input is List) {
+      return input.map((e) => e.toString()).toList();
+    }
+    if (input is String) {
+      // Trying to handle the case where it might be a double-encoded JSON string
+      try {
+        final decoded = jsonDecode(input);
+        if (decoded is List) {
+          return decoded.map((e) => e.toString()).toList();
+        }
+        // ignore: empty_catches
+      } catch (_) {}
+      // Fallback to split if it's not a JSON array string
+      if (input.isNotEmpty) {
+        return input.split(',').map((e) => e.trim()).toList();
+      }
+    }
+    return [];
+  }
+
   /// From Firestore DocumentSnapshot
   factory CardWithAIModel.fromDoc(DocumentSnapshot doc) {
     final m = doc.data() as Map<String, dynamic>;
@@ -93,7 +116,7 @@ class CardWithAIModel extends CardWithAIEntity {
       word: m['word'] ?? '',
       type: m['type'] ?? '[]',
       definition: m['definition'] ?? '',
-      example: m['example'] ?? '',
+      example: m['example'] ?? [],
       image_url: m['image_url'] ?? '',
       repetition: (m['repetition'] ?? 0) as int,
       easiness: (m['easiness'] ?? 2.5).toDouble(),
@@ -126,7 +149,7 @@ class CardWithAIModel extends CardWithAIEntity {
     String? word,
     String? type,
     String? definition,
-    String? example,
+    List<String>? example,
     String? image_url,
   }) {
     return CardWithAIModel(

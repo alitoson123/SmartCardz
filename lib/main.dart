@@ -56,7 +56,7 @@ void main() async {
   await SharedPreferencesService.instance.init(); // shared preferences
 
   await PushNotificationService.init(); // notification
-  FirebaseMessaging.onBackgroundMessage(
+  FirebaseMessaging.onBackgroundMessage( 
     firebaseMessagingBackgroundHandler,
   );
   setup(); // locator service

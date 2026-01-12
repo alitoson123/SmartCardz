@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -97,6 +98,17 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
       await imageRef!.putFile(compressedImage);
 
       final imageUrl = await imageRef.getDownloadURL();
+
+      // Seed the cache with the local file so it's available offline immediately
+      try {
+        await DefaultCacheManager().putFile(
+          imageUrl,
+          await compressedImage.readAsBytes(),
+          fileExtension: 'webp',
+        );
+      } catch (e) {
+        log('Cache seeding failed: $e');
+      }
 
       log('✅ Upload successful!');
 

@@ -10,7 +10,7 @@ class CardWithAIEntity extends BaseCardEntity {
   @override
   final String image_url;
   @override
-  final String example;
+  final List<String> example;
 
   CardWithAIEntity({
     required this.word,

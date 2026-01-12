@@ -80,8 +80,8 @@ class CustomTextField extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
-                  child: CachedImage(
-                    imageUrl: imagePath!.path,      
+                  child: Image.file(
+                    imagePath!,      
                     height: 120.h,
                     fit: BoxFit.cover,
                   ),

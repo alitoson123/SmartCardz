@@ -20,7 +20,7 @@ abstract class BaseCardEntity extends HiveObject {
   String get type => '';
   String get definition => '';
   String get image_url => '';
-  String get example => '';
+  List<String> get example => [];
 
   /// 🧠 SM-2 algorithm properties
   int get repetition => 0;
