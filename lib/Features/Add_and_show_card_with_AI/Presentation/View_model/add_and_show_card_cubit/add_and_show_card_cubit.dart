@@ -22,10 +22,10 @@ class AddAndShowCardCubit extends Cubit<AddAndShowCardStates> {
     );
   }
 
-  Future<void> showCard({required String word}) async {
+  Future<void> showCard({required String word,required String language}) async {
     emit(AddAndShowCardLoading());
 
-    final result = await addAndShowCardRepoImpl.showCard(word: word);
+    final result = await addAndShowCardRepoImpl.showCard(word: word,language: language);
 
     result.fold(
       (failure) =>

@@ -21,6 +21,7 @@ abstract class BaseCardEntity extends HiveObject {
   String get definition => '';
   String get image_url => '';
   List<String> get example => [];
+  String get is_valid => '';
 
   /// 🧠 SM-2 algorithm properties
   int get repetition => 0;

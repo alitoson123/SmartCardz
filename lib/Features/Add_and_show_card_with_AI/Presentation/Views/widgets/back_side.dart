@@ -38,26 +38,32 @@ class BackSide extends StatelessWidget {
           ),
           SizedBox(height: 12.h),
           Divider(color: Colors.grey.shade300),
-          SizedBox(height: 12.h),
-          Text(
-            '"${card.example[0]}"',
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontStyle: FontStyle.italic,
-              color: Colors.grey.shade700,
+          if (card.example.isNotEmpty && card.example[0].isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                '"${card.example[0]}"',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.grey.shade700,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 12.h),
-          Text(
-            '"${card.example[1]}"',
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontStyle: FontStyle.italic,
-              color: Colors.grey.shade700,
+          if (card.example.length > 1 && card.example[1].isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                '"${card.example[1]}"',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.grey.shade700,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
-            textAlign: TextAlign.center,
-          ),
         ],
       ),
     );

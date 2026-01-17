@@ -51,7 +51,7 @@ void main() async {
   await Hive.openBox<UserModel>(K_USER_BOX); // hive
   await Hive.openBox<CollectionModel>(K_COLLECTION_BOX); // hive
   await Hive.openBox<BaseCardEntity>(K_DUE_CARDS_BOX);
-  await Hive.openBox<Map<String, dynamic>>(K_PENDING_RATINGS_BOX); // hive
+  await Hive.openBox<Map<dynamic, dynamic>>(K_PENDING_RATINGS_BOX); // hive
 
   await SharedPreferencesService.instance.init(); // shared preferences
 

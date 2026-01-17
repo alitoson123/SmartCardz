@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smart_cards/core/utils/network_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,12 +35,30 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     return StreamBuilder<QuerySnapshot>(
       stream: stream,
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Center(child: Text(S.of(context).SomethingWentWrong));
-        }
-
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          // Check if we are offline
+          return FutureBuilder<bool>(
+            future: NetworkUtils.isOnline(),
+            builder: (context, onlineSnapshot) {
+              if (onlineSnapshot.connectionState == ConnectionState.done &&
+                  onlineSnapshot.data == false) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.wifi_off, size: 64.sp, color: Colors.grey),
+                      SizedBox(height: 16.h),
+                      Text(
+                        S.of(context).NoInternetConnection,
+                        style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
+          );
         }
 
         final docs = snapshot.data?.docs ?? [];

@@ -4,7 +4,7 @@ import 'package:smart_cards/core/errors/failure.dart';
 
 abstract class AddAndShowCardRepo {
   Future<Either<Failure, void>> requestAI({required String word});
-  Future<Either<Failure, List<CardWithAIEntity>>> showCard({required String word});
+  Future<Either<Failure, List<CardWithAIEntity>>> showCard({required String word,required String language});
   Future<Either<Failure, void>> addCard({
     required String word,
     required String definition,

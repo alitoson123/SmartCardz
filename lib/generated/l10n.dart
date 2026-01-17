@@ -119,6 +119,26 @@ class S {
     );
   }
 
+  /// `Generate Smart Flashcards`
+  String get GenerateSmartFlashcards {
+    return Intl.message(
+      'Generate Smart Flashcards',
+      name: 'GenerateSmartFlashcards',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter any words or sentences in any language and get images, definitions, word type, and examples`
+  String get EnterAnyWordsOrSentences {
+    return Intl.message(
+      'Enter any words or sentences in any language and get images, definitions, word type, and examples',
+      name: 'EnterAnyWordsOrSentences',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Collection`
   String get selectCollection {
     return Intl.message(
@@ -799,6 +819,16 @@ class S {
     return Intl.message(
       'Delete card',
       name: 'deleteCardMenu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No internet connection`
+  String get NoInternetConnection {
+    return Intl.message(
+      'No internet connection',
+      name: 'NoInternetConnection',
       desc: '',
       args: [],
     );

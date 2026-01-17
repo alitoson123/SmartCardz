@@ -36,7 +36,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Collection created successfully",
     ),
     "Email": MessageLookupByLibrary.simpleMessage("Email"),
+    "EnterAnyWordsOrSentences": MessageLookupByLibrary.simpleMessage(
+      "Enter any words or sentences in any language and get images, definitions, word type, and examples",
+    ),
     "FrontSide": MessageLookupByLibrary.simpleMessage("Front Side"),
+    "GenerateSmartFlashcards": MessageLookupByLibrary.simpleMessage(
+      "Generate Smart Flashcards",
+    ),
     "NoBrontSideData": MessageLookupByLibrary.simpleMessage(
       "No back side data",
     ),
@@ -45,6 +51,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "NoFrontSideData": MessageLookupByLibrary.simpleMessage(
       "No front side data",
+    ),
+    "NoInternetConnection": MessageLookupByLibrary.simpleMessage(
+      "No internet connection",
     ),
     "Notification": MessageLookupByLibrary.simpleMessage("Notification"),
     "Password": MessageLookupByLibrary.simpleMessage("Password"),

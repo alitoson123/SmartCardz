@@ -31,9 +31,10 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
   @override
   Future<Either<Failure, List<CardWithAIEntity>>> showCard({
     required String word,
+    required String language,
   }) async {
     try {
-      var result = await addAndShowCardRemoteDataSource.showCard(word: word);
+      var result = await addAndShowCardRemoteDataSource.showCard(word: word,language: language);
       log('The word is ${result[0].word}');
       log('The type is ${result[0].type}');
       log('The definition is ${result[0].definition}');

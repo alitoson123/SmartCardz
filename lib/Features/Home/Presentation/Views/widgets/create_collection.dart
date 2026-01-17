@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/core/utils/network_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/add_collection_cubit1.dart/add_collection_cubit.dart';
 import 'package:smart_cards/generated/l10n.dart';
@@ -17,6 +18,16 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
   bool isLoading = false;
 
   void createCollection(BuildContext context) async {
+    if (!await NetworkUtils.isOnline()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(S.of(context).NoInternetConnection),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     setState(() => isLoading = true);
 
     context.read<AddCollectionCubit>().addCollectionMethod(

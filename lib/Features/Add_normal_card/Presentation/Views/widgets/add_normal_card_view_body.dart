@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:smart_cards/core/utils/network_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -141,8 +142,8 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   child: _buildSelectionTile(
                     label:
                         selectedCollectionName ??
-                        //  S.of(context).selectCollection,
-                        'Collection',
+                        S.of(context).selectCollection,
+
                     icon: Icons.collections_bookmark_rounded,
                     onTap: () async {
                       final result = await Navigator.push(
@@ -311,6 +312,17 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                     );
                     return;
                   }
+                }
+
+                // Check connectivity
+                if (!await NetworkUtils.isOnline()) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(S.of(context).NoInternetConnection),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return;
                 }
 
                 // Show loading indicator

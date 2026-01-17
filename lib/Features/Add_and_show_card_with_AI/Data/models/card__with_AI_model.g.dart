@@ -21,20 +21,21 @@ class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
       word: fields[5] as String,
       type: fields[6] as String,
       definition: fields[7] as String,
-      example: fields[8] as List<String>,
+      example: (fields[8] as List).cast<String>(),
       image_url: fields[9] as String,
       repetition: fields[1] as int,
       easiness: fields[2] as double,
       interval: fields[3] as int,
       nextReview: fields[4] as Timestamp?,
       collectionId: fields[10] as String,
+      is_valid: fields[11] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CardWithAIModel obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -56,7 +57,9 @@ class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
       ..writeByte(8)
       ..write(obj.example)
       ..writeByte(9)
-      ..write(obj.image_url);
+      ..write(obj.image_url)
+      ..writeByte(11)
+      ..write(obj.is_valid);
   }
 
   @override

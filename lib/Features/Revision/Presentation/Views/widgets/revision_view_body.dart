@@ -214,7 +214,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 18.sp,
-                                          color: Colors.green,
+                                          color: Colors.grey.shade800,
                                         ),
                                       ),
                                     ],

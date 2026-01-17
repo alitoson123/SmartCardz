@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_cards/core/navigator/routes.dart';
 
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -38,6 +40,8 @@ class PushNotificationService {
 
       final token = await messaging.getToken();
       if (token == null) return;
+
+
 
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
         'fcmToken': token,
@@ -98,8 +102,9 @@ class PushNotificationService {
   }
 
   static void _navigate(BuildContext context, Map<String, dynamic> data) {
-    if (data['type'] == 'ai_preview') {
-      Navigator.pushNamed(context, '/ai-preview', arguments: data['requestId']);
-    }
+    if (data['type'] == 'due_cards') {
+
+context.push(AppRoutes.homeScreen);
+}
   }
 }

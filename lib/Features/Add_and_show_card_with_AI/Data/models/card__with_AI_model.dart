@@ -41,6 +41,9 @@ class CardWithAIModel extends CardWithAIEntity {
   @HiveField(9)
   @override
   final String image_url;
+  @HiveField(11)
+  @override
+  final String is_valid;
 
   CardWithAIModel({
     required this.id,
@@ -54,12 +57,14 @@ class CardWithAIModel extends CardWithAIEntity {
     required this.interval,
     required this.nextReview,
     required this.collectionId,
+    required this.is_valid,
   }) : super(
          word: word,
          type: type,
          definition: definition,
          example: example,
          image_url: image_url,
+         is_valid: is_valid,
        );
 
   /// From a simple JSON (e.g., from AI/mock). Sets sane SM-2 defaults.
@@ -83,6 +88,7 @@ class CardWithAIModel extends CardWithAIEntity {
                 ? Timestamp.fromDate(DateTime.parse(json['next_review']))
                 : null),
       collectionId: json['collectionId'] ?? '',
+      is_valid: json['is_valid'] ?? '',
     );
   }
 
@@ -116,13 +122,14 @@ class CardWithAIModel extends CardWithAIEntity {
       word: m['word'] ?? '',
       type: m['type'] ?? '[]',
       definition: m['definition'] ?? '',
-      example: m['example'] ?? [],
+      example: (m['example'] as List?)?.map((e) => e.toString()).toList() ?? [],
       image_url: m['image_url'] ?? '',
       repetition: (m['repetition'] ?? 0) as int,
       easiness: (m['easiness'] ?? 2.5).toDouble(),
       interval: (m['interval'] ?? 0) as int,
       nextReview: m['next_review'] as Timestamp?,
       collectionId: m['collectionId'] ?? '',
+      is_valid: m['is_valid'] ?? '',
     );
   }
 
@@ -151,6 +158,7 @@ class CardWithAIModel extends CardWithAIEntity {
     String? definition,
     List<String>? example,
     String? image_url,
+    String? is_valid,
   }) {
     return CardWithAIModel(
       id: id ?? this.id,
@@ -164,6 +172,7 @@ class CardWithAIModel extends CardWithAIEntity {
       definition: definition ?? this.definition,
       example: example ?? this.example,
       image_url: image_url ?? this.image_url,
+      is_valid: is_valid ?? this.is_valid,
     );
   }
 

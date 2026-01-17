@@ -1,5 +1,3 @@
-
-
 /*
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/Algorism/sm2.dart';
@@ -199,33 +197,33 @@ class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
   /// When online: syncs pending changes first, then fetches from server (source of truth)
   /// When offline: uses local cache
   @override
-@override
-Future<List<BaseCardEntity>> fetchDueCards({
-  required int limit,
-  required String collectionId,
-}) async {
-  final isOnline = await _isOnline();
+  @override
+  Future<List<BaseCardEntity>> fetchDueCards({
+    required int limit,
+    required String collectionId,
+  }) async {
+    final isOnline = await _isOnline();
 
-  if (isOnline) {
-    // Step 1: Sync pending ratings first
-    await _syncPendingRatings();
+    if (isOnline) {
+      // Step 1: Sync pending ratings first
+      await _syncPendingRatings();
 
-    // Step 2: Fetch from server (already filtered as due cards)
-    final serverCards = await appServices.fetchDueCards(
-      limit: limit,
-      collectionId: collectionId,
-    );
+      // Step 2: Fetch from server (already filtered as due cards)
+      final serverCards = await appServices.fetchDueCards(
+        limit: limit,
+        collectionId: collectionId,
+      );
 
-    // Step 3: Update local cache
-    await _replaceLocalCache(collectionId, serverCards);
+      // Step 3: Update local cache
+      await _replaceLocalCache(collectionId, serverCards);
 
-    // Step 4: Return directly - no need to filter again!
-    return serverCards;
-  } else {
-    // Offline: get from local and filter
-    return await _getLocalDueCards(collectionId);
+      // Step 4: Return directly - no need to filter again!
+      return serverCards;
+    } else {
+      // Offline: get from local and filter
+      return await _getLocalDueCards(collectionId);
+    }
   }
-}
 
   /// Submits a rating for a card
   /// Always updates local immediately, then syncs to server (or queues if offline)
@@ -275,7 +273,6 @@ Future<List<BaseCardEntity>> fetchDueCards({
     }
   }
 
-
   /// Gets due cards from local cache (offline mode)
   Future<List<BaseCardEntity>> _getLocalDueCards(String collectionId) async {
     final allLocalCards = await _localService.getAll<BaseCardEntity>(
@@ -290,7 +287,8 @@ Future<List<BaseCardEntity>> fetchDueCards({
 
       // Must be due
       final nextReviewDate = card.nextReview?.toDate();
-      final isDue = nextReviewDate == null ||
+      final isDue =
+          nextReviewDate == null ||
           nextReviewDate.isBefore(now) ||
           nextReviewDate.isAtSameMomentAs(now);
 
@@ -356,20 +354,17 @@ Future<List<BaseCardEntity>> fetchDueCards({
       'easiness': sm2Result.easiness,
       'interval': sm2Result.intervalDays,
       'next_review': sm2Result.nextReview,
-      'timestamp':Timestamp.now()
+      'timestamp': Timestamp.now(),
     };
 
-    await _localService.add<Map<String, dynamic>>(
-      K_PENDING_RATINGS_BOX,
-      pendingRating,
-    );
+    await _localService.add<Map>(K_PENDING_RATINGS_BOX, pendingRating);
   }
 
   /// Syncs all pending ratings to the server
   Future<void> _syncPendingRatings() async {
     try {
       // Get all pending ratings
-      final pendingRatings = await _localService.getAll<Map<String, dynamic>>(
+      final pendingRatings = await _localService.getAll<Map>(
         K_PENDING_RATINGS_BOX,
       );
 
@@ -387,7 +382,8 @@ Future<List<BaseCardEntity>> fetchDueCards({
         // Find the card
         final card = allLocalCards.firstWhere(
           (c) => c.id == cardId,
-          orElse: () => throw StateError('Card $cardId not found in local cache'),
+          orElse: () =>
+              throw StateError('Card $cardId not found in local cache'),
         );
 
         // Recreate SM-2 result
@@ -403,7 +399,7 @@ Future<List<BaseCardEntity>> fetchDueCards({
       }
 
       // Clear all pending ratings after successful sync
-      await _localService.deleteItems<Map<String, dynamic>>(
+      await _localService.deleteItems<Map>(
         K_PENDING_RATINGS_BOX,
         (_) => true, // Delete all
       );

@@ -15,10 +15,10 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
   }
 
   @override
-  Future<List<CardWithAIEntity>> showCard({required String word}) async {
+  Future<List<CardWithAIEntity>> showCard({required String word,required String language}) async {
     var result = await appServices.getMethod(
       URL:
-          'https://n8n.srv1209874.hstgr.cloud/webhook/smartcardiz?words=$word&age=25&level=مبتدء&style=واقعي&country=مصر',
+          'https://n8n.srv1209874.hstgr.cloud/webhook/smartcardiz?words=$word&lang=$language&age=25&level=مبتدء&style=واقعي&country=مصر',
     );
 
     // https://smartcardz-ai-eq1y.onrender.com/generate/$word

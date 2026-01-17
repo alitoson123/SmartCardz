@@ -1,17 +1,13 @@
 import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smart_cards/core/utils/network_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_and_show_card_cubit/add_and_show_card_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_and_show_card_cubit/add_and_show_card_states.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/back_side.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_success_card.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_text_field.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/front_side.dart';
-import 'package:smart_cards/core/Functions/section_title.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/select_the_language.dart';
 import 'package:smart_cards/core/utils/widgets/app_button.dart';
 import 'package:smart_cards/core/utils/widgets/app_show_dialog.dart';
 import 'package:smart_cards/core/utils/widgets/custom_loading_indicator.dart';
@@ -35,6 +31,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
   String? selectedCollectionName;
   String? selectedCollectionId;
   String? word;
+  String selectedLanguage = "English";
 
   @override
   void initState() {
@@ -67,40 +64,68 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
               children: [
                 AppHeader(
                   icon: Icons.auto_awesome,
-                  title: S.of(context).createYourFlashcard,
-                  subTitle: S.of(context).createFlashcardSubtitle,
+                  title: S.of(context).GenerateSmartFlashcards,
+                  subTitle: S.of(context).EnterAnyWordsOrSentences,
                 ),
                 SizedBox(height: 20.h),
-                _buildSelectionTile(
-                  label:
-                      selectedCollectionName ??
-                      //  S.of(context).selectCollection,
-                      'Collection',
-                  icon: Icons.collections_bookmark_rounded,
-                  onTap: () async {
-                    final result = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BlocProvider.value(
-                          value: context.read<GetCollectionsCubit>(),
-                          child: CollectionView(),
-                        ),
-                      ),
-                    );
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildSelectionTile(
+                        label:
+                            selectedCollectionName ??
+                            S.of(context).selectCollection,
 
-                    if (result != null && result is Map<String, dynamic>) {
-                      setState(() {
-                        selectedCollectionName = result['name'];
-                        selectedCollectionId = result['id'];
-                      });
-                    }
-                  },
+                        icon: Icons.collections_bookmark_rounded,
+                        onTap: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider.value(
+                                value: context.read<GetCollectionsCubit>(),
+                                child: CollectionView(),
+                              ),
+                            ),
+                          );
+
+                          if (result != null &&
+                              result is Map<String, dynamic>) {
+                            setState(() {
+                              selectedCollectionName = result['name'];
+                              selectedCollectionId = result['id'];
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: _buildSelectionTile(
+                        label: selectedLanguage,
+                        icon: Icons.language,
+                        onTap: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SelectTheLanguage(),
+                            ),
+                          );
+
+                          if (result != null) {
+                            setState(() {
+                              selectedLanguage = result['name'];
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 ),
 
-                SizedBox(height: 30.h),
+                SizedBox(height: 18.h),
                 CustomTextField(
                   controller: textController,
-                  onSubmitted: (value) {
+                  onSubmitted: (value) async {
                     if (value.trim().isEmpty) {
                       AppShowDialog.buildShowSnackBar(
                         context,
@@ -108,15 +133,36 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                       );
                       return;
                     }
+
+                    if (!await NetworkUtils.isOnline()) {
+                      AppShowDialog.buildShowSnackBar(
+                        context,
+                        S.of(context).NoInternetConnection,
+                      );
+                      return;
+                    }
                     setState(() => word = value.trim());
                     context.read<AddAndShowCardCubit>().showCard(
                       word: value.trim(),
+                      language: selectedLanguage,
                     );
                   },
                   icon: Icons.search_rounded,
                   hint: S.of(context).enterWordToGenerate,
                 ),
-                SizedBox(height: 24.h),
+                SizedBox(height: 16.h),
+                Row(
+                  children: [
+                    Icon(Icons.info),
+                    SizedBox(width: 4.w),
+                    Text(
+                      'put "," between every word or sentence',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 13.sp, color: Colors.black),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 6.h),
 
                 if (state is AddAndShowCardLoading)
                   Column(
@@ -175,7 +221,30 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                         return;
                       }
 
+                      bool hasValidCards = false;
                       for (var item in state.card) {
+                        if (item.is_valid == 'true') {
+                          hasValidCards = true;
+                          break;
+                        }
+                      }
+
+                      if (!hasValidCards) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("No valid cards to add"),
+                            backgroundColor: Colors.orange,
+                          ),
+                        );
+                        context.read<AddAndShowCardCubit>().reset();
+                        textController.clear();
+                        return;
+                      }
+
+                      for (var item in state.card) {
+                        if (item.is_valid != 'true') {
+                          continue;
+                        }
                         context.read<AddAndShowCardCubit>().addCard(
                           word: item.word,
                           definition: item.definition,
@@ -273,7 +342,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
   }
 }
 
-class AIPreviewScreen extends StatelessWidget {
+/*class AIPreviewScreen extends StatelessWidget {
   final String? selectedCollectionId;
   final TextEditingController textController;
 
@@ -311,6 +380,7 @@ class AIPreviewScreen extends StatelessWidget {
                 example: result['example'],
                 type: result['type'],
                 image_url: result['image_url'],
+                is_valid: result['is_valid'],
               ),
             ),
             SizedBox(height: 28.h),
@@ -323,6 +393,7 @@ class AIPreviewScreen extends StatelessWidget {
                 example: result['example'],
                 type: result['type'],
                 image_url: result['image_url'],
+                is_valid: result['is_valid'],
               ),
             ),
             SizedBox(height: 40.h),
@@ -368,4 +439,4 @@ class AIPreviewScreen extends StatelessWidget {
       },
     );
   }
-}
+}*/

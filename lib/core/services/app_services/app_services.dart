@@ -23,21 +23,17 @@ class AppServices {
   }
 
   Future<void> requestAICard({required String word}) async {
-  final now = DateTime.now();
+    final now = DateTime.now();
 
-  await FirebaseFirestore.instance
-      .collection("ai_requests")
-      .add({
-    "userId": FirebaseAuth.instance.currentUser!.uid,
-    "word": word,
-    "status": "pending",
-    "result": null,
-    "createdAt": FieldValue.serverTimestamp(),
-    "expiresAt": Timestamp.fromDate(
-      now.add(const Duration(hours: 24)),
-    ),
-  });
-}
+    await FirebaseFirestore.instance.collection("ai_requests").add({
+      "userId": FirebaseAuth.instance.currentUser!.uid,
+      "word": word,
+      "status": "pending",
+      "result": null,
+      "createdAt": FieldValue.serverTimestamp(),
+      "expiresAt": Timestamp.fromDate(now.add(const Duration(hours: 24))),
+    });
+  }
 
   // ======================================================================
   // 📚 COLLECTIONS
@@ -67,6 +63,7 @@ class AppServices {
     final snap = await firestore
         .collection('collections')
         .where('ownerId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .orderBy('created_at', descending: false)
         .get();
 
     return snap.docs.map((e) => CollectionModel.fromDoc(e)).toList();

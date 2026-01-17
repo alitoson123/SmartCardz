@@ -8,6 +8,8 @@
   "addNewCardWithAITitle": "AI Card Generation",
   "createYourFlashcard": "Create Your Flashcard",
   "createFlashcardSubtitle": "Learn smarter with active recall and spaced repetition",
+  "GenerateSmartFlashcards": "Generate Smart Flashcards",
+  "EnterAnyWordsOrSentences": "Enter any words or sentences in any language and get images, definitions, word type, and examples",
   "selectCollection": "Collection",
   "enterFrontSide": "Enter the front side",
   "enterBackSide": "Enter the back side",
@@ -100,5 +102,6 @@
   "clearWhiteboard": "Clear whiteboard",
   "disableWhiteboard": "Disable whiteboard",
   "whiteboardColor": "Whiteboard color:",
-  "deleteCardMenu": "Delete card"
+  "deleteCardMenu": "Delete card",
+  "NoInternetConnection": "No internet connection"
 }

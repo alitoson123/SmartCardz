@@ -46,6 +46,9 @@ export const dueCardsNotification = onSchedule(
                 title: "مجدول للمراجعة",
                 body: `عندك ${cardsSnap.size} بطاقة محتاجة مراجعة`,
               },
+              data: {
+                type: "due_cards",
+              },
             });
           }
         })

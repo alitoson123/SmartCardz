@@ -2,7 +2,7 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/c
 
 abstract class AddAndShowCardRemoteDataSource {
   Future<void> requestAI({required String word});
-  Future<List<CardWithAIEntity>> showCard({required String word});
+  Future<List<CardWithAIEntity>> showCard({required String word,required String language});
   Future<void> addCard({
     required String word,
     required String definition,

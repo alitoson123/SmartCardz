@@ -11,6 +11,9 @@ class CardWithAIEntity extends BaseCardEntity {
   final String image_url;
   @override
   final List<String> example;
+  @override
+  final String is_valid;
+
 
   CardWithAIEntity({
     required this.word,
@@ -18,6 +21,7 @@ class CardWithAIEntity extends BaseCardEntity {
     required this.definition,
     required this.example,
     required this.image_url,
+    required this.is_valid,
   });
 
   // Override card type identification
