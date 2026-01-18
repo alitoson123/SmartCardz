@@ -12,7 +12,7 @@ final ThemeData lightTheme = ThemeData(
     centerTitle: true,
     titleTextStyle: TextStyle(
       color: Colors.white,
-      fontSize: 20.sp,
+      fontSize: 14.sp,
       fontWeight: FontWeight.bold,
     ),
     iconTheme: const IconThemeData(color: Colors.white),

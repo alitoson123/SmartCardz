@@ -18,15 +18,21 @@ class CollectionModel extends CollectionEntity with HiveObjectMixin {
   @override
   final String collection_id;
 
+  @HiveField(4)
+  @override
+  final DateTime? created_at;
+
   CollectionModel({
     required this.collectionName,
     required this.cards_count,
     required this.collection_id,
     required this.owner_id,
+    this.created_at,
   }) : super(
          collectionName: collectionName,
          cards_count: cards_count,
          collection_id: collection_id,
+         created_at: created_at,
        );
 
   /// ✅ لتحويل الكائن إلى Map قبل الحفظ في Firestore
@@ -47,6 +53,9 @@ class CollectionModel extends CollectionEntity with HiveObjectMixin {
       collectionName: data['collection_name'] ?? '',
       cards_count: data['cards_count'] ?? 0,
       collection_id: doc.id,
+      created_at: data['created_at'] is Timestamp
+          ? (data['created_at'] as Timestamp).toDate()
+          : null,
     );
   }
 }

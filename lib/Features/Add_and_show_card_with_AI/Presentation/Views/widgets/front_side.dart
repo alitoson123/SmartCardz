@@ -20,7 +20,7 @@ class FrontSide extends StatelessWidget {
             fit: BoxFit.contain,
           ), */
           CachedImage(
-            imageUrl: card.image_url,
+            imageUrl: card.image_url!,
             height: 300.h,
             fit: BoxFit.contain,
           ),

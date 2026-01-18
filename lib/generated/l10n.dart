@@ -414,6 +414,11 @@ class S {
     return Intl.message('Hard', name: 'hard', desc: '', args: []);
   }
 
+  /// `Again`
+  String get again {
+    return Intl.message('Again', name: 'again', desc: '', args: []);
+  }
+
   /// `Add`
   String get add {
     return Intl.message('Add', name: 'add', desc: '', args: []);

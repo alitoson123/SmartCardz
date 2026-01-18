@@ -33,13 +33,18 @@ class RowOfDifficultyButton extends StatelessWidget {
         ),
         ItemOfDifficultyButton(
           text: S.of(context).medium,
-          color: Colors.orange,
+          color: Colors.blue,
           onPressed: () => submitRating(context, card, 3),
         ),
         ItemOfDifficultyButton(
           text: S.of(context).hard,
-          color: Colors.red,
+          color: Colors.orange,
           onPressed: () => submitRating(context, card, 1),
+        ),
+        ItemOfDifficultyButton(
+          text: S.of(context).again,
+          color: Colors.red,
+          onPressed: () => submitRating(context, card, 0),
         ),
       ],
     );

@@ -27,31 +27,55 @@ class FetchAndRatingCubit extends Cubit<FetchAndRatingStates> {
     );
   }
 
-  Future<void> submitRating(
-    BaseCardEntity card,
-    int quality,
-    String collectionId,
-  ) async {
-    // 🚀 Optimistic UI: Remove the card from the local list immediately
-    List<BaseCardEntity> previousCards = [];
-    if (state is FetchDueCardsSuccess) {
-      previousCards = (state as FetchDueCardsSuccess).cards;
-      final updatedCards = List<BaseCardEntity>.from(previousCards)
-        ..removeWhere((c) => c.id == card.id);
-      emit(FetchDueCardsSuccess(cards: updatedCards));
+Future<void> submitRating(
+  BaseCardEntity card,
+  int quality,
+  String collectionId,
+) async {
+  // 🚀 Optimistic UI
+  List<BaseCardEntity> previousCards = [];
+
+  if (state is FetchDueCardsSuccess) {
+    previousCards = (state as FetchDueCardsSuccess).cards;
+    final updatedCards = List<BaseCardEntity>.from(previousCards);
+
+    // شيل الكارت الحالي
+    updatedCards.removeWhere((c) => c.id == card.id);
+
+    if (quality == 0) {
+      // Again → يرجع بعد عدد كروت
+      const int againOffset = 7;
+
+      final currentIndex =
+          previousCards.indexWhere((c) => c.id == card.id);
+
+      final insertIndex =
+          (currentIndex + againOffset < updatedCards.length)
+              ? currentIndex + againOffset
+              : updatedCards.length;
+
+      updatedCards.insert(insertIndex, card);
     }
 
-    final result = await revisionRepoImpl.submitRating(card, quality);
+    // Easy / Medium / Hard
+    // الكارت اتشال وخلاص
 
-    result.fold(
-      (failure) {
-        // If it fails, show error.
-        // Note: In a production app, we might want to rollback the list here.
-        emit(FetchAndRatingFailure(errorMessage: failure.errorMessage));
-      },
-      (success) {
-        // We stay in FetchDueCardsSuccess (the optimistic state)
-      },
-    );
+    emit(FetchDueCardsSuccess(cards: updatedCards));
   }
+
+  final result = await revisionRepoImpl.submitRating(card, quality);
+
+  result.fold(
+    (failure) {
+      emit(
+        FetchAndRatingFailure(
+          errorMessage: failure.errorMessage,
+        ),
+      );
+    },
+    (success) {
+      // optimistic state is already applied
+    },
+  );
+}
 }

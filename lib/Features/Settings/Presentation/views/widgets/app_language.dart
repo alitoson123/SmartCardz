@@ -31,7 +31,7 @@ class _AppThemeState extends State<AppLanguage> {
         S.of(context).appLanguage,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 20.sp,
+          fontSize: 14.sp,
           fontWeight: FontWeight.bold,
           color: themeColors.onSurface,
         ),

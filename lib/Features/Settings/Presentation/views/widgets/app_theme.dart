@@ -31,7 +31,7 @@ class _AppThemeState extends State<AppTheme> {
         S.of(context).appTheme,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 20.sp,
+          fontSize: 14.sp,
           fontWeight: FontWeight.bold,
           color: themeColors.onSurface,
         ),

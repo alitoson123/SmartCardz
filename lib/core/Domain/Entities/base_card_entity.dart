@@ -19,7 +19,7 @@ abstract class BaseCardEntity extends HiveObject {
   String get word => '';
   String get type => '';
   String get definition => '';
-  String get image_url => '';
+  String? get image_url => '';
   List<String> get example => [];
   String get is_valid => '';
 
