@@ -27,6 +27,7 @@ abstract class BaseCardEntity extends HiveObject {
   int get repetition => 0;
   double get easiness => 2.5;
   int get interval => 0;
+  int? againCount;
 
   /// 📦 Card type (ai / normal)
   String get cardType => 'unknown';
