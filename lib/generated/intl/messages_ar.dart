@@ -76,13 +76,27 @@ class MessageLookup extends MessageLookupByLibrary {
     "appLanguage": MessageLookupByLibrary.simpleMessage("لغة التطبيق"),
     "appTheme": MessageLookupByLibrary.simpleMessage("سمة التطبيق"),
     "appearance": MessageLookupByLibrary.simpleMessage("المظهر"),
+    "basic": MessageLookupByLibrary.simpleMessage("أساسي"),
+    "black": MessageLookupByLibrary.simpleMessage("أسود"),
+    "blue": MessageLookupByLibrary.simpleMessage("أزرق"),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "cardDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "تم حذف البطاقة بنجاح",
+    ),
     "cards": MessageLookupByLibrary.simpleMessage("بطاقات"),
     "cardsCountLabel": MessageLookupByLibrary.simpleMessage("عدد البطاقات"),
     "cardsLabel": m0,
+    "chooseAnOption": MessageLookupByLibrary.simpleMessage("اختر خيارًا"),
+    "chooseFromCamera": MessageLookupByLibrary.simpleMessage(
+      "الالتقاط بالكاميرا",
+    ),
+    "chooseFromGallery": MessageLookupByLibrary.simpleMessage(
+      "الاختيار من المعرض",
+    ),
     "clearWhiteboard": MessageLookupByLibrary.simpleMessage("مسح السبورة"),
     "collectionName": MessageLookupByLibrary.simpleMessage("اسم المجموعة"),
     "collectionsTitle": MessageLookupByLibrary.simpleMessage("المجموعات"),
+    "color": MessageLookupByLibrary.simpleMessage("اللون"),
     "completeDetails": MessageLookupByLibrary.simpleMessage(
       "أكمل بياناتك أو تابع\nعبر وسائل التواصل الاجتماعي",
     ),
@@ -115,6 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "disableWhiteboard": MessageLookupByLibrary.simpleMessage("تعطيل السبورة"),
     "dontHaveAccount": MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟ "),
+    "dueCards": MessageLookupByLibrary.simpleMessage("مستحقة"),
     "easy": MessageLookupByLibrary.simpleMessage("سهل"),
     "enableDisableWhiteboard": MessageLookupByLibrary.simpleMessage(
       "تفعيل / تعطيل السبورة",
@@ -131,6 +146,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterWordToGenerate": MessageLookupByLibrary.simpleMessage(
       "أدخل كلمة للتوليد...",
     ),
+    "error": MessageLookupByLibrary.simpleMessage("خطأ"),
     "errorOccurred": m1,
     "firstName": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
     "forgotPasswordSubtitle": MessageLookupByLibrary.simpleMessage(
@@ -140,11 +156,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "نسيت كلمة المرور",
     ),
     "free": MessageLookupByLibrary.simpleMessage("مجاني"),
+    "frontOnly": MessageLookupByLibrary.simpleMessage("الوجه الأمامي فقط"),
     "generatingYourSmartCard": MessageLookupByLibrary.simpleMessage(
-      "جاري إنشاء بطاقتك الذكية...",
+      "جاري إنشاء بطاقتك الذكية...\nقد يستغرق هذا بضع ثوانٍ",
     ),
+    "green": MessageLookupByLibrary.simpleMessage("أخضر"),
     "hard": MessageLookupByLibrary.simpleMessage("صعب"),
     "home": MessageLookupByLibrary.simpleMessage("Cardify"),
+    "isNotValidTryToFixTheSpelling": MessageLookupByLibrary.simpleMessage(
+      "غير صالح، حاول تصحيح الإملاء",
+    ),
     "language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "lastName": MessageLookupByLibrary.simpleMessage("اسم العائلة"),
     "light": MessageLookupByLibrary.simpleMessage("فاتح"),
@@ -160,10 +181,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "noFrontSideData": MessageLookupByLibrary.simpleMessage(
       "لا توجد بيانات في الوجه الأمامي",
     ),
+    "noValidCardsToAdd": MessageLookupByLibrary.simpleMessage(
+      "لا توجد بطاقات صالحة للإضافة",
+    ),
+    "orange": MessageLookupByLibrary.simpleMessage("برتقالي"),
+    "pink": MessageLookupByLibrary.simpleMessage("وردي"),
     "pleaseEnterAWord": MessageLookupByLibrary.simpleMessage("يرجى إدخال كلمة"),
+    "pleaseEnterYour": MessageLookupByLibrary.simpleMessage("يرجى إدخال "),
+    "purple": MessageLookupByLibrary.simpleMessage("بنفسجي"),
+    "putCommaBetweenEveryWordOrSentence": MessageLookupByLibrary.simpleMessage(
+      "ضع فاصلة \",\" بين كل كلمة أو جملة",
+    ),
     "ratingSavedLoadingNext": MessageLookupByLibrary.simpleMessage(
       "تم حفظ التقييم ✅\nجاري تحميل البطاقة التالية...",
     ),
+    "red": MessageLookupByLibrary.simpleMessage("أحمر"),
     "registerAccount": MessageLookupByLibrary.simpleMessage("تسجيل حساب"),
     "rename": MessageLookupByLibrary.simpleMessage("إعادة تسمية"),
     "renameCollection": MessageLookupByLibrary.simpleMessage(
@@ -177,6 +209,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchCollectionTitle": MessageLookupByLibrary.simpleMessage(
       "البحث عن مجموعة",
     ),
+    "searchLanguageHint": MessageLookupByLibrary.simpleMessage(
+      "ابحث عن لغة...",
+    ),
+    "selectALanguage": MessageLookupByLibrary.simpleMessage("اختر لغة"),
     "selectCollection": MessageLookupByLibrary.simpleMessage("المجموعة"),
     "selectImage": MessageLookupByLibrary.simpleMessage("اختيار صورة"),
     "send": MessageLookupByLibrary.simpleMessage("إرسال"),
@@ -185,6 +221,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "signInSubtitle": MessageLookupByLibrary.simpleMessage(
       "سجّل الدخول باستخدام بريدك الإلكتروني وكلمة المرور\nأو المتابعة عبر وسائل التواصل الاجتماعي",
     ),
+    "signInSuccessMessage": MessageLookupByLibrary.simpleMessage(
+      "تم تسجيل الدخول بنجاح",
+    ),
     "signInTitle": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "signUpTitle": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
     "termsCondition": MessageLookupByLibrary.simpleMessage(
@@ -192,11 +231,17 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("السمة"),
     "titleLabel": MessageLookupByLibrary.simpleMessage("العنوان"),
+    "typeOfCollection": MessageLookupByLibrary.simpleMessage("نوع المجموعة"),
+    "typeOfCollectionHint": MessageLookupByLibrary.simpleMessage(
+      "ابحث عن نوع مجموعة...",
+    ),
     "unexpectedState": MessageLookupByLibrary.simpleMessage(
       "حالة غير متوقعة (لا يوجد معالج)",
     ),
     "version": MessageLookupByLibrary.simpleMessage("الإصدار"),
     "welcome": MessageLookupByLibrary.simpleMessage("مرحباً"),
+    "white": MessageLookupByLibrary.simpleMessage("أبيض"),
     "whiteboardColor": MessageLookupByLibrary.simpleMessage("لون السبورة:"),
+    "yellow": MessageLookupByLibrary.simpleMessage("أصفر"),
   };
 }
