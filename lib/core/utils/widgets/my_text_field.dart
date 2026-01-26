@@ -2,25 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:smart_cards/Features/Auth/Sign_up/Data/Models/sign_up_model.dart';
 import 'package:smart_cards/constant.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 class MyTextField extends StatelessWidget {
   const MyTextField({
     super.key,
     required this.SignUpModelObject,
     this.initialValue,
+    this.visPassword = false,
   });
   final SignUpModel SignUpModelObject;
   final String? initialValue;
+  final bool visPassword ;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: SignUpModelObject.keyboardType,
+      obscureText: visPassword,
       initialValue: initialValue,
       onChanged: SignUpModelObject.onChanged,
       validator: (value) {
         if (value!.isEmpty) {
-          return 'Please Enter your ${SignUpModelObject.myTextLabel}';
+          return   S.of(context).pleaseEnterYour + '${SignUpModelObject.myTextLabel}';
         }
         return null;
       },
@@ -29,8 +33,8 @@ class MyTextField extends StatelessWidget {
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         floatingLabelStyle: TextStyle(color: K_PRIMARY_COLOR),
         contentPadding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 14.r),
-        suffixIcon: SignUpModelObject.myIcon,
         hintText: SignUpModelObject.myHintText,
+        suffixIcon: SignUpModelObject.myIcon,
         focusedBorder: focusOutLineInputBorder(),
         border: borderOutLineInputBorder(),
       ),
@@ -44,7 +48,6 @@ class MyTextField extends StatelessWidget {
   OutlineInputBorder focusOutLineInputBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(20.r),
-      borderSide: BorderSide(color: Colors.black),
     );
   }
 }

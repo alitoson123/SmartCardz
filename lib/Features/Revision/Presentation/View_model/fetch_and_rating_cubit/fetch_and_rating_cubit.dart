@@ -42,7 +42,7 @@ Future<void> submitRating(
     previousCards = (state as FetchDueCardsSuccess).cards;
     final updatedCards = List<BaseCardEntity>.from(previousCards);
 
-    // شيل الكارت الحالي من الليست
+    // شيل الكارت الحالي
     updatedCards.removeWhere((c) => c.id == card.id);
 
     if (quality == 0) {
@@ -58,23 +58,21 @@ Future<void> submitRating(
         final currentIndex =
             previousCards.indexWhere((c) => c.id == card.id);
 
+        final safeIndex = currentIndex == -1 ? 0 : currentIndex;
+
         final insertIndex =
-            (currentIndex + offset < updatedCards.length)
-                ? currentIndex + offset
+            (safeIndex + offset < updatedCards.length)
+                ? safeIndex + offset
                 : updatedCards.length;
 
         updatedCards.insert(insertIndex, card);
       }
-      // لو زاد عن maxAgainCount → الكارت يتشال من السيشن
     }
-
-    // Easy / Medium / Hard
-    // الكارت اتشال خلاص ومش راجع في السيشن
 
     emit(FetchDueCardsSuccess(cards: updatedCards));
   }
 
-  // SM-2 بيشتغل زي ما هو (nextReview = بكرة لو Again)
+  // SM-2 شغال زي ما هو
   await revisionRepoImpl.submitRating(card, quality);
 }
 }

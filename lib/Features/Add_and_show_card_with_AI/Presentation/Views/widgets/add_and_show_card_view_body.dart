@@ -156,9 +156,8 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                     Icon(Icons.info),
                     SizedBox(width: 4.w),
                     Text(
-                      'put "," between every word or sentence',
+                      S.of(context).putCommaBetweenEveryWordOrSentence,
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 13.sp, color: Colors.black),
                     ),
                   ],
                 ),
@@ -232,7 +231,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                       if (!hasValidCards) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text("No valid cards to add"),
+                            content: Text(S.of(context).noValidCardsToAdd),
                             backgroundColor: Colors.orange,
                           ),
                         );

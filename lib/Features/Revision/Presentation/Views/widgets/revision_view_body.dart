@@ -104,8 +104,8 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
         log(card.id);
         // إظهار رسالة نجاح
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Card deleted successfully'),
+          SnackBar(
+            content: Text(S.of(context).cardDeletedSuccessfully),
             backgroundColor: Colors.green,
             duration: Duration(seconds: 2),
           ),
@@ -366,9 +366,6 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                               setState(() {
                                 showAnswer = false;
                                 drawingPoints.clear();
-                                // The card will be removed from the list by the Cubit.
-                                // So we don't necessarily need to increment currentIndex.
-                                // However, we ensure it stays within the (new) bounds.
                                 if (currentIndex >= cards.length - 1) {
                                   currentIndex = 0;
                                 }
@@ -406,9 +403,6 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                         setState(() {
                           showAnswer = false;
                           drawingPoints.clear();
-                          // The card will be removed from the list by the Cubit.
-                          // So we don't necessarily need to increment currentIndex.
-                          // However, we ensure it stays within the (new) bounds.
                           if (currentIndex >= cards.length - 1) {
                             currentIndex = 0;
                           }
@@ -421,7 +415,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
             ),
           );
         } else if (state is FetchAndRatingFailure) {
-          return Center(child: Text('Error: ${state.errorMessage}'));
+          return Center(child: Text(S.of(context).error + ': ${state.errorMessage}'));
         } else {
           return Center(child: Text(S.of(context).unexpectedState));
         }

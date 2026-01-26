@@ -52,7 +52,7 @@ class RowOfDifficultyButton extends StatelessWidget {
 
   void submitRating(BuildContext context, BaseCardEntity card, int quality) {
     final cubit = context.read<FetchAndRatingCubit>();
-    cubit.submitRating(card, quality, collectionId);
+    cubit.submitRating(card, quality);
 
     onNextCard(); // 👈 تروح للكارت اللي بعده فوراً
   }

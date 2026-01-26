@@ -4,7 +4,7 @@ import 'package:smart_cards/Features/Auth/Sign_up/Data/Models/sign_up_model.dart
 import 'package:smart_cards/core/utils/widgets/my_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class TextFieldsOfEmailAndPassword extends StatelessWidget {
+class TextFieldsOfEmailAndPassword extends StatefulWidget {
   const TextFieldsOfEmailAndPassword({
     super.key,
     required this.onChangedForEmail,
@@ -12,6 +12,13 @@ class TextFieldsOfEmailAndPassword extends StatelessWidget {
   });
   final void Function(String) onChangedForEmail;
   final void Function(String) onChangedForPassword;
+
+  @override
+  State<TextFieldsOfEmailAndPassword> createState() => _TextFieldsOfEmailAndPasswordState();
+}
+
+class _TextFieldsOfEmailAndPasswordState extends State<TextFieldsOfEmailAndPassword> {
+  bool myVisPassword = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,16 +28,23 @@ class TextFieldsOfEmailAndPassword extends StatelessWidget {
             myTextLabel: S.of(context).Email,
             myHintText: S.of(context).Email,
             myIcon: Icon(Icons.mail),
-            onChanged: onChangedForEmail,
+            onChanged: widget.onChangedForEmail,
           ),
         ),
         SizedBox(height: 25.h),
         MyTextField(
+          visPassword: myVisPassword,
           SignUpModelObject: SignUpModel(
             myTextLabel: S.of(context).Password,
             myHintText: S.of(context).Password,
-            myIcon: Icon(Icons.lock),
-            onChanged: onChangedForPassword,
+            myIcon:  GestureDetector(
+            onTap: () {
+             setState(() {
+               myVisPassword = !myVisPassword;
+             });
+            },
+            child: Icon(myVisPassword ? Icons.visibility : Icons.visibility_off)),
+            onChanged: widget.onChangedForPassword,
           ),
         ),
       ],

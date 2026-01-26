@@ -34,12 +34,24 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
   String? selectedCollectionName;
   String? selectedCollectionId;
-  String selectedType = "Basic";
+  late String selectedType;
+  String selectedTypeId = '1'; // Default to 'Basic'
 
   File? frontImage;
   File? backImage;
   Reference? frontImageRef;
   Reference? backImageRef;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Initialize selectedType based on selectedTypeId
+    if (selectedTypeId == '1') {
+      selectedType = S.of(context).basic;
+    } else {
+      selectedType = S.of(context).frontOnly;
+    }
+  }
 
   // Pick image from gallery and return File
   Future<File?> pickImageFromGallery() async {
@@ -181,6 +193,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                       if (result != null) {
                         setState(() {
                           selectedType = result['name'];
+                          selectedTypeId = result['id'];
                         });
                       }
                     },
@@ -193,7 +206,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
             // ===== Front Side Field =====
             CustomTextField(
               controller: frontSideController,
-              hint: "Front Side",
+              hint: S.of(context).FrontSide,
               icon: Icons.edit,
               imagePath: frontImage,
               onImageCanel: () {
@@ -234,10 +247,10 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
             // ===== Back Side Field (only for Basic type) =====
             Visibility(
-              visible: selectedType == "Basic",
+              visible: selectedTypeId == '1',
               child: CustomTextField(
                 controller: backSideController,
-                hint: "Back Side",
+                hint: S.of(context).BackSide,
                 icon: Icons.edit,
                 imagePath: backImage,
                 onImageCanel: () {
@@ -285,7 +298,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                 final backSide = backSideController.text.trim();
 
                 // Validation
-                if (selectedType == "Basic") {
+                if (selectedTypeId == '1') {
                   if ((frontSide.isEmpty && frontImage == null) ||
                       (backSide.isEmpty && backImage == null) ||
                       selectedCollectionId == null) {
@@ -299,7 +312,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                     );
                     return;
                   }
-                } else if (selectedType == "Front") {
+                } else if (selectedTypeId == '2') {
                   if ((frontSide.isEmpty && frontImage == null) ||
                       selectedCollectionId == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -366,7 +379,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                     }
                   }
 
-                  if (backImage != null && selectedType == "Basic") {
+                  if (backImage != null && selectedTypeId == '1') {
                     backImageRef = generateImageReference(
                       side: 'back',
                       cardId: cardId,

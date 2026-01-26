@@ -35,18 +35,27 @@ class MessageLookup extends MessageLookupByLibrary {
     "CollectionCreatedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "تم إنشاء المجموعة بنجاح",
     ),
-    "Email": MessageLookupByLibrary.simpleMessage("البريد الالكتروني"),
+    "Email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
+    "EnterAnyWordsOrSentences": MessageLookupByLibrary.simpleMessage(
+      "أدخل أي كلمات أو جُمل بأي لغة واحصل على صور، تعريفات، نوع الكلمة، وأمثلة",
+    ),
     "FrontSide": MessageLookupByLibrary.simpleMessage("الوجه الأمامي"),
+    "GenerateSmartFlashcards": MessageLookupByLibrary.simpleMessage(
+      "إنشاء بطاقات ذكية",
+    ),
     "NoBrontSideData": MessageLookupByLibrary.simpleMessage(
       "لا توجد بيانات في الوجه الخلفي",
     ),
     "NoCollectionsFound": MessageLookupByLibrary.simpleMessage(
-      "لم يتم العثور على مجموعات",
+      "لا توجد مجموعات",
     ),
     "NoFrontSideData": MessageLookupByLibrary.simpleMessage(
       "لا توجد بيانات في الوجه الأمامي",
     ),
-    "Notification": MessageLookupByLibrary.simpleMessage("الاشعارات"),
+    "NoInternetConnection": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد اتصال بالإنترنت",
+    ),
+    "Notification": MessageLookupByLibrary.simpleMessage("الإشعارات"),
     "Password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "Plan": MessageLookupByLibrary.simpleMessage("الخطة"),
     "PleaseFillAllFieldsAndSelectACollection":
@@ -54,16 +63,16 @@ class MessageLookup extends MessageLookupByLibrary {
           "يرجى ملء جميع الحقول واختيار مجموعة",
         ),
     "SomethingWentWrong": MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
-    "actions": MessageLookupByLibrary.simpleMessage("إجراءات"),
+    "actions": MessageLookupByLibrary.simpleMessage("الإجراءات"),
     "add": MessageLookupByLibrary.simpleMessage("إضافة"),
     "addCard": MessageLookupByLibrary.simpleMessage("إضافة بطاقة"),
     "addCardWithAI": MessageLookupByLibrary.simpleMessage(
-      "إضافة بطاقة بالذكاء الاصطناعي",
+      "إنشاء بطاقة بالذكاء الاصطناعي",
     ),
     "addNewCardWithAITitle": MessageLookupByLibrary.simpleMessage(
-      "إضافة بطاقة بالذكاء الاصطناعي",
+      "إنشاء بطاقة بالذكاء الاصطناعي",
     ),
-    "again": MessageLookupByLibrary.simpleMessage("مجدداً"),
+    "again": MessageLookupByLibrary.simpleMessage("مرة أخرى"),
     "appLanguage": MessageLookupByLibrary.simpleMessage("لغة التطبيق"),
     "appTheme": MessageLookupByLibrary.simpleMessage("سمة التطبيق"),
     "appearance": MessageLookupByLibrary.simpleMessage("المظهر"),
@@ -75,17 +84,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "collectionName": MessageLookupByLibrary.simpleMessage("اسم المجموعة"),
     "collectionsTitle": MessageLookupByLibrary.simpleMessage("المجموعات"),
     "completeDetails": MessageLookupByLibrary.simpleMessage(
-      "أكمل بياناتك أو استمر \n مع وسائل التواصل الاجتماعي",
+      "أكمل بياناتك أو تابع\nعبر وسائل التواصل الاجتماعي",
     ),
     "continueWithGoogle": MessageLookupByLibrary.simpleMessage(
-      "المتابعة مع جوجل",
+      "المتابعة باستخدام Google",
     ),
     "create": MessageLookupByLibrary.simpleMessage("إنشاء"),
     "createCollectionTitle": MessageLookupByLibrary.simpleMessage(
       "إنشاء مجموعة جديدة",
     ),
     "createFlashcardSubtitle": MessageLookupByLibrary.simpleMessage(
-      "أضف كلمة جديدة وتعريفها إلى مجموعتك",
+      "تعلّم بذكاء باستخدام الاستدعاء النشط والتكرار المتباعد",
     ),
     "createNewCollection": MessageLookupByLibrary.simpleMessage(
       "إنشاء مجموعة جديدة",
@@ -97,16 +106,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "delete": MessageLookupByLibrary.simpleMessage("حذف"),
     "deleteCard": MessageLookupByLibrary.simpleMessage("حذف البطاقة"),
     "deleteCardConfirm": MessageLookupByLibrary.simpleMessage(
-      "هل أنت متأكد أنك تريد حذف هذه البطاقة؟ لا يمكن التراجع عن هذا الإجراء.",
+      "هل أنت متأكد من حذف هذه البطاقة؟ لا يمكن التراجع عن هذا الإجراء.",
     ),
     "deleteCardMenu": MessageLookupByLibrary.simpleMessage("حذف البطاقة"),
     "deleteCollection": MessageLookupByLibrary.simpleMessage("حذف المجموعة"),
     "deleteCollectionConfirm": MessageLookupByLibrary.simpleMessage(
-      "هل أنت متأكد أنك تريد حذف هذه المجموعة؟ لا يمكن التراجع عن هذا الإجراء.",
+      "هل أنت متأكد من حذف هذه المجموعة؟ لا يمكن التراجع عن هذا الإجراء.",
     ),
     "disableWhiteboard": MessageLookupByLibrary.simpleMessage("تعطيل السبورة"),
     "dontHaveAccount": MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟ "),
     "easy": MessageLookupByLibrary.simpleMessage("سهل"),
+    "enableDisableWhiteboard": MessageLookupByLibrary.simpleMessage(
+      "تفعيل / تعطيل السبورة",
+    ),
     "enterBackSide": MessageLookupByLibrary.simpleMessage("أدخل الوجه الخلفي"),
     "enterCollectionName": MessageLookupByLibrary.simpleMessage(
       "أدخل اسم المجموعة...",
@@ -115,14 +127,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterFrontSide": MessageLookupByLibrary.simpleMessage(
       "أدخل الوجه الأمامي",
     ),
-    "enterLastName": MessageLookupByLibrary.simpleMessage("أدخل اسم عائلتك"),
+    "enterLastName": MessageLookupByLibrary.simpleMessage("أدخل اسم العائلة"),
     "enterWordToGenerate": MessageLookupByLibrary.simpleMessage(
       "أدخل كلمة للتوليد...",
     ),
     "errorOccurred": m1,
     "firstName": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
     "forgotPasswordSubtitle": MessageLookupByLibrary.simpleMessage(
-      "يرجى إدخال بريدك الإلكتروني وسنرسل لك \n رابطاً للعودة إلى حسابك",
+      "أدخل بريدك الإلكتروني وسنرسل لك\nرابط استعادة الحساب",
     ),
     "forgotPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "نسيت كلمة المرور",
@@ -132,7 +144,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "جاري إنشاء بطاقتك الذكية...",
     ),
     "hard": MessageLookupByLibrary.simpleMessage("صعب"),
-    "home": MessageLookupByLibrary.simpleMessage("البطاقات الذكية"),
+    "home": MessageLookupByLibrary.simpleMessage("Cardify"),
     "language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "lastName": MessageLookupByLibrary.simpleMessage("اسم العائلة"),
     "light": MessageLookupByLibrary.simpleMessage("فاتح"),
@@ -148,9 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noFrontSideData": MessageLookupByLibrary.simpleMessage(
       "لا توجد بيانات في الوجه الأمامي",
     ),
-    "pleaseEnterAWord": MessageLookupByLibrary.simpleMessage(
-      "الرجاء إدخال كلمة",
-    ),
+    "pleaseEnterAWord": MessageLookupByLibrary.simpleMessage("يرجى إدخال كلمة"),
     "ratingSavedLoadingNext": MessageLookupByLibrary.simpleMessage(
       "تم حفظ التقييم ✅\nجاري تحميل البطاقة التالية...",
     ),
@@ -159,26 +169,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "renameCollection": MessageLookupByLibrary.simpleMessage(
       "إعادة تسمية المجموعة",
     ),
-    "revisionTitle": MessageLookupByLibrary.simpleMessage("مراجعة"),
+    "revisionTitle": MessageLookupByLibrary.simpleMessage("المراجعة"),
     "save": MessageLookupByLibrary.simpleMessage("حفظ"),
     "searchCollectionHint": MessageLookupByLibrary.simpleMessage(
-      "البحث عن مجموعة...",
+      "ابحث عن مجموعة...",
     ),
     "searchCollectionTitle": MessageLookupByLibrary.simpleMessage(
       "البحث عن مجموعة",
     ),
-    "selectCollection": MessageLookupByLibrary.simpleMessage("اختر مجموعة"),
-    "selectImage": MessageLookupByLibrary.simpleMessage("اختر صورة"),
+    "selectCollection": MessageLookupByLibrary.simpleMessage("المجموعة"),
+    "selectImage": MessageLookupByLibrary.simpleMessage("اختيار صورة"),
     "send": MessageLookupByLibrary.simpleMessage("إرسال"),
     "settingsTitle": MessageLookupByLibrary.simpleMessage("الإعدادات"),
     "showAnswer": MessageLookupByLibrary.simpleMessage("عرض الإجابة"),
     "signInSubtitle": MessageLookupByLibrary.simpleMessage(
-      "سجل الدخول باستخدام بريدك الإلكتروني وكلمة المرور \n أو استمر مع وسائل التواصل الاجتماعي",
+      "سجّل الدخول باستخدام بريدك الإلكتروني وكلمة المرور\nأو المتابعة عبر وسائل التواصل الاجتماعي",
     ),
     "signInTitle": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "signUpTitle": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
     "termsCondition": MessageLookupByLibrary.simpleMessage(
-      "بالمتابعة، فإنك تؤكد موافقتك \n على شروطنا وأحكامنا",
+      "بالمتابعة، فإنك توافق على الشروط والأحكام",
     ),
     "theme": MessageLookupByLibrary.simpleMessage("السمة"),
     "titleLabel": MessageLookupByLibrary.simpleMessage("العنوان"),

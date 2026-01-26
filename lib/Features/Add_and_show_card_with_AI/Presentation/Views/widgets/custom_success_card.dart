@@ -52,7 +52,7 @@ class CustomSuccessCard extends StatelessWidget {
                       ),
                         TextSpan(text: '  '),
                       TextSpan(
-                        text: 'is not valid, try to fix the spelling',
+                        text: S.of(context).isNotValidTryToFixTheSpelling,
                         style: TextStyle(
                           fontSize: 19.sp,
                           color: Colors.grey.shade800,

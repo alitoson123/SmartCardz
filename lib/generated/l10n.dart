@@ -54,9 +54,9 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Smart Cardz`
+  /// `Cardify`
   String get home {
-    return Intl.message('Smart Cardz', name: 'home', desc: '', args: []);
+    return Intl.message('Cardify', name: 'home', desc: '', args: []);
   }
 
   /// `cards`
@@ -179,10 +179,10 @@ class S {
     );
   }
 
-  /// `Generating your smart card...`
+  /// `Generating your smart card... \n This may take a few seconds`
   String get generatingYourSmartCard {
     return Intl.message(
-      'Generating your smart card...',
+      'Generating your smart card... \n This may take a few seconds',
       name: 'generatingYourSmartCard',
       desc: '',
       args: [],
@@ -519,7 +519,7 @@ class S {
     return Intl.message(
       'Error: $errorMessage',
       name: 'errorOccurred',
-      desc: 'Error message shown when fetch/rating fails',
+      desc: '',
       args: [errorMessage],
     );
   }
@@ -532,6 +532,11 @@ class S {
       desc: '',
       args: [count],
     );
+  }
+
+  /// `due`
+  String get dueCards {
+    return Intl.message('due', name: 'dueCards', desc: '', args: []);
   }
 
   /// `Collections`
@@ -834,6 +839,201 @@ class S {
     return Intl.message(
       'No internet connection',
       name: 'NoInternetConnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Basic`
+  String get basic {
+    return Intl.message('Basic', name: 'basic', desc: '', args: []);
+  }
+
+  /// `Front only`
+  String get frontOnly {
+    return Intl.message('Front only', name: 'frontOnly', desc: '', args: []);
+  }
+
+  /// `Type of Collection`
+  String get typeOfCollection {
+    return Intl.message(
+      'Type of Collection',
+      name: 'typeOfCollection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search for a type of collection...`
+  String get typeOfCollectionHint {
+    return Intl.message(
+      'Search for a type of collection...',
+      name: 'typeOfCollectionHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose an option`
+  String get chooseAnOption {
+    return Intl.message(
+      'Choose an option',
+      name: 'chooseAnOption',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose from gallery`
+  String get chooseFromGallery {
+    return Intl.message(
+      'Choose from gallery',
+      name: 'chooseFromGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose from camera`
+  String get chooseFromCamera {
+    return Intl.message(
+      'Choose from camera',
+      name: 'chooseFromCamera',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a Language`
+  String get selectALanguage {
+    return Intl.message(
+      'Select a Language',
+      name: 'selectALanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search for a language...`
+  String get searchLanguageHint {
+    return Intl.message(
+      'Search for a language...',
+      name: 'searchLanguageHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `put "," between every word or sentence`
+  String get putCommaBetweenEveryWordOrSentence {
+    return Intl.message(
+      'put "," between every word or sentence',
+      name: 'putCommaBetweenEveryWordOrSentence',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `is not valid, try to fix the spelling`
+  String get isNotValidTryToFixTheSpelling {
+    return Intl.message(
+      'is not valid, try to fix the spelling',
+      name: 'isNotValidTryToFixTheSpelling',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No valid cards to add`
+  String get noValidCardsToAdd {
+    return Intl.message(
+      'No valid cards to add',
+      name: 'noValidCardsToAdd',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Card deleted successfully`
+  String get cardDeletedSuccessfully {
+    return Intl.message(
+      'Card deleted successfully',
+      name: 'cardDeletedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get error {
+    return Intl.message('Error', name: 'error', desc: '', args: []);
+  }
+
+  /// `Red`
+  String get red {
+    return Intl.message('Red', name: 'red', desc: '', args: []);
+  }
+
+  /// `Blue`
+  String get blue {
+    return Intl.message('Blue', name: 'blue', desc: '', args: []);
+  }
+
+  /// `Green`
+  String get green {
+    return Intl.message('Green', name: 'green', desc: '', args: []);
+  }
+
+  /// `Yellow`
+  String get yellow {
+    return Intl.message('Yellow', name: 'yellow', desc: '', args: []);
+  }
+
+  /// `Orange`
+  String get orange {
+    return Intl.message('Orange', name: 'orange', desc: '', args: []);
+  }
+
+  /// `Purple`
+  String get purple {
+    return Intl.message('Purple', name: 'purple', desc: '', args: []);
+  }
+
+  /// `Pink`
+  String get pink {
+    return Intl.message('Pink', name: 'pink', desc: '', args: []);
+  }
+
+  /// `Black`
+  String get black {
+    return Intl.message('Black', name: 'black', desc: '', args: []);
+  }
+
+  /// `White`
+  String get white {
+    return Intl.message('White', name: 'white', desc: '', args: []);
+  }
+
+  /// `Color`
+  String get color {
+    return Intl.message('Color', name: 'color', desc: '', args: []);
+  }
+
+  /// `Please Enter Your `
+  String get pleaseEnterYour {
+    return Intl.message(
+      'Please Enter Your ',
+      name: 'pleaseEnterYour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign In Successfully`
+  String get signInSuccessMessage {
+    return Intl.message(
+      'Sign In Successfully',
+      name: 'signInSuccessMessage',
       desc: '',
       args: [],
     );

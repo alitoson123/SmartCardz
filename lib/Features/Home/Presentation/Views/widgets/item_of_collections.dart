@@ -34,7 +34,7 @@ class ItemOfCollections extends StatelessWidget {
         ),
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(
-            vertical: 8.h,
+            vertical: 7.h,
             horizontal: 16.w,
           ),
           title: Text(
@@ -45,7 +45,7 @@ class ItemOfCollections extends StatelessWidget {
             future: countOfDueCards(),
             builder: (context, snapshot) {
               final dueCardsText = snapshot.hasData
-                  ? '- ${snapshot.data} due'
+                  ? '- ${snapshot.data} ${S.of(context).dueCards}'
                   : '- ...';
               return Text(
                 '${collection.cards_count} ${S.of(context).cards} $dueCardsText',

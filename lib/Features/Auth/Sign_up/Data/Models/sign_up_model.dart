@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SignUpModel {
   final String myTextLabel;
   final String myHintText;
-  final Icon myIcon;
+  final Widget myIcon;
   void Function(String)? onChanged;
   final TextInputType? keyboardType;
 

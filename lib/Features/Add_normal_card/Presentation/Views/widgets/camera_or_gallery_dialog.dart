@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 class CameraOrGalleryDialog extends StatefulWidget {
   const CameraOrGalleryDialog({
@@ -17,15 +18,15 @@ class _CameraOrGalleryDialogState extends State<CameraOrGalleryDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: Text('Choose an option'),
+      title: Text(S.of(context).chooseAnOption),
       children: [
         SimpleDialogOption(
           onPressed: widget.onPressedGallery,
-          child: Text('Choose from gallery'),
+          child: Text(S.of(context).chooseFromGallery),
         ),
         SimpleDialogOption(
           onPressed: widget.onPressedCamera,
-          child: Text('Choose from camera'),
+          child: Text(S.of(context).chooseFromCamera),
         ),
       ],
     );

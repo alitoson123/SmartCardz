@@ -1,6 +1,7 @@
 // revision_view.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/delete_card_cubit/delete_card_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/revision_view_body.dart';
@@ -83,7 +84,7 @@ class _RevisionViewState extends State<RevisionView> {
                     enabled: false,
                     value: 'color_header',
                     child: Text(
-                      'Whiteboard color:',
+                      S.of(context).whiteboardColor,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14.sp,
@@ -112,7 +113,7 @@ class _RevisionViewState extends State<RevisionView> {
                             ),
                           ),
                           SizedBox(width: 8.w),
-                          Text(WhiteboardColors.getColorName(color)),
+                          Text(WhiteboardColors.getColorName(context, color)),
                         ],
                       ),
                     );
@@ -204,16 +205,16 @@ class WhiteboardColors {
     Colors.white,
   ];
 
-  static String getColorName(Color color) {
-    if (color == Colors.red) return 'Red';
-    if (color == Colors.blue) return 'Blue';
-    if (color == Colors.green) return 'Green';
-    if (color == Colors.yellow) return 'Yellow';
-    if (color == Colors.orange) return 'Orange';
-    if (color == Colors.purple) return 'Purple';
-    if (color == Colors.pink) return 'Pink';
-    if (color == Colors.black) return 'Black';
-    if (color == Colors.white) return 'White';
-    return 'Color';
+  static String getColorName(BuildContext context, Color color) {
+    if (color == Colors.red) return S.of(context).red;
+    if (color == Colors.blue) return S.of(context).blue;
+    if (color == Colors.green) return S.of(context).green;
+    if (color == Colors.yellow) return S.of(context).yellow;
+    if (color == Colors.orange) return S.of(context).orange;
+    if (color == Colors.purple) return S.of(context).purple;
+    if (color == Colors.pink) return S.of(context).pink;
+    if (color == Colors.black) return S.of(context).black;
+    if (color == Colors.white) return S.of(context).white;
+    return S.of(context).color;
   }
 }

@@ -134,14 +134,13 @@ class _SelectTheLanguageState extends State<SelectTheLanguage> {
     final cardColor = theme.cardColor;
     final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black87;
     final hintColor = theme.hintColor;
-    final iconColor = theme.iconTheme.color ?? Colors.grey;
 
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
         scrolledUnderElevation: 0,
         title: Text(
-          'Select a Language',
+          S.of(context).selectALanguage,
           style:
               theme.appBarTheme.titleTextStyle ??
               TextStyle(
@@ -178,7 +177,7 @@ class _SelectTheLanguageState extends State<SelectTheLanguage> {
                 style: TextStyle(color: textColor),
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.search, color: hintColor),
-                  hintText: S.of(context).searchCollectionHint,
+                  hintText: S.of(context).searchLanguageHint,
                   hintStyle: TextStyle(color: hintColor, fontSize: 14.sp),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(

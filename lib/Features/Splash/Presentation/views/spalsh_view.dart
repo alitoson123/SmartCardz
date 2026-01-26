@@ -4,6 +4,7 @@ import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -42,7 +43,7 @@ class _SplashViewState extends State<SplashView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Smart Cardz",
+             S.of(context).home,
               style: TextStyle(
                 fontSize: 36.sp,
                 fontWeight: FontWeight.bold,

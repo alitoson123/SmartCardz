@@ -90,7 +90,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   },
                 ),
               ),*/
-              SizedBox(height: 35.h),
+              SizedBox(height: 40.h),
               AppButton(
                 onPressed: () async {
                   if (myKey.currentState!.validate()) {
@@ -111,7 +111,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                 text: S.of(context).signUpTitle,
                 icon: Icons.arrow_forward,
               ),
-              SizedBox(height: 30.h),
+            /*  SizedBox(height: 30.h),
 
               Opacity(
                 opacity: .6,
@@ -121,7 +121,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   style: Style().textStyle16,
 
                 ),
-              ),
+              ),*/
             ],
           ),
         ),

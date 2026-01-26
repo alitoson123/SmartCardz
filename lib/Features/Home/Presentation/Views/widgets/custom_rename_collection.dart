@@ -26,7 +26,8 @@ class _CustomRenameCollectionState extends State<CustomRenameCollection> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(S.of(context).renameCollection),
+      title: Text(S.of(context).renameCollection,
+          style: TextStyle(fontSize: 15.sp)),
       content: TextField(
         controller: controller,
         onChanged: (value) {
@@ -35,6 +36,7 @@ class _CustomRenameCollectionState extends State<CustomRenameCollection> {
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: S.of(context).collectionName,
+          labelStyle: TextStyle(fontSize: 15.sp),
         ),
       ),
       actions: [

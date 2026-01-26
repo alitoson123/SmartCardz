@@ -13,8 +13,8 @@ class _TypeOfCollectionsState extends State<TypeOfCollections> {
   final TextEditingController searchController = TextEditingController();
 
   final List<Map<String, String>> _allTypes = [
-    {'id': '1', 'name': 'Basic'},
-    {'id': '2', 'name': 'front'},
+    {'id': '1', 'name': S.current.basic},
+    {'id': '2', 'name': S.current.frontOnly},
   ];
 
   List<Map<String, String>> _filteredTypes = [];
@@ -58,7 +58,7 @@ class _TypeOfCollectionsState extends State<TypeOfCollections> {
           // Using a more appropriate title if available, or defaulting to something generic
           // The original used S.of(context).searchCollectionTitle which might be "Search Collection"
           // I will stick to S.of(context).searchCollectionTitle to be safe as per original
-          S.of(context).searchCollectionTitle,
+          S.of(context).typeOfCollection,
           style:
               theme.appBarTheme.titleTextStyle ??
               TextStyle(
@@ -95,7 +95,7 @@ class _TypeOfCollectionsState extends State<TypeOfCollections> {
                 style: TextStyle(color: textColor),
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.search, color: hintColor),
-                  hintText: S.of(context).searchCollectionHint,
+                  hintText: S.of(context).typeOfCollectionHint,
                   hintStyle: TextStyle(color: hintColor, fontSize: 14.sp),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(

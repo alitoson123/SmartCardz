@@ -64,12 +64,11 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
         ),
       ),
       content: SizedBox(
-        width: 0.75.sw, // 👈 makes it wider
+        width: 0.75.sw, 
         child: TextField(
           cursorColor: Colors.blueAccent,
           controller: controller,
           autofocus: true,
-          style: const TextStyle(color: Colors.black),
           textAlign: TextAlign.center,
           decoration: InputDecoration(
             focusColor: Colors.blueAccent,

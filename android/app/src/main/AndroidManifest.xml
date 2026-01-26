@@ -15,7 +15,7 @@
         tools:ignore="ScopedStorage"/>
 
     <application
-        android:label="Smart Cardz"
+        android:label="Cardify"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
         android:requestLegacyExternalStorage="true">
