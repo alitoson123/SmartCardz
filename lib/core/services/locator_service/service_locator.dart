@@ -21,33 +21,33 @@ void setup() {
   getIt.registerLazySingleton<AppServices>(() => AppServices(dio: dio));
 
   // 2. Register Repos utilizing the singleton
-  getIt.registerSingleton<AddAndShowCardRepoImpl>(
-    AddAndShowCardRepoImpl(
+  getIt.registerLazySingleton<AddAndShowCardRepoImpl>(
+    () => AddAndShowCardRepoImpl(
       addAndShowCardRemoteDataSource: ShowCardRemoteDataSourceImpl(
         appServices: getIt<AppServices>(),
       ),
     ),
   );
-  getIt.registerSingleton<RevisionRepoImpl>(
-    RevisionRepoImpl(
+  getIt.registerLazySingleton<RevisionRepoImpl>(
+    () => RevisionRepoImpl(
       revisionRemoteDataSaource: RevisionRemoteDataSourceImpl(
         appServices: getIt<AppServices>(),
       ),
     ),
   );
-  getIt.registerSingleton<NormalCardRepoImpl>(
-    NormalCardRepoImpl(
+  getIt.registerLazySingleton<NormalCardRepoImpl>(
+    () => NormalCardRepoImpl(
       normalCardRemoteDataSourceImpl: NormalCardRemoteDataSourceImpl(
         appServices: getIt<AppServices>(),
       ),
     ),
   );
-  getIt.registerSingleton<AuthRepoImpl>(
-    AuthRepoImpl(authObject: Auth(), arudUserObject: ArudUser()),
+  getIt.registerLazySingleton<AuthRepoImpl>(
+    () => AuthRepoImpl(authObject: Auth(), arudUserObject: ArudUser()),
   );
 
-  getIt.registerSingleton<CollectionRepoImpl>(
-    CollectionRepoImpl(
+  getIt.registerLazySingleton<CollectionRepoImpl>(
+    () => CollectionRepoImpl(
       collectionRemoteDataSource: CollectionRemoteDataSourceImpl(
         appServices: getIt<AppServices>(),
       ),

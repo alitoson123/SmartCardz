@@ -338,25 +338,28 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
 
             // الأزرار السفلية
             bottomNavigationBar: Container(
-              padding: EdgeInsets.only(bottom: 26.h, right: 20.w, left: 20.w),
+           //   padding: EdgeInsets.only(bottom: 26.h, right: 2.w, left: 2.w),
               child: isAICard
                   ? !showAnswer
-                        ? AppButton(
-                            text: S.of(context).showAnswer,
-                            icon: Icons.visibility,
-                            onPressed: () {
-                              setState(() => showAnswer = true);
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                if (_scrollController.hasClients) {
-                                  _scrollController.animateTo(
-                                    _scrollController.position.maxScrollExtent,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.easeOut,
-                                  );
-                                }
-                              });
-                            },
-                          )
+                        ? Padding(
+                          padding: EdgeInsets.only(bottom: 20.h, right: 20.w, left: 20.w),
+                          child: AppButton(
+                              text: S.of(context).showAnswer,
+                              icon: Icons.visibility,
+                              onPressed: () {
+                                setState(() => showAnswer = true);
+                                WidgetsBinding.instance.addPostFrameCallback((_) {
+                                  if (_scrollController.hasClients) {
+                                    _scrollController.animateTo(
+                                      _scrollController.position.maxScrollExtent,
+                                      duration: const Duration(milliseconds: 300),
+                                      curve: Curves.easeOut,
+                                    );
+                                  }
+                                });
+                              },
+                            ),
+                        )
                         : RowOfDifficultyButton(
                             card: card,
                             showAnswer: showAnswer,
@@ -378,22 +381,25 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                   : !showAnswer &&
                         (card.backSide.isNotEmpty ||
                             card.backImageUrl.isNotEmpty)
-                  ? AppButton(
-                      text: S.of(context).showAnswer,
-                      icon: Icons.visibility,
-                      onPressed: () {
-                        setState(() => showAnswer = true);
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          if (_scrollController.hasClients) {
-                            _scrollController.animateTo(
-                              _scrollController.position.maxScrollExtent,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeOut,
-                            );
-                          }
-                        });
-                      },
-                    )
+                  ? Padding(
+                          padding: EdgeInsets.only(bottom: 20.h, right: 20.w, left: 20.w),
+                    child: AppButton(
+                        text: S.of(context).showAnswer,
+                        icon: Icons.visibility,
+                        onPressed: () {
+                          setState(() => showAnswer = true);
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (_scrollController.hasClients) {
+                              _scrollController.animateTo(
+                                _scrollController.position.maxScrollExtent,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeOut,
+                              );
+                            }
+                          });
+                        },
+                      ),
+                  )
                   : RowOfDifficultyButton(
                       card: card,
                       showAnswer: showAnswer,
@@ -415,7 +421,9 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
             ),
           );
         } else if (state is FetchAndRatingFailure) {
-          return Center(child: Text(S.of(context).error + ': ${state.errorMessage}'));
+          return Center(
+            child: Text(S.of(context).error + ': ${state.errorMessage}'),
+          );
         } else {
           return Center(child: Text(S.of(context).unexpectedState));
         }

@@ -1,15 +1,26 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/add_and_show_card_repo_impl/add_and_show_card_repo_impl.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_and_show_card_cubit/add_and_show_card_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/add_and_show_card_view.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/add_normal_card_view.dart';
+import 'package:smart_cards/Features/Auth/Data/Repos/auth_repo_impl.dart';
 import 'package:smart_cards/Features/Auth/Forget_Password/Presentation/Views/forget_password_view.dart';
+import 'package:smart_cards/Features/Auth/Sign_in/Presentation/view_model/sign_in_cubit/sign_in_cubit.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/sign_in_view.dart';
 import 'package:smart_cards/Features/Auth/Sign_up/Presentation/Views/sign_up_view.dart';
+import 'package:smart_cards/Features/Home/Data/Repo_impl/collection_repo_impl.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/add_collection_cubit1.dart/add_collection_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/home_view.dart';
 import 'package:smart_cards/Features/On_Boarding/Presentation/Views/on_boarding_view.dart';
+import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl.dart';
+import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/revision_view.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/settings_view.dart';
 import 'package:smart_cards/Features/Splash/Presentation/views/spalsh_view.dart';
+import 'package:smart_cards/core/services/locator_service/service_locator.dart';
 import 'package:smart_cards/core/views/collection_view.dart';
 
 class AppRoutes {
@@ -36,7 +47,24 @@ class AppRoutes {
         path: onBoardingPage,
         builder: (context, state) => const OnBoardingView(),
       ),
-      GoRoute(path: homeScreen, builder: (context, state) => const HomeView()),
+      GoRoute(
+        path: homeScreen,
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => AddCollectionCubit(
+                addCollectionRepo: getIt<CollectionRepoImpl>(),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => GetCollectionsCubit(
+                collectionRepoImpl: getIt<CollectionRepoImpl>(),
+              ),
+            ),
+          ],
+          child: const HomeView(),
+        ),
+      ),
       GoRoute(
         path: addNormalCardScreen,
         builder: (context, state) {
@@ -46,18 +74,29 @@ class AppRoutes {
       GoRoute(
         path: addAndShowCardScreen,
         builder: (context, state) {
-          return AddAndShowCardView();
+          return BlocProvider(
+            create: (context) => AddAndShowCardCubit(
+              addAndShowCardRepoImpl: getIt<AddAndShowCardRepoImpl>(),
+            ),
+            child: AddAndShowCardView(),
+          );
         },
       ),
       GoRoute(
         path: revisionCardScreen,
-        builder: (context, state) =>
-            RevisionView(collection: state.extra as CollectionEntity),
+        builder: (context, state) => BlocProvider(
+          create: (context) =>
+              FetchAndRatingCubit(revisionRepoImpl: getIt<RevisionRepoImpl>()),
+          child: RevisionView(collection: state.extra as CollectionEntity),
+        ),
       ),
 
       GoRoute(
         path: signInScreen,
-        builder: (context, state) => const SignInView(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => SignInCubit(getIt<AuthRepoImpl>()),
+          child: const SignInView(),
+        ),
       ),
       GoRoute(
         path: forgetPasswordScreen,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/item_of_difficulty_button.dart';
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
@@ -23,30 +24,32 @@ class RowOfDifficultyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        ItemOfDifficultyButton(
-          text: S.of(context).easy,
-          color: Colors.green,
-          onPressed: () => submitRating(context, card, 5),
-        ),
-        ItemOfDifficultyButton(
-          text: S.of(context).medium,
-          color: Colors.blue,
-          onPressed: () => submitRating(context, card, 3),
-        ),
-        ItemOfDifficultyButton(
-          text: S.of(context).hard,
-          color: Colors.orange,
-          onPressed: () => submitRating(context, card, 1),
-        ),
-        ItemOfDifficultyButton(
-          text: S.of(context).again,
-          color: Colors.red,
-          onPressed: () => submitRating(context, card, 0),
-        ),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(bottom: 20.h),
+      child: Row(
+        children: [
+          ItemOfDifficultyButton(
+            text: S.of(context).easy,
+            color: Colors.green,
+            onPressed: () => submitRating(context, card, 5),
+          ),
+          ItemOfDifficultyButton(
+            text: S.of(context).medium,
+            color: Colors.blue,
+            onPressed: () => submitRating(context, card, 3),
+          ),
+          ItemOfDifficultyButton(
+            text: S.of(context).hard,
+            color: Colors.orange,
+            onPressed: () => submitRating(context, card, 1),
+          ),
+          ItemOfDifficultyButton(
+            text: S.of(context).again,
+            color: Colors.red,
+            onPressed: () => submitRating(context, card, 0),
+          ),
+        ],
+      ),
     );
   }
 
