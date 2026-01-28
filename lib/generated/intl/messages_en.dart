@@ -47,7 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "No back side data",
     ),
     "NoCollectionsFound": MessageLookupByLibrary.simpleMessage(
-      "No collections found",
+      "No collections found \n Start creating your collections and cards using the + button",
     ),
     "NoFrontSideData": MessageLookupByLibrary.simpleMessage(
       "No front side data",

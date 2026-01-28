@@ -32,10 +32,8 @@ class _SplashViewState extends State<SplashView> {
       body: BlocListener<AppInitCubit, AppInitState>(
         listener: (context, state) async {
           if (state is AppInitSuccessState) {
-
-      context.read<ThemeCubit>().loadInitialTheme();
-      context.read<AppLanguageCubit>().loadInitialLanguage();
-
+            context.read<ThemeCubit>().loadInitialTheme();
+            context.read<AppLanguageCubit>().loadInitialLanguage();
 
             final isLogin = SharedPreferencesService.instance.getBool(
               K_IS_LOGIN,

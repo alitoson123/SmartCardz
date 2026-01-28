@@ -9,10 +9,7 @@ import 'package:smart_cards/Features/Auth/Forget_Password/Presentation/Views/for
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/view_model/sign_in_cubit/sign_in_cubit.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/sign_in_view.dart';
 import 'package:smart_cards/Features/Auth/Sign_up/Presentation/Views/sign_up_view.dart';
-import 'package:smart_cards/Features/Home/Data/Repo_impl/collection_repo_impl.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/add_collection_cubit1.dart/add_collection_cubit.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/home_view.dart';
 import 'package:smart_cards/Features/On_Boarding/Presentation/Views/on_boarding_view.dart';
 import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl.dart';
@@ -47,24 +44,7 @@ class AppRoutes {
         path: onBoardingPage,
         builder: (context, state) => const OnBoardingView(),
       ),
-      GoRoute(
-        path: homeScreen,
-        builder: (context, state) => MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) => AddCollectionCubit(
-                addCollectionRepo: getIt<CollectionRepoImpl>(),
-              ),
-            ),
-            BlocProvider(
-              create: (context) => GetCollectionsCubit(
-                collectionRepoImpl: getIt<CollectionRepoImpl>(),
-              ),
-            ),
-          ],
-          child: const HomeView(),
-        ),
-      ),
+      GoRoute(path: homeScreen, builder: (context, state) => const HomeView()),
       GoRoute(
         path: addNormalCardScreen,
         builder: (context, state) {

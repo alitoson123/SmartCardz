@@ -41,7 +41,7 @@
   "create": "Create",
   "save": "Save",
   "CollectionCreatedSuccessfully": "Collection created successfully",
-  "NoCollectionsFound": "No collections found",
+  "NoCollectionsFound": "No collections found \n Start creating your collections and cards using the + button",
   "SomethingWentWrong": "Something went wrong",
   "searchCollectionTitle": "Search for a collection",
   "searchCollectionHint": "Search for a collection...",

@@ -4,8 +4,6 @@ import 'package:smart_cards/Features/Auth/Data/models/user_model.dart';
 import 'package:smart_cards/Features/Home/Data/Models/collection_model.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
 import 'package:smart_cards/Features/Add_normal_card/Data/models/normal_card_model.dart';
-
-import 'package:smart_cards/core/services/notifications_service/push_notification_service.dart';
 import 'package:smart_cards/core/utils/hive_adapters/timestamp_adapter.dart';
 import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
@@ -33,7 +31,7 @@ class AppInitCubit extends Cubit<AppInitState> {
       await SharedPreferencesService.instance.init();
 
       // Notifications
-      await PushNotificationService.init();
+      // await PushNotificationService.init();
 
       // Locator
       setup();

@@ -64,7 +64,19 @@ class _HomeViewBodyState extends State<HomeViewBody> {
         final docs = snapshot.data?.docs ?? [];
 
         if (docs.isEmpty) {
-          return Center(child: Text(S.of(context).NoCollectionsFound));
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.folder_copy, size: 64.sp, color: Colors.grey),
+                SizedBox(height: 16.h),
+                Text(
+                  S.of(context).NoCollectionsFound,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          );
         }
 
         // Convert documents to your model/entity

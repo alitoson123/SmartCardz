@@ -354,10 +354,10 @@ class S {
     );
   }
 
-  /// `No collections found`
+  /// `No collections found \n Start creating your collections and cards using the + button`
   String get NoCollectionsFound {
     return Intl.message(
-      'No collections found',
+      'No collections found \n Start creating your collections and cards using the + button',
       name: 'NoCollectionsFound',
       desc: '',
       args: [],
