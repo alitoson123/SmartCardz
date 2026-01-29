@@ -29,7 +29,9 @@ class BackSide extends StatelessWidget {
                   text: '(${card.type})',
                   style: TextStyle(
                     fontSize: 18.sp,
-                    color: Colors.grey.shade600,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
               ],
@@ -46,7 +48,9 @@ class BackSide extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontStyle: FontStyle.italic,
-                  color: Colors.grey.shade700,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -59,7 +63,9 @@ class BackSide extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontStyle: FontStyle.italic,
-                  color: Colors.grey.shade700,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),

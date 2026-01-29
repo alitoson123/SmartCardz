@@ -13,10 +13,7 @@ class AddNormalCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-       
-        title: Text(S.of(context).addCard),
-      ),
+      appBar: AppBar(title: Text(S.of(context).addCard)),
       body: BlocProvider(
         create: (context) =>
             NormalCardCubit(normalCardRepoImpl: getIt<NormalCardRepoImpl>()),
@@ -27,7 +24,7 @@ class AddNormalCardView extends StatelessWidget {
                 context,
               ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
             }
-          
+
             if (state is AddNormalCardLoading) {
               Center(child: CircularProgressIndicator());
             }

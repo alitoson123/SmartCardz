@@ -73,7 +73,7 @@ class AuthRepoImpl extends AuthRepo {
     try {
       var user = await authObject.ForgetPasswordMethod(email: email);
       return right(user);
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       final errorMessage = e.toString().replaceFirst('Exception: ', '');
       return left(ServerFailure(errorMessage: errorMessage));
     }
@@ -111,7 +111,7 @@ class AuthRepoImpl extends AuthRepo {
       return right(
         UserModel.fromFirebaseAddUserOfSignUpAndSignInWithGoogle(user),
       );
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       final errorMessage = e.toString().replaceFirst('Exception: ', '');
       return left(ServerFailure(errorMessage: errorMessage));
     }

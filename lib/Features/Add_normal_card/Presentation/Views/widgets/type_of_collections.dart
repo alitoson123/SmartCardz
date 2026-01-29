@@ -54,21 +54,7 @@ class _TypeOfCollectionsState extends State<TypeOfCollections> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        title: Text(
-          // Using a more appropriate title if available, or defaulting to something generic
-          // The original used S.of(context).searchCollectionTitle which might be "Search Collection"
-          // I will stick to S.of(context).searchCollectionTitle to be safe as per original
-          S.of(context).typeOfCollection,
-          style:
-              theme.appBarTheme.titleTextStyle ??
-              TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
-                color: textColor,
-              ),
-        ),
-        leading: BackButton(color: textColor),
-        centerTitle: true,
+        title: Text(S.of(context).typeOfCollection),
       ),
       body: Column(
         children: [

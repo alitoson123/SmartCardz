@@ -47,7 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "لا توجد بيانات في الوجه الخلفي",
     ),
     "NoCollectionsFound": MessageLookupByLibrary.simpleMessage(
-      "لا توجد مجموعات",
+      "لا توجد مجموعات\nابدأ بإنشاء مجموعاتك وبطاقاتك باستخدام زر +",
     ),
     "NoFrontSideData": MessageLookupByLibrary.simpleMessage(
       "لا توجد بيانات في الوجه الأمامي",

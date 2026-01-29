@@ -12,8 +12,7 @@ class CardWithAIEntity extends BaseCardEntity {
   @override
   final List<String> example;
   @override
-  final String is_valid;
-
+  final bool is_valid;
 
   CardWithAIEntity({
     required this.word,

@@ -53,18 +53,7 @@ class _CollectionViewState extends State<CollectionView> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        title: Text(
-          S.of(context).searchCollectionTitle,
-          style:
-              theme.appBarTheme.titleTextStyle ??
-              TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
-                color: textColor,
-              ),
-        ),
-        leading: BackButton(color: textColor),
-        centerTitle: true,
+        title: Text(S.of(context).searchCollectionTitle),
       ),
       body: BlocConsumer<GetCollectionsCubit, GetCollectionsStates>(
         listener: (context, state) {

@@ -28,7 +28,7 @@ class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
       interval: fields[3] as int,
       nextReview: fields[4] as Timestamp?,
       collectionId: fields[10] as String,
-      is_valid: fields[11] as String,
+      is_valid: fields[11] as bool,
     );
   }
 

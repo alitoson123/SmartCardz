@@ -222,7 +222,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
 
                       bool hasValidCards = false;
                       for (var item in state.card) {
-                        if (item.is_valid == 'true') {
+                        if (item.is_valid == true) {
                           hasValidCards = true;
                           break;
                         }
@@ -241,7 +241,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                       }
 
                       for (var item in state.card) {
-                        if (item.is_valid != 'true') {
+                        if (item.is_valid != true) {
                           continue;
                         }
                         context.read<AddAndShowCardCubit>().addCard(

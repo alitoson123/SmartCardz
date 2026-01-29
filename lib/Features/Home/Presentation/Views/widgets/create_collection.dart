@@ -64,7 +64,7 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
         ),
       ),
       content: SizedBox(
-        width: 0.75.sw, 
+        width: 0.75.sw,
         child: TextField(
           cursorColor: Colors.blueAccent,
           controller: controller,

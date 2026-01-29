@@ -33,10 +33,7 @@ class ItemOfCollections extends StatelessWidget {
           ],
         ),
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(
-            vertical: 7.h,
-            horizontal: 16.w,
-          ),
+          contentPadding: EdgeInsets.symmetric(vertical: 7.h, horizontal: 16.w),
           title: Text(
             collection.collectionName,
             style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),

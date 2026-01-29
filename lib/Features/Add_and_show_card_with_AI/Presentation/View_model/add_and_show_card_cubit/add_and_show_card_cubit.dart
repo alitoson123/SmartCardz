@@ -9,8 +9,7 @@ class AddAndShowCardCubit extends Cubit<AddAndShowCardStates> {
   AddAndShowCardCubit({required this.addAndShowCardRepoImpl})
     : super(AddAndShowCardInitial());
 
-
-     Future<void> requestAI({required String word}) async {
+  Future<void> requestAI({required String word}) async {
     emit(AddAndShowCardLoading());
 
     final result = await addAndShowCardRepoImpl.requestAI(word: word);
@@ -22,10 +21,16 @@ class AddAndShowCardCubit extends Cubit<AddAndShowCardStates> {
     );
   }
 
-  Future<void> showCard({required String word,required String language}) async {
+  Future<void> showCard({
+    required String word,
+    required String language,
+  }) async {
     emit(AddAndShowCardLoading());
 
-    final result = await addAndShowCardRepoImpl.showCard(word: word,language: language);
+    final result = await addAndShowCardRepoImpl.showCard(
+      word: word,
+      language: language,
+    );
 
     result.fold(
       (failure) =>
@@ -40,7 +45,7 @@ class AddAndShowCardCubit extends Cubit<AddAndShowCardStates> {
     required List<String> example,
     required String type,
     String? image_url,
-    required String collectionId, 
+    required String collectionId,
   }) async {
     emit(AddAndShowCardLoading());
 

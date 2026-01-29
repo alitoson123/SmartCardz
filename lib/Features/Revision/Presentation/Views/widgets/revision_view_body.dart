@@ -9,6 +9,7 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/front_side.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/delete_card_cubit/delete_card_cubit.dart';
+import 'package:smart_cards/Features/Revision/Presentation/View_model/delete_card_cubit/delete_card_states.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_states.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/custom_cached_image.dart';
@@ -96,47 +97,11 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
       if (currentIndex < cards.length) {
         final card = cards[currentIndex];
 
-        // حذف الكارت من قاعدة البيانات
         context.read<DeleteCardCubit>().deleteCard(
           cardId: card.id,
           collectionId: widget.collection.collection_id,
         );
         log(card.id);
-        // إظهار رسالة نجاح
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(S.of(context).cardDeletedSuccessfully),
-            backgroundColor: Colors.green,
-            duration: Duration(seconds: 2),
-          ),
-        );
-        // تحديث الواجهة والانتقال للكارت التالي
-        setState(() {
-          showAnswer = false;
-          drawingPoints.clear();
-
-          // لو فيه كروت تانية
-          if (cards.length > 1) {
-            // لو الكارت المحذوف هو الأخير، ارجع للأول
-            if (currentIndex >= cards.length - 1) {
-              currentIndex = 0;
-            }
-            // لو مش آخر كارت، خليه زي ما هو (هيعرض الكارت اللي بعده تلقائياً)
-          } else {
-            // لو ده آخر كارت في المجموعة
-            currentIndex = 0;
-          }
-        });
-
-        // إعادة تحميل الكروت من السيرفر بعد نص ثانية
-        Future.delayed(const Duration(milliseconds: 50), () {
-          if (mounted) {
-            context.read<FetchAndRatingCubit>().fetchDueCards(
-              collectionId: widget.collection.collection_id,
-              limit: limit,
-            );
-          }
-        });
       }
     }
   }
@@ -154,280 +119,316 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FetchAndRatingCubit, FetchAndRatingStates>(
-      builder: (context, state) {
-        if (state is FetchAndRatingLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is FetchDueCardsSuccess) {
-          final cards = state.cards;
+    return BlocListener<DeleteCardCubit, DeleteCardStates>(
+      listener: (context, state) {
+        if (state is DeleteCardSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(S.of(context).cardDeletedSuccessfully),
+              backgroundColor: Colors.green,
+              duration: const Duration(milliseconds: 500),
+            ),
+          );
 
-          if (cards.isEmpty) {
-            return Center(
-              child: Text(
-                S.of(context).noCardsDue,
-                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500),
-              ),
-            );
+          final fetchState = context.read<FetchAndRatingCubit>().state;
+          if (fetchState is FetchDueCardsSuccess) {
+            final cards = fetchState.cards;
+
+            setState(() {
+              showAnswer = false;
+              drawingPoints.clear();
+              if (cards.length > 1) {
+                if (currentIndex >= cards.length - 1) {
+                  currentIndex = 0;
+                }
+              } else {
+                currentIndex = 0;
+              }
+            });
+
+            Future.delayed(const Duration(milliseconds: 50), () {
+              if (mounted) {
+                context.read<FetchAndRatingCubit>().fetchDueCards(
+                  collectionId: widget.collection.collection_id,
+                  limit: limit,
+                );
+              }
+            });
           }
-
-          if (currentIndex >= cards.length) {
-            WidgetsBinding.instance.addPostFrameCallback((_) => _resetIndex());
+        } else if (state is DeleteCardFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.errorMessage),
+              backgroundColor: Colors.red,
+              duration: const Duration(milliseconds: 1000),
+            ),
+          );
+        }
+      },
+      child: BlocBuilder<FetchAndRatingCubit, FetchAndRatingStates>(
+        builder: (context, state) {
+          if (state is FetchAndRatingLoading) {
             return const Center(child: CircularProgressIndicator());
-          }
+          } else if (state is FetchDueCardsSuccess) {
+            final cards = state.cards;
 
-          final card = cards[currentIndex];
-          final isAICard = card.isAICard;
+            if (cards.isEmpty) {
+              return Center(
+                child: Text(
+                  S.of(context).noCardsDue,
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              );
+            }
 
-          return Scaffold(
-            body: Stack(
-              children: [
-                // المحتوى الأساسي
-                Positioned.fill(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.r),
-                    child: SingleChildScrollView(
-                      controller: _scrollController,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 20.h),
-                          buildSectionTitle(context, S.of(context).FrontSide),
-                          SizedBox(height: 10.h),
+            if (currentIndex >= cards.length) {
+              WidgetsBinding.instance.addPostFrameCallback(
+                (_) => _resetIndex(),
+              );
+              return const Center(child: CircularProgressIndicator());
+            }
 
-                          // Front Side
-                          isAICard
-                              ? FrontSide(card: card as CardWithAIEntity)
-                              : CustomCard(
-                                  child: Column(
-                                    children: [
-                                      if (card.frontImageUrl.isNotEmpty)
-                                        CachedImage(
-                                          imageUrl: card.frontImageUrl,
-                                          height: 200.h,
-                                          width: 200.w,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      Text(
-                                        card.frontSide.isEmpty
-                                            ? '' // S.of(context).NoFrontSideData
-                                            : card.frontSide,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 18.sp,
-                                          color: Colors.grey.shade800,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                          if (showAnswer && isAICard) ...[
-                            SizedBox(height: 30.h),
-                            buildSectionTitle(context, S.of(context).BackSide),
+            final card = cards[currentIndex];
+            final isAICard = card.isAICard;
+
+            return Scaffold(
+              body: Stack(
+                children: [
+                  // المحتوى الأساسي
+                  Positioned.fill(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.r),
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 20.h),
+                            buildSectionTitle(context, S.of(context).FrontSide),
                             SizedBox(height: 10.h),
-                            BackSide(card: card as CardWithAIEntity),
-                          ],
 
-                          if (showAnswer &&
-                              !isAICard &&
-                              (card.backSide.isNotEmpty ||
-                                  card.backImageUrl.isNotEmpty)) ...[
-                            SizedBox(height: 30.h),
-                            buildSectionTitle(context, S.of(context).BackSide),
-                            SizedBox(height: 10.h),
-                            CustomCard(
-                              child: Column(
-                                children: [
-                                  if (card.backImageUrl.isNotEmpty)
-                                    CachedImage(
-                                      imageUrl: card.backImageUrl,
-                                      height: 200.h,
-                                      width: 200.w,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  Text(
-                                    card.backSide,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 18.sp,
-                                      color: Colors.grey.shade800,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                          /*
-                          // Back Side (يظهر لما تضغط Show Answer)
-                          if (showAnswer &&
-                              (card.backSide.isNotEmpty ||
-                                  card.backImageUrl.isNotEmpty)) ...[
-                            SizedBox(height: 30.h),
-                            buildSectionTitle(context, S.of(context).BackSide),
-                            SizedBox(height: 10.h),
+                            // Front Side
                             isAICard
-                                ? BackSide(card: card as CardWithAIEntity)
+                                ? FrontSide(card: card as CardWithAIEntity)
                                 : CustomCard(
                                     child: Column(
                                       children: [
-                                        if (card.backImageUrl.isNotEmpty)
-                                          Image.network(
-                                            card.backImageUrl,
+                                        if (card.frontImageUrl.isNotEmpty)
+                                          CachedImage(
+                                            imageUrl: card.frontImageUrl,
                                             height: 200.h,
                                             width: 200.w,
                                             fit: BoxFit.cover,
                                           ),
                                         Text(
-                                          card.backSide,
+                                          card.frontSide.isEmpty
+                                              ? '' // S.of(context).NoFrontSideData
+                                              : card.frontSide,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontSize: 18.sp,
-                                            color: Colors.grey.shade800,
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
+                            if (showAnswer && isAICard) ...[
+                              SizedBox(height: 30.h),
+                              buildSectionTitle(
+                                context,
+                                S.of(context).BackSide,
+                              ),
+                              SizedBox(height: 10.h),
+                              BackSide(card: card as CardWithAIEntity),
+                            ],
+
+                            if (showAnswer &&
+                                !isAICard &&
+                                (card.backSide.isNotEmpty ||
+                                    card.backImageUrl.isNotEmpty)) ...[
+                              SizedBox(height: 30.h),
+                              buildSectionTitle(
+                                context,
+                                S.of(context).BackSide,
+                              ),
+                              SizedBox(height: 10.h),
+                              CustomCard(
+                                child: Column(
+                                  children: [
+                                    if (card.backImageUrl.isNotEmpty)
+                                      CachedImage(
+                                        imageUrl: card.backImageUrl,
+                                        height: 200.h,
+                                        width: 200.w,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    Text(
+                                      card.backSide,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 18.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                            SizedBox(height: 120.h),
                           ],
-*/
-                          SizedBox(height: 120.h),
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                ),
 
-                // طبقة السبورة - تغطي الشاشة كلها
-                if (widget.isWhiteboardEnabled)
-                  Positioned.fill(
-                    child: GestureDetector(
-                      onPanStart: (details) {
-                        setState(() {
-                          drawingPoints.add(
-                            DrawingPoint(
-                              details.localPosition,
-                              selectedColor,
-                              strokeWidth,
-                            ),
-                          );
-                        });
-                      },
-                      onPanUpdate: (details) {
-                        setState(() {
-                          drawingPoints.add(
-                            DrawingPoint(
-                              details.localPosition,
-                              selectedColor,
-                              strokeWidth,
-                            ),
-                          );
-                        });
-                      },
-                      onPanEnd: (details) {
-                        setState(() {
-                          drawingPoints.add(null);
-                        });
-                      },
-                      child: CustomPaint(
-                        painter: DrawingPainter(drawingPoints),
-                        child: Container(color: Colors.transparent),
+                  // طبقة السبورة - تغطي الشاشة كلها
+                  if (widget.isWhiteboardEnabled)
+                    Positioned.fill(
+                      child: GestureDetector(
+                        onPanStart: (details) {
+                          setState(() {
+                            drawingPoints.add(
+                              DrawingPoint(
+                                details.localPosition,
+                                selectedColor,
+                                strokeWidth,
+                              ),
+                            );
+                          });
+                        },
+                        onPanUpdate: (details) {
+                          setState(() {
+                            drawingPoints.add(
+                              DrawingPoint(
+                                details.localPosition,
+                                selectedColor,
+                                strokeWidth,
+                              ),
+                            );
+                          });
+                        },
+                        onPanEnd: (details) {
+                          setState(() {
+                            drawingPoints.add(null);
+                          });
+                        },
+                        child: CustomPaint(
+                          painter: DrawingPainter(drawingPoints),
+                          child: Container(color: Colors.transparent),
+                        ),
                       ),
                     ),
-                  ),
-              ],
-            ),
+                ],
+              ),
 
-            // الأزرار السفلية
-            bottomNavigationBar: Container(
-           //   padding: EdgeInsets.only(bottom: 26.h, right: 2.w, left: 2.w),
-              child: isAICard
-                  ? !showAnswer
-                        ? Padding(
-                          padding: EdgeInsets.only(bottom: 20.h, right: 20.w, left: 20.w),
-                          child: AppButton(
-                              text: S.of(context).showAnswer,
-                              icon: Icons.visibility,
-                              onPressed: () {
-                                setState(() => showAnswer = true);
-                                WidgetsBinding.instance.addPostFrameCallback((_) {
+              // الأزرار السفلية
+              bottomNavigationBar: Container(
+                child: isAICard
+                    ? !showAnswer
+                          ? Padding(
+                              padding: EdgeInsets.only(
+                                bottom: 20.h,
+                                right: 20.w,
+                                left: 20.w,
+                              ),
+                              child: AppButton(
+                                text: S.of(context).showAnswer,
+                                icon: Icons.visibility,
+                                onPressed: () {
+                                  setState(() => showAnswer = true);
+                                  WidgetsBinding.instance.addPostFrameCallback((
+                                    _,
+                                  ) {
+                                    if (_scrollController.hasClients) {
+                                      _scrollController.animateTo(
+                                        _scrollController
+                                            .position
+                                            .maxScrollExtent,
+                                        duration: const Duration(
+                                          milliseconds: 300,
+                                        ),
+                                        curve: Curves.easeOut,
+                                      );
+                                    }
+                                  });
+                                },
+                              ),
+                            )
+                          : RowOfDifficultyButton(
+                              card: card,
+                              showAnswer: showAnswer,
+                              currentIndex: currentIndex,
+                              collectionId: widget.collection.collection_id,
+                              onNextCard: () {
+                                setState(() {
+                                  showAnswer = false;
+                                  drawingPoints.clear();
+                                  if (currentIndex >= cards.length - 1) {
+                                    currentIndex = 0;
+                                  }
                                   if (_scrollController.hasClients) {
-                                    _scrollController.animateTo(
-                                      _scrollController.position.maxScrollExtent,
-                                      duration: const Duration(milliseconds: 300),
-                                      curve: Curves.easeOut,
-                                    );
+                                    _scrollController.jumpTo(0);
                                   }
                                 });
                               },
-                            ),
-                        )
-                        : RowOfDifficultyButton(
-                            card: card,
-                            showAnswer: showAnswer,
-                            currentIndex: currentIndex,
-                            collectionId: widget.collection.collection_id,
-                            onNextCard: () {
-                              setState(() {
-                                showAnswer = false;
-                                drawingPoints.clear();
-                                if (currentIndex >= cards.length - 1) {
-                                  currentIndex = 0;
-                                }
-                                if (_scrollController.hasClients) {
-                                  _scrollController.jumpTo(0);
-                                }
-                              });
-                            },
-                          )
-                  : !showAnswer &&
-                        (card.backSide.isNotEmpty ||
-                            card.backImageUrl.isNotEmpty)
-                  ? Padding(
-                          padding: EdgeInsets.only(bottom: 20.h, right: 20.w, left: 20.w),
-                    child: AppButton(
-                        text: S.of(context).showAnswer,
-                        icon: Icons.visibility,
-                        onPressed: () {
-                          setState(() => showAnswer = true);
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            )
+                    : !showAnswer &&
+                          (card.backSide.isNotEmpty ||
+                              card.backImageUrl.isNotEmpty)
+                    ? Padding(
+                        padding: EdgeInsets.only(
+                          bottom: 20.h,
+                          right: 20.w,
+                          left: 20.w,
+                        ),
+                        child: AppButton(
+                          text: S.of(context).showAnswer,
+                          icon: Icons.visibility,
+                          onPressed: () {
+                            setState(() => showAnswer = true);
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              if (_scrollController.hasClients) {
+                                _scrollController.animateTo(
+                                  _scrollController.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeOut,
+                                );
+                              }
+                            });
+                          },
+                        ),
+                      )
+                    : RowOfDifficultyButton(
+                        card: card,
+                        showAnswer: showAnswer,
+                        currentIndex: currentIndex,
+                        collectionId: widget.collection.collection_id,
+                        onNextCard: () {
+                          setState(() {
+                            showAnswer = false;
+                            drawingPoints.clear();
+                            if (currentIndex >= cards.length - 1) {
+                              currentIndex = 0;
+                            }
                             if (_scrollController.hasClients) {
-                              _scrollController.animateTo(
-                                _scrollController.position.maxScrollExtent,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeOut,
-                              );
+                              _scrollController.jumpTo(0);
                             }
                           });
                         },
                       ),
-                  )
-                  : RowOfDifficultyButton(
-                      card: card,
-                      showAnswer: showAnswer,
-                      currentIndex: currentIndex,
-                      collectionId: widget.collection.collection_id,
-                      onNextCard: () {
-                        setState(() {
-                          showAnswer = false;
-                          drawingPoints.clear();
-                          if (currentIndex >= cards.length - 1) {
-                            currentIndex = 0;
-                          }
-                          if (_scrollController.hasClients) {
-                            _scrollController.jumpTo(0);
-                          }
-                        });
-                      },
-                    ),
-            ),
-          );
-        } else if (state is FetchAndRatingFailure) {
-          return Center(
-            child: Text(S.of(context).error + ': ${state.errorMessage}'),
-          );
-        } else {
-          return Center(child: Text(S.of(context).unexpectedState));
-        }
-      },
+              ),
+            );
+          } else if (state is FetchAndRatingFailure) {
+            return Center(
+              child: Text('${S.of(context).error}: ${state.errorMessage}'),
+            );
+          } else {
+            return Center(child: Text(S.of(context).unexpectedState));
+          }
+        },
+      ),
     );
   }
 }

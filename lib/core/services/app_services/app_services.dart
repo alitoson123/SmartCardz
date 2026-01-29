@@ -128,29 +128,16 @@ class AppServices {
     });
   }
 
-static Future<void> deleteCard({
-  required String cardId,
-  required String collectionId,
-}) async {
-  final batch = firestore.batch();
+  static Future<void> deleteCard({
+    required String cardId,
+    required String collectionId,
+  }) async {
+    await firestore.collection('cards').doc(cardId).delete();
 
-  final cardRef = firestore.collection('cards').doc(cardId);
-  final collectionRef =
-      firestore.collection('collections').doc(collectionId);
-
-  batch.delete(cardRef);
-
-  batch.update(collectionRef, {
-    'cards_count': FieldValue.increment(-1),
-  });
-
-  try {
-    await batch.commit();
-  } catch (e) {
-    log('Delete card batch failed: $e');
+    await firestore.collection('collections').doc(collectionId).update({
+      'cards_count': FieldValue.increment(-1),
+    });
   }
-}
-
 
   static Future<int> countOfDueCards({required String collectionId}) async {
     int count = 0;

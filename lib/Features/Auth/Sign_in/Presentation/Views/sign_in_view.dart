@@ -40,7 +40,7 @@ class BloconsumerOfSignInBody extends StatelessWidget {
         if (state is SignInSuccessState) {
           Message().MessageSuccessMethod(
             context,
-            message:  S.of(context).signInSuccessMessage,
+            message: S.of(context).signInSuccessMessage,
           );
           await SharedPreferencesService.instance.setBool(K_IS_LOGIN, true);
 

@@ -43,7 +43,7 @@ class CardWithAIModel extends CardWithAIEntity {
   final String image_url;
   @HiveField(11)
   @override
-  final String is_valid;
+  final bool is_valid;
 
   CardWithAIModel({
     required this.id,
@@ -88,7 +88,7 @@ class CardWithAIModel extends CardWithAIEntity {
                 ? Timestamp.fromDate(DateTime.parse(json['next_review']))
                 : null),
       collectionId: json['collectionId'] ?? '',
-      is_valid: json['is_valid'] ?? '',
+      is_valid: json['is_valid'] ?? false,
     );
   }
 
@@ -108,7 +108,7 @@ class CardWithAIModel extends CardWithAIEntity {
       } catch (_) {}
       // Fallback to split if it's not a JSON array string
       if (input.isNotEmpty) {
-        return input.split(',').map((e) => e.trim()).toList();
+        return input.split(';').map((e) => e.trim()).toList();
       }
     }
     return [];
@@ -129,7 +129,7 @@ class CardWithAIModel extends CardWithAIEntity {
       interval: (m['interval'] ?? 0) as int,
       nextReview: m['next_review'] as Timestamp?,
       collectionId: m['collectionId'] ?? '',
-      is_valid: m['is_valid'] ?? '',
+      is_valid: m['is_valid'] ?? false,
     );
   }
 
@@ -158,7 +158,7 @@ class CardWithAIModel extends CardWithAIEntity {
     String? definition,
     List<String>? example,
     String? image_url,
-    String? is_valid,
+    bool? is_valid,
   }) {
     return CardWithAIModel(
       id: id ?? this.id,

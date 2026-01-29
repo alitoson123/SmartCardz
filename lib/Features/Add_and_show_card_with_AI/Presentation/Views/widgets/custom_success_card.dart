@@ -20,7 +20,7 @@ class CustomSuccessCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return card.is_valid == 'true'
+    return card.is_valid == true
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -50,7 +50,7 @@ class CustomSuccessCard extends StatelessWidget {
                           color: Colors.blueAccent,
                         ),
                       ),
-                        TextSpan(text: '  '),
+                      TextSpan(text: '  '),
                       TextSpan(
                         text: S.of(context).isNotValidTryToFixTheSpelling,
                         style: TextStyle(

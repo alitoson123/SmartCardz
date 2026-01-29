@@ -14,11 +14,13 @@ class TextFieldsOfEmailAndPassword extends StatefulWidget {
   final void Function(String) onChangedForPassword;
 
   @override
-  State<TextFieldsOfEmailAndPassword> createState() => _TextFieldsOfEmailAndPasswordState();
+  State<TextFieldsOfEmailAndPassword> createState() =>
+      _TextFieldsOfEmailAndPasswordState();
 }
 
-class _TextFieldsOfEmailAndPasswordState extends State<TextFieldsOfEmailAndPassword> {
-  bool myVisPassword = false;
+class _TextFieldsOfEmailAndPasswordState
+    extends State<TextFieldsOfEmailAndPassword> {
+  bool myVisPassword = true;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,13 +39,16 @@ class _TextFieldsOfEmailAndPasswordState extends State<TextFieldsOfEmailAndPassw
           SignUpModelObject: SignUpModel(
             myTextLabel: S.of(context).Password,
             myHintText: S.of(context).Password,
-            myIcon:  GestureDetector(
-            onTap: () {
-             setState(() {
-               myVisPassword = !myVisPassword;
-             });
-            },
-            child: Icon(myVisPassword ? Icons.visibility : Icons.visibility_off)),
+            myIcon: GestureDetector(
+              onTap: () {
+                setState(() {
+                  myVisPassword = !myVisPassword;
+                });
+              },
+              child: Icon(
+                myVisPassword ? Icons.visibility : Icons.visibility_off,
+              ),
+            ),
             onChanged: widget.onChangedForPassword,
           ),
         ),

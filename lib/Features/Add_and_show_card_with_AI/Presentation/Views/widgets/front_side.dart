@@ -19,17 +19,22 @@ class FrontSide extends StatelessWidget {
             height: 300.h,
             fit: BoxFit.contain,
           ), */
-          CachedImage(
-            imageUrl: card.image_url!,
-            height: 300.h,
-            fit: BoxFit.contain,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12.r),
+            child: CachedImage(
+              imageUrl: card.image_url!,
+              height: 300.h,
+              fit: BoxFit.contain,
+            ),
           ),
           // Image.network(card.imageUrl, height: 300.h, fit: BoxFit.contain),
           SizedBox(height: 14.h),
           Text(
             card.definition,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18.sp, color: Colors.grey.shade800),
+            style: TextStyle(fontSize: 18.sp, color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black),
           ),
         ],
       ),

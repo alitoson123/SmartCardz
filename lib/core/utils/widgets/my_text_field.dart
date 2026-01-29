@@ -13,7 +13,7 @@ class MyTextField extends StatelessWidget {
   });
   final SignUpModel SignUpModelObject;
   final String? initialValue;
-  final bool visPassword ;
+  final bool visPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class MyTextField extends StatelessWidget {
       onChanged: SignUpModelObject.onChanged,
       validator: (value) {
         if (value!.isEmpty) {
-          return   S.of(context).pleaseEnterYour + '${SignUpModelObject.myTextLabel}';
+          return '${S.of(context).pleaseEnterYour}${SignUpModelObject.myTextLabel}';
         }
         return null;
       },
@@ -46,8 +46,6 @@ class MyTextField extends StatelessWidget {
   }
 
   OutlineInputBorder focusOutLineInputBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(20.r),
-    );
+    return OutlineInputBorder(borderRadius: BorderRadius.circular(20.r));
   }
 }

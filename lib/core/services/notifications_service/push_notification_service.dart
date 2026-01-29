@@ -41,8 +41,6 @@ class PushNotificationService {
       final token = await messaging.getToken();
       if (token == null) return;
 
-
-
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
         'fcmToken': token,
       }, SetOptions(merge: true));
@@ -103,8 +101,7 @@ class PushNotificationService {
 
   static void _navigate(BuildContext context, Map<String, dynamic> data) {
     if (data['type'] == 'due_cards') {
-
-context.push(AppRoutes.homeScreen);
-}
+      context.push(AppRoutes.homeScreen);
+    }
   }
 }

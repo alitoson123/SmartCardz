@@ -12,8 +12,6 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
 
   AddAndShowCardRepoImpl({required this.addAndShowCardRemoteDataSource});
 
-
-    
   @override
   Future<Either<Failure, void>> requestAI({required String word}) async {
     try {
@@ -34,7 +32,10 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
     required String language,
   }) async {
     try {
-      var result = await addAndShowCardRemoteDataSource.showCard(word: word,language: language);
+      var result = await addAndShowCardRemoteDataSource.showCard(
+        word: word,
+        language: language,
+      );
       log('The word is ${result[0].word}');
       log('The type is ${result[0].type}');
       log('The definition is ${result[0].definition}');
@@ -77,5 +78,4 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
       }
     }
   }
-
 }

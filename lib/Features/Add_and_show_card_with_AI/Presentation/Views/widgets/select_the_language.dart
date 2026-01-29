@@ -137,21 +137,7 @@ class _SelectTheLanguageState extends State<SelectTheLanguage> {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        title: Text(
-          S.of(context).selectALanguage,
-          style:
-              theme.appBarTheme.titleTextStyle ??
-              TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
-                color: textColor,
-              ),
-        ),
-        leading: BackButton(color: textColor),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(S.of(context).selectALanguage)),
       body: Column(
         children: [
           Padding(
