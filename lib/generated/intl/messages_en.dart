@@ -170,7 +170,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "free": MessageLookupByLibrary.simpleMessage("Free"),
     "frontOnly": MessageLookupByLibrary.simpleMessage("Front only"),
     "generatingYourSmartCard": MessageLookupByLibrary.simpleMessage(
-      "Generating your smart card... \n This may take a few seconds",
+      "This may take a few seconds",
     ),
     "green": MessageLookupByLibrary.simpleMessage("Green"),
     "hard": MessageLookupByLibrary.simpleMessage("Hard"),

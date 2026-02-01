@@ -57,217 +57,228 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
           }
         },
         builder: (context, state) {
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(20.r),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                AppHeader(
-                  icon: Icons.auto_awesome,
-                  title: S.of(context).GenerateSmartFlashcards,
-                  subTitle: S.of(context).EnterAnyWordsOrSentences,
-                ),
-                SizedBox(height: 20.h),
-                Row(
+          return Stack(
+            children: [
+              SingleChildScrollView(
+                padding: EdgeInsets.all(20.r),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: _buildSelectionTile(
-                        label:
-                            selectedCollectionName ??
-                            S.of(context).selectCollection,
-
-                        icon: Icons.collections_bookmark_rounded,
-                        onTap: () async {
-                          final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BlocProvider.value(
-                                value: context.read<GetCollectionsCubit>(),
-                                child: CollectionView(),
-                              ),
-                            ),
-                          );
-
-                          if (result != null &&
-                              result is Map<String, dynamic>) {
-                            setState(() {
-                              selectedCollectionName = result['name'];
-                              selectedCollectionId = result['id'];
-                            });
-                          }
-                        },
-                      ),
+                    AppHeader(
+                      icon: Icons.auto_awesome,
+                      title: S.of(context).GenerateSmartFlashcards,
+                      subTitle: S.of(context).EnterAnyWordsOrSentences,
                     ),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: _buildSelectionTile(
-                        label: selectedLanguage,
-                        icon: Icons.language,
-                        onTap: () async {
-                          final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SelectTheLanguage(),
-                            ),
-                          );
+                    SizedBox(height: 20.h),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildSelectionTile(
+                            label:
+                                selectedCollectionName ??
+                                S.of(context).selectCollection,
 
-                          if (result != null) {
-                            setState(() {
-                              selectedLanguage = result['name'];
-                            });
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                            icon: Icons.collections_bookmark_rounded,
+                            onTap: () async {
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BlocProvider.value(
+                                    value: context.read<GetCollectionsCubit>(),
+                                    child: CollectionView(),
+                                  ),
+                                ),
+                              );
 
-                SizedBox(height: 18.h),
-                CustomTextField(
-                  controller: textController,
-                  onSubmitted: (value) async {
-                    if (value.trim().isEmpty) {
-                      AppShowDialog.buildShowSnackBar(
-                        context,
-                        S.of(context).pleaseEnterAWord,
-                      );
-                      return;
-                    }
-
-                    if (!await NetworkUtils.isOnline()) {
-                      AppShowDialog.buildShowSnackBar(
-                        context,
-                        S.of(context).NoInternetConnection,
-                      );
-                      return;
-                    }
-                    setState(() => word = value.trim());
-                    context.read<AddAndShowCardCubit>().showCard(
-                      word: value.trim(),
-                      language: selectedLanguage,
-                    );
-                  },
-                  icon: Icons.search_rounded,
-                  hint: S.of(context).enterWordToGenerate,
-                ),
-                SizedBox(height: 16.h),
-                Row(
-                  children: [
-                    Icon(Icons.info),
-                    SizedBox(width: 4.w),
-                    Text(
-                      S.of(context).putCommaBetweenEveryWordOrSentence,
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 6.h),
-
-                if (state is AddAndShowCardLoading)
-                  Column(
-                    children: [
-                      SizedBox(height: 30.h),
-                      const CustomLoadingIndicator(),
-                      SizedBox(height: 12.h),
-                      Text(
-                        S.of(context).generatingYourSmartCard,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w500,
+                              if (result != null &&
+                                  result is Map<String, dynamic>) {
+                                setState(() {
+                                  selectedCollectionName = result['name'];
+                                  selectedCollectionId = result['id'];
+                                });
+                              }
+                            },
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: _buildSelectionTile(
+                            label: selectedLanguage,
+                            icon: Icons.language,
+                            onTap: () async {
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SelectTheLanguage(),
+                                ),
+                              );
 
-                if (state is ShowCardSuccess)
-                  /*AIPreviewScreen(
+                              if (result != null) {
+                                setState(() {
+                                  selectedLanguage = result['name'];
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: 18.h),
+                    CustomTextField(
+                      controller: textController,
+                      onSubmitted: (value) async {
+                        if (value.trim().isEmpty) {
+                          AppShowDialog.buildShowSnackBar(
+                            context,
+                            S.of(context).pleaseEnterAWord,
+                          );
+                          return;
+                        }
+
+                        if (!await NetworkUtils.isOnline()) {
+                          AppShowDialog.buildShowSnackBar(
+                            context,
+                            S.of(context).NoInternetConnection,
+                          );
+                          return;
+                        }
+                        setState(() => word = value.trim());
+                        context.read<AddAndShowCardCubit>().showCard(
+                          word: value.trim(),
+                          language: selectedLanguage,
+                        );
+                      },
+                      icon: Icons.search_rounded,
+                      hint: S.of(context).enterWordToGenerate,
+                    ),
+                    SizedBox(height: 16.h),
+                    Row(
+                      children: [
+                        Icon(Icons.info),
+                        SizedBox(width: 4.w),
+                        Text(
+                          S.of(context).putCommaBetweenEveryWordOrSentence,
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 6.h),
+
+                    if (state is ShowCardSuccess)
+                      /*AIPreviewScreen(
                     selectedCollectionId: selectedCollectionId,
                     textController: textController,
                   ),*/
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.card.length,
-                    itemBuilder: (context, index) {
-                      return FadeTransition(
-                        opacity: fadeAnimation,
-                        child: CustomSuccessCard(
-                          card: state.card[index],
-                          textController: textController,
-                          selectedCollectionId: selectedCollectionId,
-                        ),
-                      );
-                    },
-                  ),
-                if (state is ShowCardSuccess)
-                  AppButton(
-                    text: S.of(context).addCard,
-                    onPressed: () {
-                      final theWord = textController.text.trim();
-
-                      if (theWord.isEmpty || selectedCollectionId == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              S
-                                  .of(context)
-                                  .PleaseFillAllFieldsAndSelectACollection,
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.card.length,
+                        itemBuilder: (context, index) {
+                          return FadeTransition(
+                            opacity: fadeAnimation,
+                            child: CustomSuccessCard(
+                              card: state.card[index],
+                              textController: textController,
+                              selectedCollectionId: selectedCollectionId,
                             ),
-                            backgroundColor: Colors.red,
+                          );
+                        },
+                      ),
+                    if (state is ShowCardSuccess)
+                      AppButton(
+                        text: S.of(context).addCard,
+                        onPressed: () {
+                          final theWord = textController.text.trim();
+
+                          if (theWord.isEmpty || selectedCollectionId == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  S
+                                      .of(context)
+                                      .PleaseFillAllFieldsAndSelectACollection,
+                                ),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                            return;
+                          }
+
+                          bool hasValidCards = false;
+                          for (var item in state.card) {
+                            if (item.is_valid == true) {
+                              hasValidCards = true;
+                              break;
+                            }
+                          }
+
+                          if (!hasValidCards) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(S.of(context).noValidCardsToAdd),
+                                backgroundColor: Colors.orange,
+                              ),
+                            );
+                            context.read<AddAndShowCardCubit>().reset();
+                            textController.clear();
+                            return;
+                          }
+
+                          for (var item in state.card) {
+                            if (item.is_valid != true) {
+                              continue;
+                            }
+                            context.read<AddAndShowCardCubit>().addCard(
+                              word: item.word,
+                              definition: item.definition,
+                              example: item.example,
+                              type: item.type,
+                              image_url: item.image_url,
+                              collectionId: selectedCollectionId!,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  S.of(context).CardSavedSuccessfully,
+                                ),
+                                backgroundColor: Colors.blueAccent,
+                                duration: Duration(milliseconds: 1500),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          }
+                          textController.clear();
+                        },
+
+                        icon: Icons.add,
+                      ),
+                  ],
+                ),
+              ),
+
+              if (state is AddAndShowCardLoading)
+                Container(
+                  color: Colors.black.withOpacity(0.5),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const CustomLoadingIndicator(),
+                        SizedBox(height: 12.h),
+                        Text(
+                          S.of(context).generatingYourSmartCard,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
                           ),
-                        );
-                        return;
-                      }
-
-                      bool hasValidCards = false;
-                      for (var item in state.card) {
-                        if (item.is_valid == true) {
-                          hasValidCards = true;
-                          break;
-                        }
-                      }
-
-                      if (!hasValidCards) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(S.of(context).noValidCardsToAdd),
-                            backgroundColor: Colors.orange,
-                          ),
-                        );
-                        context.read<AddAndShowCardCubit>().reset();
-                        textController.clear();
-                        return;
-                      }
-
-                      for (var item in state.card) {
-                        if (item.is_valid != true) {
-                          continue;
-                        }
-                        context.read<AddAndShowCardCubit>().addCard(
-                          word: item.word,
-                          definition: item.definition,
-                          example: item.example,
-                          type: item.type,
-                          image_url: item.image_url,
-                          collectionId: selectedCollectionId!,
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(S.of(context).CardSavedSuccessfully),
-                            backgroundColor: Colors.blueAccent,
-                            duration: Duration(milliseconds: 1500),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                      }
-                      textController.clear();
-                    },
-
-                    icon: Icons.add,
+                        ),
+                      ],
+                    ),
                   ),
-              ],
-            ),
+                ),
+            ],
           );
         },
       ),

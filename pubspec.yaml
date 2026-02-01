@@ -66,6 +66,8 @@ dependencies:
   flutter_launcher_icons: ^0.14.4
   cached_network_image: ^3.4.1
   flutter_cache_manager: ^3.4.1
+  firebase_remote_config: ^6.1.4
+  firebase_analytics: ^12.1.1
 cupertino_icons: ^1.0.8
 
 dev_dependencies:

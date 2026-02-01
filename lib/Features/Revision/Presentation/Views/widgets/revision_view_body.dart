@@ -228,9 +228,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                                               ? '' // S.of(context).NoFrontSideData
                                               : card.frontSide,
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 18.sp,
-                                          ),
+                                          style: TextStyle(fontSize: 18.sp),
                                         ),
                                       ],
                                     ),
@@ -268,9 +266,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                                     Text(
                                       card.backSide,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 18.sp,
-                                      ),
+                                      style: TextStyle(fontSize: 18.sp),
                                     ),
                                   ],
                                 ),

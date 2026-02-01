@@ -179,10 +179,10 @@ class S {
     );
   }
 
-  /// `Generating your smart card... \n This may take a few seconds`
+  /// `This may take a few seconds`
   String get generatingYourSmartCard {
     return Intl.message(
-      'Generating your smart card... \n This may take a few seconds',
+      'This may take a few seconds',
       name: 'generatingYourSmartCard',
       desc: '',
       args: [],

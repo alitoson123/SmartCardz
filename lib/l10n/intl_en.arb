@@ -14,7 +14,7 @@
   "enterFrontSide": "Enter the front side",
   "enterBackSide": "Enter the back side",
   "enterWordToGenerate": "Enter a word to generate...",
-  "generatingYourSmartCard": "Generating your smart card... \n This may take a few seconds",
+  "generatingYourSmartCard": "This may take a few seconds",
   "pleaseEnterAWord": "Please enter a word",
   "PleaseFillAllFieldsAndSelectACollection": "Please fill all fields and select a collection",
   "FrontSide": "Front Side",

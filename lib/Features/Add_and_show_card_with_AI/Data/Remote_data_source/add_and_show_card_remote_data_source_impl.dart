@@ -1,15 +1,17 @@
+import 'dart:developer';
+
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/Remote_data_source/add_and_show_card_remote_data_source.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
 import 'package:smart_cards/core/services/app_services/app_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smart_cards/core/services/remote_config/remote_config.dart';
 
 class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
   final AppServices appServices;
+  final String BASE_URL = RemoteConfigService.getBaseUrl();
 
   ShowCardRemoteDataSourceImpl({required this.appServices});
-  final baseUrlHOSTINGER = 'https://n8n.srv1209874.hstgr.cloud/webhook/smartcardiz';
-  final baseUrlRENDER = 'https://smartcardz-ai-3.onrender.com/';
   @override
   Future<void> requestAI({required String word}) async {
     await appServices.requestAICard(word: word);
@@ -20,9 +22,10 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
     required String word,
     required String language,
   }) async {
+    log(BASE_URL);
     var result = await appServices.getMethod(
       URL:
-          '$baseUrlRENDER?words=$word&lang=$language&age=25&level=مبتدء&style=واقعي&country=مصر',
+          '$BASE_URL?words=$word&lang=$language&age=25&level=مبتدء&style=واقعي',
     );
 
     // https://smartcardz-ai-eq1y.onrender.com/generate/$word
