@@ -1,4 +1,4 @@
-package com.example.smart_cards
+package com.cardify.smartcards
 
 import io.flutter.embedding.android.FlutterActivity
 

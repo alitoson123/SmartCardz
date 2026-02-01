@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:6387433425:android:8e3b7d5d794b7f65162af0",
+        "mobilesdk_app_id": "1:6387433425:android:85df4d7f48b34a99162af0",
         "android_client_info": {
-          "package_name": "com.example.smart_cards"
+          "package_name": "com.cardify.smartcards"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "6387433425-5khjdpothuukqudcs8eumj8fu744p90d.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.smart_cards",
-            "certificate_hash": "04e97a3f514d576ecd87af12168b7f04a656403e"
-          }
-        },
         {
           "client_id": "6387433425-u99gvue9uveoipd1j1imdhs6lr1novtg.apps.googleusercontent.com",
           "client_type": 3
@@ -35,7 +27,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "6387433425-u99gvue9uveoipd1j1imdhs6lr1novtg.apps.googleusercontent.com",
+              "client_id": "6387433425-35v5og62edu6b9obph8h5bnh7j3ec0r4.apps.googleusercontent.com",
               "client_type": 3
             },
             {

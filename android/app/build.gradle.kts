@@ -21,13 +21,13 @@ if (keystorePropertiesFile.exists()) {
 
 /* ======== ANDROID CONFIG ======== */
 android {
-    namespace = "com.example.smart_cards"
+    namespace = "com.cardify.smartcards"
     compileSdk = 36
 
     ndkVersion = flutter.ndkVersion
 
     defaultConfig {
-        applicationId = "com.example.smart_cards"
+        applicationId = "com.cardify.smartcards"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
