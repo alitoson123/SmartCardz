@@ -14,6 +14,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "6387433425-18kj9h2hkqlskcdg9huip9oiij86o8hb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cardify.smartcards",
+            "certificate_hash": "ab7da38daac2f666ad94b2b7df9782d5f79a6707"
+          }
+        },
+        {
+          "client_id": "6387433425-1eooh957kcpmt5d6kp9hii11qe0up30u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cardify.smartcards",
+            "certificate_hash": "57b64f40b04f6ed1d3066d8e0556585a636a1b6d"
+          }
+        },
+        {
+          "client_id": "6387433425-ah9lis22lmnas4mtdqlrts4lv3i050f3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cardify.smartcards",
+            "certificate_hash": "04e97a3f514d576ecd87af12168b7f04a656403e"
+          }
+        },
+        {
           "client_id": "6387433425-u99gvue9uveoipd1j1imdhs6lr1novtg.apps.googleusercontent.com",
           "client_type": 3
         }
