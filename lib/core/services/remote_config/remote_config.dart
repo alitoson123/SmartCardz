@@ -1,4 +1,5 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:smart_cards/core/utils/helpers/network_utils.dart';
 
 class RemoteConfigService {
   static final remoteConfig = FirebaseRemoteConfig.instance;
@@ -14,8 +15,9 @@ class RemoteConfigService {
     await remoteConfig.setDefaults({
       "baseUrl": "https://smartcardz-ai-3.onrender.com/",
     });
-
-    await remoteConfig.fetchAndActivate();
+    if (await NetworkUtils.isOnline()) {
+      await remoteConfig.fetchAndActivate();
+    }
   }
 
   static String getBaseUrl() {

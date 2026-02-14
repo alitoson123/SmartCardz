@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:smart_cards/core/utils/network_utils.dart';
+import 'package:smart_cards/core/utils/helpers/network_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

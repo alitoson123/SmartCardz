@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:smart_cards/core/utils/network_utils.dart';
+import 'package:smart_cards/core/utils/helpers/network_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';

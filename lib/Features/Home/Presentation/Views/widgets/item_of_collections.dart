@@ -43,7 +43,7 @@ class ItemOfCollections extends StatelessWidget {
             builder: (context, snapshot) {
               final dueCardsText = snapshot.hasData
                   ? '- ${snapshot.data} ${S.of(context).dueCards}'
-                  : '- ...';
+                  : '- ... due';
               return Text(
                 '${collection.cards_count} ${S.of(context).cards} $dueCardsText',
                 style: TextStyle(fontSize: 14.sp),

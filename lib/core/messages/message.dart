@@ -11,8 +11,12 @@ class Message {
   }
 
   void MessageSuccessMethod(BuildContext context, {required String message}) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 1),
+      ),
+    );
   }
 }

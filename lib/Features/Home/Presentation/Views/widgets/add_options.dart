@@ -59,10 +59,6 @@ class _AddOptionsState extends State<AddOptions> {
             theme: theme,
             onPressed: () async {
               reverseIsExpanded();
-              /*   final svc = BackGroundService();
-              await svc.initLocalNotifications();
-              await svc.backgroundWork();
-              print("TEST DONE");*/
               context.push(AppRoutes.addAndShowCardScreen);
             },
           ),

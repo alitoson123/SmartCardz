@@ -28,23 +28,8 @@ void main() async {
   runApp(const SmartCards());
 }
 
-class SmartCards extends StatefulWidget {
+class SmartCards extends StatelessWidget {
   const SmartCards({super.key});
-
-  @override
-  State<SmartCards> createState() => _SmartCardsState();
-}
-
-class _SmartCardsState extends State<SmartCards> {
-  @override
-  void initState() {
-    super.initState();
-
-    /*WidgetsBinding.instance.addPostFrameCallback((_) {
-      PushNotificationService.handleNotificationTap(context);
-      PushNotificationService.handleInitialMessage(context);
-    });*/
-  }
 
   @override
   Widget build(BuildContext context) {

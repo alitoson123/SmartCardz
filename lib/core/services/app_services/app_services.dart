@@ -63,18 +63,19 @@ class AppServices {
     final snap = await firestore
         .collection('collections')
         .where('ownerId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .orderBy('created_at', descending: true)
         .get();
 
     final collections = snap.docs
         .map((e) => CollectionModel.fromDoc(e))
         .toList();
 
-    // Client-side sorting
+    /* // Client-side sorting
     collections.sort((a, b) {
       if (a.created_at == null || b.created_at == null) return 0;
       return a.created_at!.compareTo(b.created_at!);
     });
-
+*/
     return collections;
   }
 
