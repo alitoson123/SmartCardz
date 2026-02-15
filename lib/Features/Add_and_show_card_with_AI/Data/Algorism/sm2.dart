@@ -14,7 +14,6 @@ class Sm2Result {
   });
 }
 
-/// quality: 5 (easy), 3 (medium), 1 (hard)
 Sm2Result computeSm2({
   required int currentRepetition,
   required double currentEasiness,
@@ -26,9 +25,10 @@ Sm2Result computeSm2({
   int interval = currentInterval;
 
   if (quality < 3) {
-    // failed recall -> reset repetition
+    // لو الجودة أقل من 3 (يعني غلط): 
     r = 0;
     interval = 1;
+
   } else {
     r = r + 1;
     if (r == 1) {

@@ -83,13 +83,13 @@ class AppServices {
     final cardsSnap = await firestore
         .collection('cards')
         .where('collectionId', isEqualTo: collectionId)
-        .get();
+        .get();   // get all cards of the collection
 
-    for (final doc in cardsSnap.docs) {
+    for (final doc in cardsSnap.docs) {   // delete all cards of the collection
       await doc.reference.delete();
     }
 
-    await firestore.collection('collections').doc(collectionId).delete();
+    await firestore.collection('collections').doc(collectionId).delete();  // delete the collection
   }
 
   static Future<void> renameCollection({

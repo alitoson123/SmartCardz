@@ -12,13 +12,13 @@ class NormalCardModel extends NormalCardEntity {
   // SM-2 fields
   @HiveField(1)
   @override
-  final int repetition; // number of consecutive successful reviews
+  final int repetition; // عدد المرات اللي جاوبت فيها صح ورا بعض.
   @HiveField(2)
   @override
-  final double easiness; // easiness factor
+  final double easiness; // دي بتحدد قد إيه الكارت "سهل".
   @HiveField(3)
   @override
-  final int interval; // days until next review
+  final int interval; // عدد الأيام قبل المراجعة الجاية.
   @HiveField(4)
   @override
   final Timestamp? nextReview; // Firestore timestamp for next review
