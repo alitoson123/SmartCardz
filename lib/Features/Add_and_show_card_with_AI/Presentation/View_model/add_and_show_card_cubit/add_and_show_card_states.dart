@@ -4,7 +4,9 @@ class AddAndShowCardStates {}
 
 class AddAndShowCardInitial extends AddAndShowCardStates {}
 
-class AddAndShowCardLoading extends AddAndShowCardStates {}
+class ShowCardLoading extends AddAndShowCardStates {}
+
+class AddCardLoading extends AddAndShowCardStates {}
 
 class ShowCardSuccess extends AddAndShowCardStates {
   final List<CardWithAIEntity> card;
@@ -14,10 +16,14 @@ class ShowCardSuccess extends AddAndShowCardStates {
 
 class AddCardSuccess extends AddAndShowCardStates {}
 
-class AddAndShowCardFailure extends AddAndShowCardStates {
+class ShowCardFailure extends AddAndShowCardStates {
   final String errorMessage;
 
-  AddAndShowCardFailure({required this.errorMessage});
+  ShowCardFailure({required this.errorMessage});
 }
 
-class RequestAISuccess extends AddAndShowCardStates {}
+class AddCardFailure extends AddAndShowCardStates {
+  final String errorMessage;
+
+  AddCardFailure({required this.errorMessage});
+}

@@ -60,6 +60,7 @@ class AuthRepoImpl extends AuthRepo {
         data: userEntity,
         MapOfData: userEntity.toMapOfSignUp(),
       ); // Step 1
+      await LocalServiceWithHive().saveUser(userEntity); // Step 2
 
       return right(userEntity);
     } catch (e) {

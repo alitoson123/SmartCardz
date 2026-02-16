@@ -50,7 +50,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     return SafeArea(
       child: BlocConsumer<AddAndShowCardCubit, AddAndShowCardStates>(
         listener: (context, state) {
-          if (state is AddAndShowCardFailure) {
+          if (state is ShowCardFailure) {
             Navigator.pop(context); // Dismiss loading dialog
             AppShowDialog.buildShowSnackBar(context, state.errorMessage);
             log(state.errorMessage);
@@ -59,7 +59,8 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
             Navigator.pop(context); // Dismiss loading dialog
             controller.forward(from: 0);
           }
-          if (state is AddAndShowCardLoading) {
+
+          if (state is ShowCardLoading) {
             if (!context.mounted) return;
             showDialog(
               context: context,
@@ -67,9 +68,12 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
               builder: (context) => Center(child: AICardLoadingIndicator()),
             );
           }
+
+        
         },
         builder: (context, state) {
           return SingleChildScrollView(
+            
             padding: EdgeInsets.all(20.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,6 +128,10 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                     text: S.of(context).addCard,
                     onPressed: () => addAICards(state.card),
                     icon: Icons.add,
+                  ),
+                if (state is AddCardLoading)
+                  const Center(
+                    child: CircularProgressIndicator(),
                   ),
               ],
             ),
@@ -255,6 +263,8 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
       );
       addedCount++;
     }
+
+
 
     if (addedCount > 0) {
       ScaffoldMessenger.of(context).showSnackBar(

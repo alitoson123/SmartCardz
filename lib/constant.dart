@@ -12,6 +12,7 @@ const String K_CURRENT_USER = 'currentUser';
 const String K_APP_THEME = 'appTheme';
 const String K_APP_LANGUAGE = 'appLanguage';
 const String K_PENDING_RATINGS_BOX = 'pending_ratings_box';
+const String K_APP_VERSION = '1.0.0';
 
 class Style {
   TextStyle textStyle14 = TextStyle(fontSize: 14.sp);

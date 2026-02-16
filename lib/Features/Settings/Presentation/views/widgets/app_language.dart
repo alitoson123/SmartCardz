@@ -45,6 +45,7 @@ class _AppThemeState extends State<AppLanguage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // English language
             RadioListTile(
               activeColor: Colors.blueAccent,
               title: Text(
@@ -55,6 +56,7 @@ class _AppThemeState extends State<AppLanguage> {
               groupValue: language,
               onChanged: (val) => setState(() => language = val),
             ),
+            // Arabic language
             RadioListTile(
               activeColor: Colors.blueAccent,
               title: Text(
@@ -70,6 +72,7 @@ class _AppThemeState extends State<AppLanguage> {
       ),
 
       actions: [
+        // Cancel button
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: Text(
@@ -77,6 +80,7 @@ class _AppThemeState extends State<AppLanguage> {
             style: TextStyle(color: themeColors.primary),
           ),
         ),
+        // Save button
         TextButton(
           onPressed: () => Navigator.pop(context, language),
           child: Text(

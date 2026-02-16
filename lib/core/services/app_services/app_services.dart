@@ -63,7 +63,6 @@ class AppServices {
     final snap = await firestore
         .collection('collections')
         .where('ownerId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .orderBy('created_at', descending: true)
         .get();
 
     final collections = snap.docs

@@ -45,6 +45,7 @@ class _AppThemeState extends State<AppTheme> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // Light theme
             RadioListTile(
               activeColor: Colors.blueAccent,
               title: Text(
@@ -55,6 +56,7 @@ class _AppThemeState extends State<AppTheme> {
               groupValue: theme,
               onChanged: (val) => setState(() => theme = val),
             ),
+            // Dark theme
             RadioListTile(
               activeColor: Colors.blueAccent,
               title: Text(
@@ -70,6 +72,7 @@ class _AppThemeState extends State<AppTheme> {
       ),
 
       actions: [
+        // Cancel button
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: Text(
@@ -77,6 +80,7 @@ class _AppThemeState extends State<AppTheme> {
             style: TextStyle(color: themeColors.primary),
           ),
         ),
+        // Save button
         TextButton(
           onPressed: () => Navigator.pop(context, theme),
           child: Text(
