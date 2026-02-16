@@ -7,12 +7,28 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PutImageAndGetUrl {
+// generate storage reference for image with user id and card id and side  >> 1
+  static Reference? generateImageReference({ 
+    required String side,
+    required String cardId,
+  }) {
+    User? user = FirebaseAuth.instance.currentUser;
+    final String userId = user!.uid;
+
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final imageRef = storageRef.child('cards/$userId/$cardId/$side.webp');
+
+    return imageRef;
+  }
+
+// put image and get url  >> 2
   static Future<String> putAndGetUrl(
     Reference? imageRef,
     File imageFile,
   ) async {
     try {
-      final compressedImage = await compressImage(imageFile);  // compress image
+      final compressedImage = await compressImage(imageFile);  // compress image 
 
       await imageRef!.putFile(compressedImage);  // upload image
 
@@ -57,18 +73,5 @@ class PutImageAndGetUrl {
     return File(result.path);
   }
 
-  // Generate storage reference for image
-  static Reference? generateImageReference({ // generate storage reference for image with user id and card id and side
-    required String side,
-    required String cardId,
-  }) {
-    User? user = FirebaseAuth.instance.currentUser;
-    final String userId = user!.uid;
 
-    final storageRef = FirebaseStorage.instance.ref();
-
-    final imageRef = storageRef.child('cards/$userId/$cardId/$side.webp');
-
-    return imageRef;
-  }
 }

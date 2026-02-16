@@ -61,6 +61,8 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            //***************************************************** */
+            //   Header
             AppHeader(
               icon: Icons.library_add,
               title: S.of(context).createYourFlashcard,
@@ -70,7 +72,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
             //***************************************************** */
             //   Selection section
-            _buildSelectionRow(), // Extracted method
+            buildSelectionRow(), // Extracted method
 
             SizedBox(height: 24.h),
             //***************************************************** */
@@ -189,8 +191,8 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
     );
   }
 
-  /// Builds the row containing Collection and Type selection widgets
-  Widget _buildSelectionRow() {
+  //   Selection section
+  Widget buildSelectionRow() {
     return Row(
       children: [
         Expanded(
@@ -201,7 +203,6 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
             icon: Icons.collections_bookmark_rounded,
             onTap: () async {
               final result = await Navigator.push(
-                // ?????
                 context,
                 MaterialPageRoute(
                   builder: (context) => BlocProvider.value(
