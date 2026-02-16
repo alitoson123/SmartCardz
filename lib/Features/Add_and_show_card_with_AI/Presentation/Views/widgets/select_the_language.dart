@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/select_the_language_item.dart';
+import 'package:smart_cards/core/views/widgets/cancel_widget.dart';
+import 'package:smart_cards/core/views/widgets/selection_search_field.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
 class SelectTheLanguage extends StatefulWidget {
@@ -13,7 +16,8 @@ class _SelectTheLanguageState extends State<SelectTheLanguage> {
   final TextEditingController searchController = TextEditingController();
 
   // Comprehensive list of languages
-  final List<Map<String, String>> _allLanguages = [
+  final List<Map<String, String>> allLanguages = [
+    // All the supported languages
     {'id': '1', 'name': 'English', 'nativeName': 'English', 'code': 'en'},
     {'id': '2', 'name': 'Arabic', 'nativeName': 'العربية', 'code': 'ar'},
     {'id': '3', 'name': 'Spanish', 'nativeName': 'Español', 'code': 'es'},
@@ -101,20 +105,62 @@ class _SelectTheLanguageState extends State<SelectTheLanguage> {
     {'id': '60', 'name': 'Cambodian', 'nativeName': 'ភាសាខ្មែរ', 'code': 'km'},
   ];
 
-  List<Map<String, String>> _filteredLanguages = [];
+  List<Map<String, String>> filteredLanguages =
+      []; // Filtered list of languages
 
   @override
   void initState() {
     super.initState();
-    _filteredLanguages = _allLanguages;
+    filteredLanguages = allLanguages;
   }
 
-  void _filterLanguages(String query) {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: AppBar(title: Text(S.of(context).selectALanguage)),
+      body: Column(
+        children: [
+          //***************************************************** */
+          //   search Section
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+            child: SelectionSearchField(
+              searchController: searchController,
+              onChanged: filterLanguages,
+            ),
+          ),
+
+          //***************************************************** */
+          //   list of languages
+          Expanded(
+            child: ListView.separated(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              itemCount: filteredLanguages.length,
+              separatorBuilder: (context, index) => SizedBox(height: 8.h),
+              itemBuilder: (context, index) {
+                final language = filteredLanguages[index];
+                return SelectTheLanguageItem(language: language);
+              },
+            ),
+          ),
+
+          //***************************************************** */
+          //   cancel button
+          const CancelWidget(),
+        ],
+      ),
+    );
+  }
+
+  // filter the languages (search Function)
+  void filterLanguages(String query) {
     setState(() {
       if (query.isEmpty) {
-        _filteredLanguages = _allLanguages;
+        filteredLanguages = allLanguages;
       } else {
-        _filteredLanguages = _allLanguages.where((language) {
+        filteredLanguages = allLanguages.where((language) {
           final name = language['name']!.toLowerCase();
           final native = language['nativeName']!.toLowerCase();
           final search = query.toLowerCase();
@@ -122,150 +168,5 @@ class _SelectTheLanguageState extends State<SelectTheLanguage> {
         }).toList();
       }
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
-    // Determine colors based on theme
-    final backgroundColor = theme.scaffoldBackgroundColor;
-    final cardColor = theme.cardColor;
-    final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black87;
-    final hintColor = theme.hintColor;
-
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(title: Text(S.of(context).selectALanguage)),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-            child: Container(
-              decoration: BoxDecoration(
-                color: cardColor,
-                borderRadius: BorderRadius.circular(12.r),
-                boxShadow: isDark
-                    ? [] // No shadow in dark mode for cleaner look
-                    : [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(.5),
-                          blurRadius: 2,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                border: isDark ? Border.all(color: Colors.white10) : null,
-              ),
-              child: TextField(
-                controller: searchController,
-                onChanged: _filterLanguages,
-                style: TextStyle(color: textColor),
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search, color: hintColor),
-                  hintText: S.of(context).searchLanguageHint,
-                  hintStyle: TextStyle(color: hintColor, fontSize: 14.sp),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 14.h,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-              itemCount: _filteredLanguages.length,
-              separatorBuilder: (context, index) => SizedBox(height: 8.h),
-              itemBuilder: (context, index) {
-                final language = _filteredLanguages[index];
-                return InkWell(
-                  onTap: () {
-                    Navigator.pop(context, {
-                      'id': language['id'],
-                      'name': language['name'],
-                    });
-                  },
-                  borderRadius: BorderRadius.circular(12.r),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: cardColor,
-                      borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(
-                        color: isDark ? Colors.white10 : Colors.grey.shade200,
-                      ),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 16.h,
-                    ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: theme.primaryColor.withOpacity(0.1),
-                          radius: 20.r,
-                          child: Text(
-                            language['code']!.split('-').first.toUpperCase(),
-                            style: TextStyle(
-                              color: theme.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 16.w),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              language['name']!,
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                                color: textColor,
-                              ),
-                            ),
-                            if (language['name'] != language['nativeName'])
-                              Text(
-                                language['nativeName']!,
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: hintColor,
-                                ),
-                              ),
-                          ],
-                        ),
-                        const Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 16.sp,
-                          color: hintColor,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: 24.h, top: 8.h),
-            child: TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                S.of(context).cancel,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: Colors.redAccent,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

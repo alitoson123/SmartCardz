@@ -24,10 +24,6 @@ class AddNormalCardView extends StatelessWidget {
                 context,
               ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
             }
-
-            if (state is AddNormalCardLoading) {
-              Center(child: CircularProgressIndicator());
-            }
           },
           child: AddNormalCardViewBody(),
         ),
