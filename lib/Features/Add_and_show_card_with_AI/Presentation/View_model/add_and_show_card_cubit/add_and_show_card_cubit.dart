@@ -9,17 +9,6 @@ class AddAndShowCardCubit extends Cubit<AddAndShowCardStates> {
   AddAndShowCardCubit({required this.addAndShowCardRepoImpl})
     : super(AddAndShowCardInitial());
 
-  Future<void> requestAI({required String word}) async {
-    emit(AddAndShowCardLoading());
-
-    final result = await addAndShowCardRepoImpl.requestAI(word: word);
-
-    result.fold(
-      (failure) =>
-          emit(AddAndShowCardFailure(errorMessage: failure.errorMessage)),
-      (card) => emit(RequestAISuccess()),
-    );
-  }
 
   Future<void> showCard({
     required String word,

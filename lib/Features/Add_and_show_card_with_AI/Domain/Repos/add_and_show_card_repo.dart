@@ -3,7 +3,6 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/c
 import 'package:smart_cards/core/errors/failure.dart';
 
 abstract class AddAndShowCardRepo {
-  Future<Either<Failure, void>> requestAI({required String word});
   Future<Either<Failure, List<CardWithAIEntity>>> showCard({
     required String word,
     required String language,

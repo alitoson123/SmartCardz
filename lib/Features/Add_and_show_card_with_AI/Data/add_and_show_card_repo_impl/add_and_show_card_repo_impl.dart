@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -13,20 +12,6 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
   AddAndShowCardRepoImpl({required this.addAndShowCardRemoteDataSource});
 
   @override
-  Future<Either<Failure, void>> requestAI({required String word}) async {
-    try {
-      await addAndShowCardRemoteDataSource.requestAI(word: word);
-      return right(null);
-    } catch (e) {
-      if (e is DioException) {
-        return left(ServerFailure.fromDioError(e));
-      } else {
-        return left(ServerFailure(errorMessage: e.toString()));
-      }
-    }
-  }
-
-  @override
   Future<Either<Failure, List<CardWithAIEntity>>> showCard({
     required String word,
     required String language,
@@ -36,10 +21,6 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
         word: word,
         language: language,
       );
-      log('The word is ${result[0].word}');
-      log('The type is ${result[0].type}');
-      log('The definition is ${result[0].definition}');
-      log('The example is ${result[0].image_url}');
 
       return right(result);
     } catch (e) {

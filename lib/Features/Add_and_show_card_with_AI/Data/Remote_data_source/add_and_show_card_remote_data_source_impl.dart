@@ -12,10 +12,7 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
   final String BASE_URL = RemoteConfigService.getBaseUrl();
 
   ShowCardRemoteDataSourceImpl({required this.appServices});
-  @override
-  Future<void> requestAI({required String word}) async {
-    await appServices.requestAICard(word: word);
-  }
+
 
   @override
   Future<List<CardWithAIEntity>> showCard({
@@ -68,4 +65,3 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
   }
 }
 
-// https://api.dictionaryapi.dev/api/v2/entries/en/apple
