@@ -1,13 +1,15 @@
-import 'dart:developer';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_ai_card_cubit/add_ai_card_cubit.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_ai_card_cubit/add_ai_states.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/ai_card_loading.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/list_of_preview_section.dart';
 import 'package:smart_cards/core/utils/helpers/network_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_and_show_card_cubit/add_and_show_card_cubit.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_and_show_card_cubit/add_and_show_card_states.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/show_ai_card_cubit/show_ai_card_cubit.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/show_ai_card_cubit/show_ai_card_states.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_text_field.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/select_the_language.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/custom_selection.dart';
@@ -34,6 +36,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
   String? selectedCollectionId;
   String? word;
   String selectedLanguage = "English";
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -48,92 +51,126 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocConsumer<AddAndShowCardCubit, AddAndShowCardStates>(
+      child: BlocConsumer<ShowAICardCubit, ShowAICardStates>(
         listener: (context, state) {
-          if (state is ShowCardFailure) {
-            Navigator.pop(context); // Dismiss loading dialog
-            AppShowDialog.buildShowSnackBar(context, state.errorMessage);
-            log(state.errorMessage);
+          if (state is ShowAICardFailure) {
+            setState(() => isLoading = false);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage),
+                backgroundColor: Colors.red,
+              ),
+            );
           }
-          if (state is ShowCardSuccess) {
-            Navigator.pop(context); // Dismiss loading dialog
+          if (state is ShowAICardSuccess) {
+            setState(() => isLoading = false);
             controller.forward(from: 0);
           }
 
-          if (state is ShowCardLoading) {
-            if (!context.mounted) return;
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => Center(child: AICardLoadingIndicator()),
-            );
+          if (state is ShowAICardLoading) {
+            setState(() => isLoading = true);
           }
-
-        
         },
         builder: (context, state) {
-          return SingleChildScrollView(
-            
-            padding: EdgeInsets.all(20.r),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                //***************************************************** */
-                //   Header
-                AppHeader(
-                  icon: Icons.auto_awesome,
-                  title: S.of(context).GenerateSmartFlashcards,
-                  subTitle: S.of(context).EnterAnyWordsOrSentences,
-                ),
-                SizedBox(height: 20.h),
-                //***************************************************** */
-                //   Selection section
-                buildSelectionRow(),
-                SizedBox(height: 18.h),
-                //***************************************************** */
-                //   Text field
-                CustomTextField(
-                  controller: textController,
-                  onSubmitted: aiCardGeneration,
-                  icon: Icons.search_rounded,
-                  hint: S.of(context).enterWordToGenerate,
-                ),
-                SizedBox(height: 16.h),
-                //***************************************************** */
-                //  put comma between every word or sentence
-                Row(
-                  children: [
-                    Icon(Icons.info),
-                    SizedBox(width: 4.w),
-                    Text(
-                      S.of(context).putCommaBetweenEveryWordOrSentence,
-                      textAlign: TextAlign.left,
+          return ModalProgressHUD(
+            // show loading indicator
+            inAsyncCall: isLoading,
+            progressIndicator: state is ShowAICardLoading
+                ? AICardLoadingIndicator()
+                : Center(child: CircularProgressIndicator()),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(20.r),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  //***************************************************** */
+                  //   Header
+                  AppHeader(
+                    icon: Icons.auto_awesome,
+                    title: S.of(context).GenerateSmartFlashcards,
+                    subTitle: S.of(context).EnterAnyWordsOrSentences,
+                  ),
+                  SizedBox(height: 20.h),
+                  //***************************************************** */
+                  //   Selection section
+                  buildSelectionRow(),
+                  SizedBox(height: 18.h),
+                  //***************************************************** */
+                  //   Text field
+                  CustomTextField(
+                    controller: textController,
+                    onSubmitted: aiCardGeneration,
+                    icon: Icons.search_rounded,
+                    hint: S.of(context).enterWordToGenerate,
+                  ),
+                  SizedBox(height: 16.h),
+                  //***************************************************** */
+                  //  put comma between every word or sentence
+                  if (state is! ShowAICardLoading)
+                    Row(
+                      children: [
+                        Icon(Icons.info),
+                        SizedBox(width: 4.w),
+                        Text(
+                          S.of(context).putCommaBetweenEveryWordOrSentence,
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                SizedBox(height: 6.h),
-                //***************************************************** */
-                //   Preview section
-                if (state is ShowCardSuccess)
-                  ListOfPreviewSection(
-                    fadeAnimation: fadeAnimation,
-                    textController: textController,
-                    selectedCollectionId: selectedCollectionId,
-                    card: state.card,
-                  ),
-                //***************************************************** */
-                //   Add card button
-                if (state is ShowCardSuccess)
-                  AppButton(
-                    text: S.of(context).addCard,
-                    onPressed: () => addAICards(state.card),
-                    icon: Icons.add,
-                  ),
-                if (state is AddCardLoading)
-                  const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-              ],
+                  SizedBox(height: 6.h),
+                  //***************************************************** */
+                  //   Preview section
+                  if (state is ShowAICardSuccess)
+                    ListOfPreviewSection(
+                      fadeAnimation: fadeAnimation,
+                      textController: textController,
+                      selectedCollectionId: selectedCollectionId,
+                      card: state.card,
+                    ),
+                  //***************************************************** */
+                  //   Add card button
+                  if (state is ShowAICardSuccess)
+                    BlocConsumer<AddAICardCubit, AddAICardStates>(
+                      listener: (context, addState) {
+                        if (addState is AddAICardSuccess) {
+                          setState(() => isLoading = false);
+                          context.read<ShowAICardCubit>().reset();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                S.of(context).CardSavedSuccessfully,
+                              ),
+                              backgroundColor: Colors.blueAccent,
+                              duration: Duration(milliseconds: 1500),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                        }
+                        if (addState is AddAICardFailure) {
+                          setState(() => isLoading = false);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(addState.errorMessage),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                        if (addState is AddAICardLoading) {
+                          setState(() => isLoading = true);
+                        }
+                      },
+                      builder: (context, addState) {
+                        return AppButton(
+                          text: S.of(context).addCard,
+                          onPressed: isLoading
+                              ? null
+                              : () => addAICards(state.card),
+                          icon: Icons.add,
+                        );
+                      },
+                    ),
+                ],
+              ),
             ),
           );
         },
@@ -141,6 +178,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     );
   }
 
+  //  selection row
   Widget buildSelectionRow() {
     return Row(
       children: [
@@ -194,12 +232,15 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     );
   }
 
+  // ai card generation
   Future<void> aiCardGeneration(String value) async {
+    // check if the text field is empty
     if (value.trim().isEmpty) {
       AppShowDialog.buildShowSnackBar(context, S.of(context).pleaseEnterAWord);
       return;
     }
 
+    // check internet connection
     if (!await NetworkUtils.isOnline()) {
       AppShowDialog.buildShowSnackBar(
         context,
@@ -207,17 +248,25 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
       );
       return;
     }
+
+    // check if the widget is mounted
     if (!mounted) return;
+
+    // set the word
     setState(() => word = value.trim());
-    context.read<AddAndShowCardCubit>().showCard(
+
+    // show ai card
+    context.read<ShowAICardCubit>().showAICard(
       word: value.trim(),
       language: selectedLanguage,
     );
   }
 
-  void addAICards(List<CardWithAIEntity> card) {
+  // add ai cards
+  void addAICards(List<CardWithAIEntity> cards) {
     final theWord = textController.text.trim();
 
+    // check if the text field is empty or the collection is not selected
     if (theWord.isEmpty || selectedCollectionId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -228,14 +277,15 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
       return;
     }
 
+    // check if there are valid cards
     bool hasValidCards = false;
-    for (var item in card) {
+    for (var item in cards) {
       if (item.is_valid == true) {
         hasValidCards = true;
         break;
       }
     }
-
+    // if there are no valid cards show a message
     if (!hasValidCards) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -243,39 +293,18 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
           backgroundColor: Colors.orange,
         ),
       );
-      context.read<AddAndShowCardCubit>().reset();
+      // reset the state
+      context.read<ShowAICardCubit>().reset();
+      // clear the text field
       textController.clear();
       return;
     }
-
-    int addedCount = 0;
-    for (var item in card) {
-      if (item.is_valid != true) {
-        continue;
-      }
-      context.read<AddAndShowCardCubit>().addCard(
-        word: item.word,
-        definition: item.definition,
-        example: item.example,
-        type: item.type,
-        image_url: item.image_url,
-        collectionId: selectedCollectionId!,
-      );
-      addedCount++;
-    }
-
-
-
-    if (addedCount > 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(S.of(context).CardSavedSuccessfully),
-          backgroundColor: Colors.blueAccent,
-          duration: Duration(milliseconds: 1500),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-    }
+    // add ai cards
+    context.read<AddAICardCubit>().addAllAICards(
+      cards: cards,
+      collectionId: selectedCollectionId!,
+    );
+    // clear the text field
     textController.clear();
   }
 

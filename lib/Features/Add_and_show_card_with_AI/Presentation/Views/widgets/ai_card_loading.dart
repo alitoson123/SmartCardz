@@ -4,9 +4,7 @@ import 'package:smart_cards/core/utils/widgets/custom_loading_indicator.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
 class AICardLoadingIndicator extends StatelessWidget {
-  const AICardLoadingIndicator({
-    super.key,
-  });
+  const AICardLoadingIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +17,7 @@ class AICardLoadingIndicator extends StatelessWidget {
           color: Colors.transparent,
           child: Text(
             S.of(context).generatingYourSmartCard,
-            style: TextStyle(
-              fontSize: 16.sp,
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-            ),
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
           ),
         ),
       ],

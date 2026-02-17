@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/add_and_show_card_repo_impl/add_and_show_card_repo_impl.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_and_show_card_cubit/add_and_show_card_cubit.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_ai_card_cubit/add_ai_card_cubit.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/show_ai_card_cubit/show_ai_card_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/add_and_show_card_view.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/add_normal_card_view.dart';
 import 'package:smart_cards/Features/Auth/Data/Repos/auth_repo_impl.dart';
@@ -54,10 +55,19 @@ class AppRoutes {
       GoRoute(
         path: addAndShowCardScreen,
         builder: (context, state) {
-          return BlocProvider(
-            create: (context) => AddAndShowCardCubit(
-              addAndShowCardRepoImpl: getIt<AddAndShowCardRepoImpl>(),
-            ),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => ShowAICardCubit(
+                  addAndShowCardRepoImpl: getIt<AddAndShowCardRepoImpl>(),
+                ),
+              ),
+              BlocProvider(
+                create: (context) => AddAICardCubit(
+                  addAndShowCardRepoImpl: getIt<AddAndShowCardRepoImpl>(),
+                ),
+              ),
+            ],
             child: AddAndShowCardView(),
           );
         },
