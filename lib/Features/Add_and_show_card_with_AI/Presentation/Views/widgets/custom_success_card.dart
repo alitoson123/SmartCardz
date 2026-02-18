@@ -9,7 +9,7 @@ class CustomSuccessCard extends StatelessWidget {
     required this.card,
     this.selectedCollectionId,
   });
-  final CardWithAIEntity card;
+  final AICardEntity card;
   final String? selectedCollectionId;
 
   @override

@@ -1,179 +1,4 @@
 /*
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/Algorism/sm2.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
-import 'package:smart_cards/Features/Add_normal_card/Data/models/normal_card_model.dart';
-import 'package:smart_cards/Features/Revision/Data/revision_remote_data_source/revision_remote_data_saource.dart';
-import 'package:smart_cards/constant.dart';
-import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
-import 'package:smart_cards/core/services/Local_service/general_local_service.dart';
-import 'package:smart_cards/core/services/app_services/app_services.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
-  final AppServices appServices;
-  @override
-  RevisionRemoteDataSourceImpl({required this.appServices});
-  @override
-  Future<List<BaseCardEntity>> fetchDueCards({
-    required int limit,
-    required String collectionId,
-  }) async {
-    final dynamic connectivity = await Connectivity().checkConnectivity();
-    bool isOnline = false;
-    if (connectivity is List) {
-      isOnline = !connectivity.contains(ConnectivityResult.none);
-    } else {
-      isOnline = connectivity != ConnectivityResult.none;
-    }
-
-    if (isOnline) {
-      // 1. Fetch from Server
-      final remoteCards = await appServices.fetchDueCards(
-        limit: limit,
-        collectionId: collectionId,
-      );
-
-      // 2. Fetch all local cards for this collection to compare
-      final localService = GeneralLocalService();
-      final localCards = await localService.getAll<BaseCardEntity>(
-        K_DUE_CARDS_BOX,
-      );
-      final collectionLocalCards = localCards
-          .where((c) => c.collectionId == collectionId)
-          .toList();
-
-      final List<BaseCardEntity> finalResults = [];
-
-      for (var remoteCard in remoteCards) {
-        // Find local version
-        final localCard = collectionLocalCards.firstWhere(
-          (c) => c.id == remoteCard.id,
-          orElse: () => remoteCard,
-        );
-
-        final remoteNext = remoteCard.nextReview?.toDate();
-        final localNext = localCard.nextReview?.toDate();
-
-        // 3. Check for unsynced offline ratings
-        // If local has a review date and it's AFTER the remote one, local is more recent
-        if (localNext != null &&
-            (remoteNext == null || localNext.isAfter(remoteNext))) {
-          // Sync THIS card back to server
-          await appServices.submitRating(
-            remoteCard,
-            Sm2Result(
-              repetition: localCard.repetition,
-              easiness: localCard.easiness,
-              intervalDays: localCard.interval,
-              nextReview: localCard.nextReview!,
-            ),
-          );
-          // Keep local version in our results
-          finalResults.add(localCard);
-        } else {
-          // Server is up to date or has newer data
-          finalResults.add(remoteCard);
-        }
-      }
-
-      // 4. Update local cache for THIS collection
-      await localService.deleteItems<BaseCardEntity>(
-        K_DUE_CARDS_BOX,
-        (card) => card.collectionId == collectionId,
-      );
-      for (var card in finalResults) {
-        await localService.add<BaseCardEntity>(K_DUE_CARDS_BOX, card);
-      }
-
-      // 5. Only return cards that are STILL due
-      final now = DateTime.now();
-      return finalResults.where((card) {
-        final nextReviewDate = card.nextReview?.toDate();
-        return nextReviewDate == null ||
-            nextReviewDate.isBefore(now) ||
-            nextReviewDate.isAtSameMomentAs(now);
-      }).toList();
-    } else {
-      // Offline
-      final allCards = await GeneralLocalService().getAll<BaseCardEntity>(
-        K_DUE_CARDS_BOX,
-      );
-      final now = DateTime.now();
-      return allCards.where((card) {
-        final isCorrectCollection = card.collectionId == collectionId;
-        final nextReviewDate = card.nextReview?.toDate();
-        // Return true if it's the right collection AND it's due (nextReview <= now)
-        final isDue =
-            nextReviewDate == null ||
-            nextReviewDate.isBefore(now) ||
-            nextReviewDate.isAtSameMomentAs(now);
-        return isCorrectCollection && isDue;
-      }).toList();
-    }
-  }
-
-  @override
-  Future<void> submitRating(BaseCardEntity card, int quality) async {
-    final bool isOnline = await _isOnline();
-
-    // 1. Compute new SM-2 values
-    final res = computeSm2(
-      currentRepetition: card.repetition,
-      currentEasiness: card.easiness,
-      currentInterval: card.interval,
-      quality: quality,
-    );
-
-    // 2. Create updated card instance
-    final updatedCard = _getUpdatedCard(card, res);
-    if (updatedCard == null) return;
-
-    // 3. Sync to Remote (if online)
-    if (isOnline) {
-      await appServices.submitRating(card, res);
-    }
-
-    // 4. Sync to Local Cache (ALWAYS)
-    await GeneralLocalService().updateItem<BaseCardEntity>(
-      K_DUE_CARDS_BOX,
-      updatedCard,
-      (c) => c.id == card.id,
-    );
-  }
-
-  // --- Helpers ---
-
-  Future<bool> _isOnline() async {
-    final dynamic connectivity = await Connectivity().checkConnectivity();
-    if (connectivity is List) {
-      return !connectivity.contains(ConnectivityResult.none);
-    } else {
-      return connectivity != ConnectivityResult.none;
-    }
-  }
-
-  BaseCardEntity? _getUpdatedCard(BaseCardEntity card, Sm2Result res) {
-    if (card is NormalCardModel) {
-      return card.copyWith(
-        repetition: res.repetition,
-        easiness: res.easiness,
-        interval: res.intervalDays,
-        nextReview: res.nextReview,
-      );
-    } else if (card is CardWithAIModel) {
-      return card.copyWith(
-        repetition: res.repetition,
-        easiness: res.easiness,
-        interval: res.intervalDays,
-        nextReview: res.nextReview,
-      );
-    }
-    return null;
-  }
-}
-
-*/
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -408,5 +233,69 @@ class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
       print('Failed to sync pending ratings: $e');
       rethrow; // Let caller know sync failed
     }
+  }
+}
+*/
+
+// 📁 data/repositories/revision_repo.dart
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
+import 'package:smart_cards/Features/Add_normal_card/Data/models/normal_card_model.dart';
+import 'package:smart_cards/Features/Add_normal_card/Domain/Entities/normal_card_entity.dart';
+import 'package:smart_cards/Features/Revision/Presentation/View_model/logic/SM2_algorithm.dart';
+import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
+
+class RevisionRepo {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // ══════════════════════════════════════════════════
+  //   جيب الكروت اللي المفروض تتراجع النهارده
+  // ══════════════════════════════════════════════════
+  Future<List<BaseCardEntity>> getDueCards(
+    String collectionId, {
+    int limit = 100,
+  }) async {
+    final now = Timestamp.now();
+
+    final snapshot = await _firestore
+        .collection('cards')
+        .where('collectionId', isEqualTo: collectionId)
+        .where('due_date', isLessThanOrEqualTo: now)
+        .orderBy('due_date')
+        .limit(limit) // ✅ أضفت limit
+        .get();
+
+    // ✅ Convert كل document للنوع الصح
+    return snapshot.docs.map((doc) {
+      final data = doc.data();
+      
+      // تحقق من نوع الكارت
+      if (data['is_ai_card'] == true || data.containsKey('word')) {
+        return AICardModel.fromFirestore(doc);
+      } else {
+        return NormalCardModel.fromFirestore(doc);
+      }
+    }).toList();
+  }
+  // ══════════════════════════════════════════════════
+  //   قيّم الكارت وحدّثه
+  // ══════════════════════════════════════════════════
+  Future<void> submitRating({
+    required BaseCardEntity card,
+    required int quality,
+  }) async {
+    final updatedCard = Sm2Scheduler.schedule(card: card, quality: quality);
+    
+    // Convert للـ Model المناسب
+    Map<String, dynamic> data;
+    if (updatedCard is AICardEntity) {
+      data = AICardModel.fromEntity(updatedCard).toFirestore();
+    } else {
+      data = NormalCardModel.fromEntity(updatedCard as NormalCardEntity).toFirestore();
+    }
+    
+    await _firestore.collection('cards').doc(card.id).update(data);
   }
 }

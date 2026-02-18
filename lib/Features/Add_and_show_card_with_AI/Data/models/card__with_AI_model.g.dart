@@ -1,4 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
+/*// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'card__with_AI_model.dart';
 
@@ -6,17 +6,17 @@ part of 'card__with_AI_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
+class CardWithAIModelAdapter extends TypeAdapter<AICardModel> {
   @override
   final int typeId = 2;
 
   @override
-  CardWithAIModel read(BinaryReader reader) {
+  AICardModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CardWithAIModel(
+    return AICardModel(
       id: fields[0] as String,
       word: fields[5] as String,
       type: fields[6] as String,
@@ -33,7 +33,7 @@ class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
   }
 
   @override
-  void write(BinaryWriter writer, CardWithAIModel obj) {
+  void write(BinaryWriter writer, AICardModel obj) {
     writer
       ..writeByte(12)
       ..writeByte(0)
@@ -72,3 +72,4 @@ class CardWithAIModelAdapter extends TypeAdapter<CardWithAIModel> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+*/

@@ -6,57 +6,90 @@ import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/item_of
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
+// 📁 widgets/row_of_difficulty_button.dart
+
 class RowOfDifficultyButton extends StatelessWidget {
+  final Function(int quality) onRating;
+
   const RowOfDifficultyButton({
     super.key,
-    required this.card,
-    required this.showAnswer,
-    required this.currentIndex,
-    required this.onNextCard,
-    required this.collectionId,
+    required this.onRating,
   });
-
-  final BaseCardEntity card;
-  final bool showAnswer;
-  final int currentIndex;
-  final VoidCallback onNextCard;
-  final String collectionId;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 20.h),
+      padding: EdgeInsets.only(bottom: 20.h, right: 16.w, left: 16.w),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ItemOfDifficultyButton(
-            text: S.of(context).easy,
-            color: Colors.green,
-            onPressed: () => submitRating(context, card, 5),
-          ),
-          ItemOfDifficultyButton(
-            text: S.of(context).medium,
-            color: Colors.blue,
-            onPressed: () => submitRating(context, card, 3),
-          ),
-          ItemOfDifficultyButton(
-            text: S.of(context).hard,
-            color: Colors.orange,
-            onPressed: () => submitRating(context, card, 1),
-          ),
-          ItemOfDifficultyButton(
-            text: S.of(context).again,
+          _RatingBtn(
+            label: S.of(context).again,
+            quality: 0,
             color: Colors.red,
-            onPressed: () => submitRating(context, card, 0),
+            onPressed: () => onRating(0),
+          ),
+          _RatingBtn(
+            label: S.of(context).hard,
+            quality: 1,
+            color: Colors.orange,
+            onPressed: () => onRating(1),
+          ),
+          _RatingBtn(
+            label: 'S.of(context).good',
+            quality: 3,
+            color: Colors.blue,
+            onPressed: () => onRating(3),
+          ),
+          _RatingBtn(
+            label: S.of(context).easy,
+            quality: 4,
+            color: Colors.green,
+            onPressed: () => onRating(4),
           ),
         ],
       ),
     );
   }
+}
 
-  void submitRating(BuildContext context, BaseCardEntity card, int quality) {
-    final cubit = context.read<FetchAndRatingCubit>();
-    cubit.submitRating(card, quality);
+class _RatingBtn extends StatelessWidget {
+  final String label;
+  final int quality;
+  final Color color;
+  final VoidCallback onPressed;
 
-    onNextCard(); // 👈 تروح للكارت اللي بعده فوراً
+  const _RatingBtn({
+    required this.label,
+    required this.quality,
+    required this.color,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4.w),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            padding: EdgeInsets.symmetric(vertical: 12.h),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+          ),
+          onPressed: onPressed,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

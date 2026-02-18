@@ -1,13 +1,14 @@
 //import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_card.dart';
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/custom_cached_image.dart';
 
 class FrontSide extends StatelessWidget {
   const FrontSide({super.key, required this.card});
-  final BaseCardEntity card;
+  final AICardEntity card;
 
   @override
   Widget build(BuildContext context) {

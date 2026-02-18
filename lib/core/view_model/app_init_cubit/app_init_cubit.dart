@@ -22,8 +22,8 @@ class AppInitCubit extends Cubit<AppInitState> {
       await Hive.initFlutter();
       Hive.registerAdapter(UserModelAdapter());
       Hive.registerAdapter(CollectionModelAdapter());
-      Hive.registerAdapter(CardWithAIModelAdapter());
-      Hive.registerAdapter(NormalCardModelAdapter());
+  //    Hive.registerAdapter(CardWithAIModelAdapter());
+   //   Hive.registerAdapter(NormalCardModelAdapter());
       Hive.registerAdapter(TimestampAdapter());
 
       await Hive.openBox<UserModel>(K_USER_BOX);

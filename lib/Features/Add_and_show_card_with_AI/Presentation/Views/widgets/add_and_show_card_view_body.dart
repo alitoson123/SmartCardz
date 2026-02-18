@@ -162,9 +162,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                       builder: (context, addState) {
                         return AppButton(
                           text: S.of(context).addCard,
-                          onPressed: isLoading
-                              ? null
-                              : () => addAICards(state.card),
+                          onPressed: () => addAICards(state.card),
                           icon: Icons.add,
                         );
                       },
@@ -263,7 +261,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
   }
 
   // add ai cards
-  void addAICards(List<CardWithAIEntity> cards) {
+  void addAICards(List<AICardEntity> cards) {
     final theWord = textController.text.trim();
 
     // check if the text field is empty or the collection is not selected

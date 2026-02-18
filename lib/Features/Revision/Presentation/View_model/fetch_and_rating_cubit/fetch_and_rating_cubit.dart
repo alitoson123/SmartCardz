@@ -1,4 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+/*import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_states.dart';
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
@@ -70,3 +70,4 @@ class FetchAndRatingCubit extends Cubit<FetchAndRatingStates> {
     await revisionRepoImpl.submitRating(card, quality);
   }
 }
+*/

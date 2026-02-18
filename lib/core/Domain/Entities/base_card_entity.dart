@@ -1,38 +1,56 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hive_flutter/adapters.dart';
+// 📁 domain/entities/base_card_entity.dart
 
-abstract class BaseCardEntity extends HiveObject {
-  /// 🆔 Unique identifier for the card document in Firestore
-  String get id => '';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
+import 'package:smart_cards/Features/Add_normal_card/Domain/Entities/normal_card_entity.dart';
 
-  /// 🪄 Core properties that all cards must have
-  String get frontSide => '';
-  String get backSide => '';
-  String get frontImageUrl => '';
-  String get backImageUrl => '';
+enum CardState { newCard, learning, review, relearning }
 
-  /// 📦 Metadata
-  String get collectionId => '';
-  Timestamp? get nextReview => null;
+/// Base class for all card types
+abstract class BaseCardEntity {
+  final String id;
+  final String collectionId;
 
-  /// 🤖 AI-specific properties (used only for AI cards)
-  String get word => '';
-  String get type => '';
-  String get definition => '';
-  String? get image_url => '';
-  List<String> get example => [];
-  bool get is_valid => false ;
+  // ══════════════════════════════
+  //   SM-2 Fields (مشتركة)
+  // ══════════════════════════════
+  final CardState state;
+  final double ease;
+  final int interval;
+  final int repetition;
+  final int currentStep;
+  final int lapses;
+  final DateTime dueDate;
 
-  /// 🧠 SM-2 algorithm properties
-  int get repetition => 0;
-  double get easiness => 2.5;
-  int get interval => 0;
-  int? againCount;
+  const BaseCardEntity({
+    required this.id,
+    required this.collectionId,
+    this.state = CardState.newCard,
+    this.ease = 2.5,
+    this.interval = 0,
+    this.repetition = 0,
+    this.currentStep = 0,
+    this.lapses = 0,
+    required this.dueDate,
+  });
 
-  /// 📦 Card type (ai / normal)
-  String get cardType => 'unknown';
+  // ✅ كل نوع يعرّف الـ copyWith بتاعه
+  BaseCardEntity copyWith({
+    CardState? state,
+    double? ease,
+    int? interval,
+    int? repetition,
+    int? currentStep,
+    int? lapses,
+    DateTime? dueDate,
+  });
 
-  /// ⚙️ Helper getters
-  bool get isAICard => cardType == 'ai';
-  bool get isNormalCard => cardType == 'normal';
+  // ✅ Helper methods
+  bool get isDue => dueDate.isBefore(DateTime.now());
+  bool get isNew => state == CardState.newCard;
+  bool get isLearning => state == CardState.learning;
+  bool get isReview => state == CardState.review;
+
+  // ✅ للتمييز بين الأنواع
+  bool get isAICard => this is AICardEntity;
+  bool get isNormalCard => this is NormalCardEntity;
 }

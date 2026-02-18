@@ -28,13 +28,13 @@ void setup() {
       ),
     ),
   );
-  getIt.registerLazySingleton<RevisionRepoImpl>(
+ /* getIt.registerLazySingleton<RevisionRepoImpl>(
     () => RevisionRepoImpl(
       revisionRemoteDataSaource: RevisionRemoteDataSourceImpl(
         appServices: getIt<AppServices>(),
       ),
     ),
-  );
+  );*/
   getIt.registerLazySingleton<NormalCardRepoImpl>(
     () => NormalCardRepoImpl(
       normalCardRemoteDataSourceImpl: NormalCardRemoteDataSourceImpl(

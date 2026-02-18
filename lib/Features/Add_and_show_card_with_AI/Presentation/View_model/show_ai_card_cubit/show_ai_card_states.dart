@@ -7,7 +7,7 @@ class ShowAICardInitial extends ShowAICardStates {}
 class ShowAICardLoading extends ShowAICardStates {}
 
 class ShowAICardSuccess extends ShowAICardStates {
-  final List<CardWithAIEntity> card;
+  final List<AICardEntity> card;
 
   ShowAICardSuccess({required this.card});
 }

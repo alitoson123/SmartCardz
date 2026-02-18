@@ -13,9 +13,8 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
 
   ShowCardRemoteDataSourceImpl({required this.appServices});
 
-
   @override
-  Future<List<CardWithAIEntity>> showCard({
+  Future<List<AICardEntity>> showCard({
     required String word,
     required String language,
   }) async {
@@ -27,10 +26,10 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
 
     // https://smartcardz-ai-eq1y.onrender.com/generate/$word
     // If result is a single Map, convert it directly to CardModel
-    List<CardWithAIEntity> cards = [];
+    List<AICardEntity> cards = [];
 
     for (var item in result) {
-      cards.add(CardWithAIModel.fromJson(item));
+      cards.add(AICardModel.fromJson(item));
     }
 
     return cards;
@@ -48,20 +47,21 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
     await appServices.addCard(
       collectionId: collectionId,
       cardData: {
-        'card_type': 'ai',
+   //     'card_type': 'ai',
         'word': word,
         'definition': definition,
         'example': example,
         'type': type,
         'image_url': image_url,
-        // قيم SM-2 المبدئية
-        'repetition': 0,
-        'easiness': 2.5,
+        // ── SM-2 Default Values ──
+        'state': 'newCard',
+        'ease': 2.5,
         'interval': 0,
-        'next_review': Timestamp.fromDate(DateTime.now()),
-        'created_at': FieldValue.serverTimestamp(),
+        'repetition': 0,
+        'current_step': 0,
+        'lapses': 0,
+        'due_date': Timestamp.now(), // متاح فوراً للمراجعة
       },
     );
   }
 }
-

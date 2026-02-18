@@ -1,4 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
+/*// GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'normal_card_model.dart';
 
@@ -19,14 +19,17 @@ class NormalCardModelAdapter extends TypeAdapter<NormalCardModel> {
     return NormalCardModel(
       id: fields[0] as String,
       repetition: fields[1] as int,
-      easiness: fields[2] as double,
+      ease: fields[2] as double,
       interval: fields[3] as int,
-      nextReview: fields[4] as Timestamp?,
+      dueDate: fields[4] as DateTime,
       frontSide: fields[5] as String,
       backSide: fields[6] as String,
       frontImageUrl: fields[7] as String,
       backImageUrl: fields[8] as String,
-      collectionId: fields[9] as String,
+      deckId: fields[9] as String,
+      state: fields[10] as CardState,
+      currentStep: fields[11] as int,
+      lapses: fields[12] as int,
     );
   }
 
@@ -66,3 +69,4 @@ class NormalCardModelAdapter extends TypeAdapter<NormalCardModel> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+*/

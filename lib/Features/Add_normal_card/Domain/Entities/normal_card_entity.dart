@@ -1,23 +1,53 @@
+// 📁 domain/entities/normal_card_entity.dart
+
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
 class NormalCardEntity extends BaseCardEntity {
-  @override
   final String frontSide;
-  @override
   final String backSide;
-  @override
   final String frontImageUrl;
-  @override
   final String backImageUrl;
 
-  NormalCardEntity({
+  const NormalCardEntity({
+    required super.id,
+    required super.collectionId,
     required this.frontSide,
     required this.backSide,
-    required this.frontImageUrl,
-    required this.backImageUrl,
+    this.frontImageUrl = '',
+    this.backImageUrl = '',
+    super.state,
+    super.ease,
+    super.interval,
+    super.repetition,
+    super.currentStep,
+    super.lapses,
+    required super.dueDate,
   });
 
-  // Override card type identification
   @override
-  String get cardType => 'normal';
+  NormalCardEntity copyWith({
+    CardState? state,
+    double? ease,
+    int? interval,
+    int? repetition,
+    int? currentStep,
+    int? lapses,
+    DateTime? dueDate,
+  }) {
+    return NormalCardEntity(
+      id: id,
+      collectionId: collectionId,
+      frontSide: frontSide,
+      backSide: backSide,
+      frontImageUrl: frontImageUrl,
+      backImageUrl: backImageUrl,
+      state: state ?? this.state,
+      ease: ease ?? this.ease,
+      interval: interval ?? this.interval,
+      repetition: repetition ?? this.repetition,
+      currentStep: currentStep ?? this.currentStep,
+      lapses: lapses ?? this.lapses,
+      dueDate: dueDate ?? this.dueDate,
+    );
+  }
 }

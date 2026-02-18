@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/Remote_data_source/add_and_show_card_remote_data_source.dart';
@@ -12,7 +11,7 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
   AddAndShowCardRepoImpl({required this.addAndShowCardRemoteDataSource});
 
   @override
-  Future<Either<Failure, List<CardWithAIEntity>>> showCard({
+  Future<Either<Failure, List<AICardEntity>>> showCard({
     required String word,
     required String language,
   }) async {

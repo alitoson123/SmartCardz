@@ -10,7 +10,7 @@ class AddAICardCubit extends Cubit<AddAICardStates> {
   final AddAndShowCardRepoImpl addAndShowCardRepoImpl;
 
   Future<void> addAllAICards({
-    required List<CardWithAIEntity> cards,
+    required List<AICardEntity> cards,
     required String collectionId,
   }) async {
     emit(AddAICardLoading());

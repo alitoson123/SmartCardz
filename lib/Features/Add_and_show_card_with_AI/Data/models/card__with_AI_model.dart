@@ -2,95 +2,126 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
 import 'package:hive/hive.dart';
-part 'card__with_AI_model.g.dart';
+import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
+//part 'card__with_AI_model.g.dart';
 
 @HiveType(typeId: 2)
-class CardWithAIModel extends CardWithAIEntity {
-  @HiveField(0)
-  @override
-  final String id;
+class AICardModel extends AICardEntity {
+    const AICardModel({
+    required super.id,
+    required super.collectionId,
+    required super.word,
+    required super.type,
+    required super.definition,
+    required super.example,
+    super.image_url,
+    super.is_valid,
+    super.state,
+    super.ease,
+    super.interval,
+    super.repetition,
+    super.currentStep,
+    super.lapses,
+    required super.dueDate,
+  });
 
-  // SM-2 fields
-  @HiveField(1)
-  @override
-  final int repetition; // number of consecutive successful reviews
-  @HiveField(2)
-  @override
-  final double easiness; // easiness factor
-  @HiveField(3)
-  @override
-  final int interval; // days until next review
-  @HiveField(4)
-  @override
-  final Timestamp? nextReview; // Firestore timestamp for next review
-  @HiveField(10)
-  @override
-  final String collectionId;
-  @HiveField(5)
-  @override
-  final String word;
-  @HiveField(6)
-  @override
-  final String type;
-  @HiveField(7)
-  @override
-  final String definition;
-  @HiveField(8)
-  @override
-  final List<String> example;
-  @HiveField(9)
-  @override
-  final String image_url;
-  @HiveField(11)
-  @override
-  final bool is_valid;
-
-  CardWithAIModel({
-    required this.id,
-    required this.word,
-    required this.type,
-    required this.definition,
-    required this.example,
-    required this.image_url,
-    required this.repetition,
-    required this.easiness,
-    required this.interval,
-    required this.nextReview,
-    required this.collectionId,
-    required this.is_valid,
-  }) : super(
-         word: word,
-         type: type,
-         definition: definition,
-         example: example,
-         image_url: image_url,
-         is_valid: is_valid,
-       );
 
   /// From a simple JSON (e.g., from AI/mock). Sets sane SM-2 defaults.
-  factory CardWithAIModel.fromJson(
-    Map<String, dynamic> json, {
-    String id = '',
-  }) {
-    return CardWithAIModel(
+  factory AICardModel.fromJson(Map<String, dynamic> json, {String id = ''}) {
+    return AICardModel(
       id: id,
+      image_url: _convertDriveUrl(json['URL'] ?? '') ?? '',
+      definition: json['description'] ?? '',
       word: json['word'] ?? '',
       type: (json['type'] ?? '') as String,
-      definition: json['description'] ?? '',
       example: _parseExamples(json['examples']),
-      image_url: _convertDriveUrl(json['URL'] ?? '') ?? '',
-      repetition: (json['repetition'] ?? 0) as int,
-      easiness: (json['easiness'] ?? 2.5).toDouble(),
-      interval: (json['interval'] ?? 0) as int,
-      nextReview: json['next_review'] is Timestamp
-          ? json['next_review'] as Timestamp
-          : (json['next_review'] != null
-                ? Timestamp.fromDate(DateTime.parse(json['next_review']))
-                : null),
-      collectionId: json['collectionId'] ?? '',
       is_valid: json['is_valid'] ?? false,
+      collectionId: json['collectionId'] ?? '',
+      state: _stateFromString(json['state'] ?? 'newCard'),
+      ease: (json['ease'] ?? 2.5).toDouble(),
+      interval: json['interval'] ?? 0,
+      repetition: json['repetition'] ?? 0,
+      currentStep: json['current_step'] ?? 0,
+      lapses: json['lapses'] ?? 0,
+      dueDate: (json['due_date'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
+
+  /// From Firestore DocumentSnapshot
+  factory AICardModel.fromFirestore(DocumentSnapshot doc) {
+    final m = doc.data() as Map<String, dynamic>;
+    return AICardModel(
+      id: doc.id,
+      word: m['word'] ?? '',
+      type: m['type'] ?? '[]',
+      definition: m['definition'] ?? '',
+      example: (m['example'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      image_url: m['image_url'] ?? '',
+      collectionId: m['collectionId'] ?? '',
+      is_valid: m['is_valid'] ?? false,
+      state: _stateFromString(m['state'] ?? 'newCard'),
+      ease: (m['ease'] ?? 2.5).toDouble(),
+      interval: m['interval'] ?? 0,
+      repetition: m['repetition'] ?? 0,
+      currentStep: m['current_step'] ?? 0,
+      lapses: m['lapses'] ?? 0,
+      dueDate: (m['due_date'] as Timestamp?)?.toDate() ?? DateTime.now(),
+    );
+  }
+
+  
+
+  Map<String, dynamic> toFirestore() => {
+    'word': word,
+    'type': type,
+    'definition': definition,
+    'example': example,
+    'image_url': image_url,
+    'is_valid': is_valid,
+    'collectionId': collectionId,
+          'is_ai_card': true,  // ✅ للتمييز
+
+    'state': state.name, // 'newCard', 'learning', etc.
+    'ease': ease,
+    'interval': interval,
+    'repetition': repetition,
+    'current_step': currentStep,
+    'lapses': lapses,
+    'due_date': Timestamp.fromDate(dueDate),
+    'last_reviewed': FieldValue.serverTimestamp(),
+  };
+
+   factory AICardModel.fromEntity(AICardEntity entity) {
+    return AICardModel(
+      id: entity.id,
+      word: entity.word,
+      type: entity.type,
+      definition: entity.definition,
+      example: entity.example,
+      image_url: entity.image_url,
+      is_valid: entity.is_valid,
+      collectionId: entity.collectionId,
+      state: entity.state,
+      ease: entity.ease,
+      interval: entity.interval,
+      repetition: entity.repetition,
+      currentStep: entity.currentStep,
+      lapses: entity.lapses,
+      dueDate: entity.dueDate,
+    );
+  }
+
+
+  // ══════════════════════════════
+  //   Helper
+  // ══════════════════════════════
+  static CardState _stateFromString(String s) {
+    return CardState.values.firstWhere(
+      (e) => e.name == s,
+      orElse: () => CardState.newCard,
+    );
+  }
+
 
   static List<String> _parseExamples(dynamic input) {
     if (input == null) return [];
@@ -114,69 +145,7 @@ class CardWithAIModel extends CardWithAIEntity {
     return [];
   }
 
-  /// From Firestore DocumentSnapshot
-  factory CardWithAIModel.fromDoc(DocumentSnapshot doc) {
-    final m = doc.data() as Map<String, dynamic>;
-    return CardWithAIModel(
-      id: doc.id,
-      word: m['word'] ?? '',
-      type: m['type'] ?? '[]',
-      definition: m['definition'] ?? '',
-      example: (m['example'] as List?)?.map((e) => e.toString()).toList() ?? [],
-      image_url: m['image_url'] ?? '',
-      repetition: (m['repetition'] ?? 0) as int,
-      easiness: (m['easiness'] ?? 2.5).toDouble(),
-      interval: (m['interval'] ?? 0) as int,
-      nextReview: m['next_review'] as Timestamp?,
-      collectionId: m['collectionId'] ?? '',
-      is_valid: m['is_valid'] ?? false,
-    );
-  }
-
-  Map<String, dynamic> toMap() => {
-    'word': word,
-    'type': type,
-    'definition': definition,
-    'example': example,
-    'image_url': image_url,
-    'repetition': repetition,
-    'easiness': easiness,
-    'interval': interval,
-    'next_review': nextReview,
-    'collectionId': collectionId,
-  };
-
-  CardWithAIModel copyWith({
-    String? id,
-    int? repetition,
-    double? easiness,
-    int? interval,
-    Timestamp? nextReview,
-    String? collectionId,
-    String? word,
-    String? type,
-    String? definition,
-    List<String>? example,
-    String? image_url,
-    bool? is_valid,
-  }) {
-    return CardWithAIModel(
-      id: id ?? this.id,
-      repetition: repetition ?? this.repetition,
-      easiness: easiness ?? this.easiness,
-      interval: interval ?? this.interval,
-      nextReview: nextReview ?? this.nextReview,
-      collectionId: collectionId ?? this.collectionId,
-      word: word ?? this.word,
-      type: type ?? this.type,
-      definition: definition ?? this.definition,
-      example: example ?? this.example,
-      image_url: image_url ?? this.image_url,
-      is_valid: is_valid ?? this.is_valid,
-    );
-  }
-
-  static String? _convertDriveUrl(String? url) {
+    static String? _convertDriveUrl(String? url) {
     if (url == null || url.isEmpty) return url;
     if (!url.contains('drive.google.com')) return url;
 
@@ -198,4 +167,5 @@ class CardWithAIModel extends CardWithAIEntity {
     }
     return url;
   }
+
 }

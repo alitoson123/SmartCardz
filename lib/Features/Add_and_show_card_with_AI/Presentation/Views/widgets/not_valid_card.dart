@@ -7,7 +7,7 @@ import 'package:smart_cards/generated/l10n.dart';
 class NotValidCard extends StatelessWidget {
   const NotValidCard({super.key, required this.card});
 
-  final CardWithAIEntity card;
+  final AICardEntity card;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class NotValidCard extends StatelessWidget {
                 TextSpan(text: '  '),
                 // this word is not valid try to fix the spelling
                 TextSpan(
-                  text: S.of(context).isNotValidTryToFixTheSpelling, 
+                  text: S.of(context).isNotValidTryToFixTheSpelling,
                   style: TextStyle(
                     fontSize: 19.sp,
                     color: Colors.grey.shade800,

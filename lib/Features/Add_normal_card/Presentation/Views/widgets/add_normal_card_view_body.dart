@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/custom_selection.dart';
 import 'package:smart_cards/core/services/image_service/picking_an_image.dart';
 import 'package:smart_cards/core/services/image_service/put_image_and_get_url.dart';
@@ -376,6 +377,25 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
       // Add card to Firestore
       if (mounted) {
+        /*final repo = RevisionRepo();
+  
+  
+    final cardId = await repo.addCard(
+      deckId: selectedCollectionId!,
+      question: frontSide,
+      answer: backSide,
+      questionImageUrl: frontImageUrl,
+      answerImageUrl: backImageUrl,
+      questionImagePath: frontImageRef?.fullPath,
+      answerImagePath: backImageRef?.fullPath,
+    );
+    
+    print('✅ تم إضافة الكارت: $cardId');
+    */
+        // رجوع أو أي action
+    //    Navigator.pop(context);
+
+        ///
         context.read<NormalCardCubit>().addNormalCard(
           frontSide: frontSide,
           backSide: backSide,

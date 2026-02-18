@@ -22,20 +22,71 @@ class NormalCardRemoteDataSourceImpl extends NormalCardRemoteDataSource {
       collectionId: collectionId,
       cardId: cardId,
       cardData: {
-        'card_type': 'normal',
+        // 1. البيانات الأساسية
+     //   'card_type': 'normal',
         'front_side': frontSide,
         'back_side': backSide,
         'front_image_url': frontImageUrl,
         'back_image_url': backImageUrl,
         'front_image_path': frontImagePath,
         'back_image_path': backImagePath,
-        // قيم SM-2 المبدئية
-        'repetition': 0,
-        'easiness': 2.5,
+
+        // ── SM-2 Default Values ──
+        'state': 'newCard',
+        'ease': 2.5,
         'interval': 0,
-        'next_review': Timestamp.fromDate(DateTime.now()),
-        'created_at': FieldValue.serverTimestamp(),
+        'repetition': 0,
+        'current_step': 0,
+        'lapses': 0,
+        'due_date': Timestamp.now(), // متاح فوراً للمراجعة
       },
     );
   }
 }
+
+/*Future<String> addCard({
+  required String deckId,
+  required String question,
+  required String answer,
+  String? questionImageUrl,
+  String? answerImageUrl,
+  String? questionImagePath,
+  String? answerImagePath,
+}) async {
+  try {
+    // 1. إنشاء Document جديد
+    final docRef = _firestore.collection('cards').doc();
+
+    // 2. البيانات الأساسية
+    final cardData = {
+      'collectionId': deckId,
+      'question': question,
+      'answer': answer,
+
+      // Images (اختياري)
+      'question_image_url': questionImageUrl ?? '',
+      'answer_image_url': answerImageUrl ?? '',
+      'question_image_path': questionImagePath ?? '',
+      'answer_image_path': answerImagePath ?? '',
+
+      // ── SM-2 Default Values ──
+      'state': 'newCard',
+      'ease': 2.5,
+      'interval': 0,
+      'repetition': 0,
+      'current_step': 0,
+      'lapses': 0,
+      'due_date': Timestamp.now(), // متاح فوراً للمراجعة
+      // Metadata
+      'created_at': FieldValue.serverTimestamp(),
+      'user_id': FirebaseAuth.instance.currentUser?.uid ?? '',
+    };
+
+    // 3. حفظ
+    await docRef.set(cardData);
+
+    return docRef.id; // ✅ ارجع الـ ID
+  } catch (e) {
+    throw Exception('فشل إضافة الكارت: $e');
+  }
+}*/
