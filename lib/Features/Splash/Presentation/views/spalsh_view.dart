@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -35,17 +36,37 @@ class _SplashViewState extends State<SplashView> {
             context.read<ThemeCubit>().loadInitialTheme();
             context.read<AppLanguageCubit>().loadInitialLanguage();
 
-            final isLogin = SharedPreferencesService.instance.getBool(
+            final isLoginPref = SharedPreferencesService.instance.getBool(
               K_IS_LOGIN,
             );
+            final firebaseUser = FirebaseAuth.instance.currentUser;
+
+            // Both must agree the user is authenticated.
+            // On Android, SharedPreferences can be restored via Auto Backup
+            // after reinstall while the Firebase session also persists —
+            // producing a stale "logged-in" state with no real session.
+            // We therefore treat the user as logged in only when BOTH agree.
+            final isLoggedIn = isLoginPref == true && firebaseUser != null;
 
             await Future.delayed(const Duration(milliseconds: 500));
 
             if (!mounted) return;
 
-            if (isLogin == true) {
+            if (isLoggedIn) {
               context.go(AppRoutes.homeScreen);
             } else {
+              // If Firebase still has a stale session (e.g., from Android backup
+              // restoring K_IS_LOGIN while Firebase token was persisted), clean it.
+              if (firebaseUser != null) {
+                await FirebaseAuth.instance.signOut();
+              }
+              // Also clear the stale pref flag if it somehow survived.
+              if (isLoginPref == true) {
+                await SharedPreferencesService.instance.setBool(
+                  K_IS_LOGIN,
+                  false,
+                );
+              }
               context.go(AppRoutes.onBoardingPage);
             }
           }

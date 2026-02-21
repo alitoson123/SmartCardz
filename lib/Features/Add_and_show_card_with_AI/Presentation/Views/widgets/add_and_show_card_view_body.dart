@@ -118,6 +118,13 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                       ],
                     ),
                   SizedBox(height: 6.h),
+                  if (state is ShowAICardInitial)
+                    AppButton(
+                      text: 'Generate',
+                      onPressed: () => aiCardGeneration(textController.text),
+                      icon: Icons.auto_awesome,
+                    ),
+                  SizedBox(height: 6.h),
                   //***************************************************** */
                   //   Preview section
                   if (state is ShowAICardSuccess)
