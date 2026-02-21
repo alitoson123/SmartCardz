@@ -49,8 +49,7 @@ class NormalCardModel extends NormalCardEntity {
       'front_image_url': frontImageUrl,
       'back_image_url': backImageUrl,
       'collectionId': collectionId,
-            'is_ai_card': false,  // ✅ للتمييز
-
+      'is_ai_card': false, // ✅ للتمييز
       'state': state.name, // 'newCard', 'learning', etc.
       'ease': ease,
       'interval': interval,

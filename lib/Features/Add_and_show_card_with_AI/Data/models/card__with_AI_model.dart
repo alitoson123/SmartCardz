@@ -7,7 +7,7 @@ import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
 @HiveType(typeId: 2)
 class AICardModel extends AICardEntity {
-    const AICardModel({
+  const AICardModel({
     required super.id,
     required super.collectionId,
     required super.word,
@@ -24,7 +24,6 @@ class AICardModel extends AICardEntity {
     super.lapses,
     required super.dueDate,
   });
-
 
   /// From a simple JSON (e.g., from AI/mock). Sets sane SM-2 defaults.
   factory AICardModel.fromJson(Map<String, dynamic> json, {String id = ''}) {
@@ -69,8 +68,6 @@ class AICardModel extends AICardEntity {
     );
   }
 
-  
-
   Map<String, dynamic> toFirestore() => {
     'word': word,
     'type': type,
@@ -79,8 +76,7 @@ class AICardModel extends AICardEntity {
     'image_url': image_url,
     'is_valid': is_valid,
     'collectionId': collectionId,
-          'is_ai_card': true,  // ✅ للتمييز
-
+    'is_ai_card': true, // ✅ للتمييز
     'state': state.name, // 'newCard', 'learning', etc.
     'ease': ease,
     'interval': interval,
@@ -91,7 +87,7 @@ class AICardModel extends AICardEntity {
     'last_reviewed': FieldValue.serverTimestamp(),
   };
 
-   factory AICardModel.fromEntity(AICardEntity entity) {
+  factory AICardModel.fromEntity(AICardEntity entity) {
     return AICardModel(
       id: entity.id,
       word: entity.word,
@@ -111,7 +107,6 @@ class AICardModel extends AICardEntity {
     );
   }
 
-
   // ══════════════════════════════
   //   Helper
   // ══════════════════════════════
@@ -121,7 +116,6 @@ class AICardModel extends AICardEntity {
       orElse: () => CardState.newCard,
     );
   }
-
 
   static List<String> _parseExamples(dynamic input) {
     if (input == null) return [];
@@ -145,7 +139,7 @@ class AICardModel extends AICardEntity {
     return [];
   }
 
-    static String? _convertDriveUrl(String? url) {
+  static String? _convertDriveUrl(String? url) {
     if (url == null || url.isEmpty) return url;
     if (!url.contains('drive.google.com')) return url;
 
@@ -167,5 +161,4 @@ class AICardModel extends AICardEntity {
     }
     return url;
   }
-
 }

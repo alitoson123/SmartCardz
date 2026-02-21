@@ -2,11 +2,10 @@
 
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
-
 class Sm2Scheduler {
 
   // ══════════════════════════════════════════════════
-  //   Config - تقدر تغيرها حسب التطبيق بتاعك
+  //   Config
   // ══════════════════════════════════════════════════
   static const List<int> _learningSteps = [1, 10];   // دقايق
   static const List<int> _relearnSteps  = [10];       // دقايق
@@ -18,11 +17,10 @@ class Sm2Scheduler {
   static const double _minEase            = 1.3;
 
   // ══════════════════════════════════════════════════
-  //   الـ Method الوحيدة اللي هتستخدمها
-  //   بتاخد كارت + تقييم ──► بترجع كارت محدث
+  //   الـ Method الرئيسية
   // ══════════════════════════════════════════════════
-  static BaseCardEntity  schedule({
-    required BaseCardEntity  card,
+  static BaseCardEntity schedule({
+    required BaseCardEntity card,
     required int quality,   // 0=Again | 1=Hard | 3=Good | 4=Easy
   }) {
     switch (card.state) {
@@ -40,7 +38,7 @@ class Sm2Scheduler {
   // ══════════════════════════════════════════════════
   //   1. NEW CARD
   // ══════════════════════════════════════════════════
-  static BaseCardEntity  _handleNew(BaseCardEntity  card, int quality) {
+  static BaseCardEntity _handleNew(BaseCardEntity card, int quality) {
     if (quality == 4) {
       // Easy ──► تخرج فوراً للـ Review
       return card.copyWith(
@@ -60,7 +58,20 @@ class Sm2Scheduler {
       );
     }
 
-    // Good / Hard ──► ابدأ Learning
+    // ✅ Hard (1) أو Good (3) ──► ابدأ Learning
+    // Hard يبدأ من نفس المكان بس بيخفض الـ ease شوية
+    if (quality == 1) {
+      // Hard ──► ابدأ Learning مع تخفيض الـ ease
+      final newEase = (card.ease - 0.15).clamp(_minEase, 2.5);
+      return card.copyWith(
+        state: CardState.learning,
+        currentStep: 0,
+        ease: double.parse(newEase.toStringAsFixed(2)),
+        dueDate: _minutesFromNow(_learningSteps[0]),
+      );
+    }
+
+    // Good (3) ──► ابدأ Learning عادي
     return card.copyWith(
       state: CardState.learning,
       currentStep: 0,
@@ -71,7 +82,7 @@ class Sm2Scheduler {
   // ══════════════════════════════════════════════════
   //   2. LEARNING CARD
   // ══════════════════════════════════════════════════
-  static BaseCardEntity  _handleLearning(BaseCardEntity  card, int quality) {
+  static BaseCardEntity _handleLearning(BaseCardEntity card, int quality) {
     if (quality == 0) {
       // Again ──► ارجع لأول Step
       return card.copyWith(
@@ -80,7 +91,15 @@ class Sm2Scheduler {
       );
     }
 
-    // Good أو Easy ──► اتقدم للـ Step الجاي
+    // ✅ Hard Logic في Learning
+    if (quality == 1) {
+      // Hard ──► كرر الـ Step الحالي بدل ما تتقدم
+      return card.copyWith(
+        dueDate: _minutesFromNow(_learningSteps[card.currentStep]),
+      );
+    }
+
+    // Good (3) أو Easy (4) ──► اتقدم للـ Step الجاي
     final nextStep = card.currentStep + 1;
 
     // لو خلصت كل الـ Steps ──► GRADUATE
@@ -105,7 +124,7 @@ class Sm2Scheduler {
   // ══════════════════════════════════════════════════
   //   3. REVIEW CARD  ◄── قلب SM-2
   // ══════════════════════════════════════════════════
-  static BaseCardEntity  _handleReview(BaseCardEntity  card, int quality) {
+  static BaseCardEntity _handleReview(BaseCardEntity card, int quality) {
 
     // ────────────────────────────
     //   Again ──► Relearning
@@ -147,7 +166,6 @@ class Sm2Scheduler {
     // ────────────────────────────
     //   احسب الـ Ease الجديد
     // ────────────────────────────
-    // المعادلة: e + (0.1 - (5-q) × (0.08 + (5-q) × 0.02))
     final double newEase = (
       card.ease + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
     ).clamp(_minEase, 2.5);
@@ -168,7 +186,7 @@ class Sm2Scheduler {
   // ══════════════════════════════════════════════════
   //   4. RELEARNING CARD
   // ══════════════════════════════════════════════════
-  static BaseCardEntity  _handleRelearning(BaseCardEntity  card, int quality) {
+  static BaseCardEntity _handleRelearning(BaseCardEntity card, int quality) {
     if (quality == 0) {
       // Again ──► ابقى في Relearning
       return card.copyWith(
@@ -177,7 +195,15 @@ class Sm2Scheduler {
       );
     }
 
-    // Good / Easy ──► ارجع للـ Review
+    // ✅ Hard في Relearning
+    if (quality == 1) {
+      // Hard ──► كرر الـ step الحالي
+      return card.copyWith(
+        dueDate: _minutesFromNow(_relearnSteps[card.currentStep.clamp(0, _relearnSteps.length - 1)]),
+      );
+    }
+
+    // Good (3) / Easy (4) ──► ارجع للـ Review
     final interval = quality == 4 ? _easyInterval : _graduatingInterval;
     return card.copyWith(
       state: CardState.review,
