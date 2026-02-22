@@ -61,7 +61,13 @@ class CustomTextField extends StatelessWidget {
               prefixIcon: prefixIcon,
               suffixIcon: onImageTap != null
                   ? IconButton(
-                      icon: const Icon(Icons.image, color: Colors.blue),
+                      icon: Transform.rotate(
+                        angle: -0.5,
+                        child: Icon(
+                          Icons.attach_file,
+                          color: theme.primaryColor,
+                        ),
+                      ),
                       onPressed: onImageTap,
                     )
                   : suffixIcon,

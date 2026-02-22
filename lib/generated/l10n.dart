@@ -1048,6 +1048,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Enter Your Question`
+  String get EnterYourQuestion {
+    return Intl.message(
+      'Enter Your Question',
+      name: 'EnterYourQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Your Answer`
+  String get EnterYourAnswer {
+    return Intl.message(
+      'Enter Your Answer',
+      name: 'EnterYourAnswer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Your Information`
+  String get EnterYourInformation {
+    return Intl.message(
+      'Enter Your Information',
+      name: 'EnterYourInformation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

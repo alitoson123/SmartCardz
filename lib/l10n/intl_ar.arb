@@ -125,5 +125,8 @@
   "white": "أبيض",
   "color": "اللون",
   "pleaseEnterYour": "يرجى إدخال ",
-  "signInSuccessMessage": "تم تسجيل الدخول بنجاح"
+  "signInSuccessMessage": "تم تسجيل الدخول بنجاح",
+  "EnterYourQuestion": "أدخل سؤالك",
+  "EnterYourAnswer": "أدخل إجابتك",
+  "EnterYourInformation": "أدخل معلوماتك"
 }

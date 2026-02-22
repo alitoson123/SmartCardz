@@ -126,5 +126,8 @@
   "white": "White",
   "color": "Color",
   "pleaseEnterYour": "Please Enter Your ",
-  "signInSuccessMessage": "Sign In Successfully"
+  "signInSuccessMessage": "Sign In Successfully",
+  "EnterYourQuestion": "Enter Your Question",
+  "EnterYourAnswer": "Enter Your Answer",
+  "EnterYourInformation": "Enter Your Information"
 }

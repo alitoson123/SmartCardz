@@ -50,6 +50,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return SafeArea(
       child: BlocConsumer<ShowAICardCubit, ShowAICardStates>(
         listener: (context, state) {
@@ -102,7 +103,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                     onSubmitted: aiCardGeneration,
                     suffixIcon: IconButton(
                       icon: CircleAvatar(
-                        backgroundColor: Color(0xFF4A90E2),
+                        backgroundColor: theme.primaryColor,
                         radius: 18.r,
                         child: Icon(
                           Icons.arrow_upward,

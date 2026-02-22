@@ -81,8 +81,9 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
             //   Front Side Field
             CustomTextField(
               controller: frontSideController,
-              hint: S.of(context).FrontSide,
-              prefixIcon: Icon(Icons.edit),
+              hint: selectedTypeId == '1'
+                  ? S.of(context).EnterYourQuestion
+                  : S.of(context).EnterYourInformation,
               imagePath: frontImage,
               onImageCanel: () {
                 setState(() {
@@ -132,8 +133,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
               visible: selectedTypeId == '1', // only for Basic type
               child: CustomTextField(
                 controller: backSideController,
-                hint: S.of(context).BackSide,
-                prefixIcon: Icon(Icons.edit),
+                hint: S.of(context).EnterYourAnswer,
                 imagePath: backImage,
                 onImageCanel: () {
                   setState(() {

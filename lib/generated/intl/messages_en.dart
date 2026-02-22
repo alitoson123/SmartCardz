@@ -39,6 +39,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "EnterAnyWordsOrSentences": MessageLookupByLibrary.simpleMessage(
       "Enter any words or sentences in any language and get images, definitions, word type, and examples",
     ),
+    "EnterYourAnswer": MessageLookupByLibrary.simpleMessage(
+      "Enter Your Answer",
+    ),
+    "EnterYourInformation": MessageLookupByLibrary.simpleMessage(
+      "Enter Your Information",
+    ),
+    "EnterYourQuestion": MessageLookupByLibrary.simpleMessage(
+      "Enter Your Question",
+    ),
     "FrontSide": MessageLookupByLibrary.simpleMessage("Front Side"),
     "GenerateSmartFlashcards": MessageLookupByLibrary.simpleMessage(
       "Generate Smart Flashcards",

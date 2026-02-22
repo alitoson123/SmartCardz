@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Home/Data/Models/collection_model.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/Views/widgets/create_collection.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/list_of_collections.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_cards/Features/Home/Presentation/Views/widgets/no_collection_widget.dart';
+
 
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({super.key});
@@ -29,13 +30,18 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           .where('ownerId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .snapshots(),
       builder: (context, snapshot) {
-
         if (snapshot.connectionState == ConnectionState.waiting) {
-        return const Center(child: CircularProgressIndicator());
-}
+          return const Center(child: CircularProgressIndicator());
+        }
         final docs = snapshot.data?.docs ?? [];
         if (docs.isEmpty) {
-          return noCollectionWidget();
+          WidgetsBinding.instance.addPostFrameCallback((_) { // to prevent error of calling showDialog in build method
+            showDialog(// because it needs a widget and showDialog is a function 
+              context: context,
+              builder: (context) => const CreateCollectionDialog(),
+            );
+          });
+          return const SizedBox.shrink();
         }
 
         final collections = docs
