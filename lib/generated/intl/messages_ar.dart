@@ -58,10 +58,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "Notification": MessageLookupByLibrary.simpleMessage("الإشعارات"),
     "Password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "Plan": MessageLookupByLibrary.simpleMessage("الخطة"),
-    "PleaseFillAllFieldsAndSelectACollection":
-        MessageLookupByLibrary.simpleMessage(
-          "يرجى ملء جميع الحقول واختيار مجموعة",
-        ),
+    "PleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
+      "يرجى ملء جميع الحقول",
+    ),
+    "PleaseSelectACollection": MessageLookupByLibrary.simpleMessage(
+      "يرجى اختيار مجموعة",
+    ),
     "SomethingWentWrong": MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
     "actions": MessageLookupByLibrary.simpleMessage("الإجراءات"),
     "add": MessageLookupByLibrary.simpleMessage("إضافة"),

@@ -199,11 +199,21 @@ class S {
     );
   }
 
-  /// `Please fill all fields and select a collection`
-  String get PleaseFillAllFieldsAndSelectACollection {
+  /// `Please fill all fields`
+  String get PleaseFillAllFields {
     return Intl.message(
-      'Please fill all fields and select a collection',
-      name: 'PleaseFillAllFieldsAndSelectACollection',
+      'Please fill all fields',
+      name: 'PleaseFillAllFields',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a collection`
+  String get PleaseSelectACollection {
+    return Intl.message(
+      'Please select a collection',
+      name: 'PleaseSelectACollection',
       desc: '',
       args: [],
     );

@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/custom_selection.dart';
 import 'package:smart_cards/core/services/image_service/picking_an_image.dart';
 import 'package:smart_cards/core/services/image_service/put_image_and_get_url.dart';
@@ -83,7 +82,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
             CustomTextField(
               controller: frontSideController,
               hint: S.of(context).FrontSide,
-              icon: Icons.edit,
+              prefixIcon: Icon(Icons.edit),
               imagePath: frontImage,
               onImageCanel: () {
                 setState(() {
@@ -134,7 +133,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
               child: CustomTextField(
                 controller: backSideController,
                 hint: S.of(context).BackSide,
-                icon: Icons.edit,
+                prefixIcon: Icon(Icons.edit),
                 imagePath: backImage,
                 onImageCanel: () {
                   setState(() {
@@ -257,26 +256,48 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
     if (selectedTypeId == '1') {
       // Validation for missing fields in Basic type
       if ((frontSide.isEmpty && frontImage == null) ||
-          (backSide.isEmpty && backImage == null) ||
-          selectedCollectionId == null) {
+          (backSide.isEmpty && backImage == null)) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              S.of(context).PleaseFillAllFieldsAndSelectACollection,
+              S.of(context).PleaseFillAllFields,
+            ),
+            backgroundColor: Colors.red,
+        ),
+        );
+        return;
+      }
+
+        if (selectedCollectionId == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              S.of(context).PleaseSelectACollection,
+            ),
+            backgroundColor: Colors.red,
+        ),
+        );
+        return;
+      }
+    } else if (selectedTypeId == '2') {
+      // Validation for missing fields in front only type
+      if (frontSide.isEmpty && frontImage == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              S.of(context).PleaseFillAllFields,
             ),
             backgroundColor: Colors.red,
           ),
         );
         return;
       }
-    } else if (selectedTypeId == '2') {
-      // Validation for missing fields in front only type
-      if ((frontSide.isEmpty && frontImage == null) ||
-          selectedCollectionId == null) {
+
+      if (selectedCollectionId == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              S.of(context).PleaseFillAllFieldsAndSelectACollection,
+              S.of(context).PleaseSelectACollection,
             ),
             backgroundColor: Colors.red,
           ),

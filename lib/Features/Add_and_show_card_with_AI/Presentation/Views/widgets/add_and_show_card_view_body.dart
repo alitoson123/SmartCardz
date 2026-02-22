@@ -100,7 +100,18 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                   CustomTextField(
                     controller: textController,
                     onSubmitted: aiCardGeneration,
-                    icon: Icons.search_rounded,
+                    suffixIcon: IconButton(
+                      icon: CircleAvatar(
+                        backgroundColor: Color(0xFF4A90E2),
+                        radius: 18.r,
+                        child: Icon(
+                          Icons.arrow_upward,
+                          color: Colors.white,
+                          size: 22.sp,
+                        ),
+                      ),
+                      onPressed: () => aiCardGeneration(textController.text),
+                    ),
                     hint: S.of(context).enterWordToGenerate,
                   ),
                   SizedBox(height: 16.h),
@@ -116,13 +127,6 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                           textAlign: TextAlign.left,
                         ),
                       ],
-                    ),
-                  SizedBox(height: 6.h),
-                  if (state is ShowAICardInitial)
-                    AppButton(
-                      text: 'Generate',
-                      onPressed: () => aiCardGeneration(textController.text),
-                      icon: Icons.auto_awesome,
                     ),
                   SizedBox(height: 6.h),
                   //***************************************************** */
@@ -239,17 +243,27 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
 
   // ai card generation
   Future<void> aiCardGeneration(String value) async {
+    // dismiss the keyboard
+    FocusScope.of(context).unfocus();
+
     // check if the text field is empty
     if (value.trim().isEmpty) {
-      AppShowDialog.buildShowSnackBar(context, S.of(context).pleaseEnterAWord);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(S.of(context).pleaseEnterAWord),
+          backgroundColor: Colors.red,
+        ),
+      );
       return;
     }
 
     // check internet connection
     if (!await NetworkUtils.isOnline()) {
-      AppShowDialog.buildShowSnackBar(
-        context,
-        S.of(context).NoInternetConnection,
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(S.of(context).NoInternetConnection),
+          backgroundColor: Colors.red,
+        ),
       );
       return;
     }
@@ -272,10 +286,19 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     final theWord = textController.text.trim();
 
     // check if the text field is empty or the collection is not selected
-    if (theWord.isEmpty || selectedCollectionId == null) {
+    if (theWord.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(S.of(context).PleaseFillAllFieldsAndSelectACollection),
+          content: Text(S.of(context).PleaseFillAllFields),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    if (selectedCollectionId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(S.of(context).PleaseSelectACollection),
           backgroundColor: Colors.red,
         ),
       );

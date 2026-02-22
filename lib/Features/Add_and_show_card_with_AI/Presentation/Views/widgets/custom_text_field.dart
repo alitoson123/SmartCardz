@@ -6,7 +6,8 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.controller,
-    required this.icon,
+    this.prefixIcon,
+    this.suffixIcon,
     required this.hint,
     this.maxLines = 1,
     this.onImageTap,
@@ -16,7 +17,9 @@ class CustomTextField extends StatelessWidget {
   });
 
   final TextEditingController controller;
-  final IconData icon;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+
   final String hint;
   final int? maxLines;
   final void Function()? onImageTap;
@@ -55,13 +58,13 @@ class CustomTextField extends StatelessWidget {
             maxLines: maxLines,
             onSubmitted: onSubmitted,
             decoration: InputDecoration(
-              prefixIcon: Icon(icon, color: theme.colorScheme.primary),
+              prefixIcon: prefixIcon,
               suffixIcon: onImageTap != null
                   ? IconButton(
                       icon: const Icon(Icons.image, color: Colors.blue),
                       onPressed: onImageTap,
                     )
-                  : null,
+                  : suffixIcon,
               hintText: hint,
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(

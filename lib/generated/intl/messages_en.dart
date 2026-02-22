@@ -58,10 +58,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "Notification": MessageLookupByLibrary.simpleMessage("Notification"),
     "Password": MessageLookupByLibrary.simpleMessage("Password"),
     "Plan": MessageLookupByLibrary.simpleMessage("Plan"),
-    "PleaseFillAllFieldsAndSelectACollection":
-        MessageLookupByLibrary.simpleMessage(
-          "Please fill all fields and select a collection",
-        ),
+    "PleaseFillAllFields": MessageLookupByLibrary.simpleMessage(
+      "Please fill all fields",
+    ),
+    "PleaseSelectACollection": MessageLookupByLibrary.simpleMessage(
+      "Please select a collection",
+    ),
     "SomethingWentWrong": MessageLookupByLibrary.simpleMessage(
       "Something went wrong",
     ),
