@@ -222,6 +222,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectALanguage": MessageLookupByLibrary.simpleMessage("اختر لغة"),
     "selectCollection": MessageLookupByLibrary.simpleMessage("المجموعة"),
     "selectImage": MessageLookupByLibrary.simpleMessage("اختيار صورة"),
+    "selectInputLanguage": MessageLookupByLibrary.simpleMessage(
+      "اختر لغة الإدخال",
+    ),
+    "selectOutputLanguage": MessageLookupByLibrary.simpleMessage(
+      "اختر لغة الإخراج",
+    ),
     "send": MessageLookupByLibrary.simpleMessage("إرسال"),
     "settingsTitle": MessageLookupByLibrary.simpleMessage("الإعدادات"),
     "showAnswer": MessageLookupByLibrary.simpleMessage("عرض الإجابة"),

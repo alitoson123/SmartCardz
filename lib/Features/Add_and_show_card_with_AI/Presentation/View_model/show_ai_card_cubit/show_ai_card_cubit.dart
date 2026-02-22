@@ -10,13 +10,15 @@ class ShowAICardCubit extends Cubit<ShowAICardStates> {
 
   Future<void> showAICard({
     required String word,
-    required String language,
+    required String inputLanguage,
+    required String outputLanguage,
   }) async {
     emit(ShowAICardLoading());
 
     final result = await addAndShowCardRepoImpl.showCard(
       word: word,
-      language: language,
+      inputLanguage: inputLanguage,
+      outputLanguage: outputLanguage,
     );
 
     result.fold(

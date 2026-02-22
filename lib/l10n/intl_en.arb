@@ -129,5 +129,7 @@
   "signInSuccessMessage": "Sign In Successfully",
   "EnterYourQuestion": "Enter Your Question",
   "EnterYourAnswer": "Enter Your Answer",
-  "EnterYourInformation": "Enter Your Information"
+  "EnterYourInformation": "Enter Your Information",
+  "selectInputLanguage": "Select Input Language",
+  "selectOutputLanguage": "Select Output Language"
 }

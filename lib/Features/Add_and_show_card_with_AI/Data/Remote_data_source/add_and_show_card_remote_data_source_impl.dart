@@ -16,18 +16,20 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
   @override
   Future<List<AICardEntity>> showCard({
     required String word,
-    required String language,
+    required String inputLanguage,
+    required String outputLanguage,
   }) async {
     log(BASE_URL);
     var result = await appServices.getMethod(
       URL:
-          '$BASE_URL?words=$word&lang=$language&age=25&level=مبتدء&style=واقعي',
+          '$BASE_URL?words=$word&lang=$inputLanguage&output_lang=$outputLanguage&age=25&level=مبتدء&style=واقعي',
     );
 
     // https://smartcardz-ai-eq1y.onrender.com/generate/$word
     // If result is a single Map, convert it directly to CardModel
-    List<AICardEntity> cards = [];
+    //https://smartcardz-ai-3.onrender.com/?words=play&lang=English&output_lang=العربيه&age=25&level=مبتدء&style=واقعي    for (var item in result) {
 
+    List<AICardEntity> cards = [];
     for (var item in result) {
       cards.add(AICardModel.fromJson(item));
     }

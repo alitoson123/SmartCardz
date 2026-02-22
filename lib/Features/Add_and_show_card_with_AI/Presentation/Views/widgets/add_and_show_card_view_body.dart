@@ -11,7 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/show_ai_card_cubit/show_ai_card_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/show_ai_card_cubit/show_ai_card_states.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_text_field.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/select_the_language.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/select_input_language.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/custom_selection.dart';
 import 'package:smart_cards/core/utils/widgets/app_button.dart';
 import 'package:smart_cards/core/utils/widgets/app_show_dialog.dart';
@@ -35,7 +35,9 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
   String? selectedCollectionName;
   String? selectedCollectionId;
   String? word;
-  String selectedLanguage = "English";
+  String selectedInputLanguage = "English";
+  late String selectedOutputLanguage = selectedInputLanguage;
+
   bool isLoading = false;
 
   @override
@@ -222,17 +224,18 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
         //   Language selection
         Expanded(
           child: CustomSelection(
-            label: selectedLanguage,
+            label: selectedInputLanguage + " to " + selectedOutputLanguage,
             icon: Icons.language,
             onTap: () async {
               final result = await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SelectTheLanguage()),
+                MaterialPageRoute(builder: (context) => SelectInputLanguage()),
               );
 
               if (result != null) {
                 setState(() {
-                  selectedLanguage = result['name'];
+                  selectedInputLanguage = result['input_name'];
+                  selectedOutputLanguage = result['output_name'];
                 });
               }
             },
@@ -278,7 +281,8 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     // show ai card
     context.read<ShowAICardCubit>().showAICard(
       word: value.trim(),
-      language: selectedLanguage,
+      inputLanguage: selectedInputLanguage,
+      outputLanguage: selectedOutputLanguage,
     );
   }
 

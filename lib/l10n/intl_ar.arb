@@ -128,5 +128,7 @@
   "signInSuccessMessage": "تم تسجيل الدخول بنجاح",
   "EnterYourQuestion": "أدخل سؤالك",
   "EnterYourAnswer": "أدخل إجابتك",
-  "EnterYourInformation": "أدخل معلوماتك"
+  "EnterYourInformation": "أدخل معلوماتك",
+  "selectInputLanguage": "اختر لغة الإدخال",
+  "selectOutputLanguage": "اختر لغة الإخراج"
 }

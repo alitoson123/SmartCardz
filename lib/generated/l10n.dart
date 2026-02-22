@@ -1078,6 +1078,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Select Input Language`
+  String get selectInputLanguage {
+    return Intl.message(
+      'Select Input Language',
+      name: 'selectInputLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Output Language`
+  String get selectOutputLanguage {
+    return Intl.message(
+      'Select Output Language',
+      name: 'selectOutputLanguage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

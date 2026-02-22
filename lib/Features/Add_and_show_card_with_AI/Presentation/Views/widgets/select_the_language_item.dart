@@ -2,21 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectTheLanguageItem extends StatelessWidget {
-  const SelectTheLanguageItem({super.key, required this.language});
+  const SelectTheLanguageItem({super.key, required this.language, this.onTap});
 
   final Map<String, String> language;
-
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     return InkWell(
-      onTap: () {
-        Navigator.pop(context, {
-          'id': language['id'],
-          'name': language['name'],
-        });
-      },
+      onTap: onTap,
       borderRadius: BorderRadius.circular(12.r),
       child: Container(
         decoration: BoxDecoration(

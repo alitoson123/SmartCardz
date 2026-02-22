@@ -4,6 +4,8 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/add_and_show
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_ai_card_cubit/add_ai_card_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/show_ai_card_cubit/show_ai_card_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/add_and_show_card_view.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/select_input_language.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/select_output_language.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/add_normal_card_view.dart';
 import 'package:smart_cards/Features/Auth/Data/Repos/auth_repo_impl.dart';
 import 'package:smart_cards/Features/Auth/Forget_Password/Presentation/Views/forget_password_view.dart';
@@ -35,6 +37,8 @@ class AppRoutes {
   static const String revisionCardScreen = '/revisionCard';
   static const String collectionsScreen = '/collections';
   static const String settingsScreen = '/settings';
+  static const String selectInputLanguageScreen = '/selectInputLanguage';
+  static const String selectOutputLanguageScreen = '/selectOutputLanguage';
 
   static final route = GoRouter(
     routes: [
@@ -113,6 +117,14 @@ class AppRoutes {
       GoRoute(
         path: settingsScreen,
         builder: (context, state) => SettingsView(),
+      ),
+       GoRoute(
+        path: selectInputLanguageScreen,
+        builder: (context, state) => SelectInputLanguage(),
+      ),
+       GoRoute(
+        path: selectOutputLanguageScreen,
+        builder: (context, state) => SelectOutputLanguage(),
       ),
     ],
   );

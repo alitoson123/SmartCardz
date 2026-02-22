@@ -13,12 +13,14 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
   @override
   Future<Either<Failure, List<AICardEntity>>> showCard({
     required String word,
-    required String language,
+    required String inputLanguage,
+    required String outputLanguage,
   }) async {
     try {
       var result = await addAndShowCardRemoteDataSource.showCard(
         word: word,
-        language: language,
+        inputLanguage: inputLanguage,
+        outputLanguage: outputLanguage,
       );
 
       return right(result);

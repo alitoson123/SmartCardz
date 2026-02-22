@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/select_output_language.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/select_the_language_item.dart';
 import 'package:smart_cards/core/views/widgets/cancel_widget.dart';
 import 'package:smart_cards/core/views/widgets/selection_search_field.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
-class SelectTheLanguage extends StatefulWidget {
-  const SelectTheLanguage({super.key});
+class SelectInputLanguage extends StatefulWidget {
+  const SelectInputLanguage({super.key});
 
   @override
-  State<SelectTheLanguage> createState() => _SelectTheLanguageState();
+  State<SelectInputLanguage> createState() => _SelectInputLanguageState();
 }
 
-class _SelectTheLanguageState extends State<SelectTheLanguage> {
+class _SelectInputLanguageState extends State<SelectInputLanguage> {
   final TextEditingController searchController = TextEditingController();
 
   // Comprehensive list of languages
@@ -119,7 +120,7 @@ class _SelectTheLanguageState extends State<SelectTheLanguage> {
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: AppBar(title: Text(S.of(context).selectALanguage)),
+      appBar: AppBar(title: Text(S.of(context).selectInputLanguage)),
       body: Column(
         children: [
           //***************************************************** */
@@ -141,7 +142,28 @@ class _SelectTheLanguageState extends State<SelectTheLanguage> {
               separatorBuilder: (context, index) => SizedBox(height: 8.h),
               itemBuilder: (context, index) {
                 final language = filteredLanguages[index];
-                return SelectTheLanguageItem(language: language);
+                return SelectTheLanguageItem(
+                  language: language,
+                  onTap: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SelectOutputLanguage(),
+                      ),
+                    );
+
+                    if (result != null) {
+                      setState(() {
+                        Navigator.pop(context, {
+                          'input_id': language['id'],
+                          'input_name': language['name'],
+                          'output_id': result['output_id'],
+                          'output_name': result['output_name'],
+                        });
+                      });
+                    }
+                  },
+                );
               },
             ),
           ),

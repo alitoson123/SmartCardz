@@ -32,7 +32,7 @@ class NotValidCard extends StatelessWidget {
                   text: S.of(context).isNotValidTryToFixTheSpelling,
                   style: TextStyle(
                     fontSize: 19.sp,
-                    color: Colors.grey.shade800,
+                    color: Theme.of(context).textTheme.bodyLarge!.color,
                   ),
                 ),
               ],

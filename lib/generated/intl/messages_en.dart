@@ -242,6 +242,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "selectCollection": MessageLookupByLibrary.simpleMessage("Collection"),
     "selectImage": MessageLookupByLibrary.simpleMessage("Select Image"),
+    "selectInputLanguage": MessageLookupByLibrary.simpleMessage(
+      "Select Input Language",
+    ),
+    "selectOutputLanguage": MessageLookupByLibrary.simpleMessage(
+      "Select Output Language",
+    ),
     "send": MessageLookupByLibrary.simpleMessage("Send"),
     "settingsTitle": MessageLookupByLibrary.simpleMessage("Settings"),
     "showAnswer": MessageLookupByLibrary.simpleMessage("Show Answer"),
