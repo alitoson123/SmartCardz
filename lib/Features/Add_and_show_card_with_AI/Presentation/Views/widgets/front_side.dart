@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_card.dart';
-import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/custom_cached_image.dart';
 
 class FrontSide extends StatelessWidget {
@@ -23,7 +22,7 @@ class FrontSide extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(12.r),
             child: CachedImage(
-              imageUrl: card.image_url!,
+              imageUrl: card.image_url,
               height: 300.h,
               fit: BoxFit.contain,
             ),
@@ -33,9 +32,12 @@ class FrontSide extends StatelessWidget {
           Text(
             card.definition,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18.sp, color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black),
+            style: TextStyle(
+              fontSize: 18.sp,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
+            ),
           ),
         ],
       ),

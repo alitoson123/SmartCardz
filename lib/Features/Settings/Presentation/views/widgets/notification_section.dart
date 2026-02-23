@@ -22,8 +22,8 @@ class _NotificationSectionState extends State<NotificationSection> {
         SettingsGroup(
           children: [
             SettingsItem(
-              icon:  Icons.notifications_outlined,
-              title:  S.of(context).Notification,
+              icon: Icons.notifications_outlined,
+              title: S.of(context).Notification,
               trailing: Switch(
                 value: isNotification,
                 onChanged: (value) {

@@ -23,7 +23,7 @@ class NormalCardRemoteDataSourceImpl extends NormalCardRemoteDataSource {
       cardId: cardId,
       cardData: {
         // 1. البيانات الأساسية
-     //   'card_type': 'normal',
+        //   'card_type': 'normal',
         'front_side': frontSide,
         'back_side': backSide,
         'front_image_url': frontImageUrl,

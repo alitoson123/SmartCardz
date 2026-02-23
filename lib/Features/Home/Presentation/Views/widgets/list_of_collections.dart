@@ -9,7 +9,7 @@ import 'package:smart_cards/generated/l10n.dart';
 class ListOfCollections extends StatelessWidget {
   const ListOfCollections({super.key, required this.collections});
 
- final List<CollectionModel> collections;
+  final List<CollectionModel> collections;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,6 @@ class ListOfCollections extends StatelessWidget {
         return SimpleDialog(
           title: Text(collections[index].collectionName),
           children: [
-
             SimpleDialogOption(
               child: Text(S.of(context).renameCollection),
               onPressed: () {

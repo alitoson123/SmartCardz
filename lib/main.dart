@@ -25,17 +25,17 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   Bloc.observer = MyBlocObserver(); // bloc observer
- // await _runMigration();
+  // await _runMigration();
 
   runApp(const SmartCards());
 }
 
 Future<void> _runMigration() async {
   final migration = CardMigration();
-  
+
   // ✅ تشغيل التحويل لكل الكروت
   await migration.migrateAllCards();
-  
+
   // ✅ لو عايز تحول collection معين بس:
   // await migration.migrateCollection('your_collection_id');
 }
@@ -96,7 +96,6 @@ class SmartCards extends StatelessWidget {
 
 // 📁 lib/migration/migrate_old_cards.dart
 
-
 class CardMigration {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -107,7 +106,7 @@ class CardMigration {
     try {
       // جيب كل الكروت
       final snapshot = await _firestore.collection('cards').get();
-      
+
       int aiCardsMigrated = 0;
       int normalCardsMigrated = 0;
       int alreadyMigrated = 0;
@@ -116,7 +115,7 @@ class CardMigration {
       for (var doc in snapshot.docs) {
         try {
           final data = doc.data();
-          
+
           // ✅ تحقق لو الكارت محول قبل كده
           if (_isAlreadyMigrated(data)) {
             alreadyMigrated++;
@@ -125,8 +124,8 @@ class CardMigration {
           }
 
           // ✅ حدد نوع الكارت
-          final isAICard = data['card_type'] == 'ai' || 
-                           data.containsKey('word');
+          final isAICard =
+              data['card_type'] == 'ai' || data.containsKey('word');
 
           Map<String, dynamic> updates;
 
@@ -141,7 +140,6 @@ class CardMigration {
           // ✅ حدّث الكارت
           await _firestore.collection('cards').doc(doc.id).update(updates);
           print('✅ تم تحديث ${doc.id}');
-
         } catch (e) {
           failed++;
           print('❌ فشل تحديث ${doc.id}: $e');
@@ -155,7 +153,6 @@ class CardMigration {
       print('   Already Migrated: $alreadyMigrated');
       print('   Failed: $failed');
       print('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
-
     } catch (e) {
       print('❌ خطأ في التحويل: $e');
       rethrow;
@@ -256,9 +253,9 @@ class CardMigration {
   /// ══════════════════════════════════════════════════
   bool _isAlreadyMigrated(Map<String, dynamic> data) {
     // لو موجود ease (مش easiness) و state ──► محول
-    return data.containsKey('ease') && 
-           data.containsKey('state') &&
-           data.containsKey('due_date');
+    return data.containsKey('ease') &&
+        data.containsKey('state') &&
+        data.containsKey('due_date');
   }
 
   /// ══════════════════════════════════════════════════
@@ -275,16 +272,15 @@ class CardMigration {
 
       for (var doc in snapshot.docs) {
         final data = doc.data();
-        
+
         if (_isAlreadyMigrated(data)) {
           continue;
         }
 
-        final isAICard = data['card_type'] == 'ai' || 
-                         data.containsKey('word');
+        final isAICard = data['card_type'] == 'ai' || data.containsKey('word');
 
-        final updates = isAICard 
-            ? _migrateAICard(data) 
+        final updates = isAICard
+            ? _migrateAICard(data)
             : _migrateNormalCard(data);
 
         await _firestore.collection('cards').doc(doc.id).update(updates);
@@ -292,7 +288,6 @@ class CardMigration {
       }
 
       print('✅ تم تحويل كروت الـ collection بنجاح');
-
     } catch (e) {
       print('❌ خطأ: $e');
       rethrow;

@@ -31,35 +31,40 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
       content: contentOfDialog(context),
       actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
-      TextButton(
-        onPressed: () => Navigator.pop(context),
-        child: Text(S.of(context).cancel, style: TextStyle(color: Colors.grey)),
-      ),
-      ElevatedButton(
-        onPressed: isButtonEnabled && !isLoading
-            ? () => createCollection(context)
-            : null,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isButtonEnabled
-              ? Colors.blueAccent
-              : Colors.grey[700],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.r),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            S.of(context).cancel,
+            style: TextStyle(color: Colors.grey),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
         ),
-        child: isLoading
-            ? SizedBox(
-                height: 20.h,
-                width: 20.w,
-                child: CircularProgressIndicator(strokeWidth: 2.w),
-              )
-            : Text(S.of(context).create, style: TextStyle(color: Colors.white)),
-      ),
-    ],
+        ElevatedButton(
+          onPressed: isButtonEnabled && !isLoading
+              ? () => createCollection(context)
+              : null,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: isButtonEnabled
+                ? Colors.blueAccent
+                : Colors.grey[700],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
+          ),
+          child: isLoading
+              ? SizedBox(
+                  height: 20.h,
+                  width: 20.w,
+                  child: CircularProgressIndicator(strokeWidth: 2.w),
+                )
+              : Text(
+                  S.of(context).create,
+                  style: TextStyle(color: Colors.white),
+                ),
+        ),
+      ],
     );
   }
-
 
   Widget contentOfDialog(BuildContext context) {
     return SizedBox(
@@ -86,10 +91,10 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
       ),
     );
   }
-  
-  void createCollection(BuildContext context) async {
 
-    if (!await NetworkUtils.isOnline()) {  // check if the device is online
+  void createCollection(BuildContext context) async {
+    if (!await NetworkUtils.isOnline()) {
+      // check if the device is online
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(S.of(context).NoInternetConnection),
@@ -98,13 +103,14 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
       );
       return;
     }
-    setState(() => isLoading = true);   // set loading state = true
+    setState(() => isLoading = true); // set loading state = true
 
-    context.read<AddCollectionCubit>().addCollectionMethod(  // call add collection cubit
+    context.read<AddCollectionCubit>().addCollectionMethod(
+      // call add collection cubit
       collectionName: controller.text.trim(),
     );
 
-    Navigator.pop(context);          // close dialog
+    Navigator.pop(context); // close dialog
 
     setState(() => isLoading = false); // set loading state = false
   }

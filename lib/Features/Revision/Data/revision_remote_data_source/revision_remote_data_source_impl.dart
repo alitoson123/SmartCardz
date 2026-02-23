@@ -270,7 +270,7 @@ class RevisionRepo {
     // ✅ Convert كل document للنوع الصح
     return snapshot.docs.map((doc) {
       final data = doc.data();
-      
+
       // تحقق من نوع الكارت
       if (data['is_ai_card'] == true || data.containsKey('word')) {
         return AICardModel.fromFirestore(doc);
@@ -279,6 +279,7 @@ class RevisionRepo {
       }
     }).toList();
   }
+
   // ══════════════════════════════════════════════════
   //   قيّم الكارت وحدّثه
   // ══════════════════════════════════════════════════
@@ -287,15 +288,17 @@ class RevisionRepo {
     required int quality,
   }) async {
     final updatedCard = Sm2Scheduler.schedule(card: card, quality: quality);
-    
+
     // Convert للـ Model المناسب
     Map<String, dynamic> data;
     if (updatedCard is AICardEntity) {
       data = AICardModel.fromEntity(updatedCard).toFirestore();
     } else {
-      data = NormalCardModel.fromEntity(updatedCard as NormalCardEntity).toFirestore();
+      data = NormalCardModel.fromEntity(
+        updatedCard as NormalCardEntity,
+      ).toFirestore();
     }
-    
+
     await _firestore.collection('cards').doc(card.id).update(data);
   }
 }

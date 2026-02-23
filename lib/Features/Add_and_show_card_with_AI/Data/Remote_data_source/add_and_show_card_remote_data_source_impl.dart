@@ -49,7 +49,7 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
     await appServices.addCard(
       collectionId: collectionId,
       cardData: {
-   //     'card_type': 'ai',
+        //     'card_type': 'ai',
         'word': word,
         'definition': definition,
         'example': example,

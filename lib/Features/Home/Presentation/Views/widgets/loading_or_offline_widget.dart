@@ -4,9 +4,7 @@ import 'package:smart_cards/core/utils/helpers/network_utils.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
 class LoadingOrOfflineWidget extends StatelessWidget {
-  const LoadingOrOfflineWidget({
-    super.key,
-  });
+  const LoadingOrOfflineWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

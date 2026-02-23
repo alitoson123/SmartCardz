@@ -522,9 +522,9 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
 
     // ✅ تحميل الكروت بالـ SM-2
     context.read<RevisionCubit>().loadCards(
-          widget.collection.collection_id,
-          limit: 100,
-        );
+      widget.collection.collection_id,
+      limit: 100,
+    );
 
     widget.clearWhiteboardNotifier.addListener(_clearWhiteboard);
     widget.changeColorNotifier.addListener(_changeColor);
@@ -554,10 +554,10 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
     final state = context.read<RevisionCubit>().state;
     if (state is RevisionReady) {
       final card = state.currentCard;
-  //    ****************************************************************
+      //    ****************************************************************
       // حذف الكارت
-   //   context.read<RevisionCubit>().deleteCard(card.id);
-      
+      //   context.read<RevisionCubit>().deleteCard(card.id);
+
       // إظهار رسالة
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -566,7 +566,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
           duration: const Duration(milliseconds: 500),
         ),
       );
-      
+
       setState(() => drawingPoints.clear());
     }
   }
@@ -623,7 +623,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
         // ──────────────────────────
         if (state is RevisionReady) {
           final card = state.currentCard;
-          
+
           // ✅ تحديد نوع الكارت (AI أو Normal)
           final isAICard = card is AICardEntity;
 
@@ -656,7 +656,10 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                             // ✅ فحص لو عنده محتوى للـ Back
                             if (_hasBackContent(card, isAICard)) ...[
                               SizedBox(height: 30.h),
-                              buildSectionTitle(context, S.of(context).BackSide),
+                              buildSectionTitle(
+                                context,
+                                S.of(context).BackSide,
+                              ),
                               SizedBox(height: 10.h),
                               _buildBackSide(card, isAICard),
                             ],
@@ -746,8 +749,8 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
       return true;
     } else {
       final normalCard = card as NormalCardEntity;
-      return normalCard.backSide.isNotEmpty || 
-             normalCard.backImageUrl.isNotEmpty;
+      return normalCard.backSide.isNotEmpty ||
+          normalCard.backImageUrl.isNotEmpty;
     }
   }
 

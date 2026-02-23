@@ -7,8 +7,6 @@ import 'package:smart_cards/Features/Add_normal_card/Data/normal_card_remote_dat
 import 'package:smart_cards/Features/Auth/Data/Repos/auth_repo_impl.dart';
 import 'package:smart_cards/Features/Home/Data/Repo_impl/collection_repo_impl.dart';
 import 'package:smart_cards/Features/Home/Data/collection_remote_data_source/collection_remote_data_source_impl.dart';
-import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl.dart';
-import 'package:smart_cards/Features/Revision/Data/revision_remote_data_source/revision_remote_data_source_impl.dart';
 import 'package:smart_cards/core/services/ARUD_user/ARUD_user.dart';
 import 'package:smart_cards/core/services/app_services/app_services.dart';
 import 'package:smart_cards/core/services/firebase_auth_service/firebase_auth_service.dart';
@@ -28,7 +26,7 @@ void setup() {
       ),
     ),
   );
- /* getIt.registerLazySingleton<RevisionRepoImpl>(
+  /* getIt.registerLazySingleton<RevisionRepoImpl>(
     () => RevisionRepoImpl(
       revisionRemoteDataSaource: RevisionRemoteDataSourceImpl(
         appServices: getIt<AppServices>(),

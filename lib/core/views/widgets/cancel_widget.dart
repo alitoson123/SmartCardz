@@ -3,9 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
 class CancelWidget extends StatelessWidget {
-  const CancelWidget({
-    super.key,
-  });
+  const CancelWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

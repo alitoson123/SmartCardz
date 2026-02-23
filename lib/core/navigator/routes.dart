@@ -15,9 +15,7 @@ import 'package:smart_cards/Features/Auth/Sign_up/Presentation/Views/sign_up_vie
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/home_view.dart';
 import 'package:smart_cards/Features/On_Boarding/Presentation/Views/on_boarding_view.dart';
-import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl.dart';
 import 'package:smart_cards/Features/Revision/Data/revision_remote_data_source/revision_remote_data_source_impl.dart';
-import 'package:smart_cards/Features/Revision/Presentation/View_model/fetch_and_rating_cubit/fetch_and_rating_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/revision_cubit/recision_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/revision_view.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/settings_view.dart';
@@ -82,14 +80,11 @@ class AppRoutes {
         path: revisionCardScreen,
         builder: (context, state) => MultiBlocProvider(
           providers: [
-          /*  BlocProvider(
+            /*  BlocProvider(
               create: (context) =>
                   FetchAndRatingCubit(revisionRepoImpl: getIt<RevisionRepoImpl>()),
             ),*/
-            BlocProvider(
-              create: (context) =>
-                  RevisionCubit(RevisionRepo())
-            ),
+            BlocProvider(create: (context) => RevisionCubit(RevisionRepo())),
           ],
           child: RevisionView(collection: state.extra as CollectionEntity),
         ),
@@ -118,11 +113,11 @@ class AppRoutes {
         path: settingsScreen,
         builder: (context, state) => SettingsView(),
       ),
-       GoRoute(
+      GoRoute(
         path: selectInputLanguageScreen,
         builder: (context, state) => SelectInputLanguage(),
       ),
-       GoRoute(
+      GoRoute(
         path: selectOutputLanguageScreen,
         builder: (context, state) => SelectOutputLanguage(),
       ),

@@ -3,25 +3,24 @@
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
 class Sm2Scheduler {
-
   // ══════════════════════════════════════════════════
   //   Config
   // ══════════════════════════════════════════════════
-  static const List<int> _learningSteps = [1, 10];   // دقايق
-  static const List<int> _relearnSteps  = [10];       // دقايق
-  static const int    _graduatingInterval = 1;        // يوم
-  static const int    _easyInterval       = 4;        // أيام
-  static const double _easyBonus          = 1.3;
-  static const double _hardMultiplier     = 1.2;
-  static const int    _maxInterval        = 36500;    // يوم (~100 سنة)
-  static const double _minEase            = 1.3;
+  static const List<int> _learningSteps = [1, 10]; // دقايق
+  static const List<int> _relearnSteps = [10]; // دقايق
+  static const int _graduatingInterval = 1; // يوم
+  static const int _easyInterval = 4; // أيام
+  static const double _easyBonus = 1.3;
+  static const double _hardMultiplier = 1.2;
+  static const int _maxInterval = 36500; // يوم (~100 سنة)
+  static const double _minEase = 1.3;
 
   // ══════════════════════════════════════════════════
   //   الـ Method الرئيسية
   // ══════════════════════════════════════════════════
   static BaseCardEntity schedule({
     required BaseCardEntity card,
-    required int quality,   // 0=Again | 1=Hard | 3=Good | 4=Easy
+    required int quality, // 0=Again | 1=Hard | 3=Good | 4=Easy
   }) {
     switch (card.state) {
       case CardState.newCard:
@@ -125,7 +124,6 @@ class Sm2Scheduler {
   //   3. REVIEW CARD  ◄── قلب SM-2
   // ══════════════════════════════════════════════════
   static BaseCardEntity _handleReview(BaseCardEntity card, int quality) {
-
     // ────────────────────────────
     //   Again ──► Relearning
     // ────────────────────────────
@@ -166,9 +164,9 @@ class Sm2Scheduler {
     // ────────────────────────────
     //   احسب الـ Ease الجديد
     // ────────────────────────────
-    final double newEase = (
-      card.ease + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
-    ).clamp(_minEase, 2.5);
+    final double newEase =
+        (card.ease + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)))
+            .clamp(_minEase, 2.5);
 
     // ────────────────────────────
     //   Cap الـ Interval
@@ -199,7 +197,9 @@ class Sm2Scheduler {
     if (quality == 1) {
       // Hard ──► كرر الـ step الحالي
       return card.copyWith(
-        dueDate: _minutesFromNow(_relearnSteps[card.currentStep.clamp(0, _relearnSteps.length - 1)]),
+        dueDate: _minutesFromNow(
+          _relearnSteps[card.currentStep.clamp(0, _relearnSteps.length - 1)],
+        ),
       );
     }
 

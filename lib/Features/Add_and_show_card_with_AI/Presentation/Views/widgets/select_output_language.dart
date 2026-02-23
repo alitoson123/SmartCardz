@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/add_and_show_card_view_body.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/select_the_language_item.dart';
-import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:smart_cards/core/views/widgets/cancel_widget.dart';
 import 'package:smart_cards/core/views/widgets/selection_search_field.dart';
 import 'package:smart_cards/generated/l10n.dart';
@@ -147,10 +144,10 @@ class _SelectOutputLanguageState extends State<SelectOutputLanguage> {
                 return SelectTheLanguageItem(
                   language: language,
                   onTap: () {
-                  Navigator.pop(context, {
-                    'output_id': language['id'],
-                    'output_name': language['name'],
-                  });
+                    Navigator.pop(context, {
+                      'output_id': language['id'],
+                      'output_name': language['name'],
+                    });
                   },
                 );
               },

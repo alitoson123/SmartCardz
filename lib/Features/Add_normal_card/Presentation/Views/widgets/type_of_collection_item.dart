@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TypeOfCollectionItem extends StatelessWidget {
-  const TypeOfCollectionItem({
-    super.key,
-    required this.type,
-  });
+  const TypeOfCollectionItem({super.key, required this.type});
 
   final Map<String, String> type;
 
@@ -16,10 +13,7 @@ class TypeOfCollectionItem extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.pop(context, {
-          'id': type['id'],
-          'name': type['name'],
-        });
+        Navigator.pop(context, {'id': type['id'], 'name': type['name']});
       },
       borderRadius: BorderRadius.circular(12.r),
       child: Container(
@@ -30,10 +24,7 @@ class TypeOfCollectionItem extends StatelessWidget {
             color: isDark ? Colors.white10 : Colors.grey.shade200,
           ),
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: 16.w,
-          vertical: 16.h,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         child: Row(
           children: [
             // Avatar removed as per user preference in previous task

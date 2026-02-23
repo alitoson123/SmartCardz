@@ -3,8 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/Algorism/sm2.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
-import 'package:smart_cards/Features/Add_normal_card/Data/models/normal_card_model.dart';
 import 'package:smart_cards/Features/Home/Data/Models/collection_model.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';

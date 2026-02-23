@@ -15,7 +15,8 @@ class AddOptions extends StatefulWidget {
 class _AddOptionsState extends State<AddOptions> {
   bool isExpanded = false;
 
-  void reverseIsExpanded() {  // reverse the isExpanded value
+  void reverseIsExpanded() {
+    // reverse the isExpanded value
     setState(() {
       isExpanded = !isExpanded;
     });
@@ -29,8 +30,10 @@ class _AddOptionsState extends State<AddOptions> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.end,
-      children: [        // all of the in a column
-        if (isExpanded) ...[    // if isExpanded is true, show the options in the same position
+      children: [
+        // all of the in a column
+        if (isExpanded) ...[
+          // if isExpanded is true, show the options in the same position
           AddOptionItem(
             label: S.of(context).createNewCollection,
             heroTag: 'collection',
@@ -77,7 +80,8 @@ class _AddOptionsState extends State<AddOptions> {
           ),
         ],
 
-        FloatingActionButton(   // the main floating action button
+        FloatingActionButton(
+          // the main floating action button
           shape: const CircleBorder(),
           heroTag: 'main_fab',
           backgroundColor: Colors.blueAccent,

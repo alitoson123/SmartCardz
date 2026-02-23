@@ -259,34 +259,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
           (backSide.isEmpty && backImage == null)) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              S.of(context).PleaseFillAllFields,
-            ),
-            backgroundColor: Colors.red,
-        ),
-        );
-        return;
-      }
-
-        if (selectedCollectionId == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              S.of(context).PleaseSelectACollection,
-            ),
-            backgroundColor: Colors.red,
-        ),
-        );
-        return;
-      }
-    } else if (selectedTypeId == '2') {
-      // Validation for missing fields in front only type
-      if (frontSide.isEmpty && frontImage == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              S.of(context).PleaseFillAllFields,
-            ),
+            content: Text(S.of(context).PleaseFillAllFields),
             backgroundColor: Colors.red,
           ),
         );
@@ -296,9 +269,28 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
       if (selectedCollectionId == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              S.of(context).PleaseSelectACollection,
-            ),
+            content: Text(S.of(context).PleaseSelectACollection),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+    } else if (selectedTypeId == '2') {
+      // Validation for missing fields in front only type
+      if (frontSide.isEmpty && frontImage == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(S.of(context).PleaseFillAllFields),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      if (selectedCollectionId == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(S.of(context).PleaseSelectACollection),
             backgroundColor: Colors.red,
           ),
         );
@@ -414,7 +406,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
     print('✅ تم إضافة الكارت: $cardId');
     */
         // رجوع أو أي action
-    //    Navigator.pop(context);
+        //    Navigator.pop(context);
 
         ///
         context.read<NormalCardCubit>().addNormalCard(

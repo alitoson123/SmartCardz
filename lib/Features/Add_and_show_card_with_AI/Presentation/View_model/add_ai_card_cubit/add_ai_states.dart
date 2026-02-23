@@ -1,4 +1,3 @@
-
 class AddAICardStates {}
 
 class AddAICardInitial extends AddAICardStates {}

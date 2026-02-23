@@ -354,18 +354,7 @@ import 'package:smart_cards/Features/Revision/Presentation/View_model/delete_car
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/revision_view_body.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_cards/Features/Add_normal_card/Domain/Entities/normal_card_entity.dart';
-import 'package:smart_cards/Features/Revision/Presentation/View_model/revision_cubit/recision_cubit.dart';
-import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/row_of_difficulty_button.dart';
-import 'package:smart_cards/core/utils/widgets/app_button.dart';
-import '../View_model/revision_cubit/revision_states.dart';
-import 'widgets/custom_cached_image.dart';
 
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/back_side.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_card.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/front_side.dart';
-import 'package:smart_cards/core/Functions/section_title.dart';
 
 class RevisionView extends StatefulWidget {
   const RevisionView({super.key, required this.collection});
@@ -577,5 +566,3 @@ class WhiteboardColors {
     return S.of(context).color;
   }
 }
-
-

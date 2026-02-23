@@ -4,8 +4,8 @@ import 'package:image_picker/image_picker.dart';
 
 class PickingAnImage {
   final ImagePicker picker = ImagePicker();
-  
-    // Pick image from gallery and return File
+
+  // Pick image from gallery and return File
   Future<File?> pickImageFromGallery() async {
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 

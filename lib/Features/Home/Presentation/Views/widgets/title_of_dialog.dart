@@ -5,7 +5,7 @@ import 'package:smart_cards/generated/l10n.dart';
 class TitleOfDialog extends StatelessWidget {
   const TitleOfDialog({super.key, required this.themeColors});
 
- final ColorScheme themeColors;
+  final ColorScheme themeColors;
 
   @override
   Widget build(BuildContext context) {
@@ -19,5 +19,4 @@ class TitleOfDialog extends StatelessWidget {
       ),
     );
   }
-
 }

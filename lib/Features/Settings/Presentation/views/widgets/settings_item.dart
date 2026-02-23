@@ -28,7 +28,9 @@ class SettingsItem extends StatelessWidget {
       contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
       leading: CircleAvatar(
         radius: 17.r,
-        backgroundColor: (iconColor ?? theme.colorScheme.primary).withValues(alpha: 0.1),
+        backgroundColor: (iconColor ?? theme.colorScheme.primary).withValues(
+          alpha: 0.1,
+        ),
         child: Icon(
           icon,
           color: iconColor ?? theme.colorScheme.primary,

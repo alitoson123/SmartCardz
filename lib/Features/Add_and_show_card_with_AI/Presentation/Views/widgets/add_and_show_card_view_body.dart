@@ -14,7 +14,6 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/select_input_language.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/custom_selection.dart';
 import 'package:smart_cards/core/utils/widgets/app_button.dart';
-import 'package:smart_cards/core/utils/widgets/app_show_dialog.dart';
 import 'package:smart_cards/core/utils/widgets/app_header.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/core/views/collection_view.dart';
@@ -224,7 +223,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
         //   Language selection
         Expanded(
           child: CustomSelection(
-            label: selectedInputLanguage + " to " + selectedOutputLanguage,
+            label: "$selectedInputLanguage to $selectedOutputLanguage",
             icon: Icons.language,
             onTap: () async {
               final result = await Navigator.push(

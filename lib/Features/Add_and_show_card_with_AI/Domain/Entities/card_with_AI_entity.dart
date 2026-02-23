@@ -1,8 +1,6 @@
-
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
-
-class AICardEntity  extends BaseCardEntity{
+class AICardEntity extends BaseCardEntity {
   // AI card data
   final String image_url;
   final String definition;
@@ -12,7 +10,6 @@ class AICardEntity  extends BaseCardEntity{
 
   // Firebase data
   final bool is_valid;
-
 
   // ══════════════════════════════
   //   SM-2 Fields

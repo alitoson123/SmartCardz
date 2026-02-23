@@ -7,7 +7,6 @@ import 'package:smart_cards/Features/Home/Presentation/Views/widgets/list_of_col
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({super.key});
 
@@ -35,8 +34,10 @@ class _HomeViewBodyState extends State<HomeViewBody> {
         }
         final docs = snapshot.data?.docs ?? [];
         if (docs.isEmpty) {
-          WidgetsBinding.instance.addPostFrameCallback((_) { // to prevent error of calling showDialog in build method
-            showDialog(// because it needs a widget and showDialog is a function 
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            // to prevent error of calling showDialog in build method
+            showDialog(
+              // because it needs a widget and showDialog is a function
               context: context,
               builder: (context) => const CreateCollectionDialog(),
             );

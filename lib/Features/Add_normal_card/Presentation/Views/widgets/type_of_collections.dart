@@ -15,7 +15,8 @@ class TypeOfCollections extends StatefulWidget {
 class _TypeOfCollectionsState extends State<TypeOfCollections> {
   final TextEditingController searchController = TextEditingController();
 
-  final List<Map<String, String>> allTypes = [  // all of the types of collections
+  final List<Map<String, String>> allTypes = [
+    // all of the types of collections
     {'id': '1', 'name': S.current.basic},
     {'id': '2', 'name': S.current.frontOnly},
   ];
@@ -81,4 +82,3 @@ class _TypeOfCollectionsState extends State<TypeOfCollections> {
     });
   }
 }
-

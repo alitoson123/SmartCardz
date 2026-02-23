@@ -1,21 +1,12 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
-import 'package:smart_cards/core/services/app_services/app_services.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // 📁 presentation/views/widgets/item_of_collections.dart
 
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
-import 'package:smart_cards/core/navigator/routes.dart';
-import 'package:smart_cards/core/services/app_services/app_services.dart';
-import 'package:smart_cards/generated/l10n.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ItemOfCollections extends StatelessWidget {
@@ -44,7 +35,10 @@ class ItemOfCollections extends StatelessWidget {
           ],
         ),
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 12.h,
+            horizontal: 16.w,
+          ),
           title: Text(
             collection.collectionName,
             style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
@@ -67,12 +61,12 @@ class ItemOfCollections extends StatelessWidget {
               }
 
               final counts = snapshot.data!;
-              
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 4.h),
-                  
+
                   // ── إجمالي الكروت ──
                   Text(
                     '${counts['total']} ${S.of(context).cards}',
@@ -81,9 +75,9 @@ class ItemOfCollections extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  
+
                   SizedBox(height: 6.h),
-                  
+
                   // ── إحصائيات الكروت ──
                   Wrap(
                     spacing: 8.w,
@@ -96,7 +90,7 @@ class ItemOfCollections extends StatelessWidget {
                           color: Colors.red,
                           icon: Icons.notifications_active,
                         ),
-                      
+
                       // New Cards (جديدة)
                       if (counts['new']! > 0)
                         _StatChip(
@@ -104,7 +98,7 @@ class ItemOfCollections extends StatelessWidget {
                           color: Colors.blue,
                           icon: Icons.fiber_new,
                         ),
-                      
+
                       // Learning Cards (بتتعلم)
                       if (counts['learning']! > 0)
                         _StatChip(
@@ -112,7 +106,7 @@ class ItemOfCollections extends StatelessWidget {
                           color: Colors.orange,
                           icon: Icons.school,
                         ),
-                      
+
                       // Review Cards (مراجعة)
                       if (counts['review']! > 0)
                         _StatChip(
@@ -120,7 +114,7 @@ class ItemOfCollections extends StatelessWidget {
                           color: Colors.green,
                           icon: Icons.check_circle,
                         ),
-                      
+
                       // Relearning Cards (إعادة تعلم)
                       if (counts['relearning']! > 0)
                         _StatChip(
@@ -192,41 +186,36 @@ class _StatChip extends StatelessWidget {
   }
 }
 
-
 class AppServices2 {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   /// ══════════════════════════════════════════════════
   ///   عدد الكروت المستحقة (Due Cards)
   /// ══════════════════════════════════════════════════
-  static Future<int> countOfDueCards({
-    required String collectionId,
-  }) async {
+  static Future<int> countOfDueCards({required String collectionId}) async {
     final now = Timestamp.now();
-    
+
     final snapshot = await _firestore
         .collection('cards')
         .where('collectionId', isEqualTo: collectionId)
         .where('due_date', isLessThanOrEqualTo: now)
         .count()
         .get();
-    
+
     return snapshot.count ?? 0;
   }
 
   /// ══════════════════════════════════════════════════
   ///   عدد الكروت الجديدة (New Cards)
   /// ══════════════════════════════════════════════════
-  static Future<int> countOfNewCards({
-    required String collectionId,
-  }) async {
+  static Future<int> countOfNewCards({required String collectionId}) async {
     final snapshot = await _firestore
         .collection('cards')
         .where('collectionId', isEqualTo: collectionId)
         .where('state', isEqualTo: 'newCard')
         .count()
         .get();
-    
+
     return snapshot.count ?? 0;
   }
 
@@ -242,23 +231,21 @@ class AppServices2 {
         .where('state', isEqualTo: 'learning')
         .count()
         .get();
-    
+
     return snapshot.count ?? 0;
   }
 
   /// ══════════════════════════════════════════════════
   ///   عدد الكروت في المراجعة (Review Cards)
   /// ══════════════════════════════════════════════════
-  static Future<int> countOfReviewCards({
-    required String collectionId,
-  }) async {
+  static Future<int> countOfReviewCards({required String collectionId}) async {
     final snapshot = await _firestore
         .collection('cards')
         .where('collectionId', isEqualTo: collectionId)
         .where('state', isEqualTo: 'review')
         .count()
         .get();
-    
+
     return snapshot.count ?? 0;
   }
 
@@ -274,7 +261,7 @@ class AppServices2 {
         .where('state', isEqualTo: 'relearning')
         .count()
         .get();
-    
+
     return snapshot.count ?? 0;
   }
 
@@ -295,7 +282,7 @@ class AppServices2 {
     int reviewCount = 0;
     int relearningCount = 0;
     int dueCount = 0;
-    
+
     final now = DateTime.now();
 
     for (var doc in snapshot.docs) {

@@ -1,8 +1,6 @@
 // 📁 logic/cubit/revision_state.dart
 
-import 'package:smart_cards/Features/Add_normal_card/Domain/Entities/normal_card_entity.dart';
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
-
 
 abstract class RevisionState {}
 
@@ -11,9 +9,9 @@ class RevisionLoading extends RevisionState {}
 
 // جاهز للمراجعة
 class RevisionReady extends RevisionState {
-  final List<BaseCardEntity> queue;   // كل الكروت المطلوبة
-  final int currentIndex;         // أنت دلوقتي فين
-  final bool showAnswer;          // هل الإجابة ظاهرة؟
+  final List<BaseCardEntity> queue; // كل الكروت المطلوبة
+  final int currentIndex; // أنت دلوقتي فين
+  final bool showAnswer; // هل الإجابة ظاهرة؟
 
   RevisionReady({
     required this.queue,

@@ -25,10 +25,9 @@ Sm2Result computeSm2({
   int interval = currentInterval;
 
   if (quality < 3) {
-    // لو الجودة أقل من 3 (يعني غلط): 
+    // لو الجودة أقل من 3 (يعني غلط):
     r = 0;
     interval = 1;
-
   } else {
     r = r + 1;
     if (r == 1) {
