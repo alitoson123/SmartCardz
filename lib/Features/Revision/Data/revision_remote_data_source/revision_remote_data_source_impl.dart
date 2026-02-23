@@ -238,6 +238,10 @@ class RevisionRemoteDataSourceImpl extends RevisionRemoteDataSaource {
 */
 
 // 📁 data/repositories/revision_repo.dart
+// ════════════════════════════════════════════════════════════════
+// الساعي - بيجيب الكروت من Firestore ويحفظها
+// بيتعامل مع النوعين: AI Cards و Normal Cards
+// ════════════════════════════════════════════════════════════════
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
@@ -251,54 +255,83 @@ class RevisionRepo {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // ══════════════════════════════════════════════════
-  //   جيب الكروت اللي المفروض تتراجع النهارده
+  //   جيب الكروت المستحقة للمراجعة النهارده
   // ══════════════════════════════════════════════════
+  /// بنجيب كل الكروت اللي due_date <= now
+  /// مرتبين من الأقدم للأحدث
   Future<List<BaseCardEntity>> getDueCards(
     String collectionId, {
-    int limit = 100,
+    int limit = 100,  // أقصى عدد كروت (علشان مش نحمل آلاف)
   }) async {
+    // الوقت الحالي
     final now = Timestamp.now();
 
+    // ══════════════════════════════════════════════════
+    // Query: جيب الكروت المستحقة
+    // ══════════════════════════════════════════════════
     final snapshot = await _firestore
-        .collection('cards')
-        .where('collectionId', isEqualTo: collectionId)
-        .where('due_date', isLessThanOrEqualTo: now)
-        .orderBy('due_date')
-        .limit(limit) // ✅ أضفت limit
+        .collection('cards')                          // من collection cards
+        .where('collectionId', isEqualTo: collectionId) // للـ collection ده بس
+        .where('due_date', isLessThanOrEqualTo: now)  // اللي موعدها النهارده
+        .orderBy('due_date')                          // من الأقدم للأحدث
+        .limit(limit)                                 // حد أقصى 100 كارت
         .get();
 
-    // ✅ Convert كل document للنوع الصح
+    // ══════════════════════════════════════════════════
+    // تحويل Documents لـ Entities
+    // ══════════════════════════════════════════════════
     return snapshot.docs.map((doc) {
       final data = doc.data();
-
-      // تحقق من نوع الكارت
+      
+      // تحقق: النوع AI ولا Normal؟
+      // طريقة 1: تحقق من field is_ai_card
+      // طريقة 2: تحقق لو فيه field 'word' (خاص بـ AI)
       if (data['is_ai_card'] == true || data.containsKey('word')) {
+        // ✅ AI Card
         return AICardModel.fromFirestore(doc);
       } else {
+        // ✅ Normal Card
         return NormalCardModel.fromFirestore(doc);
       }
     }).toList();
   }
 
   // ══════════════════════════════════════════════════
-  //   قيّم الكارت وحدّثه
+  //   حفظ تقييم الكارت في Firestore
   // ══════════════════════════════════════════════════
+  /// المستخدم قيّم الكارت - نحفظ البيانات الجديدة
   Future<void> submitRating({
     required BaseCardEntity card,
     required int quality,
   }) async {
-    final updatedCard = Sm2Scheduler.schedule(card: card, quality: quality);
-
-    // Convert للـ Model المناسب
+    // ══════════════════════════════════════════════════
+    // خطوة 1: احسب SM-2 (الكارت المحدث)
+    // ══════════════════════════════════════════════════
+    final updatedCard = Sm2Scheduler.schedule(
+      card: card, 
+      quality: quality,
+    );
+    
+    // ══════════════════════════════════════════════════
+    // خطوة 2: حول الـ Entity لـ Map (Firestore format)
+    // ══════════════════════════════════════════════════
     Map<String, dynamic> data;
+    
+    // تحقق من النوع
     if (updatedCard is AICardEntity) {
+      // AI Card ──► استخدم AICardModel
       data = AICardModel.fromEntity(updatedCard).toFirestore();
     } else {
-      data = NormalCardModel.fromEntity(
-        updatedCard as NormalCardEntity,
-      ).toFirestore();
+      // Normal Card ──► استخدم NormalCardModel
+      data = NormalCardModel.fromEntity(updatedCard as NormalCardEntity).toFirestore();
     }
-
-    await _firestore.collection('cards').doc(card.id).update(data);
+    
+    // ══════════════════════════════════════════════════
+    // خطوة 3: احفظ في Firestore
+    // ══════════════════════════════════════════════════
+    await _firestore
+        .collection('cards')
+        .doc(card.id)
+        .update(data);  // Update البيانات الموجودة
   }
 }

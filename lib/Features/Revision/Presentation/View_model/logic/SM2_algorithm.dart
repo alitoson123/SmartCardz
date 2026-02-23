@@ -1,66 +1,108 @@
 // 📁 logic/sm2_scheduler.dart
+// ════════════════════════════════════════════════════════════════
+// هذا الملف هو قلب النظام - بيحسب متى كل كارت يتراجع تاني
+// بيستخدم خوارزمية SM-2 (SuperMemo 2) الشهيرة
+// ════════════════════════════════════════════════════════════════
 
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
 class Sm2Scheduler {
+
   // ══════════════════════════════════════════════════
-  //   Config
+  //   الإعدادات - ممكن تعدلها حسب احتياجك
   // ══════════════════════════════════════════════════
-  static const List<int> _learningSteps = [1, 10]; // دقايق
-  static const List<int> _relearnSteps = [10]; // دقايق
-  static const int _graduatingInterval = 1; // يوم
-  static const int _easyInterval = 4; // أيام
-  static const double _easyBonus = 1.3;
-  static const double _hardMultiplier = 1.2;
-  static const int _maxInterval = 36500; // يوم (~100 سنة)
+  
+  // خطوات التعلم للكروت الجديدة (بالدقائق)
+  // [1, 10] = أول مرة بعد دقيقة، تاني مرة بعد 10 دقايق
+  static const List<int> _learningSteps = [1, 10];
+  
+  // خطوات إعادة التعلم للكروت المنسية (بالدقائق)
+  // [10] = بعد 10 دقايق
+  static const List<int> _relearnSteps = [10];
+  
+  // الفترة عند التخرج من التعلم (بالأيام)
+  static const int _graduatingInterval = 1; // يوم واحد
+  
+  // الفترة لما تضغط Easy على كارت جديد (بالأيام)
+  static const int _easyInterval = 4; // 4 أيام
+  
+  // مضاعف Easy (بيزود الفترة)
+  static const double _easyBonus = 1.3; // 130%
+  
+  // مضاعف Hard (بيزود الفترة بس ببطء)
+  static const double _hardMultiplier = 1.2; // 120%
+  
+  // أقصى فترة بين المراجعات (بالأيام)
+  static const int _maxInterval = 36500; // حوالي 100 سنة
+  
+  // أقل معامل سهولة ممكن
   static const double _minEase = 1.3;
 
   // ══════════════════════════════════════════════════
-  //   الـ Method الرئيسية
+  //   الـ Method الرئيسية - نقطة الدخول الوحيدة
   // ══════════════════════════════════════════════════
+  /// بتاخد كارت + تقييم المستخدم ──► بترجع الكارت بعد التحديث
+  /// 
+  /// [card]: الكارت الحالي بكل بياناته
+  /// [quality]: تقييم المستخدم
+  ///   - 0 = Again (نسيت خالص)
+  ///   - 1 = Hard (صعب)
+  ///   - 3 = Good (كويس)
+  ///   - 4 = Easy (سهل جداً)
   static BaseCardEntity schedule({
     required BaseCardEntity card,
-    required int quality, // 0=Again | 1=Hard | 3=Good | 4=Easy
+    required int quality,
   }) {
+    // بناءً على حالة الكارت، نختار الطريقة المناسبة
     switch (card.state) {
       case CardState.newCard:
         return _handleNew(card, quality);
+        
       case CardState.learning:
         return _handleLearning(card, quality);
+        
       case CardState.review:
         return _handleReview(card, quality);
+        
       case CardState.relearning:
         return _handleRelearning(card, quality);
     }
   }
 
   // ══════════════════════════════════════════════════
-  //   1. NEW CARD
+  //   1. معالجة الكروت الجديدة (NEW CARD)
   // ══════════════════════════════════════════════════
+  /// الكارت بيتشاف أول مرة - بندخله في نظام التعلم
   static BaseCardEntity _handleNew(BaseCardEntity card, int quality) {
+    
+    // ────────────────────────────
+    // Easy: الكارت سهل جداً ──► تخرج فوراً للمراجعة
+    // ────────────────────────────
     if (quality == 4) {
-      // Easy ──► تخرج فوراً للـ Review
       return card.copyWith(
-        state: CardState.review,
-        repetition: 1,
-        interval: _easyInterval,
+        state: CardState.review,        // بقى في المراجعة
+        repetition: 1,                   // عددت مراجعة وحدة
+        interval: _easyInterval,         // هيرجع بعد 4 أيام
         dueDate: _daysFromNow(_easyInterval),
       );
     }
 
+    // ────────────────────────────
+    // Again: نسيت الكارت ──► ابدأ التعلم من الصفر
+    // ────────────────────────────
     if (quality == 0) {
-      // Again ──► ابدأ Learning من Step 0
       return card.copyWith(
-        state: CardState.learning,
-        currentStep: 0,
-        dueDate: _minutesFromNow(_learningSteps[0]),
+        state: CardState.learning,       // ادخل في التعلم
+        currentStep: 0,                  // من أول step
+        dueDate: _minutesFromNow(_learningSteps[0]), // بعد دقيقة
       );
     }
 
-    // ✅ Hard (1) أو Good (3) ──► ابدأ Learning
-    // Hard يبدأ من نفس المكان بس بيخفض الـ ease شوية
+    // ────────────────────────────
+    // Hard: صعب ──► ابدأ التعلم + خفض معامل السهولة
+    // ────────────────────────────
     if (quality == 1) {
-      // Hard ──► ابدأ Learning مع تخفيض الـ ease
+      // بنخفض الـ ease علشان الكارت ده صعب
       final newEase = (card.ease - 0.15).clamp(_minEase, 2.5);
       return card.copyWith(
         state: CardState.learning,
@@ -70,7 +112,9 @@ class Sm2Scheduler {
       );
     }
 
-    // Good (3) ──► ابدأ Learning عادي
+    // ────────────────────────────
+    // Good: كويس ──► ابدأ التعلم العادي
+    // ────────────────────────────
     return card.copyWith(
       state: CardState.learning,
       currentStep: 0,
@@ -79,102 +123,123 @@ class Sm2Scheduler {
   }
 
   // ══════════════════════════════════════════════════
-  //   2. LEARNING CARD
+  //   2. معالجة الكروت في التعلم (LEARNING)
   // ══════════════════════════════════════════════════
+  /// الكارت في مرحلة التعلم - بنتقدم في الخطوات [1min, 10min]
   static BaseCardEntity _handleLearning(BaseCardEntity card, int quality) {
+    
+    // ────────────────────────────
+    // Again: ارجع لأول خطوة
+    // ────────────────────────────
     if (quality == 0) {
-      // Again ──► ارجع لأول Step
       return card.copyWith(
-        currentStep: 0,
-        dueDate: _minutesFromNow(_learningSteps[0]),
+        currentStep: 0,                  // رجع لـ Step 0
+        dueDate: _minutesFromNow(_learningSteps[0]), // بعد دقيقة
       );
     }
 
-    // ✅ Hard Logic في Learning
+    // ────────────────────────────
+    // Hard: كرر نفس الخطوة (مش تتقدم)
+    // ────────────────────────────
     if (quality == 1) {
-      // Hard ──► كرر الـ Step الحالي بدل ما تتقدم
+      // لو في Step 0 ──► كرر بعد دقيقة
+      // لو في Step 1 ──► كرر بعد 10 دقايق
       return card.copyWith(
         dueDate: _minutesFromNow(_learningSteps[card.currentStep]),
       );
     }
 
-    // Good (3) أو Easy (4) ──► اتقدم للـ Step الجاي
+    // ────────────────────────────
+    // Good أو Easy: اتقدم للخطوة الجاية
+    // ────────────────────────────
     final nextStep = card.currentStep + 1;
 
-    // لو خلصت كل الـ Steps ──► GRADUATE
+    // تحقق: خلصت كل الخطوات؟
     if (nextStep >= _learningSteps.length) {
+      // ✅ نعم ──► التخرج للمراجعة!
       final interval = quality == 4 ? _easyInterval : _graduatingInterval;
       return card.copyWith(
-        state: CardState.review,
-        repetition: 1,
-        interval: interval,
+        state: CardState.review,       // بقى في المراجعة
+        repetition: 1,                 // أول مراجعة
+        interval: interval,            // 1 يوم (أو 4 لو Easy)
         currentStep: 0,
         dueDate: _daysFromNow(interval),
       );
     }
 
-    // لسه في Steps ──► اتقدم
+    // ❌ لأ ──► كمل في التعلم
     return card.copyWith(
-      currentStep: nextStep,
+      currentStep: nextStep,           // اتقدم للـ Step الجاي
       dueDate: _minutesFromNow(_learningSteps[nextStep]),
     );
   }
 
   // ══════════════════════════════════════════════════
-  //   3. REVIEW CARD  ◄── قلب SM-2
+  //   3. معالجة الكروت في المراجعة (REVIEW) 
+  //      ◄── قلب خوارزمية SM-2
   // ══════════════════════════════════════════════════
+  /// الكارت اتعلم وبنراجع عليه على فترات متباعدة
   static BaseCardEntity _handleReview(BaseCardEntity card, int quality) {
+
     // ────────────────────────────
-    //   Again ──► Relearning
+    // Again: نسيت الكارت ──► إعادة تعلم
     // ────────────────────────────
     if (quality == 0) {
+      // بنخفض الـ ease لأن الكارت صعب
       final newEase = (card.ease - 0.2).clamp(_minEase, 2.5);
       return card.copyWith(
-        state: CardState.relearning,
+        state: CardState.relearning,   // ادخل في إعادة التعلم
         ease: double.parse(newEase.toStringAsFixed(2)),
-        repetition: 0,
+        repetition: 0,                 // ابدأ العد من الصفر
         interval: 0,
-        lapses: card.lapses + 1,
+        lapses: card.lapses + 1,       // زود عداد النسيان
         currentStep: 0,
-        dueDate: _minutesFromNow(_relearnSteps[0]),
+        dueDate: _minutesFromNow(_relearnSteps[0]), // بعد 10 دقايق
       );
     }
 
     // ────────────────────────────
-    //   احسب الـ Interval الجديد
+    // حساب الفترة الجديدة (Interval)
     // ────────────────────────────
     int newInterval;
 
+    // أول مراجعتين ثابتين (1 يوم، 6 أيام)
     if (card.repetition <= 1) {
-      // أول مراجعتين ثابتين
       newInterval = card.repetition == 0 ? 1 : 6;
-    } else {
+    } 
+    // بعد كده بنستخدم المعادلة
+    else {
       switch (quality) {
         case 1: // Hard
+          // الفترة تزيد بس ببطء
           newInterval = (card.interval * _hardMultiplier).round();
           break;
+          
         case 4: // Easy
+          // الفترة تزيد بسرعة
           newInterval = (card.interval * card.ease * _easyBonus).round();
           break;
+          
         default: // Good (3)
+          // الفترة تزيد عادي
           newInterval = (card.interval * card.ease).round();
       }
     }
 
     // ────────────────────────────
-    //   احسب الـ Ease الجديد
+    // حساب معامل السهولة الجديد (Ease Factor)
     // ────────────────────────────
-    final double newEase =
-        (card.ease + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)))
-            .clamp(_minEase, 2.5);
+    // المعادلة الأصلية من SM-2:
+    // ease_new = ease_old + (0.1 - (5-q) × (0.08 + (5-q) × 0.02))
+    final double newEase = (
+      card.ease + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
+    ).clamp(_minEase, 2.5);
 
-    // ────────────────────────────
-    //   Cap الـ Interval
-    // ────────────────────────────
+    // بنحط حد أقصى للفترة
     newInterval = newInterval.clamp(1, _maxInterval);
 
     return card.copyWith(
-      repetition: card.repetition + 1,
+      repetition: card.repetition + 1, // زود عداد المراجعات
       ease: double.parse(newEase.toStringAsFixed(2)),
       interval: newInterval,
       dueDate: _daysFromNow(newInterval),
@@ -182,32 +247,39 @@ class Sm2Scheduler {
   }
 
   // ══════════════════════════════════════════════════
-  //   4. RELEARNING CARD
+  //   4. معالجة الكروت في إعادة التعلم (RELEARNING)
   // ══════════════════════════════════════════════════
+  /// الكارت كان في المراجعة بس اتنسي - بنعيد تعليمه
   static BaseCardEntity _handleRelearning(BaseCardEntity card, int quality) {
+    
+    // ────────────────────────────
+    // Again: ابقى في إعادة التعلم
+    // ────────────────────────────
     if (quality == 0) {
-      // Again ──► ابقى في Relearning
       return card.copyWith(
         currentStep: 0,
         dueDate: _minutesFromNow(_relearnSteps[0]),
       );
     }
 
-    // ✅ Hard في Relearning
+    // ────────────────────────────
+    // Hard: كرر الخطوة الحالية
+    // ────────────────────────────
     if (quality == 1) {
-      // Hard ──► كرر الـ step الحالي
       return card.copyWith(
         dueDate: _minutesFromNow(
-          _relearnSteps[card.currentStep.clamp(0, _relearnSteps.length - 1)],
+          _relearnSteps[card.currentStep.clamp(0, _relearnSteps.length - 1)]
         ),
       );
     }
 
-    // Good (3) / Easy (4) ──► ارجع للـ Review
+    // ────────────────────────────
+    // Good أو Easy: ارجع للمراجعة
+    // ────────────────────────────
     final interval = quality == 4 ? _easyInterval : _graduatingInterval;
     return card.copyWith(
-      state: CardState.review,
-      repetition: 1,
+      state: CardState.review,         // رجع للمراجعة
+      repetition: 1,                   // ابدأ من أول مراجعة
       interval: interval,
       currentStep: 0,
       dueDate: _daysFromNow(interval),
@@ -215,11 +287,14 @@ class Sm2Scheduler {
   }
 
   // ══════════════════════════════════════════════════
-  //   Helpers
+  //   Helper Methods - حساب التواريخ
   // ══════════════════════════════════════════════════
+  
+  /// حساب الوقت بعد عدد معين من الدقائق
   static DateTime _minutesFromNow(int minutes) =>
       DateTime.now().add(Duration(minutes: minutes));
 
+  /// حساب الوقت بعد عدد معين من الأيام
   static DateTime _daysFromNow(int days) =>
       DateTime.now().add(Duration(days: days));
 }

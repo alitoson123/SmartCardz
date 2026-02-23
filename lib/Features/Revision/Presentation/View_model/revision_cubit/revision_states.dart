@@ -1,52 +1,78 @@
 // 📁 logic/cubit/revision_state.dart
+// ════════════════════════════════════════════════════════════════
+// تعريف كل الحالات الممكنة في جلسة المراجعة
+// ════════════════════════════════════════════════════════════════
 
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
+// الـ Base Class - كل الحالات بترث منها
 abstract class RevisionState {}
 
-// جاري التحميل
+// ══════════════════════════════════════════════════
+//   حالة 1: جاري التحميل
+// ══════════════════════════════════════════════════
+/// أول ما نفتح الشاشة - بنجيب الكروت من Firestore
 class RevisionLoading extends RevisionState {}
 
-// جاهز للمراجعة
+// ══════════════════════════════════════════════════
+//   حالة 2: جاهز للمراجعة
+// ══════════════════════════════════════════════════
+/// الكروت جاهزة - المستخدم بيراجع دلوقتي
 class RevisionReady extends RevisionState {
-  final List<BaseCardEntity> queue; // كل الكروت المطلوبة
-  final int currentIndex; // أنت دلوقتي فين
-  final bool showAnswer; // هل الإجابة ظاهرة؟
+  final List<BaseCardEntity> queue;   // كل الكروت المطلوب مراجعتها
+  final int currentIndex;             // أنت واقف على أنهي كارت (0-based)
+  final bool showAnswer;              // هل الإجابة ظاهرة؟
 
   RevisionReady({
     required this.queue,
-    this.currentIndex = 0,
-    this.showAnswer = false,
+    this.currentIndex = 0,            // default: أول كارت
+    this.showAnswer = false,          // default: الإجابة مخفية
   });
 
-  // عدد الكروت المتبقية
+  // ══════════════════════════════════════════════════
+  //   Getters مفيدة
+  // ══════════════════════════════════════════════════
+  
+  /// كم كارت متبقي؟
+  /// مثال: لو عندك 10 كروت وأنت في index 3 ──► remaining = 7
   int get remaining => queue.length - currentIndex;
 
-  // الكارت الحالي
+  /// الكارت الحالي اللي بتشوفه دلوقتي
   BaseCardEntity get currentCard => queue[currentIndex];
 
-  // نسخة معدلة
+  // ══════════════════════════════════════════════════
+  //   copyWith - علشان نعمل نسخة معدلة
+  // ══════════════════════════════════════════════════
+  /// بدل ما نعمل state جديد من الصفر، نعدل حاجات معينة بس
   RevisionReady copyWith({
     List<BaseCardEntity>? queue,
     int? currentIndex,
     bool? showAnswer,
   }) {
     return RevisionReady(
-      queue: queue ?? this.queue,
+      queue: queue ?? this.queue,                  // لو مفيش جديد ──► استخدم القديم
       currentIndex: currentIndex ?? this.currentIndex,
       showAnswer: showAnswer ?? this.showAnswer,
     );
   }
 }
 
-// خلصت المراجعة
+// ══════════════════════════════════════════════════
+//   حالة 3: خلصت المراجعة
+// ══════════════════════════════════════════════════
+/// الـ queue خلص - مفيش كروت تانية
 class RevisionFinished extends RevisionState {
-  final int totalReviewed;
+  final int totalReviewed;  // كم كارت راجعت النهارده
+
   RevisionFinished({required this.totalReviewed});
 }
 
-// حصل Error
+// ══════════════════════════════════════════════════
+//   حالة 4: حصل خطأ
+// ══════════════════════════════════════════════════
+/// مثلاً: مفيش إنترنت، أو Firestore error
 class RevisionError extends RevisionState {
-  final String message;
+  final String message;  // رسالة الخطأ
+
   RevisionError({required this.message});
 }
