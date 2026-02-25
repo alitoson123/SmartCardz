@@ -48,7 +48,7 @@
   "searchCollectionHint": "Search for a collection...",
   "revisionTitle": "Revision",
   "easy": "Easy",
-  "medium": "Medium",
+  "good": "Good",
   "hard": "Hard",
   "again": "Again",
   "add": "Add",
@@ -131,5 +131,15 @@
   "EnterYourAnswer": "Enter Your Answer",
   "EnterYourInformation": "Enter Your Information",
   "selectInputLanguage": "Select Input Language",
-  "selectOutputLanguage": "Select Output Language"
+  "selectOutputLanguage": "Select Output Language",
+  "congratulations": "Congratulations",
+  "youReviewed": "You reviewed",
+  "back": "Back",
+  "waitingForTheNextCard": "Waiting for the next card...",
+  "theNextCardIsAfter": "The next card is after",
+  "cardsInTheLearningList": "cards in the learning list",
+  "showTheNextCardNow": "Show the next card now",
+  "due": "due",
+  "all_done": "all done ✓"
+
 }

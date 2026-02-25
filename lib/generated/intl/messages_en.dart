@@ -84,9 +84,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "AI Card Generation",
     ),
     "again": MessageLookupByLibrary.simpleMessage("Again"),
+    "all_done": MessageLookupByLibrary.simpleMessage("all done ✓"),
     "appLanguage": MessageLookupByLibrary.simpleMessage("App Language"),
     "appTheme": MessageLookupByLibrary.simpleMessage("App Theme"),
     "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
+    "back": MessageLookupByLibrary.simpleMessage("Back"),
     "basic": MessageLookupByLibrary.simpleMessage("Basic"),
     "black": MessageLookupByLibrary.simpleMessage("Black"),
     "blue": MessageLookupByLibrary.simpleMessage("Blue"),
@@ -96,6 +98,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "cards": MessageLookupByLibrary.simpleMessage("cards"),
     "cardsCountLabel": MessageLookupByLibrary.simpleMessage("Cards count"),
+    "cardsInTheLearningList": MessageLookupByLibrary.simpleMessage(
+      "cards in the learning list",
+    ),
     "cardsLabel": m0,
     "chooseAnOption": MessageLookupByLibrary.simpleMessage("Choose an option"),
     "chooseFromCamera": MessageLookupByLibrary.simpleMessage(
@@ -111,6 +116,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "completeDetails": MessageLookupByLibrary.simpleMessage(
       "Complete your details or continue \n with social media",
     ),
+    "congratulations": MessageLookupByLibrary.simpleMessage("Congratulations"),
     "continueWithGoogle": MessageLookupByLibrary.simpleMessage(
       "Continue with Google",
     ),
@@ -146,6 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dontHaveAccount": MessageLookupByLibrary.simpleMessage(
       "Don\'t have an account? ",
     ),
+    "due": MessageLookupByLibrary.simpleMessage("due"),
     "dueCards": MessageLookupByLibrary.simpleMessage("due"),
     "easy": MessageLookupByLibrary.simpleMessage("Easy"),
     "enableDisableWhiteboard": MessageLookupByLibrary.simpleMessage(
@@ -183,6 +190,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "generatingYourSmartCard": MessageLookupByLibrary.simpleMessage(
       "This may take a few seconds",
     ),
+    "good": MessageLookupByLibrary.simpleMessage("Good"),
     "green": MessageLookupByLibrary.simpleMessage("Green"),
     "hard": MessageLookupByLibrary.simpleMessage("Hard"),
     "home": MessageLookupByLibrary.simpleMessage("Cardify"),
@@ -193,7 +201,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
     "light": MessageLookupByLibrary.simpleMessage("Light"),
     "logout": MessageLookupByLibrary.simpleMessage("Logout"),
-    "medium": MessageLookupByLibrary.simpleMessage("Medium"),
     "newCollection": MessageLookupByLibrary.simpleMessage("New collection"),
     "noBackSideData": MessageLookupByLibrary.simpleMessage("No back side data"),
     "noCardsDue": MessageLookupByLibrary.simpleMessage(
@@ -251,6 +258,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "send": MessageLookupByLibrary.simpleMessage("Send"),
     "settingsTitle": MessageLookupByLibrary.simpleMessage("Settings"),
     "showAnswer": MessageLookupByLibrary.simpleMessage("Show Answer"),
+    "showTheNextCardNow": MessageLookupByLibrary.simpleMessage(
+      "Show the next card now",
+    ),
     "signInSubtitle": MessageLookupByLibrary.simpleMessage(
       "Sign in with your email and password \n or continue with social media",
     ),
@@ -261,6 +271,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "signUpTitle": MessageLookupByLibrary.simpleMessage("Sign Up"),
     "termsCondition": MessageLookupByLibrary.simpleMessage(
       "By continuing your confirm that you agree with our term and condition",
+    ),
+    "theNextCardIsAfter": MessageLookupByLibrary.simpleMessage(
+      "The next card is after",
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "titleLabel": MessageLookupByLibrary.simpleMessage("Title"),
@@ -274,11 +287,15 @@ class MessageLookup extends MessageLookupByLibrary {
       "Unexpected state (no handler)",
     ),
     "version": MessageLookupByLibrary.simpleMessage("Version"),
+    "waitingForTheNextCard": MessageLookupByLibrary.simpleMessage(
+      "Waiting for the next card...",
+    ),
     "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
     "white": MessageLookupByLibrary.simpleMessage("White"),
     "whiteboardColor": MessageLookupByLibrary.simpleMessage(
       "Whiteboard color:",
     ),
     "yellow": MessageLookupByLibrary.simpleMessage("Yellow"),
+    "youReviewed": MessageLookupByLibrary.simpleMessage("You reviewed"),
   };
 }

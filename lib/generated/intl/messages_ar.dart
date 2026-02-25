@@ -80,9 +80,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "إنشاء بطاقة بالذكاء الاصطناعي",
     ),
     "again": MessageLookupByLibrary.simpleMessage("مرة أخرى"),
+    "all_done": MessageLookupByLibrary.simpleMessage("خلصت النهارده ✓"),
     "appLanguage": MessageLookupByLibrary.simpleMessage("لغة التطبيق"),
     "appTheme": MessageLookupByLibrary.simpleMessage("سمة التطبيق"),
     "appearance": MessageLookupByLibrary.simpleMessage("المظهر"),
+    "back": MessageLookupByLibrary.simpleMessage("رجوع"),
     "basic": MessageLookupByLibrary.simpleMessage("أساسي"),
     "black": MessageLookupByLibrary.simpleMessage("أسود"),
     "blue": MessageLookupByLibrary.simpleMessage("أزرق"),
@@ -92,6 +94,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "cards": MessageLookupByLibrary.simpleMessage("بطاقات"),
     "cardsCountLabel": MessageLookupByLibrary.simpleMessage("عدد البطاقات"),
+    "cardsInTheLearningList": MessageLookupByLibrary.simpleMessage(
+      "كارت في قائمة التعلم",
+    ),
     "cardsLabel": m0,
     "chooseAnOption": MessageLookupByLibrary.simpleMessage("اختر خيارًا"),
     "chooseFromCamera": MessageLookupByLibrary.simpleMessage(
@@ -107,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "completeDetails": MessageLookupByLibrary.simpleMessage(
       "أكمل بياناتك أو تابع\nعبر وسائل التواصل الاجتماعي",
     ),
+    "congratulations": MessageLookupByLibrary.simpleMessage("تهانينا"),
     "continueWithGoogle": MessageLookupByLibrary.simpleMessage(
       "المتابعة باستخدام Google",
     ),
@@ -136,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "disableWhiteboard": MessageLookupByLibrary.simpleMessage("تعطيل السبورة"),
     "dontHaveAccount": MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟ "),
+    "due": MessageLookupByLibrary.simpleMessage("مستحق"),
     "dueCards": MessageLookupByLibrary.simpleMessage("مستحقة"),
     "easy": MessageLookupByLibrary.simpleMessage("سهل"),
     "enableDisableWhiteboard": MessageLookupByLibrary.simpleMessage(
@@ -167,6 +174,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "generatingYourSmartCard": MessageLookupByLibrary.simpleMessage(
       "جاري إنشاء بطاقتك الذكية...\nقد يستغرق هذا بضع ثوانٍ",
     ),
+    "good": MessageLookupByLibrary.simpleMessage("جيد"),
     "green": MessageLookupByLibrary.simpleMessage("أخضر"),
     "hard": MessageLookupByLibrary.simpleMessage("صعب"),
     "home": MessageLookupByLibrary.simpleMessage("Cardify"),
@@ -177,7 +185,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "lastName": MessageLookupByLibrary.simpleMessage("اسم العائلة"),
     "light": MessageLookupByLibrary.simpleMessage("فاتح"),
     "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
-    "medium": MessageLookupByLibrary.simpleMessage("متوسط"),
     "newCollection": MessageLookupByLibrary.simpleMessage("مجموعة جديدة"),
     "noBackSideData": MessageLookupByLibrary.simpleMessage(
       "لا توجد بيانات في الوجه الخلفي",
@@ -231,6 +238,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "send": MessageLookupByLibrary.simpleMessage("إرسال"),
     "settingsTitle": MessageLookupByLibrary.simpleMessage("الإعدادات"),
     "showAnswer": MessageLookupByLibrary.simpleMessage("عرض الإجابة"),
+    "showTheNextCardNow": MessageLookupByLibrary.simpleMessage(
+      "عرض الكارت الجاي الآن",
+    ),
     "signInSubtitle": MessageLookupByLibrary.simpleMessage(
       "سجّل الدخول باستخدام بريدك الإلكتروني وكلمة المرور\nأو المتابعة عبر وسائل التواصل الاجتماعي",
     ),
@@ -242,6 +252,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "termsCondition": MessageLookupByLibrary.simpleMessage(
       "بالمتابعة، فإنك توافق على الشروط والأحكام",
     ),
+    "theNextCardIsAfter": MessageLookupByLibrary.simpleMessage(
+      "الكارت الجاي بعد",
+    ),
     "theme": MessageLookupByLibrary.simpleMessage("السمة"),
     "titleLabel": MessageLookupByLibrary.simpleMessage("العنوان"),
     "typeOfCollection": MessageLookupByLibrary.simpleMessage("نوع المجموعة"),
@@ -252,9 +265,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "حالة غير متوقعة (لا يوجد معالج)",
     ),
     "version": MessageLookupByLibrary.simpleMessage("الإصدار"),
+    "waitingForTheNextCard": MessageLookupByLibrary.simpleMessage(
+      "في انتظار الكارت الجاي...",
+    ),
     "welcome": MessageLookupByLibrary.simpleMessage("مرحباً"),
     "white": MessageLookupByLibrary.simpleMessage("أبيض"),
     "whiteboardColor": MessageLookupByLibrary.simpleMessage("لون السبورة:"),
     "yellow": MessageLookupByLibrary.simpleMessage("أصفر"),
+    "youReviewed": MessageLookupByLibrary.simpleMessage("لقد راجعت"),
   };
 }

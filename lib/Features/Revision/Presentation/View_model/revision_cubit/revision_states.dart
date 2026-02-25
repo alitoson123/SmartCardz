@@ -1,78 +1,92 @@
-// 📁 logic/cubit/revision_state.dart
-// ════════════════════════════════════════════════════════════════
-// تعريف كل الحالات الممكنة في جلسة المراجعة
-// ════════════════════════════════════════════════════════════════
+// 📁 logic/cubit/revision_states.dart
 
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
-// الـ Base Class - كل الحالات بترث منها
 abstract class RevisionState {}
 
 // ══════════════════════════════════════════════════
-//   حالة 1: جاري التحميل
+//   1. جاري التحميل
 // ══════════════════════════════════════════════════
-/// أول ما نفتح الشاشة - بنجيب الكروت من Firestore
 class RevisionLoading extends RevisionState {}
 
 // ══════════════════════════════════════════════════
-//   حالة 2: جاهز للمراجعة
+//   2. جاهز للمراجعة ✅ اتغيرت
 // ══════════════════════════════════════════════════
-/// الكروت جاهزة - المستخدم بيراجع دلوقتي
+// ❌ قبل: كانت بتشيل queue كاملة + currentIndex
+// ✅ دلوقتي: بتشيل الكارت الحالي + عدد الكروت في كل queue
 class RevisionReady extends RevisionState {
-  final List<BaseCardEntity> queue;   // كل الكروت المطلوب مراجعتها
-  final int currentIndex;             // أنت واقف على أنهي كارت (0-based)
-  final bool showAnswer;              // هل الإجابة ظاهرة؟
+  final BaseCardEntity currentCard;
+  final bool showAnswer;
+
+  // ✅ عدد الكروت في كل queue (زي Anki بالظبط)
+  final int learningCount;  // 🟡 learning + relearning
+  final int reviewCount;    // 🔵 review
+  final int newCount;       // 🟢 new
 
   RevisionReady({
-    required this.queue,
-    this.currentIndex = 0,            // default: أول كارت
-    this.showAnswer = false,          // default: الإجابة مخفية
+    required this.currentCard,
+    this.showAnswer = false,
+    this.learningCount = 0,
+    this.reviewCount = 0,
+    this.newCount = 0,
   });
 
-  // ══════════════════════════════════════════════════
-  //   Getters مفيدة
-  // ══════════════════════════════════════════════════
-  
-  /// كم كارت متبقي؟
-  /// مثال: لو عندك 10 كروت وأنت في index 3 ──► remaining = 7
-  int get remaining => queue.length - currentIndex;
+  // إجمالي الكروت المتبقية (مش بيشمل الكارت الحالي)
+  int get totalRemaining => learningCount + reviewCount + newCount;
 
-  /// الكارت الحالي اللي بتشوفه دلوقتي
-  BaseCardEntity get currentCard => queue[currentIndex];
-
-  // ══════════════════════════════════════════════════
-  //   copyWith - علشان نعمل نسخة معدلة
-  // ══════════════════════════════════════════════════
-  /// بدل ما نعمل state جديد من الصفر، نعدل حاجات معينة بس
   RevisionReady copyWith({
-    List<BaseCardEntity>? queue,
-    int? currentIndex,
+    BaseCardEntity? currentCard,
     bool? showAnswer,
+    int? learningCount,
+    int? reviewCount,
+    int? newCount,
   }) {
     return RevisionReady(
-      queue: queue ?? this.queue,                  // لو مفيش جديد ──► استخدم القديم
-      currentIndex: currentIndex ?? this.currentIndex,
+      currentCard: currentCard ?? this.currentCard,
       showAnswer: showAnswer ?? this.showAnswer,
+      learningCount: learningCount ?? this.learningCount,
+      reviewCount: reviewCount ?? this.reviewCount,
+      newCount: newCount ?? this.newCount,
     );
   }
 }
 
 // ══════════════════════════════════════════════════
-//   حالة 3: خلصت المراجعة
+//   3. في انتظار كارت due ✅ اتغيرت
 // ══════════════════════════════════════════════════
-/// الـ queue خلص - مفيش كروت تانية
-class RevisionFinished extends RevisionState {
-  final int totalReviewed;  // كم كارت راجعت النهارده
+// ده بيحصل لما في كروت في learningQueue بس مش due بعد
+// مثلاً: ضغطت Again والكارت due بعد 45 ثانية
+class RevisionWaiting extends RevisionState {
+  final DateTime nextDueDate;     // موعد أقرب كارت
+  final int totalReviewed;        // كم كارت راجعت
+  final int remainingLearning;    // كروت لسه في learningQueue
 
+  RevisionWaiting({
+    required this.nextDueDate,
+    required this.totalReviewed,
+    this.remainingLearning = 0,
+  });
+
+  /// كم ثانية متبقية؟
+  Duration get timeUntilNext {
+    final now = DateTime.now();
+    if (nextDueDate.isBefore(now)) return Duration.zero;
+    return nextDueDate.difference(now);
+  }
+}
+
+// ══════════════════════════════════════════════════
+//   4. خلصت المراجعة
+// ══════════════════════════════════════════════════
+class RevisionFinished extends RevisionState {
+  final int totalReviewed;
   RevisionFinished({required this.totalReviewed});
 }
 
 // ══════════════════════════════════════════════════
-//   حالة 4: حصل خطأ
+//   5. حصل خطأ
 // ══════════════════════════════════════════════════
-/// مثلاً: مفيش إنترنت، أو Firestore error
 class RevisionError extends RevisionState {
-  final String message;  // رسالة الخطأ
-
+  final String message;
   RevisionError({required this.message});
 }

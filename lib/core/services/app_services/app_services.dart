@@ -102,6 +102,20 @@ class AppServices {
     });
   }
 
+  static Future<Map<String, int>> getCardStateCounts({
+    required String collectionId,
+  }) async {
+    final now = Timestamp.now();
+    final cardsSnap = firestore
+        .collection('cards')
+        .where('collectionId', isEqualTo: collectionId);
+    final totalCards = await cardsSnap.count().get();
+    final dueCards = await cardsSnap
+        .where('due_date', isLessThanOrEqualTo: now)
+        .get();
+
+    return {'due': dueCards.docs.length, 'total': totalCards.count ?? 0};
+  }
   // ======================================================================
   // 🃏 CARDS
   // ======================================================================

@@ -414,9 +414,9 @@ class S {
     return Intl.message('Easy', name: 'easy', desc: '', args: []);
   }
 
-  /// `Medium`
-  String get medium {
-    return Intl.message('Medium', name: 'medium', desc: '', args: []);
+  /// `Good`
+  String get good {
+    return Intl.message('Good', name: 'good', desc: '', args: []);
   }
 
   /// `Hard`
@@ -1097,6 +1097,81 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Congratulations`
+  String get congratulations {
+    return Intl.message(
+      'Congratulations',
+      name: 'congratulations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You reviewed`
+  String get youReviewed {
+    return Intl.message(
+      'You reviewed',
+      name: 'youReviewed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back`
+  String get back {
+    return Intl.message('Back', name: 'back', desc: '', args: []);
+  }
+
+  /// `Waiting for the next card...`
+  String get waitingForTheNextCard {
+    return Intl.message(
+      'Waiting for the next card...',
+      name: 'waitingForTheNextCard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The next card is after`
+  String get theNextCardIsAfter {
+    return Intl.message(
+      'The next card is after',
+      name: 'theNextCardIsAfter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `cards in the learning list`
+  String get cardsInTheLearningList {
+    return Intl.message(
+      'cards in the learning list',
+      name: 'cardsInTheLearningList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show the next card now`
+  String get showTheNextCardNow {
+    return Intl.message(
+      'Show the next card now',
+      name: 'showTheNextCardNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `due`
+  String get due {
+    return Intl.message('due', name: 'due', desc: '', args: []);
+  }
+
+  /// `all done ✓`
+  String get all_done {
+    return Intl.message('all done ✓', name: 'all_done', desc: '', args: []);
   }
 }
 

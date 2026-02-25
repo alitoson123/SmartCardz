@@ -29,7 +29,7 @@ class RowOfDifficultyButton extends StatelessWidget {
             onPressed: () => onRating(1),
           ),
           _RatingBtn(
-            label: 'S.of(context).good',
+            label: S.of(context).good,
             quality: 3,
             color: Colors.blue,
             onPressed: () => onRating(3),

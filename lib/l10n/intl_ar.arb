@@ -47,7 +47,7 @@
   "searchCollectionHint": "ابحث عن مجموعة...",
   "revisionTitle": "المراجعة",
   "easy": "سهل",
-  "medium": "متوسط",
+  "good": "جيد",
   "hard": "صعب",
   "again": "مرة أخرى",
   "add": "إضافة",
@@ -130,5 +130,14 @@
   "EnterYourAnswer": "أدخل إجابتك",
   "EnterYourInformation": "أدخل معلوماتك",
   "selectInputLanguage": "اختر لغة الإدخال",
-  "selectOutputLanguage": "اختر لغة الإخراج"
+  "selectOutputLanguage": "اختر لغة الإخراج",
+  "congratulations": "تهانينا",
+  "youReviewed": "لقد راجعت",
+  "back": "رجوع",
+  "waitingForTheNextCard": "في انتظار الكارت الجاي...",
+  "theNextCardIsAfter": "الكارت الجاي بعد",
+  "cardsInTheLearningList": "كارت في قائمة التعلم",
+  "showTheNextCardNow": "عرض الكارت الجاي الآن",
+  "due" : "مستحق",
+  "all_done": "خلصت النهارده ✓"
 }
