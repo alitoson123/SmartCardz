@@ -230,7 +230,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 6),
             child: AppButton(
-              text: '${S.of(context).showTheNextCardNow}',
+              text: S.of(context).showTheNextCardNow,
               icon: Icons.arrow_forward,
               onPressed: () =>
                   context.read<RevisionCubit>().skipToNextAvailable(),

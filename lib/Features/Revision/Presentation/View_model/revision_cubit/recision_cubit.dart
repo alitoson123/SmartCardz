@@ -42,7 +42,7 @@ class RevisionCubit extends Cubit<RevisionState> {
   final Map<String, BaseCardEntity> _modifiedCards = {};
 
   RevisionCubit(this._repo) : super(RevisionLoading());
-  
+
   // ══════════════════════════════════════════════════
   //   1. تحميل الكروت من Firestore ✅ مرة واحدة بس
   // ══════════════════════════════════════════════════
@@ -168,10 +168,7 @@ class RevisionCubit extends Cubit<RevisionState> {
     // ════════════════════════
     // خطوة 1: حساب SM-2
     // ════════════════════════
-    final updatedCard = Sm2Scheduler.schedule(
-      card: card,
-      quality: quality,
-    );
+    final updatedCard = Sm2Scheduler.schedule(card: card, quality: quality);
 
     // ✅ احفظ في modified map (مش في Firestore بعد)
     _modifiedCards[updatedCard.id] = updatedCard;
@@ -213,12 +210,14 @@ class RevisionCubit extends Cubit<RevisionState> {
 
     if (nextCard != null) {
       // ✅ في كارت → اعرضه
-      emit(RevisionReady(
-        currentCard: nextCard,
-        learningCount: _learningQueue.length,
-        reviewCount: _reviewQueue.length,
-        newCount: _newQueue.length,
-      ));
+      emit(
+        RevisionReady(
+          currentCard: nextCard,
+          learningCount: _learningQueue.length,
+          reviewCount: _reviewQueue.length,
+          newCount: _newQueue.length,
+        ),
+      );
       return;
     }
 
@@ -226,11 +225,13 @@ class RevisionCubit extends Cubit<RevisionState> {
     // ممكن يكون في كروت في learningQueue بس مش due بعد
     if (_learningQueue.isNotEmpty) {
       // ✅ في انتظار → اعرض Waiting screen
-      emit(RevisionWaiting(
-        nextDueDate: _learningQueue.first.dueDate,
-        totalReviewed: _totalReviewed,
-        remainingLearning: _learningQueue.length,
-      ));
+      emit(
+        RevisionWaiting(
+          nextDueDate: _learningQueue.first.dueDate,
+          totalReviewed: _totalReviewed,
+          remainingLearning: _learningQueue.length,
+        ),
+      );
       return;
     }
 
@@ -251,12 +252,14 @@ class RevisionCubit extends Cubit<RevisionState> {
     // اجبر إظهار أول كارت في learningQueue
     final card = _learningQueue.removeAt(0);
 
-    emit(RevisionReady(
-      currentCard: card,
-      learningCount: _learningQueue.length,
-      reviewCount: _reviewQueue.length,
-      newCount: _newQueue.length,
-    ));
+    emit(
+      RevisionReady(
+        currentCard: card,
+        learningCount: _learningQueue.length,
+        reviewCount: _reviewQueue.length,
+        newCount: _newQueue.length,
+      ),
+    );
   }
 
   // ══════════════════════════════════════════════════

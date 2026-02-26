@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
@@ -30,7 +29,7 @@ class RevisionRepo {
 
     return snapshot.docs.map((doc) {
       final data = doc.data();
-      
+
       if (data['is_ai_card'] == true || data.containsKey('word')) {
         return AICardModel.fromFirestore(doc);
       } else {
@@ -45,18 +44,14 @@ class RevisionRepo {
   /// بيستخدم لحفظ الكروت المعدلة
   Future<void> updateCard(BaseCardEntity card) async {
     Map<String, dynamic> data;
-    
+
     if (card is AICardEntity) {
       data = AICardModel.fromEntity(card).toFirestore();
     } else {
-      data = NormalCardModel.fromEntity(card as NormalCardEntity)
-          .toFirestore();
+      data = NormalCardModel.fromEntity(card as NormalCardEntity).toFirestore();
     }
-    
-    await _firestore
-        .collection('cards')
-        .doc(card.id)
-        .update(data);
+
+    await _firestore.collection('cards').doc(card.id).update(data);
   }
 
   // ══════════════════════════════════════════════════
@@ -65,24 +60,25 @@ class RevisionRepo {
   /// بيحفظ كذا كارت في مرة واحدة - أحسن للـ performance
   Future<void> updateCardsBatch(List<BaseCardEntity> cards) async {
     if (cards.isEmpty) return;
-    
+
     // Firestore Batch - بيخلي كل الـ updates تحصل مع بعض
     final batch = _firestore.batch();
-    
+
     for (final card in cards) {
       Map<String, dynamic> data;
-      
+
       if (card is AICardEntity) {
         data = AICardModel.fromEntity(card).toFirestore();
       } else {
-        data = NormalCardModel.fromEntity(card as NormalCardEntity)
-            .toFirestore();
+        data = NormalCardModel.fromEntity(
+          card as NormalCardEntity,
+        ).toFirestore();
       }
-      
+
       final docRef = _firestore.collection('cards').doc(card.id);
       batch.update(docRef, data);
     }
-    
+
     // Execute all updates at once
     await batch.commit();
   }

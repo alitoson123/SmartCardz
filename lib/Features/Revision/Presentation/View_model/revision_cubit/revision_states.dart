@@ -19,9 +19,9 @@ class RevisionReady extends RevisionState {
   final bool showAnswer;
 
   // ✅ عدد الكروت في كل queue (زي Anki بالظبط)
-  final int learningCount;  // 🟡 learning + relearning
-  final int reviewCount;    // 🔵 review
-  final int newCount;       // 🟢 new
+  final int learningCount; // 🟡 learning + relearning
+  final int reviewCount; // 🔵 review
+  final int newCount; // 🟢 new
 
   RevisionReady({
     required this.currentCard,
@@ -57,9 +57,9 @@ class RevisionReady extends RevisionState {
 // ده بيحصل لما في كروت في learningQueue بس مش due بعد
 // مثلاً: ضغطت Again والكارت due بعد 45 ثانية
 class RevisionWaiting extends RevisionState {
-  final DateTime nextDueDate;     // موعد أقرب كارت
-  final int totalReviewed;        // كم كارت راجعت
-  final int remainingLearning;    // كروت لسه في learningQueue
+  final DateTime nextDueDate; // موعد أقرب كارت
+  final int totalReviewed; // كم كارت راجعت
+  final int remainingLearning; // كروت لسه في learningQueue
 
   RevisionWaiting({
     required this.nextDueDate,

@@ -28,7 +28,6 @@ void main() async {
   runApp(const SmartCards());
 }
 
-
 class SmartCards extends StatelessWidget {
   const SmartCards({super.key});
 
@@ -82,4 +81,3 @@ class SmartCards extends StatelessWidget {
     );
   }
 }
-

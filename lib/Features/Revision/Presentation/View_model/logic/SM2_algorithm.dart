@@ -3,7 +3,6 @@
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
 class Sm2Scheduler {
-
   // ══════════════════════════════════════════════════
   //   الإعدادات
   // ══════════════════════════════════════════════════
@@ -57,7 +56,8 @@ class Sm2Scheduler {
 
     if (quality == 1) {
       final newEase = (card.ease - 0.15).clamp(_minEase, 2.5);
-      final hardStepDuration = (_learningSteps[0] * _hardStepMultiplier).round();
+      final hardStepDuration = (_learningSteps[0] * _hardStepMultiplier)
+          .round();
       return card.copyWith(
         state: CardState.learning,
         currentStep: 0,
@@ -77,7 +77,6 @@ class Sm2Scheduler {
   //   🟡 2. LEARNING CARD ✅ التعديل الأول
   // ══════════════════════════════════════════════════
   static BaseCardEntity _handleLearning(BaseCardEntity card, int quality) {
-    
     // Again: رجع لأول step
     if (quality == 0) {
       return card.copyWith(
@@ -93,7 +92,7 @@ class Sm2Scheduler {
       return card.copyWith(
         state: CardState.review,
         repetition: 1,
-        interval: _easyInterval,         // 4 أيام
+        interval: _easyInterval, // 4 أيام
         currentStep: 0,
         dueDate: _daysFromNow(_easyInterval),
       );
@@ -114,7 +113,7 @@ class Sm2Scheduler {
       return card.copyWith(
         state: CardState.review,
         repetition: 1,
-        interval: _graduatingInterval,   // 1 يوم
+        interval: _graduatingInterval, // 1 يوم
         currentStep: 0,
         dueDate: _daysFromNow(_graduatingInterval),
       );
@@ -130,19 +129,18 @@ class Sm2Scheduler {
   //   🔵 3. REVIEW CARD ✅ التعديل الثاني
   // ══════════════════════════════════════════════════
   static BaseCardEntity _handleReview(BaseCardEntity card, int quality) {
-
     // ✅ FIX 3: احفظ الـ interval القديم قبل ما تمسحه
     // ────────────────────────────────────────
     if (quality == 0) {
       final newEase = (card.ease - 0.2).clamp(_minEase, 2.5);
-      
+
       // 🔥 نحفظ interval القديم في metadata
       // علشان نستخدمه لما نرجع من relearning
       return card.copyWith(
         state: CardState.relearning,
         ease: double.parse(newEase.toStringAsFixed(2)),
         repetition: 0,
-        interval: card.interval,         // ✅ نحتفظ بيه! (مش 0)
+        interval: card.interval, // ✅ نحتفظ بيه! (مش 0)
         lapses: card.lapses + 1,
         currentStep: 0,
         dueDate: _minutesFromNow(_relearnSteps[0]),
@@ -162,8 +160,7 @@ class Sm2Scheduler {
         // Good/Easy → 1 يوم
         newInterval = 1;
       }
-    } 
-    else if (card.repetition == 1) {
+    } else if (card.repetition == 1) {
       // تاني مراجعة
       if (quality == 1) {
         // Hard → حوالي 3 أيام (أقل من 6)
@@ -176,8 +173,7 @@ class Sm2Scheduler {
         // Good → 6 أيام
         newInterval = 6;
       }
-    }
-    else {
+    } else {
       // بعد المراجعة التانية
       switch (quality) {
         case 1: // Hard
@@ -192,9 +188,9 @@ class Sm2Scheduler {
     }
 
     // حساب ease
-    final double newEase = (
-      card.ease + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
-    ).clamp(_minEase, 2.5);
+    final double newEase =
+        (card.ease + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)))
+            .clamp(_minEase, 2.5);
 
     newInterval = newInterval.clamp(1, _maxInterval);
 
@@ -210,7 +206,6 @@ class Sm2Scheduler {
   //   🔴 4. RELEARNING CARD ✅ التعديل الثالث
   // ══════════════════════════════════════════════════
   static BaseCardEntity _handleRelearning(BaseCardEntity card, int quality) {
-    
     if (quality == 0) {
       return card.copyWith(
         currentStep: 0,
@@ -221,7 +216,7 @@ class Sm2Scheduler {
     if (quality == 1) {
       return card.copyWith(
         dueDate: _minutesFromNow(
-          _relearnSteps[card.currentStep.clamp(0, _relearnSteps.length - 1)]
+          _relearnSteps[card.currentStep.clamp(0, _relearnSteps.length - 1)],
         ),
       );
     }
@@ -229,7 +224,7 @@ class Sm2Scheduler {
     // ✅ FIX 3: استخدم الـ interval القديم المحفوظ
     // ────────────────────────────────────────
     int newInterval;
-    
+
     if (quality == 4) {
       // Easy → 4 أيام
       newInterval = _easyInterval;
@@ -237,7 +232,7 @@ class Sm2Scheduler {
       // Good → نص الفترة القديمة
       // 🔥 card.interval هنا فيه القيمة القديمة (محفوظة من Review)
       final previousInterval = card.interval;
-      
+
       if (previousInterval > 0) {
         // استخدم نص الفترة القديمة
         newInterval = (previousInterval * _lapseMultiplier).round();
@@ -245,10 +240,10 @@ class Sm2Scheduler {
         // fallback لو مفيش interval
         newInterval = _graduatingInterval;
       }
-      
+
       newInterval = newInterval.clamp(1, _maxInterval);
     }
-    
+
     return card.copyWith(
       state: CardState.review,
       repetition: 1,
@@ -267,7 +262,6 @@ class Sm2Scheduler {
   static DateTime _daysFromNow(int days) =>
       DateTime.now().add(Duration(days: days));
 }
-
 
 /*// 📁 logic/sm2_scheduler.dart
 // ════════════════════════════════════════════════════════════════

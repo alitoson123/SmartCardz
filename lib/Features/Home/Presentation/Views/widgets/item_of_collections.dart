@@ -110,7 +110,7 @@ class ItemOfCollections extends StatelessWidget {
                       ),
                       // SizedBox(width: 4.w),
                       Text(
-                        '${totalDue} ${S.of(context).due}',
+                        '$totalDue ${S.of(context).due}',
                         style: TextStyle(
                           fontSize: 13.sp,
                           color: Colors.amber,
@@ -153,5 +153,3 @@ class ItemOfCollections extends StatelessWidget {
     );
   }
 }
-
-

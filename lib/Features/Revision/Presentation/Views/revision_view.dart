@@ -347,7 +347,6 @@ class _StatItem extends StatelessWidget {
 // 📁 Presentation/Views/revision_view_body.dart
 // revision_view.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/revision_view_body.dart';
 import 'package:smart_cards/generated/l10n.dart';
@@ -399,7 +398,7 @@ class _RevisionViewState extends State<RevisionView> {
                   ],
                 ),
               ),
-    
+
               // خيارات السبورة (تظهر فقط لما السبورة مفعلة)
               if (isWhiteboardEnabled) ...[
                 PopupMenuItem<String>(
@@ -412,7 +411,7 @@ class _RevisionViewState extends State<RevisionView> {
                     ],
                   ),
                 ),
-    
+
                 /* PopupMenuItem<String>(
                   value: 'disable_whiteboard',
                   child: Row(
@@ -434,7 +433,7 @@ class _RevisionViewState extends State<RevisionView> {
                     ),
                   ),
                 ),
-    
+
                 // قائمة الألوان
                 ...WhiteboardColors.colors.asMap().entries.map((entry) {
                   final index = entry.key;
@@ -462,9 +461,9 @@ class _RevisionViewState extends State<RevisionView> {
                   );
                 }),
               ],
-    
+
               const PopupMenuDivider(),
-    
+
               // حذف الكارت
               PopupMenuItem<String>(
                 value: 'delete_card',
@@ -483,8 +482,7 @@ class _RevisionViewState extends State<RevisionView> {
                   isWhiteboardEnabled = !isWhiteboardEnabled;
                 });
               } else if (value == 'clear_whiteboard') {
-                clearWhiteboardNotifier.value =
-                    !clearWhiteboardNotifier.value;
+                clearWhiteboardNotifier.value = !clearWhiteboardNotifier.value;
               } /*else if (value == 'disable_whiteboard') {
                 setState(() {
                   isWhiteboardEnabled = false;
@@ -507,8 +505,7 @@ class _RevisionViewState extends State<RevisionView> {
                       TextButton(
                         onPressed: () {
                           Navigator.pop(dialogContext);
-                          deleteCardNotifier.value =
-                              !deleteCardNotifier.value;
+                          deleteCardNotifier.value = !deleteCardNotifier.value;
                         },
                         child: Text(
                           S.of(context).delete,
