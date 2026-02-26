@@ -186,6 +186,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Forgot Password",
     ),
     "free": MessageLookupByLibrary.simpleMessage("Free"),
+    "from": MessageLookupByLibrary.simpleMessage("FROM"),
     "frontOnly": MessageLookupByLibrary.simpleMessage("Front only"),
     "generatingYourSmartCard": MessageLookupByLibrary.simpleMessage(
       "This may take a few seconds",
@@ -249,9 +250,13 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "selectCollection": MessageLookupByLibrary.simpleMessage("Collection"),
     "selectImage": MessageLookupByLibrary.simpleMessage("Select Image"),
+    "selectInputFirst": MessageLookupByLibrary.simpleMessage(
+      "Select a language above first",
+    ),
     "selectInputLanguage": MessageLookupByLibrary.simpleMessage(
       "Select Input Language",
     ),
+    "selectLanguage": MessageLookupByLibrary.simpleMessage("Select Languages"),
     "selectOutputLanguage": MessageLookupByLibrary.simpleMessage(
       "Select Output Language",
     ),
@@ -277,6 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "titleLabel": MessageLookupByLibrary.simpleMessage("Title"),
+    "to": MessageLookupByLibrary.simpleMessage("TO"),
     "typeOfCollection": MessageLookupByLibrary.simpleMessage(
       "Type of Collection",
     ),

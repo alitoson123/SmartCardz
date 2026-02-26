@@ -140,6 +140,9 @@
   "cardsInTheLearningList": "cards in the learning list",
   "showTheNextCardNow": "Show the next card now",
   "due": "due",
-  "all_done": "all done ✓"
-
+  "all_done": "all done ✓",
+  "selectLanguage": "Select Languages",
+  "from": "FROM",
+  "to": "TO",
+  "selectInputFirst": "Select a language above first"
 }

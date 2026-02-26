@@ -42,7 +42,8 @@
   "create": "إنشاء",
   "save": "حفظ",
   "CollectionCreatedSuccessfully": "تم إنشاء المجموعة بنجاح",
-  "NoCollectionsFound": "لا توجد مجموعات\nابدأ بإنشاء مجموعاتك وبطاقاتك باستخدام زر +",  "SomethingWentWrong": "حدث خطأ ما",
+  "NoCollectionsFound": "لا توجد مجموعات\nابدأ بإنشاء مجموعاتك وبطاقاتك باستخدام زر +",
+  "SomethingWentWrong": "حدث خطأ ما",
   "searchCollectionTitle": "البحث عن مجموعة",
   "searchCollectionHint": "ابحث عن مجموعة...",
   "revisionTitle": "المراجعة",
@@ -138,6 +139,10 @@
   "theNextCardIsAfter": "الكارت الجاي بعد",
   "cardsInTheLearningList": "كارت في قائمة التعلم",
   "showTheNextCardNow": "عرض الكارت الجاي الآن",
-  "due" : "مستحق",
-  "all_done": "خلصت النهارده ✓"
+  "due": "مستحق",
+  "all_done": "خلصت النهارده ✓",
+  "selectLanguage": "اختر اللغات",
+  "from": "من",
+  "to": "إلى",
+  "selectInputFirst": "اختر لغة أعلاه أولًا"
 }

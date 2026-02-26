@@ -170,6 +170,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "نسيت كلمة المرور",
     ),
     "free": MessageLookupByLibrary.simpleMessage("مجاني"),
+    "from": MessageLookupByLibrary.simpleMessage("من"),
     "frontOnly": MessageLookupByLibrary.simpleMessage("الوجه الأمامي فقط"),
     "generatingYourSmartCard": MessageLookupByLibrary.simpleMessage(
       "جاري إنشاء بطاقتك الذكية...\nقد يستغرق هذا بضع ثوانٍ",
@@ -229,9 +230,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectALanguage": MessageLookupByLibrary.simpleMessage("اختر لغة"),
     "selectCollection": MessageLookupByLibrary.simpleMessage("المجموعة"),
     "selectImage": MessageLookupByLibrary.simpleMessage("اختيار صورة"),
+    "selectInputFirst": MessageLookupByLibrary.simpleMessage(
+      "اختر لغة أعلاه أولًا",
+    ),
     "selectInputLanguage": MessageLookupByLibrary.simpleMessage(
       "اختر لغة الإدخال",
     ),
+    "selectLanguage": MessageLookupByLibrary.simpleMessage("اختر اللغات"),
     "selectOutputLanguage": MessageLookupByLibrary.simpleMessage(
       "اختر لغة الإخراج",
     ),
@@ -257,6 +262,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "theme": MessageLookupByLibrary.simpleMessage("السمة"),
     "titleLabel": MessageLookupByLibrary.simpleMessage("العنوان"),
+    "to": MessageLookupByLibrary.simpleMessage("إلى"),
     "typeOfCollection": MessageLookupByLibrary.simpleMessage("نوع المجموعة"),
     "typeOfCollectionHint": MessageLookupByLibrary.simpleMessage(
       "ابحث عن نوع مجموعة...",

@@ -1173,6 +1173,36 @@ class S {
   String get all_done {
     return Intl.message('all done ✓', name: 'all_done', desc: '', args: []);
   }
+
+  /// `Select Languages`
+  String get selectLanguage {
+    return Intl.message(
+      'Select Languages',
+      name: 'selectLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `FROM`
+  String get from {
+    return Intl.message('FROM', name: 'from', desc: '', args: []);
+  }
+
+  /// `TO`
+  String get to {
+    return Intl.message('TO', name: 'to', desc: '', args: []);
+  }
+
+  /// `Select a language above first`
+  String get selectInputFirst {
+    return Intl.message(
+      'Select a language above first',
+      name: 'selectInputFirst',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
