@@ -13,13 +13,15 @@ class RemoteConfigService {
     );
 
     await remoteConfig.setDefaults({
-      "baseUrl": "https://smartcardz-ai-3.onrender.com/",
+      "baseUrl": "https://gallant-radiance-production-d7c3.up.railway.app/",
     });
     if (await NetworkUtils.isOnline()) {
       await remoteConfig.fetchAndActivate();
     }
   }
 
+  // https://smartcardz-ai-3.onrender.com/
+  // https://gallant-radiance-production-d7c3.up.railway.app/
   static String getBaseUrl() {
     return remoteConfig.getString("baseUrl");
   }
