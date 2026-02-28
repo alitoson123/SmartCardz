@@ -109,12 +109,12 @@ class AppServices {
     final cardsSnap = firestore
         .collection('cards')
         .where('collectionId', isEqualTo: collectionId);
-    final totalCards = await cardsSnap.count().get();
+    final totalCards = await cardsSnap.get();
     final dueCards = await cardsSnap
         .where('due_date', isLessThanOrEqualTo: now)
         .get();
 
-    return {'due': dueCards.docs.length, 'total': totalCards.count ?? 0};
+    return {'due': dueCards.docs.length, 'total': totalCards.docs.length};
   }
   // ======================================================================
   // 🃏 CARDS
