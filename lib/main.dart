@@ -45,6 +45,7 @@ class SmartCards extends StatelessWidget {
       builder: (context, child) {
         return MultiBlocProvider(
           providers: [
+             
             BlocProvider(create: (context) => AppInitCubit()),
             BlocProvider(create: (context) => ThemeCubit()),
             BlocProvider(create: (context) => AppLanguageCubit()),
