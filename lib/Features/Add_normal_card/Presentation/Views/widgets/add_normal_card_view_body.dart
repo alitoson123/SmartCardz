@@ -17,6 +17,7 @@ import 'package:smart_cards/core/utils/widgets/app_button.dart';
 import 'package:smart_cards/core/utils/widgets/app_header.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/core/views/collection_view.dart';
+import 'package:smart_cards/core/views/widgets/banner_ad_widget.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
 class AddNormalCardViewBody extends StatefulWidget {
@@ -55,139 +56,148 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            //***************************************************** */
-            //   Header
-            AppHeader(
-              icon: Icons.library_add,
-              title: S.of(context).createYourFlashcard,
-              subTitle: S.of(context).createFlashcardSubtitle,
-            ),
-            SizedBox(height: 25.h),
+    return Column(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  //***************************************************** */
+                  //   Header
+                  AppHeader(
+                    icon: Icons.library_add,
+                    title: S.of(context).createYourFlashcard,
+                    subTitle: S.of(context).createFlashcardSubtitle,
+                  ),
+                  SizedBox(height: 25.h),
 
-            //***************************************************** */
-            //   Selection section
-            buildSelectionRow(), // Extracted method
+                  //***************************************************** */
+                  //   Selection section
+                  buildSelectionRow(), // Extracted method
 
-            SizedBox(height: 24.h),
-            //***************************************************** */
-            //  the Text fields
+                  SizedBox(height: 24.h),
+                  //***************************************************** */
+                  //  the Text fields
 
-            //   Front Side Field
-            CustomTextField(
-              controller: frontSideController,
-              hint: selectedTypeId == '1'
-                  ? S.of(context).EnterYourQuestion
-                  : S.of(context).EnterYourInformation,
-              imagePath: frontImage,
-              onImageCanel: () {
-                setState(() {
-                  frontImage = null;
-                });
-              },
-              onImageTap: () {
-                showDialog(
-                  // pick image from gallery or camera
-                  context: context,
-                  builder: (simpleDialogContext) {
-                    return CameraOrGalleryDialog(
-                      onPressedGallery: () async {
-                        // pick image from gallery
-                        final picked = await PickingAnImage()
-                            .pickImageFromGallery();
-                        if (!mounted) return;
-                        if (picked != null) {
-                          setState(() {
-                            frontImage = picked;
-                          });
-                        }
-                        Navigator.pop(context);
-                      },
-                      onPressedCamera: () async {
-                        // pick image from camera
-                        final picked = await PickingAnImage()
-                            .pickImageFromCamera();
-                        if (!mounted) return;
-                        if (picked != null) {
-                          setState(() {
-                            frontImage = picked;
-                          });
-                        }
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                );
-              },
-            ),
-
-            SizedBox(height: 16.h),
-
-            // Back Side Field (only for Basic type)
-            Visibility(
-              visible: selectedTypeId == '1', // only for Basic type
-              child: CustomTextField(
-                controller: backSideController,
-                hint: S.of(context).EnterYourAnswer,
-                imagePath: backImage,
-                onImageCanel: () {
-                  setState(() {
-                    backImage = null;
-                  });
-                },
-                onImageTap: () {
-                  showDialog(
-                    // pick image from gallery or camera
-                    context: context,
-                    builder: (simpleDialogContext) {
-                      return CameraOrGalleryDialog(
-                        onPressedGallery: () async {
-                          // pick image from gallery
-                          final picked = await PickingAnImage()
-                              .pickImageFromGallery();
-                          if (!mounted) return;
-                          if (picked != null) {
-                            setState(() {
-                              backImage = picked;
-                            });
-                          }
-                          Navigator.pop(context);
-                        },
-                        onPressedCamera: () async {
-                          // pick image from camera
-                          final picked = await PickingAnImage()
-                              .pickImageFromCamera();
-                          if (!mounted) return;
-                          if (picked != null) {
-                            setState(() {
-                              backImage = picked;
-                            });
-                          }
-                          Navigator.pop(context);
+                  //   Front Side Field
+                  CustomTextField(
+                    controller: frontSideController,
+                    hint: selectedTypeId == '1'
+                        ? S.of(context).EnterYourQuestion
+                        : S.of(context).EnterYourInformation,
+                    imagePath: frontImage,
+                    onImageCanel: () {
+                      setState(() {
+                        frontImage = null;
+                      });
+                    },
+                    onImageTap: () {
+                      showDialog(
+                        // pick image from gallery or camera
+                        context: context,
+                        builder: (simpleDialogContext) {
+                          return CameraOrGalleryDialog(
+                            onPressedGallery: () async {
+                              // pick image from gallery
+                              final picked = await PickingAnImage()
+                                  .pickImageFromGallery();
+                              if (!mounted) return;
+                              if (picked != null) {
+                                setState(() {
+                                  frontImage = picked;
+                                });
+                              }
+                              Navigator.pop(context);
+                            },
+                            onPressedCamera: () async {
+                              // pick image from camera
+                              final picked = await PickingAnImage()
+                                  .pickImageFromCamera();
+                              if (!mounted) return;
+                              if (picked != null) {
+                                setState(() {
+                                  frontImage = picked;
+                                });
+                              }
+                              Navigator.pop(context);
+                            },
+                          );
                         },
                       );
                     },
-                  );
-                },
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  // Back Side Field (only for Basic type)
+                  Visibility(
+                    visible: selectedTypeId == '1', // only for Basic type
+                    child: CustomTextField(
+                      controller: backSideController,
+                      hint: S.of(context).EnterYourAnswer,
+                      imagePath: backImage,
+                      onImageCanel: () {
+                        setState(() {
+                          backImage = null;
+                        });
+                      },
+                      onImageTap: () {
+                        showDialog(
+                          // pick image from gallery or camera
+                          context: context,
+                          builder: (simpleDialogContext) {
+                            return CameraOrGalleryDialog(
+                              onPressedGallery: () async {
+                                // pick image from gallery
+                                final picked = await PickingAnImage()
+                                    .pickImageFromGallery();
+                                if (!mounted) return;
+                                if (picked != null) {
+                                  setState(() {
+                                    backImage = picked;
+                                  });
+                                }
+                                Navigator.pop(context);
+                              },
+                              onPressedCamera: () async {
+                                // pick image from camera
+                                final picked = await PickingAnImage()
+                                    .pickImageFromCamera();
+                                if (!mounted) return;
+                                if (picked != null) {
+                                  setState(() {
+                                    backImage = picked;
+                                  });
+                                }
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 50.h),
+
+                  //***************************************************** */
+                  //  add button
+                  AppButton(
+                    text: S.of(context).addCard,
+                    onPressed: addCard,
+                    icon: Icons.add,
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 50.h),
-
-            //***************************************************** */
-            //  add button
-            AppButton(
-              text: S.of(context).addCard,
-              onPressed: addCard,
-              icon: Icons.add,
-            ),
-          ],
+          ),
         ),
-      ),
+
+        // SizedBox(height: 8.h),
+        const BannerAdWidget(), // ← Adds banner at the bottom
+      ],
     );
   }
 
