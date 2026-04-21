@@ -1,92 +1,83 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/models/card__with_AI_model.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
-import 'package:smart_cards/Features/Add_normal_card/Data/models/normal_card_model.dart';
-import 'package:smart_cards/Features/Add_normal_card/Domain/Entities/normal_card_entity.dart';
+import 'package:dartz/dartz.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:smart_cards/Features/Revision/Data/Data_source/revision_remote_data_source.dart';
+import 'package:smart_cards/Features/Revision/Domain/Repos/revision_repo.dart';
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
+import 'package:smart_cards/core/errors/failure.dart';
 
-class RevisionRepo {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class RevisionRepoImpl implements RevisionRepo {
+  final RevisionRemoteDataSource revisionRemoteDataSource;
+  RevisionRepoImpl({required this.revisionRemoteDataSource});
 
-  // ══════════════════════════════════════════════════
-  //   جيب الكروت المستحقة للمراجعة
-  // ══════════════════════════════════════════════════
-  /// بيتنفذ مرة واحدة بس في بداية الجلسة ✅
-  /// بيجيب كل الكروت اللي due_date <= now
-  Future<List<BaseCardEntity>> getDueCards(
-    String collectionId, {
-    int limit = 100,
+  @override
+  Future<Either<Failure, List<BaseCardEntity>>> getDueCards({
+    required String collectionId,
   }) async {
-    final now = Timestamp.now();
+    try {
+      var result = await revisionRemoteDataSource.getDueCards(
+        collectionId: collectionId,
+      );
 
-    final snapshot = await _firestore
-        .collection('cards')
-        .where('collectionId', isEqualTo: collectionId)
-        .where('due_date', isLessThanOrEqualTo: now)
-        .orderBy('due_date')
-        .limit(limit)
-        .get();
-
-    return snapshot.docs.map((doc) {
-      final data = doc.data();
-
-      if (data['is_ai_card'] == true || data.containsKey('word')) {
-        return AICardModel.fromFirestore(doc);
+      return right(result);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return left(ServerFailure.fromFirebaseError(e));
       } else {
-        return NormalCardModel.fromFirestore(doc);
+        return left(ServerFailure(errorMessage: e.toString()));
       }
-    }).toList();
-  }
-
-  // ══════════════════════════════════════════════════
-  //   تحديث كارت واحد
-  // ══════════════════════════════════════════════════
-  /// بيستخدم لحفظ الكروت المعدلة
-  Future<void> updateCard(BaseCardEntity card) async {
-    Map<String, dynamic> data;
-
-    if (card is AICardEntity) {
-      data = AICardModel.fromEntity(card).toFirestore();
-    } else {
-      data = NormalCardModel.fromEntity(card as NormalCardEntity).toFirestore();
     }
-
-    await _firestore.collection('cards').doc(card.id).update(data);
   }
 
-  // ══════════════════════════════════════════════════
-  //   تحديث كروت متعددة (Batch) - أسرع ✅
-  // ══════════════════════════════════════════════════
-  /// بيحفظ كذا كارت في مرة واحدة - أحسن للـ performance
-  Future<void> updateCardsBatch(List<BaseCardEntity> cards) async {
-    if (cards.isEmpty) return;
+  @override
+  Future<Either<Failure, void>> updateCard({required BaseCardEntity card}) async {
+    try {
+      await revisionRemoteDataSource.updateCard(card: card);
 
-    // Firestore Batch - بيخلي كل الـ updates تحصل مع بعض
-    final batch = _firestore.batch();
-
-    for (final card in cards) {
-      Map<String, dynamic> data;
-
-      if (card is AICardEntity) {
-        data = AICardModel.fromEntity(card).toFirestore();
+      return right(null);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return left(ServerFailure.fromFirebaseError(e));
       } else {
-        data = NormalCardModel.fromEntity(
-          card as NormalCardEntity,
-        ).toFirestore();
+        return left(ServerFailure(errorMessage: e.toString()));
       }
-
-      final docRef = _firestore.collection('cards').doc(card.id);
-      batch.update(docRef, data);
     }
-
-    // Execute all updates at once
-    await batch.commit();
   }
 
-  // ══════════════════════════════════════════════════
-  //   حذف كارت
-  // ══════════════════════════════════════════════════
-  Future<void> deleteCard(String cardId) async {
-    await _firestore.collection('cards').doc(cardId).delete();
+  @override
+  Future<Either<Failure, void>> updateMultipleCards({
+    required List<BaseCardEntity> cards,
+  }) async {
+    try {
+      await revisionRemoteDataSource.updateMultipleCards(cards: cards);
+
+      return right(null);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return left(ServerFailure.fromFirebaseError(e));
+      } else {
+        return left(ServerFailure(errorMessage: e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteCard({
+    required String cardId,
+    required String collectionId,
+  }) async {
+    try {
+      await revisionRemoteDataSource.deleteCard(
+        cardId: cardId,
+        collectionId: collectionId,
+      );
+
+      return right(null);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return left(ServerFailure.fromFirebaseError(e));
+      } else {
+        return left(ServerFailure(errorMessage: e.toString()));
+      }
+    }
   }
 }

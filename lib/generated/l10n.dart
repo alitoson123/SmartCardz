@@ -129,10 +129,10 @@ class S {
     );
   }
 
-  /// `Enter any words or sentences in any language and get images, definitions, word type, and examples`
+  /// `Enter any words or phrases in any language and get images, definitions, word type, and examples in any language`
   String get EnterAnyWordsOrSentences {
     return Intl.message(
-      'Enter any words or sentences in any language and get images, definitions, word type, and examples',
+      'Enter any words or phrases in any language and get images, definitions, word type, and examples in any language',
       name: 'EnterAnyWordsOrSentences',
       desc: '',
       args: [],
@@ -189,10 +189,10 @@ class S {
     );
   }
 
-  /// `Please enter a word`
+  /// `Please enter any amount of words or phrases to generate cards`
   String get pleaseEnterAWord {
     return Intl.message(
-      'Please enter a word',
+      'Please enter any amount of words or phrases to generate cards',
       name: 'pleaseEnterAWord',
       desc: '',
       args: [],
@@ -209,10 +209,10 @@ class S {
     );
   }
 
-  /// `Please select a collection`
+  /// `Please select a collection for your cards`
   String get PleaseSelectACollection {
     return Intl.message(
-      'Please select a collection',
+      'Please select a collection for your cards',
       name: 'PleaseSelectACollection',
       desc: '',
       args: [],
@@ -414,9 +414,9 @@ class S {
     return Intl.message('Easy', name: 'easy', desc: '', args: []);
   }
 
-  /// `Good`
-  String get good {
-    return Intl.message('Good', name: 'good', desc: '', args: []);
+  /// `Medium`
+  String get medium {
+    return Intl.message('Medium', name: 'medium', desc: '', args: []);
   }
 
   /// `Hard`
@@ -934,10 +934,10 @@ class S {
     );
   }
 
-  /// `put "," between every word or sentence`
+  /// `put "," or any anything between every word or phrase `
   String get putCommaBetweenEveryWordOrSentence {
     return Intl.message(
-      'put "," between every word or sentence',
+      'put "," or any anything between every word or phrase ',
       name: 'putCommaBetweenEveryWordOrSentence',
       desc: '',
       args: [],
@@ -1202,6 +1202,46 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Failed to upload the image`
+  String get FailedToUploadTheImage {
+    return Intl.message(
+      'Failed to upload the image',
+      name: 'FailedToUploadTheImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Card`
+  String get editCard {
+    return Intl.message('Edit Card', name: 'editCard', desc: '', args: []);
+  }
+
+  /// `Image`
+  String get image {
+    return Intl.message('Image', name: 'image', desc: '', args: []);
+  }
+
+  /// `Word`
+  String get word {
+    return Intl.message('Word', name: 'word', desc: '', args: []);
+  }
+
+  /// `Type`
+  String get type {
+    return Intl.message('Type', name: 'type', desc: '', args: []);
+  }
+
+  /// `Definition`
+  String get definition {
+    return Intl.message('Definition', name: 'definition', desc: '', args: []);
+  }
+
+  /// `Example`
+  String get example {
+    return Intl.message('Example', name: 'example', desc: '', args: []);
   }
 }
 

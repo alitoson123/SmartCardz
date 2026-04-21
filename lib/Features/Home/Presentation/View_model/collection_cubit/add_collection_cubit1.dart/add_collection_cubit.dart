@@ -4,13 +4,11 @@ import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cub
 
 class AddCollectionCubit extends Cubit<AddCollectionStates> {
   AddCollectionCubit({required this.addCollectionRepo})
-    : super(AddCollectionInitial());
+    : super(AddCollectionLoading());
 
   final CollectionRepo addCollectionRepo;
 
   Future<void> addCollectionMethod({required String collectionName}) async {
-    emit(AddCollectionLoading());
-
     final result = await addCollectionRepo.addCollection(
       collectionName: collectionName,
     );

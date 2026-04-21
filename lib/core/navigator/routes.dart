@@ -18,8 +18,10 @@ import 'package:smart_cards/Features/On_Boarding/Presentation/Views/on_boarding_
 import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/revision_cubit/recision_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/revision_view.dart';
+import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/edit_card.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/settings_view.dart';
 import 'package:smart_cards/Features/Splash/Presentation/views/spalsh_view.dart';
+import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
 import 'package:smart_cards/core/views/collection_view.dart';
 
@@ -37,6 +39,7 @@ class AppRoutes {
   static const String settingsScreen = '/settings';
   static const String selectInputLanguageScreen = '/selectInputLanguage';
   static const String selectOutputLanguageScreen = '/selectOutputLanguage';
+  static const String editCardScreen = '/editCard';
 
   static final route = GoRouter(
     routes: [
@@ -80,7 +83,9 @@ class AppRoutes {
         path: revisionCardScreen,
         builder: (context, state) => MultiBlocProvider(
           providers: [
-            BlocProvider(create: (context) => RevisionCubit(RevisionRepo())),
+            BlocProvider(
+              create: (context) => RevisionCubit(getIt<RevisionRepoImpl>()),
+            ),
           ],
           child: RevisionView(collection: state.extra as CollectionEntity),
         ),
@@ -117,6 +122,10 @@ class AppRoutes {
         path: selectOutputLanguageScreen,
         builder: (context, state) => SelectOutputLanguage(),
       ),
+      /*GoRoute(
+        path: editCardScreen,
+        builder: (context, state) => EditCard(card: state.extra as BaseCardEntity),
+      ),*/
     ],
   );
 }

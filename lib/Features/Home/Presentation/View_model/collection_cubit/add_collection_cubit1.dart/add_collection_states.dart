@@ -2,8 +2,6 @@ import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart
 
 class AddCollectionStates {}
 
-class AddCollectionInitial extends AddCollectionStates {}
-
 class AddCollectionLoading extends AddCollectionStates {}
 
 class AddCollectionSuccess extends AddCollectionStates {

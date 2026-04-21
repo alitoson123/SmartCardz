@@ -1,5 +1,3 @@
-// 📁 logic/cubit/revision_cubit.dart
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/logic/SM2_algorithm.dart';
@@ -18,18 +16,15 @@ import 'package:smart_cards/Features/Revision/Presentation/View_model/revision_c
 //   learningQueue (due only) → reviewQueue → newQueue
 //
 // ✅ Query Firestore مرة واحدة في بداية الجلسة بس
-// ════════════════════════════════════════════════════════════════
 
 class RevisionCubit extends Cubit<RevisionState> {
-  final RevisionRepo _repo;
+  final RevisionRepoImpl _repo;
 
-  // ══════════════════════════════════════════════════
   //   ✅ الـ 3 Queues - قلب النظام
-  // ══════════════════════════════════════════════════
 
   /// 🟡 كروت في التعلم أو إعادة التعلم
   /// مرتبة حسب dueDate (Priority Queue)
-  /// بيرجعلها الكارت لو Again/Hard
+  /// بيرجعلها الكارت لو Again
   List<BaseCardEntity> _learningQueue = [];
 
   /// 🔵 كروت جاهزة للمراجعة
@@ -39,6 +34,7 @@ class RevisionCubit extends Cubit<RevisionState> {
   List<BaseCardEntity> _newQueue = [];
 
   int _totalReviewed = 0;
+
   final Map<String, BaseCardEntity> _modifiedCards = {};
 
   RevisionCubit(this._repo) : super(RevisionLoading());
@@ -46,23 +42,30 @@ class RevisionCubit extends Cubit<RevisionState> {
   // ══════════════════════════════════════════════════
   //   1. تحميل الكروت من Firestore ✅ مرة واحدة بس
   // ══════════════════════════════════════════════════
-  Future<void> loadCards(String collectionId, {int limit = 100}) async {
+  Future<void> loadCards(String collectionId) async {
     emit(RevisionLoading());
 
     try {
-      // ✅ Query Firestore مرة واحدة بس
-      final cards = await _repo.getDueCards(collectionId, limit: limit);
+      // ✅ Query Firestore مرة واحدة
+      final result = await _repo.getDueCards(collectionId: collectionId);
 
-      if (cards.isEmpty) {
-        emit(RevisionFinished(totalReviewed: 0));
-        return;
-      }
+      result.fold(
+        (failure) {
+          emit(RevisionError(message: failure.errorMessage));
+        },
+        (cards) {
+          if (cards.isEmpty) {
+            emit(RevisionFinished(totalReviewed: 0));
+            return;
+          }
 
-      // ✅ بناء الـ 3 queues
-      _buildQueues(cards);
+          // ✅ بناء الـ 3 queues
+          _buildQueues(cards);
 
-      // ✅ جيب أول كارت وابدأ الجلسة
-      _emitNextCard();
+          // ✅ جيب أول كارت وابدأ الجلسة
+          _emitNextCard();
+        },
+      );
     } catch (e) {
       emit(RevisionError(message: e.toString()));
     }
@@ -197,7 +200,7 @@ class RevisionCubit extends Cubit<RevisionState> {
     // خطوة 4: Background save كل 5 كروت
     // ════════════════════════
     if (_totalReviewed % 5 == 0) {
-      _saveModifiedCards(); // fire and forget
+      saveModifiedCards(); // fire and forget
     }
   }
 
@@ -236,7 +239,7 @@ class RevisionCubit extends Cubit<RevisionState> {
     }
 
     // مفيش أي كروت خالص → الجلسة خلصت
-    _saveModifiedCards();
+    saveModifiedCards();
     emit(RevisionFinished(totalReviewed: _totalReviewed));
   }
 
@@ -265,11 +268,11 @@ class RevisionCubit extends Cubit<RevisionState> {
   // ══════════════════════════════════════════════════
   //   8. حذف كارت
   // ══════════════════════════════════════════════════
-  Future<void> deleteCard(String cardId) async {
+  Future<void> deleteCard(String cardId, String collectionId) async {
     if (state is! RevisionReady) return;
 
     try {
-      await _repo.deleteCard(cardId);
+      await _repo.deleteCard(cardId: cardId, collectionId: collectionId);
 
       // احذف من الـ 3 queues لو موجود فيهم
       _learningQueue.removeWhere((c) => c.id == cardId);
@@ -287,15 +290,43 @@ class RevisionCubit extends Cubit<RevisionState> {
   // ══════════════════════════════════════════════════
   //   9. حفظ الكروت في Firestore
   // ══════════════════════════════════════════════════
-  Future<void> _saveModifiedCards() async {
+  Future<void> saveModifiedCards() async {
     if (_modifiedCards.isEmpty) return;
+    // 1. Copy the cards to a temporary list
+    final cardsToSave = _modifiedCards.values.toList();
 
+    // 2. CLEAR THE MAP IMMEDIATELY!
+    // Now if close() is called 1 millisecond later, it will see an empty map and abort.
+    _modifiedCards.clear();
     try {
-      await _repo.updateCardsBatch(_modifiedCards.values.toList());
-      _modifiedCards.clear();
+      // 3. Save the copied list to Firestore
+      await _repo.updateMultipleCards(cards: cardsToSave);
     } catch (e) {
-      // Silent fail - هنحاول في close()
+      // If it fails, put them back so we can try again
+      for (var card in cardsToSave) {
+        _modifiedCards[card.id] = card;
+      }
       print('❌ Failed to save: $e');
+    }
+  }
+
+  Future<void> editCard(BaseCardEntity card) async {
+    if (state is! RevisionReady) return;
+    final currentState = state as RevisionReady;
+    try {
+      emit(RevisionEditCard(card: card));
+      emit(
+        currentState.copyWith(
+          currentCard: card,
+        ),
+      );
+
+      await _repo.updateCard(card: card);
+      
+      _modifiedCards.remove(card.id);
+    } catch (e) {
+      emit(RevisionError(message: e.toString()));
+      emit(currentState);
     }
   }
 
@@ -304,7 +335,12 @@ class RevisionCubit extends Cubit<RevisionState> {
   // ══════════════════════════════════════════════════
   @override
   Future<void> close() async {
-    await _saveModifiedCards();
+    await saveModifiedCards();
     return super.close();
   }
+
+  // The save in close() is a fantastic failsafe (safety net).
+  // For example, if the app forcefully destroys the screen in an unexpected way
+  // (like an error mapping or a deep link override) rather than a normal back button,
+  // close() ensures nothing is lost.
 }

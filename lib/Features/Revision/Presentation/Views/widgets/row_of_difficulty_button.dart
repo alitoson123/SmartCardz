@@ -16,29 +16,39 @@ class RowOfDifficultyButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _RatingBtn(
-            label: S.of(context).again,
-            quality: 0,
-            color: Colors.red,
-            onPressed: () => onRating(0),
+          Expanded(
+            child: _RatingBtn(
+              label: S.of(context).again,
+              quality: 0,
+              color: Colors.red,
+              onPressed: () => onRating(0),
+            ),
           ),
-          _RatingBtn(
+          SizedBox(width: 8.w),
+
+          /*   _RatingBtn(
             label: S.of(context).hard,
             quality: 1,
             color: Colors.orange,
             onPressed: () => onRating(1),
+          ),*/
+          Expanded(
+            child: _RatingBtn(
+              label: S.of(context).medium,
+              quality: 3,
+              color: Colors.orange,
+              onPressed: () => onRating(3),
+            ),
           ),
-          _RatingBtn(
-            label: S.of(context).good,
-            quality: 3,
-            color: Colors.blue,
-            onPressed: () => onRating(3),
-          ),
-          _RatingBtn(
-            label: S.of(context).easy,
-            quality: 4,
-            color: Colors.green,
-            onPressed: () => onRating(4),
+          SizedBox(width: 8.w),
+
+          Expanded(
+            child: _RatingBtn(
+              label: S.of(context).easy,
+              quality: 4,
+              color: Colors.green,
+              onPressed: () => onRating(4),
+            ),
           ),
         ],
       ),
@@ -61,10 +71,9 @@ class _RatingBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4.w),
-        child: ElevatedButton(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 4.w),
+      child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
             padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -82,7 +91,6 @@ class _RatingBtn extends StatelessWidget {
             ),
           ),
         ),
-      ),
     );
   }
 }

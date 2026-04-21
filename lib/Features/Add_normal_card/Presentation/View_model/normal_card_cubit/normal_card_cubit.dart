@@ -4,10 +4,11 @@ import 'package:smart_cards/Features/Add_normal_card/Presentation/View_model/nor
 
 class NormalCardCubit extends Cubit<NormalCardStates> {
   NormalCardCubit({required this.normalCardRepoImpl})
-    : super(AddNormalCardInitial());
+    : super(AddNormalCardLoading());
 
   final NormalCardRepoImpl normalCardRepoImpl;
 
+  // add normal card
   Future<void> addNormalCard({
     required String frontSide,
     required String backSide,
@@ -18,7 +19,6 @@ class NormalCardCubit extends Cubit<NormalCardStates> {
     required String collectionId,
     String? cardId,
   }) async {
-    emit(AddNormalCardLoading());
     final result = await normalCardRepoImpl.addNormalCard(
       frontSide: frontSide,
       backSide: backSide,

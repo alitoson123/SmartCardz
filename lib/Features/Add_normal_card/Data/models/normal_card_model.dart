@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_cards/Features/Add_normal_card/Domain/Entities/normal_card_entity.dart';
-import 'package:hive/hive.dart';
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
-//part 'normal_card_model.g.dart';
 
-@HiveType(typeId: 3)
 class NormalCardModel extends NormalCardEntity {
+
   const NormalCardModel({
     required super.id,
     required super.collectionId,
@@ -13,6 +11,8 @@ class NormalCardModel extends NormalCardEntity {
     required super.backSide,
     super.frontImageUrl,
     super.backImageUrl,
+    super.frontImagePath,
+    super.backImagePath,
     super.state,
     super.ease,
     super.interval,
@@ -22,7 +22,7 @@ class NormalCardModel extends NormalCardEntity {
     required super.dueDate,
   });
 
-  /// From Firestore DocumentSnapshot
+  // From Firestore
   factory NormalCardModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
     return NormalCardModel(
@@ -39,18 +39,23 @@ class NormalCardModel extends NormalCardEntity {
       dueDate: (data['due_date'] as Timestamp?)?.toDate() ?? DateTime.now(),
       frontImageUrl: data['front_image_url'] ?? '',
       backImageUrl: data['back_image_url'] ?? '',
+      frontImagePath: data['front_image_path'] ?? '',
+      backImagePath: data['back_image_path'] ?? '',
     );
   }
 
+  // to firestore
   Map<String, dynamic> toFirestore() {
     return {
       'front_side': frontSide,
       'back_side': backSide,
       'front_image_url': frontImageUrl,
       'back_image_url': backImageUrl,
+      'front_image_path': frontImagePath,
+      'back_image_path': backImagePath,
       'collectionId': collectionId,
-      'is_ai_card': false, // ✅ للتمييز
-      'state': state.name, // 'newCard', 'learning', etc.
+      'is_ai_card': false,
+      'state': state.name, 
       'ease': ease,
       'interval': interval,
       'repetition': repetition,
@@ -61,9 +66,9 @@ class NormalCardModel extends NormalCardEntity {
     };
   }
 
-  // ══════════════════════════════
-  //   Helper
-  // ══════════════════════════════
+  // helper methods
+
+  // from string to CardState
   static CardState _stateFromString(String s) {
     return CardState.values.firstWhere(
       (e) => e.name == s,
@@ -71,7 +76,7 @@ class NormalCardModel extends NormalCardEntity {
     );
   }
 
-  // من Entity لـ Model (للـ update بعد SM-2)
+  // from Entity to Model (for update after SM-2)
   factory NormalCardModel.fromEntity(NormalCardEntity entity) {
     return NormalCardModel(
       id: entity.id,
@@ -79,6 +84,8 @@ class NormalCardModel extends NormalCardEntity {
       backSide: entity.backSide,
       frontImageUrl: entity.frontImageUrl,
       backImageUrl: entity.backImageUrl,
+      frontImagePath: entity.frontImagePath,
+      backImagePath: entity.backImagePath,
       collectionId: entity.collectionId,
       state: entity.state,
       ease: entity.ease,

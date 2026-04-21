@@ -1,11 +1,7 @@
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
-import 'package:hive/hive.dart';
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
-//part 'card__with_AI_model.g.dart';
 
-@HiveType(typeId: 2)
 class AICardModel extends AICardEntity {
   const AICardModel({
     required super.id,
@@ -15,6 +11,7 @@ class AICardModel extends AICardEntity {
     required super.definition,
     required super.example,
     super.image_url,
+    super.aiImagePath,
     super.is_valid,
     super.state,
     super.ease,
@@ -25,37 +22,39 @@ class AICardModel extends AICardEntity {
     required super.dueDate,
   });
 
-  /// From a simple JSON (e.g., from AI/mock). Sets sane SM-2 defaults.
+  // from json
   factory AICardModel.fromJson(Map<String, dynamic> json, {String id = ''}) {
     return AICardModel(
       id: id,
       image_url: _convertDriveUrl(json['URL'] ?? '') ?? '',
+      aiImagePath: json['ai_image_path'] ?? '',
       definition: json['description'] ?? '',
       word: json['word'] ?? '',
       type: (json['type'] ?? '') as String,
       example: _parseExamples(json['examples']),
       is_valid: json['is_valid'] ?? false,
       collectionId: json['collectionId'] ?? '',
-      state: _stateFromString(json['state'] ?? 'newCard'),
-      ease: (json['ease'] ?? 2.5).toDouble(),
-      interval: json['interval'] ?? 0,
-      repetition: json['repetition'] ?? 0,
-      currentStep: json['current_step'] ?? 0,
-      lapses: json['lapses'] ?? 0,
-      dueDate: (json['due_date'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      state: CardState.newCard, // always new card when coming from ai
+      ease: 2.5,
+      interval: 0,
+      repetition: 0,
+      currentStep: 0,
+      lapses: 0,
+      dueDate: DateTime.now(),
     );
   }
 
-  /// From Firestore DocumentSnapshot
+  // from firestore
   factory AICardModel.fromFirestore(DocumentSnapshot doc) {
     final m = doc.data() as Map<String, dynamic>;
     return AICardModel(
       id: doc.id,
       word: m['word'] ?? '',
-      type: m['type'] ?? '[]',
+      type: m['type'] ?? '',
       definition: m['definition'] ?? '',
-      example: (m['example'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      example: (m['example'] as List?)?.map((e) => e.toString()).toList() ?? [], // convert list of dynamic to list of strings
       image_url: m['image_url'] ?? '',
+      aiImagePath: m['ai_image_path'] ?? '',
       collectionId: m['collectionId'] ?? '',
       is_valid: m['is_valid'] ?? false,
       state: _stateFromString(m['state'] ?? 'newCard'),
@@ -107,45 +106,31 @@ class AICardModel extends AICardEntity {
     );
   }
 
-  // ══════════════════════════════
-  //   Helper
-  // ══════════════════════════════
+  // helper methods
+
+  // convert string to card state
   static CardState _stateFromString(String s) {
     return CardState.values.firstWhere(
       (e) => e.name == s,
       orElse: () => CardState.newCard,
-    );
+    ); // "دور في كل قيم CardState على واحدة اسمها زي الـ string، ولو ملقيتش رجّع newCard"
   }
 
-  static List<String> _parseExamples(dynamic input) {
-    if (input == null) return [];
-    if (input is List) {
-      return input.map((e) => e.toString()).toList();
-    }
-    if (input is String) {
-      // Trying to handle the case where it might be a double-encoded JSON string
-      try {
-        final decoded = jsonDecode(input);
-        if (decoded is List) {
-          return decoded.map((e) => e.toString()).toList();
-        }
-        // ignore: empty_catches
-      } catch (_) {}
-      // Fallback to split if it's not a JSON array string
-      if (input.isNotEmpty) {
-        return input.split(';').map((e) => e.trim()).toList();
-      }
-    }
-    return [];
+  // parse examples
+  static List<String> _parseExamples(String? input) {
+    if (input == null || input.isEmpty) return [];
+
+    return input.split(';').map((e) => e.trim()).toList();
   }
 
+  // convert drive url to view url
   static String? _convertDriveUrl(String? url) {
     if (url == null || url.isEmpty) return url;
-    if (!url.contains('drive.google.com')) return url;
+    if (!url.contains('drive.google.com'))
+      return url; // لو مش لينك Drive → سيبه زي ما هو
 
     try {
-      // Regex to extract ID from: https://drive.google.com/file/d/[ID]/view...
-      // or https://drive.google.com/open?id=[ID]...
+      // استخراج الـ ID باستخدام Regex
       final idRegExp = RegExp(r'(?:/d/|id=)([\w-]+)');
       final match = idRegExp.firstMatch(url);
 
@@ -153,7 +138,7 @@ class AICardModel extends AICardEntity {
         final id = match.group(1);
         if (id != null && id.isNotEmpty) {
           return 'https://drive.google.com/uc?export=view&id=$id';
-        }
+        } // يبني الرابط الجديد بستخدام الـ ID
       }
     } catch (e) {
       // If parsing fails, return original

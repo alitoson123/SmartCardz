@@ -7,6 +7,8 @@ import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cub
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
 import 'package:smart_cards/core/services/Bloc_observes_service/my_Bloc_observe.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collections_stats_cubit/collections_stats_cubit.dart';
+import 'package:smart_cards/Features/Home/Domain/Repos/collection_stats_repo/collection_stats_repo.dart';
 import 'package:smart_cards/core/utils/app_theme/dark_theme.dart';
 import 'package:smart_cards/core/utils/app_theme/light_theme.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
@@ -48,7 +50,6 @@ class SmartCards extends StatelessWidget {
       builder: (context, child) {
         return MultiBlocProvider(
           providers: [
-             
             BlocProvider(create: (context) => AppInitCubit()),
             BlocProvider(create: (context) => ThemeCubit()),
             BlocProvider(create: (context) => AppLanguageCubit()),
@@ -60,6 +61,11 @@ class SmartCards extends StatelessWidget {
             BlocProvider(
               create: (context) => GetCollectionsCubit(
                 collectionRepoImpl: getIt<CollectionRepoImpl>(),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => CollectionsStatsCubit(
+                repository: getIt<CollectionStatsRepo>(),
               ),
             ),
           ],

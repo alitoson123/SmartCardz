@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_cards/core/services/app_services/collection_service.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
-import 'package:smart_cards/core/services/app_services/app_services.dart';
 
 class CustomRenameCollection extends StatefulWidget {
   const CustomRenameCollection({super.key, required this.collection});
@@ -52,7 +52,7 @@ class _CustomRenameCollectionState extends State<CustomRenameCollection> {
         TextButton(
           onPressed: isButtonEnabled
               ? () {
-                  AppServices.renameCollection(
+                  CollectionService.renameCollection(
                     collectionId: widget.collection.collection_id,
                     newCollectionName: controller.text,
                   );

@@ -16,7 +16,7 @@ class AddAICardCubit extends Cubit<AddAICardStates> {
     emit(AddAICardLoading());
     try {
       for (var card in cards) {
-        if (card.is_valid != true) continue;
+        if (card.is_valid != true) continue; // skip invalid cards
 
         final result = await addAndShowCardRepoImpl.addCard(
           word: card.word,
@@ -24,10 +24,13 @@ class AddAICardCubit extends Cubit<AddAICardStates> {
           example: card.example,
           type: card.type,
           image_url: card.image_url,
+          aiImagePath: card.aiImagePath,
           collectionId: collectionId,
         );
 
         result.fold((failure) => throw failure.errorMessage, (_) {});
+        // الـ throw بيكسر الـ loop ومش بيخلي الـ emit(Success) يتنفذ خالص.
+        //الـ catch بيمسكه - >  emit(AddAICardFailure)
       }
       emit(AddAICardSuccess());
     } catch (e) {

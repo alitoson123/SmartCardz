@@ -1,5 +1,3 @@
-// 📁 domain/entities/normal_card_entity.dart
-
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
 class NormalCardEntity extends BaseCardEntity {
@@ -7,6 +5,9 @@ class NormalCardEntity extends BaseCardEntity {
   final String backSide;
   final String frontImageUrl;
   final String backImageUrl;
+  final String frontImagePath;
+  final String backImagePath;
+  
 
   const NormalCardEntity({
     required super.id,
@@ -15,6 +16,8 @@ class NormalCardEntity extends BaseCardEntity {
     required this.backSide,
     this.frontImageUrl = '',
     this.backImageUrl = '',
+    this.frontImagePath = '',
+    this.backImagePath = '',
     super.state,
     super.ease,
     super.interval,
@@ -24,8 +27,15 @@ class NormalCardEntity extends BaseCardEntity {
     required super.dueDate,
   });
 
+  // copy with method
   @override
   NormalCardEntity copyWith({
+    String? frontSide,
+    String? backSide,
+    String? frontImageUrl,
+    String? backImageUrl,
+    String? frontImagePath,
+    String? backImagePath,
     CardState? state,
     double? ease,
     int? interval,
@@ -37,10 +47,12 @@ class NormalCardEntity extends BaseCardEntity {
     return NormalCardEntity(
       id: id,
       collectionId: collectionId,
-      frontSide: frontSide,
-      backSide: backSide,
-      frontImageUrl: frontImageUrl,
-      backImageUrl: backImageUrl,
+      frontSide: frontSide ?? this.frontSide,
+      backSide: backSide ?? this.backSide,
+      frontImageUrl: frontImageUrl ?? this.frontImageUrl,
+      backImageUrl: backImageUrl ?? this.backImageUrl,
+      frontImagePath: frontImagePath ?? this.frontImagePath,
+      backImagePath: backImagePath ?? this.backImagePath,
       state: state ?? this.state,
       ease: ease ?? this.ease,
       interval: interval ?? this.interval,

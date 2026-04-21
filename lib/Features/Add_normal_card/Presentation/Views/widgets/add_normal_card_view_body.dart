@@ -1,9 +1,4 @@
-import 'dart:developer';
 import 'dart:io';
-import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/custom_selection.dart';
-import 'package:smart_cards/core/services/image_service/picking_an_image.dart';
-import 'package:smart_cards/core/services/image_service/put_image_and_get_url.dart';
-import 'package:smart_cards/core/utils/helpers/network_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +6,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_text_field.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/View_model/normal_card_cubit/normal_card_cubit.dart';
-import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/camera_or_gallery_dialog.dart';
+import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/card_selection_row.dart';
+import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/image_picker_helper.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/type_of_collections.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
+import 'package:smart_cards/core/messages/message.dart';
+import 'package:smart_cards/core/services/image_service/put_image_and_get_url.dart';
+import 'package:smart_cards/core/utils/helpers/network_utils.dart';
 import 'package:smart_cards/core/utils/widgets/app_button.dart';
 import 'package:smart_cards/core/utils/widgets/app_header.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/core/views/collection_view.dart';
+import 'package:smart_cards/core/views/widgets/app_dialog.dart';
 import 'package:smart_cards/core/views/widgets/banner_ad_widget.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
@@ -52,8 +52,6 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
     }
   }
 
-  // Pick image from gallery and return File
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -65,7 +63,6 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  //***************************************************** */
                   //   Header
                   AppHeader(
                     icon: Icons.library_add,
@@ -74,12 +71,15 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   ),
                   SizedBox(height: 25.h),
 
-                  //***************************************************** */
-                  //   Selection section
-                  buildSelectionRow(), // Extracted method
+                  //  the collection and type selection row
+                  CardSelectionRow(
+                    selectedCollectionName: selectedCollectionName,
+                    selectedType: selectedType,
+                    onTapCollection: _onCollectionTapped,
+                    onTapType: _onTypeTapped,
+                  ),
 
                   SizedBox(height: 24.h),
-                  //***************************************************** */
                   //  the Text fields
 
                   //   Front Side Field
@@ -95,38 +95,12 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                       });
                     },
                     onImageTap: () {
-                      showDialog(
-                        // pick image from gallery or camera
-                        context: context,
-                        builder: (simpleDialogContext) {
-                          return CameraOrGalleryDialog(
-                            onPressedGallery: () async {
-                              // pick image from gallery
-                              final picked = await PickingAnImage()
-                                  .pickImageFromGallery();
-                              if (!mounted) return;
-                              if (picked != null) {
-                                setState(() {
-                                  frontImage = picked;
-                                });
-                              }
-                              Navigator.pop(context);
-                            },
-                            onPressedCamera: () async {
-                              // pick image from camera
-                              final picked = await PickingAnImage()
-                                  .pickImageFromCamera();
-                              if (!mounted) return;
-                              if (picked != null) {
-                                setState(() {
-                                  frontImage = picked;
-                                });
-                              }
-                              Navigator.pop(context);
-                            },
-                          );
-                        },
-                      );
+                      showImagePickerDialog(context, (picked) {
+                        if (!mounted) return;
+                        setState(() {
+                          frontImage = picked;
+                        });
+                      });
                     },
                   ),
 
@@ -145,41 +119,16 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                         });
                       },
                       onImageTap: () {
-                        showDialog(
-                          // pick image from gallery or camera
-                          context: context,
-                          builder: (simpleDialogContext) {
-                            return CameraOrGalleryDialog(
-                              onPressedGallery: () async {
-                                // pick image from gallery
-                                final picked = await PickingAnImage()
-                                    .pickImageFromGallery();
-                                if (!mounted) return;
-                                if (picked != null) {
-                                  setState(() {
-                                    backImage = picked;
-                                  });
-                                }
-                                Navigator.pop(context);
-                              },
-                              onPressedCamera: () async {
-                                // pick image from camera
-                                final picked = await PickingAnImage()
-                                    .pickImageFromCamera();
-                                if (!mounted) return;
-                                if (picked != null) {
-                                  setState(() {
-                                    backImage = picked;
-                                  });
-                                }
-                                Navigator.pop(context);
-                              },
-                            );
-                          },
-                        );
+                        showImagePickerDialog(context, (picked) {
+                          if (!mounted) return;
+                          setState(() {
+                            backImage = picked;
+                          });
+                        });
                       },
                     ),
                   ),
+
                   SizedBox(height: 50.h),
 
                   //***************************************************** */
@@ -201,61 +150,39 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
     );
   }
 
-  //   Selection section
-  Widget buildSelectionRow() {
-    return Row(
-      children: [
-        Expanded(
-          child: CustomSelection(
-            // select a collection
-            label: selectedCollectionName ?? S.of(context).selectCollection,
-
-            icon: Icons.collections_bookmark_rounded,
-            onTap: () async {
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BlocProvider.value(
-                    value: context.read<GetCollectionsCubit>(),
-                    child: CollectionView(),
-                  ),
-                ),
-              );
-
-              if (!mounted) return;
-              if (result != null) {
-                setState(() {
-                  selectedCollectionName = result['name'];
-                  selectedCollectionId = result['id'];
-                });
-              }
-            },
-          ),
+  Future<void> _onCollectionTapped() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BlocProvider.value(
+          value: context.read<GetCollectionsCubit>(),
+          child: const CollectionView(),
         ),
-        SizedBox(width: 12.w),
-        Expanded(
-          child: CustomSelection(
-            // select a type of the collection
-            label: selectedType,
-            icon: Icons.style_rounded,
-            onTap: () async {
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TypeOfCollections()),
-              );
-
-              if (!mounted) return;
-              if (result != null) {
-                setState(() {
-                  selectedType = result['name'];
-                  selectedTypeId = result['id'];
-                });
-              }
-            },
-          ),
-        ),
-      ],
+      ),
     );
+
+    if (!mounted) return;
+    if (result != null) {
+      setState(() {
+        selectedCollectionName = result['name'];
+        selectedCollectionId = result['id'];
+      });
+    }
+  }
+
+  Future<void> _onTypeTapped() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const TypeOfCollections()),
+    );
+
+    if (!mounted) return;
+    if (result != null) {
+      setState(() {
+        selectedType = result['name'];
+        selectedTypeId = result['id'];
+      });
+    }
   }
 
   Future<void> addCard() async {
@@ -275,16 +202,6 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
         );
         return;
       }
-
-      if (selectedCollectionId == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(S.of(context).PleaseSelectACollection),
-            backgroundColor: Colors.red,
-          ),
-        );
-        return;
-      }
     } else if (selectedTypeId == '2') {
       // Validation for missing fields in front only type
       if (frontSide.isEmpty && frontImage == null) {
@@ -296,16 +213,15 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
         );
         return;
       }
+    }
 
-      if (selectedCollectionId == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(S.of(context).PleaseSelectACollection),
-            backgroundColor: Colors.red,
-          ),
-        );
-        return;
-      }
+    if (selectedCollectionId == null) {
+      Message().showAppDialog(
+        context: context,
+        type: DialogType.warning,
+        message: S.of(context).PleaseSelectACollection,
+      );
+      return;
     }
 
     //****************************************************************************/
@@ -328,7 +244,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
       ////////////////////////////////////////////////////////////////////////
       context: context,
       barrierDismissible: false,
-      builder: (context) => Center(child: CircularProgressIndicator()),
+      builder: (context) => const Center(child: CircularProgressIndicator()),
     );
 
     try {
@@ -357,11 +273,10 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
           // Upload failed
           if (mounted) {
             Navigator.pop(context); // Close loading dialog
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Failed to upload front image'),
-                backgroundColor: Colors.red,
-              ),
+            Message().showAppDialog(
+              context: context,
+              type: DialogType.error,
+              message: S.of(context).FailedToUploadTheImage,
             );
           }
           return;
@@ -384,11 +299,10 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
           // Upload failed
           if (mounted) {
             Navigator.pop(context); // Close loading dialog
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Failed to upload back image'),
-                backgroundColor: Colors.red,
-              ),
+            Message().showAppDialog(
+              context: context,
+              type: DialogType.error,
+              message: S.of(context).FailedToUploadTheImage,
             );
           }
           return;
@@ -400,25 +314,6 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
       // Add card to Firestore
       if (mounted) {
-        /*final repo = RevisionRepo();
-  
-  
-    final cardId = await repo.addCard(
-      deckId: selectedCollectionId!,
-      question: frontSide,
-      answer: backSide,
-      questionImageUrl: frontImageUrl,
-      answerImageUrl: backImageUrl,
-      questionImagePath: frontImageRef?.fullPath,
-      answerImagePath: backImageRef?.fullPath,
-    );
-    
-    print('✅ تم إضافة الكارت: $cardId');
-    */
-        // رجوع أو أي action
-        //    Navigator.pop(context);
-
-        ///
         context.read<NormalCardCubit>().addNormalCard(
           frontSide: frontSide,
           backSide: backSide,
@@ -442,7 +337,7 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
 
         // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Card added successfully!'),
             duration: Duration(milliseconds: 800),
             backgroundColor: Colors.green,
@@ -450,21 +345,19 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
         );
       }
     } catch (e) {
-      // Close loading dialog if still open
-      if (mounted) Navigator.pop(context);
+      if (!mounted) return;
+      Navigator.pop(context);
 
-      log('❌ Error adding card: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error adding card: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      if (!mounted) return;
+      Message().showAppDialog(
+        context: context,
+        type: DialogType.error,
+        message: 'Error adding card: $e',
+      );
     }
   }
 }
+
 
 /***
  * 
@@ -484,3 +377,4 @@ HTTP request
 
 Image picker
  */
+// The rule is: after every await, treat it like a fresh start — check mounted before touching context.

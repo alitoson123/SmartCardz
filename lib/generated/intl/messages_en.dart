@@ -37,7 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "Email": MessageLookupByLibrary.simpleMessage("Email"),
     "EnterAnyWordsOrSentences": MessageLookupByLibrary.simpleMessage(
-      "Enter any words or sentences in any language and get images, definitions, word type, and examples",
+      "Enter any words or phrases in any language and get images, definitions, word type, and examples in any language",
     ),
     "EnterYourAnswer": MessageLookupByLibrary.simpleMessage(
       "Enter Your Answer",
@@ -47,6 +47,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "EnterYourQuestion": MessageLookupByLibrary.simpleMessage(
       "Enter Your Question",
+    ),
+    "FailedToUploadTheImage": MessageLookupByLibrary.simpleMessage(
+      "Failed to upload the image",
     ),
     "FrontSide": MessageLookupByLibrary.simpleMessage("Front Side"),
     "GenerateSmartFlashcards": MessageLookupByLibrary.simpleMessage(
@@ -71,7 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please fill all fields",
     ),
     "PleaseSelectACollection": MessageLookupByLibrary.simpleMessage(
-      "Please select a collection",
+      "Please select a collection for your cards",
     ),
     "SomethingWentWrong": MessageLookupByLibrary.simpleMessage(
       "Something went wrong",
@@ -134,6 +137,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Create Your Flashcard",
     ),
     "dark": MessageLookupByLibrary.simpleMessage("Dark"),
+    "definition": MessageLookupByLibrary.simpleMessage("Definition"),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
     "deleteCard": MessageLookupByLibrary.simpleMessage("Delete Card"),
     "deleteCardConfirm": MessageLookupByLibrary.simpleMessage(
@@ -155,6 +159,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "due": MessageLookupByLibrary.simpleMessage("due"),
     "dueCards": MessageLookupByLibrary.simpleMessage("due"),
     "easy": MessageLookupByLibrary.simpleMessage("Easy"),
+    "editCard": MessageLookupByLibrary.simpleMessage("Edit Card"),
     "enableDisableWhiteboard": MessageLookupByLibrary.simpleMessage(
       "Enable / Disable whiteboard",
     ),
@@ -178,6 +183,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "error": MessageLookupByLibrary.simpleMessage("Error"),
     "errorOccurred": m1,
+    "example": MessageLookupByLibrary.simpleMessage("Example"),
     "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
     "forgotPasswordSubtitle": MessageLookupByLibrary.simpleMessage(
       "please enter your email and we will send \n you a link to return to your account",
@@ -191,10 +197,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "generatingYourSmartCard": MessageLookupByLibrary.simpleMessage(
       "This may take a few seconds",
     ),
-    "good": MessageLookupByLibrary.simpleMessage("Good"),
     "green": MessageLookupByLibrary.simpleMessage("Green"),
     "hard": MessageLookupByLibrary.simpleMessage("Hard"),
     "home": MessageLookupByLibrary.simpleMessage("Cardify"),
+    "image": MessageLookupByLibrary.simpleMessage("Image"),
     "isNotValidTryToFixTheSpelling": MessageLookupByLibrary.simpleMessage(
       "is not valid, try to fix the spelling",
     ),
@@ -202,6 +208,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
     "light": MessageLookupByLibrary.simpleMessage("Light"),
     "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+    "medium": MessageLookupByLibrary.simpleMessage("Medium"),
     "newCollection": MessageLookupByLibrary.simpleMessage("New collection"),
     "noBackSideData": MessageLookupByLibrary.simpleMessage("No back side data"),
     "noCardsDue": MessageLookupByLibrary.simpleMessage(
@@ -216,14 +223,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "orange": MessageLookupByLibrary.simpleMessage("Orange"),
     "pink": MessageLookupByLibrary.simpleMessage("Pink"),
     "pleaseEnterAWord": MessageLookupByLibrary.simpleMessage(
-      "Please enter a word",
+      "Please enter any amount of words or phrases to generate cards",
     ),
     "pleaseEnterYour": MessageLookupByLibrary.simpleMessage(
       "Please Enter Your ",
     ),
     "purple": MessageLookupByLibrary.simpleMessage("Purple"),
     "putCommaBetweenEveryWordOrSentence": MessageLookupByLibrary.simpleMessage(
-      "put \",\" between every word or sentence",
+      "put \",\" or any anything between every word or phrase ",
     ),
     "ratingSavedLoadingNext": MessageLookupByLibrary.simpleMessage(
       "Rating saved ✅\nLoading next card...",
@@ -283,6 +290,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "titleLabel": MessageLookupByLibrary.simpleMessage("Title"),
     "to": MessageLookupByLibrary.simpleMessage("TO"),
+    "type": MessageLookupByLibrary.simpleMessage("Type"),
     "typeOfCollection": MessageLookupByLibrary.simpleMessage(
       "Type of Collection",
     ),
@@ -301,6 +309,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "whiteboardColor": MessageLookupByLibrary.simpleMessage(
       "Whiteboard color:",
     ),
+    "word": MessageLookupByLibrary.simpleMessage("Word"),
     "yellow": MessageLookupByLibrary.simpleMessage("Yellow"),
     "youReviewed": MessageLookupByLibrary.simpleMessage("You reviewed"),
   };

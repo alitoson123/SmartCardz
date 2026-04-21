@@ -4,13 +4,12 @@ import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cub
 
 class GetCollectionsCubit extends Cubit<GetCollectionsStates> {
   GetCollectionsCubit({required this.collectionRepoImpl})
-    : super(GetCollectionsInitial());
+    : super(GetCollectionsLoading());
 
   final CollectionRepoImpl collectionRepoImpl;
 
   Future<void> getCollections() async {
-    emit(GetCollectionsLoading());
-    final result = await collectionRepoImpl.getCollection();
+    final result = await collectionRepoImpl.getCollections();
     result.fold(
       (failure) =>
           emit(GetCollectionsFailure(errMessage: failure.errorMessage)),

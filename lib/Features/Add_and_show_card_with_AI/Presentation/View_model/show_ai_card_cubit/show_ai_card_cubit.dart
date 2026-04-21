@@ -12,6 +12,8 @@ class ShowAICardCubit extends Cubit<ShowAICardStates> {
     required String word,
     required String inputLanguage,
     required String outputLanguage,
+    required String userId,
+    required String cardId,
   }) async {
     emit(ShowAICardLoading());
 
@@ -19,6 +21,8 @@ class ShowAICardCubit extends Cubit<ShowAICardStates> {
       word: word,
       inputLanguage: inputLanguage,
       outputLanguage: outputLanguage,
+      userId: userId,
+      cardId: cardId,
     );
 
     result.fold(

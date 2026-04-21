@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collections_stats_cubit/collections_stats_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collections_stats_cubit/collections_stats_states.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
-import 'package:smart_cards/core/services/app_services/app_services.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// 📁 presentation/views/widgets/item_of_collections.dart
 
-class ItemOfCollections extends StatelessWidget {
+class ItemOfCollections extends StatefulWidget {
   const ItemOfCollections({super.key, required this.collection});
   final CollectionEntity collection;
+
+  @override
+  State<ItemOfCollections> createState() => _ItemOfCollectionsState();
+}
+
+class _ItemOfCollectionsState extends State<ItemOfCollections> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<CollectionsStatsCubit>().getStatsForCollection(widget.collection.collection_id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +51,32 @@ class ItemOfCollections extends StatelessWidget {
             horizontal: 16.w,
           ),
           title: Text(
-            collection.collectionName,
+            widget.collection.collectionName,
             style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
           ),
-          subtitle: FutureBuilder<Map<String, int>>(
-            future: AppServices.getCardStateCounts(
-              collectionId: collection.collection_id,
-            ),
-            builder: (context, snapshot) {
-              // ── Loading ──
-              if (snapshot.connectionState == ConnectionState.waiting) {
+          subtitle: BlocBuilder<CollectionsStatsCubit, CollectionsStatsState>(
+            builder: (context, state) {
+              int total = widget.collection.cards_count;
+              int due = 0;
+              bool isLoading = true;
+
+              if (state is CollectionsStatsSuccess) {
+                // If we have success state, check if our collection ID is in the map
+                if (state.statsMap.containsKey(widget.collection.collection_id)) {
+                  final stats = state.statsMap[widget.collection.collection_id]!;
+                  total = stats.totalCards;
+                  due = stats.dueCards;
+                  isLoading = false;
+                }
+              } else if (state is CollectionsStatsFailure) {
+                isLoading = false;
+              }
+
+              if (isLoading) {
                 return Padding(
                   padding: EdgeInsets.only(top: 6.h),
                   child: Text(
-                    '${collection.cards_count} ${S.of(context).cards}',
+                    '$total ${S.of(context).cards}...',
                     style: TextStyle(
                       fontSize: 13.sp,
                       color: Colors.grey.shade500,
@@ -61,32 +85,15 @@ class ItemOfCollections extends StatelessWidget {
                 );
               }
 
-              // ── Error / No data ──
-              if (!snapshot.hasData) {
-                return Padding(
-                  padding: EdgeInsets.only(top: 6.h),
-                  child: Text(
-                    '${collection.cards_count} ${S.of(context).cards}',
-                    style: TextStyle(
-                      fontSize: 13.sp,
-                      color: Colors.grey.shade500,
-                    ),
-                  ),
-                );
-              }
-
-              final counts = snapshot.data!;
-              final totalDue = counts['due']!;
-
-              // ✅ كل حاجة في سطر واحد
+              // ── Data Loaded ──
               return Padding(
                 padding: EdgeInsets.only(top: 6.h),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // ── عدد الكروت ──
+                    // ── Total Cards Count ──
                     Text(
-                      '${counts['total']} ${S.of(context).cards}',
+                      '$total ${S.of(context).cards}',
                       style: TextStyle(
                         fontSize: 13.sp,
                         color: Colors.grey.shade500,
@@ -94,9 +101,8 @@ class ItemOfCollections extends StatelessWidget {
                       ),
                     ),
 
-                    // ── فاصل ──
-                    if (totalDue > 0) ...[
-                      // ── نقطة amber + عدد due ──
+                    // ── If there are Due Cards ──
+                    if (due > 0) ...[
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 6.w),
                         child: Container(
@@ -108,9 +114,8 @@ class ItemOfCollections extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // SizedBox(width: 4.w),
                       Text(
-                        '$totalDue ${S.of(context).due}',
+                        '$due ${S.of(context).due}',
                         style: TextStyle(
                           fontSize: 13.sp,
                           color: Colors.amber,
@@ -119,8 +124,8 @@ class ItemOfCollections extends StatelessWidget {
                       ),
                     ],
 
-                    // ── لو مفيش due ──
-                    if (totalDue == 0) ...[
+                    // ── If all Due Cards are done ──
+                    if (due == 0 && total > 0) ...[
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 6.w),
                         child: Icon(
@@ -129,7 +134,6 @@ class ItemOfCollections extends StatelessWidget {
                           color: const Color(0xFF4CAF50),
                         ),
                       ),
-                      //SizedBox(width: 3.w),
                       Text(
                         S.of(context).all_done,
                         style: TextStyle(
@@ -146,7 +150,7 @@ class ItemOfCollections extends StatelessWidget {
           ),
           trailing: Icon(Icons.arrow_forward_ios, size: 18.sp),
           onTap: () {
-            context.push(AppRoutes.revisionCardScreen, extra: collection);
+            context.push(AppRoutes.revisionCardScreen, extra: widget.collection);
           },
         ),
       ),

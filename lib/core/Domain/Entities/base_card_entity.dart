@@ -1,18 +1,27 @@
-// 📁 domain/entities/base_card_entity.dart
-
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/card_with_AI_entity.dart';
 import 'package:smart_cards/Features/Add_normal_card/Domain/Entities/normal_card_entity.dart';
 
 enum CardState { newCard, learning, review, relearning }
 
-/// Base class for all card types
+// base class for all card types
 abstract class BaseCardEntity {
+  // common fields
+
   final String id;
   final String collectionId;
+  
+  /*    SM-2 Fields
 
-  // ══════════════════════════════
-  //   SM-2 Fields (مشتركة)
-  // ══════════════════════════════
+    state          حالة الكارت
+    ease           معامل السهولة (يبدأ 2.5)
+    interval       الفترة بالأيام (يبدأ 0)
+    repetition     عدد المراجعات الناجحة (يبدأ 0)
+    currentStep     رقم الـ Step في الـ Learning (يبدأ 0)
+    lapses         عدد مرات النسيان (يبدأ 0)
+    dueDate        موعد المراجعة الجاية
+  
+*/
+
   final CardState state;
   final double ease;
   final int interval;

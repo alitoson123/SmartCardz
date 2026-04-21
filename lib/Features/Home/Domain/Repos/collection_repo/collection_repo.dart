@@ -6,5 +6,5 @@ abstract class CollectionRepo {
   Future<Either<Failure, CollectionEntity>> addCollection({
     required String collectionName,
   });
-  Future<Either<Failure, List<CollectionEntity>>> getCollection();
+  Future<Either<Failure, List<CollectionEntity>>> getCollections();
 }

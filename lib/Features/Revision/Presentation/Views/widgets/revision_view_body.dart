@@ -1,10 +1,3 @@
-// 📁 Presentation/Views/revision_view_body.dart
-//
-// التغييرات من الـ view:
-// ❌ قبل: state.queue.length و state.currentIndex
-// ✅ دلوقتي: state.learningCount و state.reviewCount و state.newCount
-// ════════════════════════════════════════════════════════════════
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +12,7 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/custom_card.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/front_side.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/row_of_difficulty_button.dart';
+import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/edit_card.dart';
 import 'package:smart_cards/core/Functions/section_title.dart';
 import 'package:smart_cards/core/utils/widgets/app_button.dart';
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
@@ -32,12 +26,14 @@ class RevisionViewBody extends StatefulWidget {
     required this.clearWhiteboardNotifier,
     required this.changeColorNotifier,
     required this.deleteCardNotifier,
+    required this.editCardNotifier,
   });
 
   final CollectionEntity collection;
   final bool isWhiteboardEnabled;
   final ValueNotifier<bool> deleteCardNotifier;
   final ValueNotifier<bool> clearWhiteboardNotifier;
+  final ValueNotifier<bool> editCardNotifier;
   final ValueNotifier<Color?> changeColorNotifier;
 
   @override
@@ -50,20 +46,20 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
   double strokeWidth = 3.0;
   final ScrollController _scrollController = ScrollController();
   Timer? _waitingTimer;
+  bool isEditMode = false;
+  bool isdeleted = false;
 
   @override
   void initState() {
     super.initState();
 
     // ✅ Query Firestore مرة واحدة
-    context.read<RevisionCubit>().loadCards(
-      widget.collection.collection_id,
-      limit: 100,
-    );
+    context.read<RevisionCubit>().loadCards(widget.collection.collection_id);
 
     widget.clearWhiteboardNotifier.addListener(_clearWhiteboard);
     widget.changeColorNotifier.addListener(_changeColor);
     widget.deleteCardNotifier.addListener(_deleteCard);
+    widget.editCardNotifier.addListener(_editCard);
   }
 
   @override
@@ -84,10 +80,17 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
     }
   }
 
+  void _editCard() {
+    setState(() => isEditMode = true);
+  }
+
   void _deleteCard() {
     final state = context.read<RevisionCubit>().state;
     if (state is RevisionReady) {
-      context.read<RevisionCubit>().deleteCard(state.currentCard.id);
+      context.read<RevisionCubit>().deleteCard(
+        state.currentCard.id,
+        widget.collection.collection_id,
+      );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(S.of(context).cardDeletedSuccessfully),
@@ -256,6 +259,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
     );
   }
 
+
   void _startWaitingTimer(RevisionWaiting state) {
     _waitingTimer?.cancel();
     _waitingTimer = Timer.periodic(const Duration(seconds: 1), (_) {
@@ -288,9 +292,8 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
                   children: [
                     SizedBox(height: 20.h),
 
-                    // ✅ Progress bar بتبين الـ 3 queues زي Anki
+                    // progress bar
                     _buildAnkiProgress(state),
-
                     SizedBox(height: 20.h),
 
                     buildSectionTitle(context, S.of(context).FrontSide),
@@ -312,6 +315,31 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
               ),
             ),
           ),
+          if (isEditMode) 
+            EditCardOverlay(
+              card: card,
+              onCancel: () {
+                setState(() {
+                  isEditMode = false;
+                });
+              },
+              onSave: (updatedCard) {
+                final state = context.read<RevisionCubit>().state;
+                if (state is RevisionReady) {
+                  context.read<RevisionCubit>().editCard(updatedCard);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(S.of(context).CardSavedSuccessfully),
+                      backgroundColor: Colors.green,
+                      duration: const Duration(milliseconds: 1500),
+                    ),
+                  );
+                }
+                setState(() {
+                  isEditMode = false;
+                });
+              },
+            ),
 
           if (widget.isWhiteboardEnabled)
             Positioned.fill(
@@ -347,7 +375,9 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
             ),
         ],
       ),
-      bottomNavigationBar: _buildBottomButtons(state, isAICard, card),
+      bottomNavigationBar: isEditMode
+          ? null
+          : _buildBottomButtons(state, isAICard, card),
     );
   }
 
@@ -494,7 +524,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
           icon: Icons.visibility,
           onPressed: () {
             context.read<RevisionCubit>().showAnswer();
-            setState(() => drawingPoints.clear());
+            //   setState(() => drawingPoints.clear());
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (_scrollController.hasClients) {
                 _scrollController.animateTo(

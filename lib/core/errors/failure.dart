@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 abstract class Failure {
   final String errorMessage;
@@ -38,6 +39,40 @@ class ServerFailure extends Failure {
       case DioExceptionType.unknown:
         return ServerFailure(
           errorMessage: "Unexpected error occurred: ${dioException.message}",
+        );
+    }
+  }
+
+  factory ServerFailure.fromFirebaseError(FirebaseException firebaseException) {
+    switch (firebaseException.code) {
+      case 'permission-denied':
+        return ServerFailure(
+          errorMessage: "You do not have permission to perform this action.",
+        );
+      case 'unavailable':
+        return ServerFailure(
+          errorMessage:
+              "The service is currently unavailable. Please try again later.",
+        );
+      case 'network-request-failed':
+        return ServerFailure(
+          errorMessage: "Network error. Please check your internet connection.",
+        );
+      case 'not-found':
+        return ServerFailure(
+          errorMessage: "The requested document or resource was not found.",
+        );
+      case 'already-exists':
+        return ServerFailure(errorMessage: "This resource already exists.");
+      case 'unauthenticated':
+        return ServerFailure(
+          errorMessage: "You must be logged in to perform this action.",
+        );
+      default:
+        return ServerFailure(
+          errorMessage:
+              firebaseException.message ??
+              "Unknown error occurred, please try again later.",
         );
     }
   }

@@ -1,19 +1,10 @@
-// 📁 logic/cubit/revision_states.dart
-
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
 abstract class RevisionState {}
 
-// ══════════════════════════════════════════════════
-//   1. جاري التحميل
-// ══════════════════════════════════════════════════
 class RevisionLoading extends RevisionState {}
 
-// ══════════════════════════════════════════════════
-//   2. جاهز للمراجعة ✅ اتغيرت
-// ══════════════════════════════════════════════════
-// ❌ قبل: كانت بتشيل queue كاملة + currentIndex
-// ✅ دلوقتي: بتشيل الكارت الحالي + عدد الكروت في كل queue
+//   2. جاهز للمراجعة 
 class RevisionReady extends RevisionState {
   final BaseCardEntity currentCard;
   final bool showAnswer;
@@ -51,9 +42,7 @@ class RevisionReady extends RevisionState {
   }
 }
 
-// ══════════════════════════════════════════════════
 //   3. في انتظار كارت due ✅ اتغيرت
-// ══════════════════════════════════════════════════
 // ده بيحصل لما في كروت في learningQueue بس مش due بعد
 // مثلاً: ضغطت Again والكارت due بعد 45 ثانية
 class RevisionWaiting extends RevisionState {
@@ -75,17 +64,18 @@ class RevisionWaiting extends RevisionState {
   }
 }
 
-// ══════════════════════════════════════════════════
 //   4. خلصت المراجعة
-// ══════════════════════════════════════════════════
 class RevisionFinished extends RevisionState {
   final int totalReviewed;
   RevisionFinished({required this.totalReviewed});
 }
 
-// ══════════════════════════════════════════════════
+class RevisionEditCard extends RevisionState {
+  final BaseCardEntity card;
+  RevisionEditCard({required this.card});
+}
+
 //   5. حصل خطأ
-// ══════════════════════════════════════════════════
 class RevisionError extends RevisionState {
   final String message;
   RevisionError({required this.message});
