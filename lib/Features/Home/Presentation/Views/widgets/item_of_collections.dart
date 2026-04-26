@@ -123,7 +123,27 @@ class _ItemOfCollectionsState extends State<ItemOfCollections> {
                         ),
                       ),
                     ],
-
+   if (due == 0 && total == 0) ...[
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 6.w),
+                        child: Container(
+                          width: 7.w,
+                          height: 7.w,
+                          decoration: const BoxDecoration(
+                            color: Colors.amber,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '0 ${S.of(context).due}',
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          color: Colors.amber,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                     // ── If all Due Cards are done ──
                     if (due == 0 && total > 0) ...[
                       Padding(

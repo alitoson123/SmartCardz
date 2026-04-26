@@ -138,11 +138,13 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                             children: [
                               Icon(Icons.info),
                               SizedBox(width: 4.w),
-                              Text(
-                                S
-                                    .of(context)
-                                    .putCommaBetweenEveryWordOrSentence,
-                                textAlign: TextAlign.left,
+                              Expanded(
+                                child: Text(
+                                  S
+                                      .of(context)
+                                      .putCommaBetweenEveryWordOrSentence,
+                                  textAlign: TextAlign.left,
+                                ),
                               ),
                             ],
                           ),

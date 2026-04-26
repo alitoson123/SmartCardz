@@ -1408,6 +1408,16 @@ class S {
       args: [time],
     );
   }
+
+  /// `Collection deleted successfully`
+  String get collectionDeletedSuccessfully {
+    return Intl.message(
+      'Collection deleted successfully',
+      name: 'collectionDeletedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

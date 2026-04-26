@@ -116,6 +116,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Choose from gallery",
     ),
     "clearWhiteboard": MessageLookupByLibrary.simpleMessage("Clear whiteboard"),
+    "collectionDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Collection deleted successfully",
+    ),
     "collectionName": MessageLookupByLibrary.simpleMessage("Collection Name"),
     "collectionsTitle": MessageLookupByLibrary.simpleMessage("Collections"),
     "color": MessageLookupByLibrary.simpleMessage("Color"),

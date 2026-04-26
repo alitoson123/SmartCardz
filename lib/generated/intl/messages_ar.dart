@@ -112,6 +112,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "الاختيار من المعرض",
     ),
     "clearWhiteboard": MessageLookupByLibrary.simpleMessage("مسح السبورة"),
+    "collectionDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "تم حذف المجموعة بنجاح",
+    ),
     "collectionName": MessageLookupByLibrary.simpleMessage("اسم المجموعة"),
     "collectionsTitle": MessageLookupByLibrary.simpleMessage("المجموعات"),
     "color": MessageLookupByLibrary.simpleMessage("اللون"),

@@ -38,6 +38,7 @@ and if You didn't return it, you would have to trigger a completely new fetch of
     final snap = await firestore
         .collection('collections')
         .where('ownerId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .orderBy('created_at')
         .get();
 
     final collections = snap.docs
@@ -50,7 +51,7 @@ and if You didn't return it, you would have to trigger a completely new fetch of
   }
 
   // delete collection
-  static Future<void> deleteCollection({required String collectionId}) async {
+  static Future<String> deleteCollection({required String collectionId}) async {
     final cardsSnap = await firestore
         .collection('cards')
         .where('collectionId', isEqualTo: collectionId)
@@ -65,6 +66,8 @@ and if You didn't return it, you would have to trigger a completely new fetch of
         .collection('collections')
         .doc(collectionId)
         .delete(); // delete the collection
+
+    return collectionId;
   }
 
   // rename collection
@@ -82,14 +85,14 @@ and if You didn't return it, you would have to trigger a completely new fetch of
     required String collectionId,
   }) async {
     final now = Timestamp.now();
-    
+
     final collectionDoc = await firestore
         .collection('collections')
         .doc(collectionId)
         .get();
-        
+
     final totalCardsCount = (collectionDoc.data()?['cards_count'] ?? 0) as int;
-    
+
     final dueCardsAgg = await firestore
         .collection('cards')
         .where('collectionId', isEqualTo: collectionId)

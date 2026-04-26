@@ -9,6 +9,7 @@ import 'package:smart_cards/Features/Home/Presentation/Views/widgets/item_of_col
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
+
 class ListOfCollections extends StatelessWidget {
   const ListOfCollections({super.key, required this.collections});
 
@@ -38,12 +39,14 @@ class ListOfCollections extends StatelessWidget {
     List<CollectionEntity> collections,
     int index,
   ) {
+    final collection = collections[index];
     showDialog(
       context: context,
       builder: (simpleDialogContext) {
         return SimpleDialog(
-          title: Text(collections[index].collectionName),
+          title: Text(collection.collectionName),
           children: [
+            // rename a collection
             SimpleDialogOption(
               child: Text(S.of(context).renameCollection),
               onPressed: () {
@@ -51,20 +54,20 @@ class ListOfCollections extends StatelessWidget {
                   context: context,
                   builder: (context) {
                     return CustomRenameCollection(
-                      collection: collections[index],
+                      collection: collection,
                     );
                   },
                 );
               },
             ),
-
+            // delete a collection
             SimpleDialogOption(
               child: Text(S.of(context).deleteCollection),
               onPressed: () {
                 showDialog(
                   context: context,
                   builder: (dialogContext) =>
-                      CustomDeleteCollection(collection: collections[index]),
+                      CustomDeleteCollection(collection: collection),
                 );
               },
             ),

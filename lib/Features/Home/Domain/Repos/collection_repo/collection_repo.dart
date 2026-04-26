@@ -7,4 +7,11 @@ abstract class CollectionRepo {
     required String collectionName,
   });
   Future<Either<Failure, List<CollectionEntity>>> getCollections();
+  Future<Either<Failure, String>> deleteCollection({
+    required String collectionId,
+  });
+  Future<Either<Failure, void>> renameCollection({
+    required String collectionId,
+    required String newName,
+  });
 }

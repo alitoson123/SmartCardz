@@ -173,5 +173,6 @@
   "reminderSetSuccessfully": "تم تعيين التذكير بنجاح",
   "cancelReminder": "إلغاء التذكير",
   "reminderCancelledSuccessfully": "تم إلغاء التذكير بنجاح",
-  "youHaveAnActiveReminderSetAt": "لديك تذكير نشط في {time}"
+  "youHaveAnActiveReminderSetAt": "لديك تذكير نشط في {time}",
+  "collectionDeletedSuccessfully": "تم حذف المجموعة بنجاح"
 }

@@ -60,7 +60,7 @@ class _AddOptionsState extends State<AddOptions> {
             foregroundColor: theme.colorScheme.onPrimaryContainer,
             isRTL: isRTL,
             theme: theme,
-            onPressed: () async {
+            onPressed: () {
               reverseIsExpanded();
               context.push(AppRoutes.addAndShowCardScreen);
             },
@@ -73,7 +73,7 @@ class _AddOptionsState extends State<AddOptions> {
             foregroundColor: theme.colorScheme.onPrimaryContainer,
             isRTL: isRTL,
             theme: theme,
-            onPressed: () async {
+            onPressed: () {
               reverseIsExpanded();
               context.push(AppRoutes.addNormalCardScreen);
             },

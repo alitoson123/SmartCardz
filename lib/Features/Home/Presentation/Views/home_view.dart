@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:in_app_update/in_app_update.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/add_collection_cubit1.dart/add_collection_cubit.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/add_collection_cubit1.dart/add_collection_states.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/add_collection_cubit.dart/add_collection_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/add_collection_cubit.dart/add_collection_states.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/delete_collection_cubit.dart/delete_collection_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/delete_collection_cubit.dart/delete_collection_states.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/home_view_body.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/add_options.dart';
 import 'package:smart_cards/core/messages/message.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
 import 'package:smart_cards/core/views/widgets/app_dialog.dart';
+import 'package:smart_cards/Features/Home/Presentation/Views/widgets/reminder_bottom_sheet.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
 class HomeView extends StatefulWidget {
@@ -61,6 +66,18 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           IconButton(
             onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                useSafeArea: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => const ReminderBottomSheet(),
+              );
+            },
+            icon: Icon(Icons.alarm),
+          ),
+          IconButton(
+            onPressed: () {
               context.push(AppRoutes.settingsScreen);
             },
             icon: Icon(Icons.settings),
@@ -68,11 +85,11 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
       body: HomeViewBody(),
-      floatingActionButton:
+      floatingActionButton: MultiBlocListener(
+        listeners: [
           BlocListener<AddCollectionCubit, AddCollectionStates>(
             listener: (context, state) {
               if (state is AddCollectionFailure) {
-                Navigator.pop(context);
                 Message().showAppDialog(
                   context: context,
                   type: DialogType.error,
@@ -80,14 +97,41 @@ class _HomeViewState extends State<HomeView> {
                 );
               }
               if (state is AddCollectionSuccess) {
+                context.read<GetCollectionsCubit>().addCollectionLocally(
+                  state.collectionEntity,
+                );
                 Message().MessageSuccessMethod(
                   context,
                   message: S.of(context).CollectionCreatedSuccessfully,
                 );
               }
             },
-            child: AddOptions(),
           ),
+
+          BlocListener<DeleteCollectionCubit, DeleteCollectionStates>(
+            listener: (context, state) {
+              if (state is DeleteCollectionSuccess) {
+                context.read<GetCollectionsCubit>().removeCollectionLocally(
+                  state.collectionId,
+                );
+
+                Message().MessageSuccessMethod(
+                  context,
+                  message: S.of(context).collectionDeletedSuccessfully,
+                );
+              }
+              if (state is DeleteCollectionFailure) {
+                Message().showAppDialog(
+                  context: context,
+                  type: DialogType.error,
+                  message: state.errorMessage,
+                );
+              }
+            },
+          ),
+        ],
+        child: AddOptions(),
+      ),
     );
   }
 }
