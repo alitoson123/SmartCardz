@@ -18,10 +18,8 @@ import 'package:smart_cards/Features/On_Boarding/Presentation/Views/on_boarding_
 import 'package:smart_cards/Features/Revision/Data/Repos_impl/revision_repo_impl.dart';
 import 'package:smart_cards/Features/Revision/Presentation/View_model/revision_cubit/recision_cubit.dart';
 import 'package:smart_cards/Features/Revision/Presentation/Views/revision_view.dart';
-import 'package:smart_cards/Features/Revision/Presentation/Views/widgets/edit_card.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/settings_view.dart';
 import 'package:smart_cards/Features/Splash/Presentation/views/spalsh_view.dart';
-import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
 import 'package:smart_cards/core/views/collection_view.dart';
 
