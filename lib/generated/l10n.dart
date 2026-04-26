@@ -1243,6 +1243,171 @@ class S {
   String get example {
     return Intl.message('Example', name: 'example', desc: '', args: []);
   }
+
+  /// `No cards yet`
+  String get no_cards_yet {
+    return Intl.message(
+      'No cards yet',
+      name: 'no_cards_yet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `study Reminder`
+  String get studyReminder {
+    return Intl.message(
+      'study Reminder',
+      name: 'studyReminder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time to study!🧠`
+  String get timeToStudy {
+    return Intl.message(
+      'Time to study!🧠',
+      name: 'timeToStudy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your cards are waiting. Keep your streak alive!`
+  String get yourCardsAreWaitingKeepYourStreakAlive {
+    return Intl.message(
+      'Your cards are waiting. Keep your streak alive!',
+      name: 'yourCardsAreWaitingKeepYourStreakAlive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PREVIEW`
+  String get preview {
+    return Intl.message('PREVIEW', name: 'preview', desc: '', args: []);
+  }
+
+  /// `Enter notification title…`
+  String get enterNotificationTitle {
+    return Intl.message(
+      'Enter notification title…',
+      name: 'enterNotificationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `NOTIFICATION TITLE`
+  String get notificationTitle {
+    return Intl.message(
+      'NOTIFICATION TITLE',
+      name: 'notificationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `NOTIFICATION MESSAGE`
+  String get notificationMessage {
+    return Intl.message(
+      'NOTIFICATION MESSAGE',
+      name: 'notificationMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter notification message…`
+  String get enterNotificationMessage {
+    return Intl.message(
+      'Enter notification message…',
+      name: 'enterNotificationMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `REMIND ME AT`
+  String get remindMeAt {
+    return Intl.message('REMIND ME AT', name: 'remindMeAt', desc: '', args: []);
+  }
+
+  /// `SCHEDULE`
+  String get schedule {
+    return Intl.message('SCHEDULE', name: 'schedule', desc: '', args: []);
+  }
+
+  /// `Repeat daily`
+  String get repeatDaily {
+    return Intl.message(
+      'Repeat daily',
+      name: 'repeatDaily',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Same time every day`
+  String get sameTimeEveryDay {
+    return Intl.message(
+      'Same time every day',
+      name: 'sameTimeEveryDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save reminder`
+  String get saveReminder {
+    return Intl.message(
+      'Save reminder',
+      name: 'saveReminder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reminder set successfully`
+  String get reminderSetSuccessfully {
+    return Intl.message(
+      'Reminder set successfully',
+      name: 'reminderSetSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel reminder`
+  String get cancelReminder {
+    return Intl.message(
+      'Cancel reminder',
+      name: 'cancelReminder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reminder cancelled successfully`
+  String get reminderCancelledSuccessfully {
+    return Intl.message(
+      'Reminder cancelled successfully',
+      name: 'reminderCancelledSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have an active reminder set at {time}`
+  String youHaveAnActiveReminderSetAt(Object time) {
+    return Intl.message(
+      'You have an active reminder set at $time',
+      name: 'youHaveAnActiveReminderSetAt',
+      desc: '',
+      args: [time],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -59,7 +59,7 @@ class BlocConsumerOfSignUpViewBody extends StatelessWidget {
 
           await SharedPreferencesService.instance.setBool(K_IS_LOGIN, true);
 
-          PushNotificationService.saveToken();
+       //   PushNotificationService.saveToken();
 
           context.go(AppRoutes.homeScreen);
         }

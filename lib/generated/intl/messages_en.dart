@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(errorMessage) => "Error: ${errorMessage}";
 
+  static String m2(time) => "You have an active reminder set at ${time}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "AboutApp": MessageLookupByLibrary.simpleMessage("About App"),
@@ -96,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "black": MessageLookupByLibrary.simpleMessage("Black"),
     "blue": MessageLookupByLibrary.simpleMessage("Blue"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "cancelReminder": MessageLookupByLibrary.simpleMessage("Cancel reminder"),
     "cardDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "Card deleted successfully",
     ),
@@ -178,6 +181,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterLastName": MessageLookupByLibrary.simpleMessage(
       "Enter your last name",
     ),
+    "enterNotificationMessage": MessageLookupByLibrary.simpleMessage(
+      "Enter notification message…",
+    ),
+    "enterNotificationTitle": MessageLookupByLibrary.simpleMessage(
+      "Enter notification title…",
+    ),
     "enterWordToGenerate": MessageLookupByLibrary.simpleMessage(
       "Enter a word to generate...",
     ),
@@ -220,6 +229,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "noValidCardsToAdd": MessageLookupByLibrary.simpleMessage(
       "No valid cards to add",
     ),
+    "no_cards_yet": MessageLookupByLibrary.simpleMessage("No cards yet"),
+    "notificationMessage": MessageLookupByLibrary.simpleMessage(
+      "NOTIFICATION MESSAGE",
+    ),
+    "notificationTitle": MessageLookupByLibrary.simpleMessage(
+      "NOTIFICATION TITLE",
+    ),
     "orange": MessageLookupByLibrary.simpleMessage("Orange"),
     "pink": MessageLookupByLibrary.simpleMessage("Pink"),
     "pleaseEnterAWord": MessageLookupByLibrary.simpleMessage(
@@ -228,6 +244,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pleaseEnterYour": MessageLookupByLibrary.simpleMessage(
       "Please Enter Your ",
     ),
+    "preview": MessageLookupByLibrary.simpleMessage("PREVIEW"),
     "purple": MessageLookupByLibrary.simpleMessage("Purple"),
     "putCommaBetweenEveryWordOrSentence": MessageLookupByLibrary.simpleMessage(
       "put \",\" or any anything between every word or phrase ",
@@ -237,12 +254,25 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "red": MessageLookupByLibrary.simpleMessage("Red"),
     "registerAccount": MessageLookupByLibrary.simpleMessage("Register Account"),
+    "remindMeAt": MessageLookupByLibrary.simpleMessage("REMIND ME AT"),
+    "reminderCancelledSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Reminder cancelled successfully",
+    ),
+    "reminderSetSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Reminder set successfully",
+    ),
     "rename": MessageLookupByLibrary.simpleMessage("Rename"),
     "renameCollection": MessageLookupByLibrary.simpleMessage(
       "Rename Collection",
     ),
+    "repeatDaily": MessageLookupByLibrary.simpleMessage("Repeat daily"),
     "revisionTitle": MessageLookupByLibrary.simpleMessage("Revision"),
+    "sameTimeEveryDay": MessageLookupByLibrary.simpleMessage(
+      "Same time every day",
+    ),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
+    "saveReminder": MessageLookupByLibrary.simpleMessage("Save reminder"),
+    "schedule": MessageLookupByLibrary.simpleMessage("SCHEDULE"),
     "searchCollectionHint": MessageLookupByLibrary.simpleMessage(
       "Search for a collection...",
     ),
@@ -281,6 +311,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "signInTitle": MessageLookupByLibrary.simpleMessage("Sign In"),
     "signUpTitle": MessageLookupByLibrary.simpleMessage("Sign Up"),
+    "studyReminder": MessageLookupByLibrary.simpleMessage("study Reminder"),
     "termsCondition": MessageLookupByLibrary.simpleMessage(
       "By continuing your confirm that you agree with our term and condition",
     ),
@@ -288,6 +319,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "The next card is after",
     ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
+    "timeToStudy": MessageLookupByLibrary.simpleMessage("Time to study!🧠"),
     "titleLabel": MessageLookupByLibrary.simpleMessage("Title"),
     "to": MessageLookupByLibrary.simpleMessage("TO"),
     "type": MessageLookupByLibrary.simpleMessage("Type"),
@@ -311,6 +343,11 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "word": MessageLookupByLibrary.simpleMessage("Word"),
     "yellow": MessageLookupByLibrary.simpleMessage("Yellow"),
+    "youHaveAnActiveReminderSetAt": m2,
     "youReviewed": MessageLookupByLibrary.simpleMessage("You reviewed"),
+    "yourCardsAreWaitingKeepYourStreakAlive":
+        MessageLookupByLibrary.simpleMessage(
+          "Your cards are waiting. Keep your streak alive!",
+        ),
   };
 }

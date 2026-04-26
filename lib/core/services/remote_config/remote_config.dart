@@ -8,7 +8,7 @@ class RemoteConfigService {
     await remoteConfig.setConfigSettings(
       RemoteConfigSettings(
         fetchTimeout: const Duration(seconds: 10),
-        minimumFetchInterval: Duration.zero, // Production ممكن تخليها 1 ساعة
+        minimumFetchInterval: Duration(hours: 1), // Production ممكن تخليها 1 ساعة
       ),
     );
 
@@ -16,7 +16,14 @@ class RemoteConfigService {
       "baseUrl": "https://smartcardz-ai-3.onrender.com/",
     });
     if (await NetworkUtils.isOnline()) {
-      await remoteConfig.fetchAndActivate();
+      try {
+        await remoteConfig.fetchAndActivate();
+      } catch (e) {
+        print("Remote config fetch failed (likely throttled): $e");
+        // Fallback to defaults gracefully
+      }
+    } else {
+      print("Offline: using default remote config values.");
     }
   }
 

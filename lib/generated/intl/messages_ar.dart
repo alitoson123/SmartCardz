@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(errorMessage) => "خطأ: ${errorMessage}";
 
+  static String m2(time) => "لديك تذكير نشط في ${time}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "AboutApp": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
@@ -92,6 +94,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "black": MessageLookupByLibrary.simpleMessage("أسود"),
     "blue": MessageLookupByLibrary.simpleMessage("أزرق"),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "cancelReminder": MessageLookupByLibrary.simpleMessage("إلغاء التذكير"),
     "cardDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "تم حذف البطاقة بنجاح",
     ),
@@ -162,6 +165,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "أدخل الوجه الأمامي",
     ),
     "enterLastName": MessageLookupByLibrary.simpleMessage("أدخل اسم العائلة"),
+    "enterNotificationMessage": MessageLookupByLibrary.simpleMessage(
+      "أدخل نص الإشعار...",
+    ),
+    "enterNotificationTitle": MessageLookupByLibrary.simpleMessage(
+      "أدخل عنوان الإشعار...",
+    ),
     "enterWordToGenerate": MessageLookupByLibrary.simpleMessage(
       "أدخل كلمة للتوليد...",
     ),
@@ -206,12 +215,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "noValidCardsToAdd": MessageLookupByLibrary.simpleMessage(
       "لا توجد بطاقات صالحة للإضافة",
     ),
+    "no_cards_yet": MessageLookupByLibrary.simpleMessage("لا توجد بطاقات بعد"),
+    "notificationMessage": MessageLookupByLibrary.simpleMessage("نص الإشعار"),
+    "notificationTitle": MessageLookupByLibrary.simpleMessage("عنوان الإشعار"),
     "orange": MessageLookupByLibrary.simpleMessage("برتقالي"),
     "pink": MessageLookupByLibrary.simpleMessage("وردي"),
     "pleaseEnterAWord": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال أي عدد من الكلمات أو العبارات لتوليد البطاقات",
     ),
     "pleaseEnterYour": MessageLookupByLibrary.simpleMessage("يرجى إدخال "),
+    "preview": MessageLookupByLibrary.simpleMessage("عرض"),
     "purple": MessageLookupByLibrary.simpleMessage("بنفسجي"),
     "putCommaBetweenEveryWordOrSentence": MessageLookupByLibrary.simpleMessage(
       "ضع فاصلة \",\" أو أي شيء بين كل كلمة أو عبارة ",
@@ -221,12 +234,25 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "red": MessageLookupByLibrary.simpleMessage("أحمر"),
     "registerAccount": MessageLookupByLibrary.simpleMessage("تسجيل حساب"),
+    "remindMeAt": MessageLookupByLibrary.simpleMessage("تذكيري في"),
+    "reminderCancelledSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "تم إلغاء التذكير بنجاح",
+    ),
+    "reminderSetSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "تم تعيين التذكير بنجاح",
+    ),
     "rename": MessageLookupByLibrary.simpleMessage("إعادة تسمية"),
     "renameCollection": MessageLookupByLibrary.simpleMessage(
       "إعادة تسمية المجموعة",
     ),
+    "repeatDaily": MessageLookupByLibrary.simpleMessage("تكرار يومي"),
     "revisionTitle": MessageLookupByLibrary.simpleMessage("المراجعة"),
+    "sameTimeEveryDay": MessageLookupByLibrary.simpleMessage(
+      "نفس الوقت يومياً",
+    ),
     "save": MessageLookupByLibrary.simpleMessage("حفظ"),
+    "saveReminder": MessageLookupByLibrary.simpleMessage("حفظ التذكير"),
+    "schedule": MessageLookupByLibrary.simpleMessage("الجدول"),
     "searchCollectionHint": MessageLookupByLibrary.simpleMessage(
       "ابحث عن مجموعة...",
     ),
@@ -263,6 +289,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "signInTitle": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "signUpTitle": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
+    "studyReminder": MessageLookupByLibrary.simpleMessage("تذكير بالدراسة"),
     "termsCondition": MessageLookupByLibrary.simpleMessage(
       "بالمتابعة، فإنك توافق على الشروط والأحكام",
     ),
@@ -270,6 +297,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "الكارت الجاي بعد",
     ),
     "theme": MessageLookupByLibrary.simpleMessage("السمة"),
+    "timeToStudy": MessageLookupByLibrary.simpleMessage("حان وقت المراجعة!🧠"),
     "titleLabel": MessageLookupByLibrary.simpleMessage("العنوان"),
     "to": MessageLookupByLibrary.simpleMessage("إلى"),
     "type": MessageLookupByLibrary.simpleMessage("النوع"),
@@ -289,6 +317,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "whiteboardColor": MessageLookupByLibrary.simpleMessage("لون السبورة:"),
     "word": MessageLookupByLibrary.simpleMessage("الكلمة"),
     "yellow": MessageLookupByLibrary.simpleMessage("أصفر"),
+    "youHaveAnActiveReminderSetAt": m2,
     "youReviewed": MessageLookupByLibrary.simpleMessage("لقد راجعت"),
+    "yourCardsAreWaitingKeepYourStreakAlive":
+        MessageLookupByLibrary.simpleMessage("بطاقاتك في انتظارك. واصل تقدمك!"),
   };
 }

@@ -39,7 +39,7 @@ class ActionsSection extends StatelessWidget {
 
   Future<void> logout(BuildContext context) async {
     await SharedPreferencesService.instance.remove(K_IS_LOGIN);
-    await PushNotificationService.removeFcmToken();
+    // await PushNotificationService.removeFcmToken();
     if (!context.mounted) return;
 
     context.go(AppRoutes.signInScreen);
