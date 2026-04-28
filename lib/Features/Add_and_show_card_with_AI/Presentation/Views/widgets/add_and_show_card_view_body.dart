@@ -21,8 +21,6 @@ import 'package:smart_cards/core/utils/widgets/app_header.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/core/views/collection_view.dart';
 import 'package:smart_cards/core/views/widgets/app_dialog.dart';
-import 'package:smart_cards/core/views/widgets/banner_ad_widget.dart';
-import 'package:smart_cards/core/views/widgets/interstitial_add_widget.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
 class AddAndShowCardViewBody extends StatefulWidget {
@@ -34,9 +32,8 @@ class AddAndShowCardViewBody extends StatefulWidget {
 
 class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     with SingleTickerProviderStateMixin {
-  // ✅ Add these two lines with your existing fields
-  final InterstitialAdManager interstitialAdManager = InterstitialAdManager();
-  int cardSaveCount = 0;
+  // for google ads
+  // final InterstitialAdManager interstitialAdManager = InterstitialAdManager();
   late AnimationController controller;
   late Animation<double> fadeAnimation;
   final TextEditingController textController = TextEditingController();
@@ -57,7 +54,8 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     );
     fadeAnimation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
 
-    interstitialAdManager.loadAd();
+    // for google ads
+    //  interstitialAdManager.loadAd();
   }
 
   @override
@@ -168,9 +166,9 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
 
                                 context.read<ShowAICardCubit>().reset();
 
-                                cardSaveCount++;
+                                // for google ads
                                 //   if (cardSaveCount % 2 == 0) {
-                                interstitialAdManager.showAd();
+                                //  interstitialAdManager.showAd();
                                 //    }
 
                                 Message().MessageSuccessMethod(
@@ -202,8 +200,8 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                     ),
                   ),
                 ),
-
-                const BannerAdWidget(),
+                // for google ads
+                // const BannerAdWidget(),
               ],
             ),
           );

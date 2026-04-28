@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class BannerAdWidget extends StatefulWidget {
@@ -52,3 +52,4 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
     );
   }
 }
+*/

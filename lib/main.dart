@@ -21,7 +21,7 @@ import 'package:smart_cards/core/view_model/app_theme_cubit/app_theme_states.dar
 import 'firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+//import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,8 +34,9 @@ void main() async {
 
   Bloc.observer = MyBlocObserver(); // bloc observer
 
+  // for google ads
   // Initialize AdMob SDK
-  await MobileAds.instance.initialize();
+  //await MobileAds.instance.initialize();
   runApp(const SmartCards());
 }
 
