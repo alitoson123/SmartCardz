@@ -45,7 +45,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
   String? word;
   String selectedInputLanguage = "English";
   late String selectedOutputLanguage = selectedInputLanguage;
-
+  final String cardId = FirebaseFirestore.instance.collection('cards').doc().id;
   bool isLoading = false;
 
   @override
@@ -320,7 +320,6 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     // set the word
     setState(() => word = formattedValue);
 
-    final cardId = FirebaseFirestore.instance.collection('cards').doc().id;
 
     // show ai card
     context.read<ShowAICardCubit>().showAICard(
@@ -340,6 +339,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
         type: DialogType.warning,
         message: S.of(context).PleaseSelectACollection,
       );
+  //   context.push(AppRoutes.);
 
       return;
     }
@@ -380,6 +380,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     context.read<AddAICardCubit>().addAllAICards(
       cards: cards,
       collectionId: selectedCollectionId!,
+      cardId: cardId,
     );
     // clear the text field
     textController.clear();

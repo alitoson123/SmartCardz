@@ -30,7 +30,7 @@ class NormalCardRemoteDataSourceImpl extends NormalCardRemoteDataSource {
         'back_image_url': backImageUrl,
         'front_image_path': frontImagePath,
         'back_image_path': backImagePath,
-
+        'is_ai_card': false,
         // ── SM-2 Default Values ──
         'state': 'newCard',
         'ease': 2.5,

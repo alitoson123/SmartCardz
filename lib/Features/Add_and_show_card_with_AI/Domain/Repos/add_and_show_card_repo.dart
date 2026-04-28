@@ -3,7 +3,6 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/c
 import 'package:smart_cards/core/errors/failure.dart';
 
 abstract class AddAndShowCardRepo {
-
   Future<Either<Failure, List<AICardEntity>>> showCard({
     required String word,
     required String inputLanguage,
@@ -20,6 +19,6 @@ abstract class AddAndShowCardRepo {
     String? image_url,
     String? aiImagePath,
     required String collectionId,
+    required String cardId,
   });
-  
 }

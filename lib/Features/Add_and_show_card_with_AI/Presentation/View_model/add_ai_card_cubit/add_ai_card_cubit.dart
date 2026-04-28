@@ -12,6 +12,7 @@ class AddAICardCubit extends Cubit<AddAICardStates> {
   Future<void> addAllAICards({
     required List<AICardEntity> cards,
     required String collectionId,
+    required String cardId,
   }) async {
     emit(AddAICardLoading());
     try {
@@ -26,6 +27,7 @@ class AddAICardCubit extends Cubit<AddAICardStates> {
           image_url: card.image_url,
           aiImagePath: card.aiImagePath,
           collectionId: collectionId,
+          cardId: cardId,
         );
 
         result.fold((failure) => throw failure.errorMessage, (_) {});

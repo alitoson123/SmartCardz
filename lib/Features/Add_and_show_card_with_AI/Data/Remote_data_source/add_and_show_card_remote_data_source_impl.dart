@@ -40,7 +40,6 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
 
     // https://smartcardz-ai-eq1y.onrender.com/generate/$word
     // https://smartcardz-ai-3.onrender.com/?words=play&lang=English&output_lang=العربيه&age=25&level=مبتدء&style=واقعي
-  
   }
 
   // add ai card
@@ -53,9 +52,11 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
     String? image_url,
     String? aiImagePath,
     required String collectionId,
+    required String cardId,
   }) async {
     await cardService.addCard(
       collectionId: collectionId,
+      cardId: cardId,
       cardData: {
         //  البيانات الأساسية
         'word': word,
@@ -64,6 +65,7 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
         'type': type,
         'image_url': image_url,
         'ai_image_path': aiImagePath,
+        'is_ai_card': true,
         // ── SM-2 Default Values ──
         'state': 'newCard',
         'ease': 2.5,

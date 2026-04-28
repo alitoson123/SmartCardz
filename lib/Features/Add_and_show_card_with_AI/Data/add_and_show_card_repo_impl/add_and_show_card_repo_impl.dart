@@ -49,6 +49,7 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
     String? image_url,
     String? aiImagePath,
     required String collectionId,
+    required String cardId,
   }) async {
     try {
       await addAndShowCardRemoteDataSource.addCard(
@@ -59,6 +60,7 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
         type: type,
         image_url: image_url,
         aiImagePath: aiImagePath,
+        cardId: cardId,
       );
       return right(null);
     } catch (e) {

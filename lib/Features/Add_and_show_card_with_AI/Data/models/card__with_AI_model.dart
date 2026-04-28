@@ -75,7 +75,6 @@ class AICardModel extends AICardEntity {
     'image_url': image_url,
     'is_valid': is_valid,
     'collectionId': collectionId,
-    'is_ai_card': true, // ✅ للتمييز
     'state': state.name, // 'newCard', 'learning', etc.
     'ease': ease,
     'interval': interval,

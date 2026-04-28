@@ -54,7 +54,6 @@ class NormalCardModel extends NormalCardEntity {
       'front_image_path': frontImagePath,
       'back_image_path': backImagePath,
       'collectionId': collectionId,
-      'is_ai_card': false,
       'state': state.name, 
       'ease': ease,
       'interval': interval,
