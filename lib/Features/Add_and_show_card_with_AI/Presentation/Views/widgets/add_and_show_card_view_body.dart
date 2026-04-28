@@ -6,6 +6,7 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_ai_card_cubit/add_ai_states.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/ai_card_loading.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/list_of_preview_section.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collections_stats_cubit/collections_stats_cubit.dart';
 import 'package:smart_cards/core/messages/message.dart';
 import 'package:smart_cards/core/utils/helpers/network_utils.dart';
 import 'package:flutter/material.dart';
@@ -374,10 +375,16 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
       return;
     }
     // add ai cards
-    context.read<AddAICardCubit>().addAllAICards(
-      cards: cards,
-      collectionId: selectedCollectionId!,
-      cardId: cardId,
+    if (mounted) {
+      await context.read<AddAICardCubit>().addAllAICards(
+        cards: cards,
+        collectionId: selectedCollectionId!,
+      );
+    }
+
+    if (!mounted) return;
+    context.read<CollectionsStatsCubit>().forceRefreshCollection(
+      selectedCollectionId!,
     );
     // clear the text field
     textController.clear();

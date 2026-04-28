@@ -26,15 +26,37 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
     required String cardId,
   }) async {
     // log(BASE_URL);
+    // Split words and generate unique IDs for each
+    final List<String> words =
+        word.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+
+    List<String> ids = [];
+    if (words.length <= 1) {
+      ids.add(cardId);
+    } else {
+      // Generate unique IDs for each word to avoid overwriting documents in Firestore
+      for (int i = 0; i < words.length; i++) {
+        ids.add(FirebaseFirestore.instance.collection('cards').doc().id);
+      }
+    }
+
+    final String idsString = ids.join(',');
+
     var result = await dioService.getMethod(
       url:
-          '$BASE_URL?words=$word&lang=$inputLanguage&output_lang=$outputLanguage&age=5&level=beginner&style=Photorealistic&userid=$userId&card_id=$cardId',
+          '$BASE_URL?words=$word&lang=$inputLanguage&output_lang=$outputLanguage&age=5&level=beginner&style=Photorealistic&userid=$userId&card_id=$idsString',
     );
 
     // log(result.toString());
-    List<AICardEntity> cards = result
-        .map((e) => AICardModel.fromJson(e))
-        .toList();
+    List<AICardEntity> cards = [];
+    for (int i = 0; i < result.length; i++) {
+      // Assign the corresponding generated ID to each card
+      final id =
+          i < ids.length
+              ? ids[i]
+              : FirebaseFirestore.instance.collection('cards').doc().id;
+      cards.add(AICardModel.fromJson(result[i], id: id));
+    }
 
     return cards;
 

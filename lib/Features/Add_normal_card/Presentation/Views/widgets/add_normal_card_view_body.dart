@@ -10,6 +10,7 @@ import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/image_picker_helper.dart';
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/type_of_collections.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collections_stats_cubit/collections_stats_cubit.dart';
 import 'package:smart_cards/core/messages/message.dart';
 import 'package:smart_cards/core/services/image_service/put_image_and_get_url.dart';
 import 'package:smart_cards/core/utils/helpers/network_utils.dart';
@@ -311,9 +312,9 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
       // Close loading dialog
       if (mounted) Navigator.pop(context);
 
-      // Add card to Firestore
+      // Add card to Firestore and wait for completion before refreshing stats
       if (mounted) {
-        context.read<NormalCardCubit>().addNormalCard(
+        await context.read<NormalCardCubit>().addNormalCard(
           frontSide: frontSide,
           backSide: backSide,
           frontImageUrl: frontImageUrl ?? '',
@@ -322,6 +323,10 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
           backImagePath: backImageRef?.fullPath ?? '',
           collectionId: selectedCollectionId!,
           cardId: cardId,
+        );
+        if (!mounted) return;
+        context.read<CollectionsStatsCubit>().forceRefreshCollection(
+          selectedCollectionId!,
         );
 
         // Clear form
