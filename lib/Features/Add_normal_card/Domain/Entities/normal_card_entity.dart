@@ -7,7 +7,6 @@ class NormalCardEntity extends BaseCardEntity {
   final String backImageUrl;
   final String frontImagePath;
   final String backImagePath;
-  
 
   const NormalCardEntity({
     required super.id,

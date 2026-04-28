@@ -18,12 +18,13 @@ class _CustomRenameCollectionState extends State<CustomRenameCollection> {
   late TextEditingController controller;
   bool isButtonEnabled = false;
 
-@override
+  @override
   void initState() {
     controller = TextEditingController(text: widget.collection.collectionName);
     // TODO: implement initState
     super.initState();
   }
+
   @override
   void dispose() {
     controller.dispose();

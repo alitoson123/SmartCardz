@@ -31,6 +31,7 @@ class CollectionModel extends CollectionEntity {
   }
 
   // CopyWith method to update values immutably
+  @override
   CollectionModel copyWith({
     String? collectionName,
     int? cards_count,
@@ -45,13 +46,12 @@ class CollectionModel extends CollectionEntity {
     );
   }
 
-
   factory CollectionModel.fromEntity(CollectionEntity collection) {
     return CollectionModel(
       owner_id: collection.owner_id,
       collectionName: collection.collectionName,
       cards_count: collection.cards_count,
-      collection_id:collection.collection_id,
+      collection_id: collection.collection_id,
     );
   }
 }

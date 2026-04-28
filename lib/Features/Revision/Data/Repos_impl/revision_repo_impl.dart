@@ -29,7 +29,9 @@ class RevisionRepoImpl implements RevisionRepo {
   }
 
   @override
-  Future<Either<Failure, void>> updateCard({required BaseCardEntity card}) async {
+  Future<Either<Failure, void>> updateCard({
+    required BaseCardEntity card,
+  }) async {
     try {
       await revisionRemoteDataSource.updateCard(card: card);
 

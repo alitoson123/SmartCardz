@@ -384,7 +384,6 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
   }
 }
 
-
 /***
  * 
  أهم الأماكن اللي لازم تستخدم فيها mounted

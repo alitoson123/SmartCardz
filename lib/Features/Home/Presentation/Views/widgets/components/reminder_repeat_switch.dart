@@ -52,7 +52,7 @@ class ReminderRepeatSwitch extends StatelessWidget {
           Switch(
             value: repeatDaily,
             onChanged: onChanged,
-            activeColor: primaryColor,
+            activeThumbColor: primaryColor,
           ),
         ],
       ),

@@ -52,7 +52,9 @@ class AICardModel extends AICardEntity {
       word: m['word'] ?? '',
       type: m['type'] ?? '',
       definition: m['definition'] ?? '',
-      example: (m['example'] as List?)?.map((e) => e.toString()).toList() ?? [], // convert list of dynamic to list of strings
+      example:
+          (m['example'] as List?)?.map((e) => e.toString()).toList() ??
+          [], // convert list of dynamic to list of strings
       image_url: m['image_url'] ?? '',
       aiImagePath: m['ai_image_path'] ?? '',
       collectionId: m['collectionId'] ?? '',
@@ -125,8 +127,9 @@ class AICardModel extends AICardEntity {
   // convert drive url to view url
   static String? _convertDriveUrl(String? url) {
     if (url == null || url.isEmpty) return url;
-    if (!url.contains('drive.google.com'))
+    if (!url.contains('drive.google.com')) {
       return url; // لو مش لينك Drive → سيبه زي ما هو
+    }
 
     try {
       // استخراج الـ ID باستخدام Regex

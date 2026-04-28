@@ -13,11 +13,11 @@ class EditCardOverlay extends StatefulWidget {
   final Function(BaseCardEntity) onSave;
 
   const EditCardOverlay({
-    Key? key,
+    super.key,
     required this.card,
     required this.onCancel,
     required this.onSave,
-  }) : super(key: key);
+  });
 
   @override
   State<EditCardOverlay> createState() => _EditCardOverlayState();

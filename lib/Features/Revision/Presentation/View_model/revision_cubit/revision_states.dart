@@ -4,7 +4,7 @@ abstract class RevisionState {}
 
 class RevisionLoading extends RevisionState {}
 
-//   2. جاهز للمراجعة 
+//   2. جاهز للمراجعة
 class RevisionReady extends RevisionState {
   final BaseCardEntity currentCard;
   final bool showAnswer;

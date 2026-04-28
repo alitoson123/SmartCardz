@@ -9,7 +9,7 @@ abstract class BaseCardEntity {
 
   final String id;
   final String collectionId;
-  
+
   /*    SM-2 Fields
 
     state          حالة الكارت

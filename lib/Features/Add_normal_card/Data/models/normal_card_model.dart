@@ -3,7 +3,6 @@ import 'package:smart_cards/Features/Add_normal_card/Domain/Entities/normal_card
 import 'package:smart_cards/core/Domain/Entities/base_card_entity.dart';
 
 class NormalCardModel extends NormalCardEntity {
-
   const NormalCardModel({
     required super.id,
     required super.collectionId,
@@ -54,7 +53,7 @@ class NormalCardModel extends NormalCardEntity {
       'front_image_path': frontImagePath,
       'back_image_path': backImagePath,
       'collectionId': collectionId,
-      'state': state.name, 
+      'state': state.name,
       'ease': ease,
       'interval': interval,
       'repetition': repetition,

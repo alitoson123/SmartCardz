@@ -9,7 +9,6 @@ import 'package:smart_cards/Features/Home/Presentation/Views/widgets/item_of_col
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
-
 class ListOfCollections extends StatelessWidget {
   const ListOfCollections({super.key, required this.collections});
 
@@ -53,9 +52,7 @@ class ListOfCollections extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return CustomRenameCollection(
-                      collection: collection,
-                    );
+                    return CustomRenameCollection(collection: collection);
                   },
                 );
               },

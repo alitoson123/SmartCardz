@@ -33,7 +33,8 @@ class Sm2Scheduler {
   //   🟢 1. NEW CARD
   // ══════════════════════════════════════════════════
   static BaseCardEntity _handleNew(BaseCardEntity card, int quality) {
-    if (quality == 4) { // Easy
+    if (quality == 4) {
+      // Easy
       return card.copyWith(
         state: CardState.review,
         repetition: 1,
@@ -42,7 +43,8 @@ class Sm2Scheduler {
       );
     }
 
-    if (quality == 0) { // Again
+    if (quality == 0) {
+      // Again
       return card.copyWith(
         state: CardState.learning,
         currentStep: 0,
@@ -62,14 +64,16 @@ class Sm2Scheduler {
   //   🟡 2. LEARNING CARD
   // ══════════════════════════════════════════════════
   static BaseCardEntity _handleLearning(BaseCardEntity card, int quality) {
-    if (quality == 0) { // Again: رجع لأول step
+    if (quality == 0) {
+      // Again: رجع لأول step
       return card.copyWith(
         currentStep: 0,
         dueDate: _minutesFromNow(_learningSteps[0]),
       );
     }
 
-    if (quality == 4) { // Easy → graduate فوراً
+    if (quality == 4) {
+      // Easy → graduate فوراً
       return card.copyWith(
         state: CardState.review,
         repetition: 1,
@@ -103,7 +107,8 @@ class Sm2Scheduler {
   //   🔵 3. REVIEW CARD
   // ══════════════════════════════════════════════════
   static BaseCardEntity _handleReview(BaseCardEntity card, int quality) {
-    if (quality == 0) { // Again
+    if (quality == 0) {
+      // Again
       final newEase = (card.ease - 0.2).clamp(_minEase, 2.5);
 
       return card.copyWith(
@@ -119,18 +124,25 @@ class Sm2Scheduler {
 
     int newInterval;
 
-    if (card.repetition == 0) { // أول مراجعة
+    if (card.repetition == 0) {
+      // أول مراجعة
       newInterval = (quality == 4) ? _easyInterval : 1;
-    } else if (card.repetition == 1) { // تاني مراجعة
-      if (quality == 4) { // Easy
+    } else if (card.repetition == 1) {
+      // تاني مراجعة
+      if (quality == 4) {
+        // Easy
         newInterval = (card.interval * card.ease * _easyBonus).round();
-      } else { // Medium (3)
+      } else {
+        // Medium (3)
         newInterval = 6;
       }
-    } else { // بعد المراجعة التانية
-      if (quality == 4) { // Easy
+    } else {
+      // بعد المراجعة التانية
+      if (quality == 4) {
+        // Easy
         newInterval = (card.interval * card.ease * _easyBonus).round();
-      } else { // Medium (3)
+      } else {
+        // Medium (3)
         newInterval = (card.interval * card.ease).round();
       }
     }
@@ -139,8 +151,8 @@ class Sm2Scheduler {
     double newEase = card.ease;
     if (quality == 4) {
       newEase += 0.15;
-    } 
-    // Medium (3) ease stays the same 
+    }
+    // Medium (3) ease stays the same
     newEase = newEase.clamp(_minEase, 2.5);
 
     newInterval = newInterval.clamp(1, _maxInterval);
@@ -157,7 +169,8 @@ class Sm2Scheduler {
   //   🔴 4. RELEARNING CARD
   // ══════════════════════════════════════════════════
   static BaseCardEntity _handleRelearning(BaseCardEntity card, int quality) {
-    if (quality == 0) { // Again
+    if (quality == 0) {
+      // Again
       return card.copyWith(
         currentStep: 0,
         dueDate: _minutesFromNow(_relearnSteps[0]),
@@ -166,9 +179,11 @@ class Sm2Scheduler {
 
     int newInterval;
 
-    if (quality == 4) { // Easy
+    if (quality == 4) {
+      // Easy
       newInterval = _easyInterval;
-    } else { // Medium (3)
+    } else {
+      // Medium (3)
       final previousInterval = card.interval;
 
       if (previousInterval > 0) {
@@ -198,4 +213,3 @@ class Sm2Scheduler {
   static DateTime _daysFromNow(int days) =>
       DateTime.now().add(Duration(days: days));
 }
-

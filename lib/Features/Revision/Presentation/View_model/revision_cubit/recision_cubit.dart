@@ -315,14 +315,10 @@ class RevisionCubit extends Cubit<RevisionState> {
     final currentState = state as RevisionReady;
     try {
       emit(RevisionEditCard(card: card));
-      emit(
-        currentState.copyWith(
-          currentCard: card,
-        ),
-      );
+      emit(currentState.copyWith(currentCard: card));
 
       await _repo.updateCard(card: card);
-      
+
       _modifiedCards.remove(card.id);
     } catch (e) {
       emit(RevisionError(message: e.toString()));

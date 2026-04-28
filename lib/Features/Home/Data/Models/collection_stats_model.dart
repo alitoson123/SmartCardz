@@ -18,9 +18,6 @@ class CollectionStatsModel extends CollectionStatsEntity {
   /// Converts the model back into a JSON map.
   /// Useful when saving the data into local storage (like SharedPreferences).
   Map<String, dynamic> toJson() {
-    return {
-      'total': totalCards,
-      'due': dueCards,
-    };
+    return {'total': totalCards, 'due': dueCards};
   }
 }

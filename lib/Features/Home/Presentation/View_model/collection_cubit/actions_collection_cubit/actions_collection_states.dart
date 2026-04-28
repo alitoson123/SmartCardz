@@ -21,7 +21,10 @@ class RenameCollectionSuccess extends ActionsCollectionStates {
   final String collectionName;
   final String collectionId;
 
-  RenameCollectionSuccess({required this.collectionName, required this.collectionId});
+  RenameCollectionSuccess({
+    required this.collectionName,
+    required this.collectionId,
+  });
 }
 
 class ActionsCollectionFailure extends ActionsCollectionStates {

@@ -7,7 +7,6 @@ import 'package:smart_cards/Features/Settings/Presentation/views/widgets/setting
 import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
-import 'package:smart_cards/core/services/notifications_service/push_notification_service.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
 class ActionsSection extends StatelessWidget {

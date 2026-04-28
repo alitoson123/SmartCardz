@@ -41,10 +41,16 @@ class ReminderTextField extends StatelessWidget {
           cursorColor: primaryColor,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(color: textColor.withAlpha(100), fontSize: 13.sp),
+            hintStyle: TextStyle(
+              color: textColor.withAlpha(100),
+              fontSize: 13.sp,
+            ),
             filled: true,
             fillColor: surfaceColor,
-            contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: 14.h,
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14.r),
               borderSide: BorderSide(color: textColor.withAlpha(30), width: 1),

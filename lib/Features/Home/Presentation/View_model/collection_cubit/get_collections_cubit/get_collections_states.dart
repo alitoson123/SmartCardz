@@ -2,7 +2,7 @@ import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart
 
 class GetCollectionsStates {}
 
- class GetCollectionsInitial extends GetCollectionsStates {}
+class GetCollectionsInitial extends GetCollectionsStates {}
 
 class GetCollectionsLoading extends GetCollectionsStates {}
 

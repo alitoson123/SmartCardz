@@ -8,7 +8,9 @@ class RemoteConfigService {
     await remoteConfig.setConfigSettings(
       RemoteConfigSettings(
         fetchTimeout: const Duration(seconds: 10),
-        minimumFetchInterval: Duration(hours: 1), // Production ممكن تخليها 1 ساعة
+        minimumFetchInterval: Duration(
+          hours: 1,
+        ), // Production ممكن تخليها 1 ساعة
       ),
     );
 

@@ -50,7 +50,7 @@ class AppDialog extends StatelessWidget {
             const SizedBox(height: 20),
 
             // Message
-          /*  Text(
+            /*  Text(
               message,
               style: TextStyle(
                 fontSize: 13,

@@ -20,7 +20,6 @@ class GetCollectionsCubit extends Cubit<GetCollectionsStates> {
     );
   }
 
-
   void removeCollectionLocally(String collectionId) {
     if (state is GetCollectionsSuccess) {
       final currentState = state as GetCollectionsSuccess;

@@ -80,7 +80,7 @@ class localnotificationService {
           priority: Priority.high,
           ticker: 'ticker',
           icon: 'ic_notification',
-          color: const Color(0xFF4A90E2),
+          color: Color(0xFF4A90E2),
         );
 
     await flutterLocalNotificationsPlugin.periodicallyShow(
@@ -113,7 +113,7 @@ class localnotificationService {
           priority: Priority.high,
           ticker: 'ticker',
           icon: 'ic_notification',
-          color: const Color(0xFF4A90E2),
+          color: Color(0xFF4A90E2),
         );
 
     tz.initializeTimeZones();

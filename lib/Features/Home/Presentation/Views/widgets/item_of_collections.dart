@@ -8,7 +8,6 @@ import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 class ItemOfCollections extends StatefulWidget {
   const ItemOfCollections({super.key, required this.collection});
   final CollectionEntity collection;
@@ -21,7 +20,9 @@ class _ItemOfCollectionsState extends State<ItemOfCollections> {
   @override
   void initState() {
     super.initState();
-    context.read<CollectionsStatsCubit>().getStatsForCollection(widget.collection.collection_id);
+    context.read<CollectionsStatsCubit>().getStatsForCollection(
+      widget.collection.collection_id,
+    );
   }
 
   @override
@@ -62,8 +63,11 @@ class _ItemOfCollectionsState extends State<ItemOfCollections> {
 
               if (state is CollectionsStatsSuccess) {
                 // If we have success state, check if our collection ID is in the map
-                if (state.statsMap.containsKey(widget.collection.collection_id)) {
-                  final stats = state.statsMap[widget.collection.collection_id]!;
+                if (state.statsMap.containsKey(
+                  widget.collection.collection_id,
+                )) {
+                  final stats =
+                      state.statsMap[widget.collection.collection_id]!;
                   total = stats.totalCards;
                   due = stats.dueCards;
                   isLoading = false;
@@ -123,7 +127,7 @@ class _ItemOfCollectionsState extends State<ItemOfCollections> {
                         ),
                       ),
                     ],
-   if (due == 0 && total == 0) ...[
+                    if (due == 0 && total == 0) ...[
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 6.w),
                         child: Container(
@@ -170,7 +174,10 @@ class _ItemOfCollectionsState extends State<ItemOfCollections> {
           ),
           trailing: Icon(Icons.arrow_forward_ios, size: 18.sp),
           onTap: () {
-            context.push(AppRoutes.revisionCardScreen, extra: widget.collection);
+            context.push(
+              AppRoutes.revisionCardScreen,
+              extra: widget.collection,
+            );
           },
         ),
       ),

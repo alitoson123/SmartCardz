@@ -49,7 +49,6 @@ class AppInitCubit extends Cubit<AppInitState> {
         await prefs.setBool('is_first_launch', false);
       }
 
-
       setup();
 
       // Remote Config

@@ -37,9 +37,12 @@ class _NotificationSectionState extends State<NotificationSection> {
       final int hour = prefs.getInt('reminder_hour') ?? 5;
       final String period = prefs.getString('reminder_period') ?? 'PM';
       final bool repeatDaily = prefs.getBool('reminder_repeat_daily') ?? true;
-      
-      final String title = prefs.getString('reminder_title') ?? S.of(context).timeToStudy;
-      final String message = prefs.getString('reminder_message') ?? S.of(context).yourCardsAreWaitingKeepYourStreakAlive;
+
+      final String title =
+          prefs.getString('reminder_title') ?? S.of(context).timeToStudy;
+      final String message =
+          prefs.getString('reminder_message') ??
+          S.of(context).yourCardsAreWaitingKeepYourStreakAlive;
 
       final int hour24 = period == 'PM' ? (hour % 12) + 12 : hour % 12;
 
@@ -72,7 +75,7 @@ class _NotificationSectionState extends State<NotificationSection> {
               title: S.of(context).Notification,
               trailing: Switch(
                 value: isNotification,
-                activeColor: Theme.of(context).colorScheme.primary,
+                activeThumbColor: Theme.of(context).colorScheme.primary,
                 onChanged: _toggleNotification,
               ),
               onTap: () => _toggleNotification(!isNotification),

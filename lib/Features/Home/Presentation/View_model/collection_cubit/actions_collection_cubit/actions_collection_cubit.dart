@@ -48,10 +48,12 @@ class ActionsCollectionCubit extends Cubit<ActionsCollectionStates> {
     result.fold(
       (failure) =>
           emit(ActionsCollectionFailure(errMessage: failure.errorMessage)),
-      (success) => emit(RenameCollectionSuccess(
-        collectionName: success['collection_name']!,
-        collectionId: success['collection_id']!,
-      )),
+      (success) => emit(
+        RenameCollectionSuccess(
+          collectionName: success['collection_name']!,
+          collectionId: success['collection_id']!,
+        ),
+      ),
     );
   }
 }

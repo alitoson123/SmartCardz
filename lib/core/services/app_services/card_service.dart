@@ -34,7 +34,7 @@ class CardService {
   }
 
   // delete card
-   Future<void> deleteCard({
+  Future<void> deleteCard({
     required String cardId,
     required String collectionId,
   }) async {
@@ -49,7 +49,7 @@ class CardService {
 
   /// بيتنفذ مرة واحدة بس في بداية الجلسة
   /// بيجيب كل الكروت اللي due_date <= now
-   Future<List<BaseCardEntity>> getDueCards(String collectionId) async {
+  Future<List<BaseCardEntity>> getDueCards(String collectionId) async {
     final now = Timestamp.now();
 
     // 1️⃣ الكروت المستحقة (Review & New) وأي كروت due حالياً
@@ -96,7 +96,7 @@ class CardService {
 
   //   تحديث كارت واحد
   /// بيستخدم لحفظ الكروت المعدلة
-   Future<void> updateCard(BaseCardEntity card) async {
+  Future<void> updateCard(BaseCardEntity card) async {
     Map<String, dynamic> data;
 
     if (card is AICardEntity) {
@@ -110,7 +110,7 @@ class CardService {
 
   //   تحديث كروت متعددة (Batch) - أسرع ✅
   /// بيحفظ كذا كارت في مرة واحدة - أحسن للـ performance
-   Future<void> updateMultipleCards(List<BaseCardEntity> cards) async {
+  Future<void> updateMultipleCards(List<BaseCardEntity> cards) async {
     if (cards.isEmpty) return;
 
     // Firestore Batch - بيخلي كل الـ updates تحصل مع بعض

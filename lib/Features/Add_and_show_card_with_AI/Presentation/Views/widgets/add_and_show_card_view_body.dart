@@ -320,7 +320,6 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     // set the word
     setState(() => word = formattedValue);
 
-
     // show ai card
     context.read<ShowAICardCubit>().showAICard(
       word: formattedValue,
@@ -339,7 +338,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
         type: DialogType.warning,
         message: S.of(context).PleaseSelectACollection,
       );
-  //   context.push(AppRoutes.);
+      //   context.push(AppRoutes.);
 
       return;
     }

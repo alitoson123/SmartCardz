@@ -259,7 +259,6 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
     );
   }
 
-
   void _startWaitingTimer(RevisionWaiting state) {
     _waitingTimer?.cancel();
     _waitingTimer = Timer.periodic(const Duration(seconds: 1), (_) {
@@ -315,7 +314,7 @@ class _RevisionViewBodyState extends State<RevisionViewBody> {
               ),
             ),
           ),
-          if (isEditMode) 
+          if (isEditMode)
             EditCardOverlay(
               card: card,
               onCancel: () {

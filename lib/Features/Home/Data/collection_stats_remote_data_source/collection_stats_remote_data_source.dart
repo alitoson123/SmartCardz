@@ -1,7 +1,6 @@
 import 'package:smart_cards/Features/Home/Data/Models/collection_stats_model.dart';
 import 'package:smart_cards/core/services/app_services/collection_service.dart';
 
-
 abstract class CollectionStatsRemoteDataSource {
   Future<CollectionStatsModel> fetchCollectionStats({
     required String collectionId,

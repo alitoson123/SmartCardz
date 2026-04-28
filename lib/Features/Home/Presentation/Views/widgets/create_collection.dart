@@ -112,7 +112,6 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
       collectionName: controller.text.trim(),
     );
 
-
     Navigator.pop(context); // close dialog
 
     setState(() => isLoading = false); // set loading state = false

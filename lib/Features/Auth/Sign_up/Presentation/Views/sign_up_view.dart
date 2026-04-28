@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smart_cards/core/services/notifications_service/push_notification_service.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -59,7 +58,7 @@ class BlocConsumerOfSignUpViewBody extends StatelessWidget {
 
           await SharedPreferencesService.instance.setBool(K_IS_LOGIN, true);
 
-       //   PushNotificationService.saveToken();
+          //   PushNotificationService.saveToken();
 
           context.go(AppRoutes.homeScreen);
         }
