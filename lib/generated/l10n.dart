@@ -1418,6 +1418,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Collection renamed successfully`
+  String get collectionRenamedSuccessfully {
+    return Intl.message(
+      'Collection renamed successfully',
+      name: 'collectionRenamedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/add_collection_cubit.dart/add_collection_cubit.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/add_collection_cubit.dart/add_collection_states.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/delete_collection_cubit.dart/delete_collection_cubit.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/delete_collection_cubit.dart/delete_collection_states.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/actions_collection_cubit/actions_collection_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/actions_collection_cubit/actions_collection_states.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/home_view_body.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/add_options.dart';
@@ -85,17 +83,17 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
       body: HomeViewBody(),
-      floatingActionButton: MultiBlocListener(
-        listeners: [
-          BlocListener<AddCollectionCubit, AddCollectionStates>(
+      floatingActionButton:
+          BlocConsumer<ActionsCollectionCubit, ActionsCollectionStates>(
             listener: (context, state) {
-              if (state is AddCollectionFailure) {
+              if (state is ActionsCollectionFailure) {
                 Message().showAppDialog(
                   context: context,
                   type: DialogType.error,
                   message: state.errMessage,
                 );
               }
+
               if (state is AddCollectionSuccess) {
                 context.read<GetCollectionsCubit>().addCollectionLocally(
                   state.collectionEntity,
@@ -103,13 +101,10 @@ class _HomeViewState extends State<HomeView> {
                 Message().MessageSuccessMethod(
                   context,
                   message: S.of(context).CollectionCreatedSuccessfully,
+                  duration: Duration(milliseconds: 400),
                 );
               }
-            },
-          ),
 
-          BlocListener<DeleteCollectionCubit, DeleteCollectionStates>(
-            listener: (context, state) {
               if (state is DeleteCollectionSuccess) {
                 context.read<GetCollectionsCubit>().removeCollectionLocally(
                   state.collectionId,
@@ -118,20 +113,31 @@ class _HomeViewState extends State<HomeView> {
                 Message().MessageSuccessMethod(
                   context,
                   message: S.of(context).collectionDeletedSuccessfully,
+                  duration: Duration(milliseconds: 400),
                 );
               }
-              if (state is DeleteCollectionFailure) {
-                Message().showAppDialog(
-                  context: context,
-                  type: DialogType.error,
-                  message: state.errorMessage,
+
+              if (state is RenameCollectionSuccess) {
+                context.read<GetCollectionsCubit>().renameCollectionLocally(
+                  state.collectionId,
+                  state.collectionName,
+                );
+                Message().MessageSuccessMethod(
+                  context,
+                  message: S.of(context).collectionRenamedSuccessfully,
+                  duration: Duration(milliseconds: 400),
                 );
               }
             },
+            builder: (context, state) {
+              return ModalProgressHUD(
+                inAsyncCall: state is ActionsCollectionLoading,
+                opacity: 0.5,
+                progressIndicator: CircularProgressIndicator(),
+                child: AddOptions(),
+              );
+            },
           ),
-        ],
-        child: AddOptions(),
-      ),
     );
   }
 }

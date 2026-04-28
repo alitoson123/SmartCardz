@@ -29,4 +29,29 @@ class CollectionModel extends CollectionEntity {
       'created_at': FieldValue.serverTimestamp(),
     };
   }
+
+  // CopyWith method to update values immutably
+  CollectionModel copyWith({
+    String? collectionName,
+    int? cards_count,
+    String? collection_id,
+    String? owner_id,
+  }) {
+    return CollectionModel(
+      collectionName: collectionName ?? this.collectionName,
+      cards_count: cards_count ?? this.cards_count,
+      collection_id: collection_id ?? this.collection_id,
+      owner_id: owner_id ?? this.owner_id,
+    );
+  }
+
+
+  factory CollectionModel.fromEntity(CollectionEntity collection) {
+    return CollectionModel(
+      owner_id: collection.owner_id,
+      collectionName: collection.collectionName,
+      cards_count: collection.cards_count,
+      collection_id:collection.collection_id,
+    );
+  }
 }

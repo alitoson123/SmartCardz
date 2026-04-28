@@ -170,5 +170,6 @@
   "cancelReminder": "Cancel reminder",
   "reminderCancelledSuccessfully": "Reminder cancelled successfully",
   "youHaveAnActiveReminderSetAt": "You have an active reminder set at {time}",
-  "collectionDeletedSuccessfully": "Collection deleted successfully"
+  "collectionDeletedSuccessfully": "Collection deleted successfully",
+  "collectionRenamedSuccessfully": "Collection renamed successfully"
 }

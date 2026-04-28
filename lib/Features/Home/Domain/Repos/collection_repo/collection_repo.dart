@@ -10,7 +10,7 @@ abstract class CollectionRepo {
   Future<Either<Failure, String>> deleteCollection({
     required String collectionId,
   });
-  Future<Either<Failure, void>> renameCollection({
+  Future<Either<Failure, Map<String, String>>> renameCollection({
     required String collectionId,
     required String newName,
   });

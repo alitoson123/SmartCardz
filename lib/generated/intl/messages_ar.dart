@@ -116,6 +116,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "تم حذف المجموعة بنجاح",
     ),
     "collectionName": MessageLookupByLibrary.simpleMessage("اسم المجموعة"),
+    "collectionRenamedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "تم إعادة تسمية المجموعة بنجاح",
+    ),
     "collectionsTitle": MessageLookupByLibrary.simpleMessage("المجموعات"),
     "color": MessageLookupByLibrary.simpleMessage("اللون"),
     "completeDetails": MessageLookupByLibrary.simpleMessage(

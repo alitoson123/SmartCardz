@@ -71,13 +71,18 @@ and if You didn't return it, you would have to trigger a completely new fetch of
   }
 
   // rename collection
-  static Future<void> renameCollection({
+  static Future<Map<String, String>> renameCollection({
     required String collectionId,
     required String newCollectionName,
   }) async {
     await firestore.collection('collections').doc(collectionId).update({
       'collection_name': newCollectionName,
     });
+
+    return {
+      'collection_id': collectionId,
+      'collection_name': newCollectionName,
+    };
   }
 
   // get card cards and due cards count

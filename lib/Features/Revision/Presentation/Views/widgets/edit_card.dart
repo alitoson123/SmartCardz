@@ -43,13 +43,15 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
   void initState() {
     super.initState();
     isAiCard = widget.card is AICardEntity;
-    
+
     if (isAiCard) {
       final aiCard = widget.card as AICardEntity;
       _defController = TextEditingController(text: aiCard.definition);
       _wordController = TextEditingController(text: aiCard.word);
       _typeController = TextEditingController(text: aiCard.type);
-      _exampleController = TextEditingController(text: aiCard.example.join(", "));
+      _exampleController = TextEditingController(
+        text: aiCard.example.join(", "),
+      );
     } else {
       final normalCard = widget.card as NormalCardEntity;
       _frontController = TextEditingController(text: normalCard.frontSide);
@@ -82,15 +84,15 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
         children: [
           // Blur background
           Positioned.fill(
-             child: GestureDetector(
-                onTap: widget.onCancel,
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                  child: Container(color: Colors.black.withOpacity(0.5)),
-                ),
-             ),
+            child: GestureDetector(
+              onTap: widget.onCancel,
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                child: Container(color: Colors.black.withOpacity(0.5)),
+              ),
+            ),
           ),
-          
+
           Center(
             child: Material(
               color: Colors.transparent,
@@ -115,9 +117,16 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
                   children: [
                     // Header
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 24.w,
+                        vertical: 20.h,
+                      ),
                       decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.2))),
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Colors.grey.withOpacity(0.2),
+                          ),
+                        ),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,29 +141,36 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
                           GestureDetector(
                             onTap: widget.onCancel,
                             child: Container(
-                               padding: EdgeInsets.all(6.r),
-                               decoration: BoxDecoration(
-                                 color: Colors.grey.withOpacity(0.15),
-                                 shape: BoxShape.circle,
-                               ),
-                               child: const Icon(Icons.close, size: 20),
+                              padding: EdgeInsets.all(6.r),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.15),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.close, size: 20),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
-                    
+
                     // Form body
                     Flexible(
                       child: SingleChildScrollView(
                         padding: EdgeInsets.all(24.r),
-                        child: isAiCard ? _buildAiForm(isDark) : _buildNormalForm(isDark),
+                        child: isAiCard
+                            ? _buildAiForm(isDark)
+                            : _buildNormalForm(isDark),
                       ),
                     ),
-                    
+
                     // Footer Actions
                     Padding(
-                      padding: EdgeInsets.only(left: 24.r, right: 24.r, bottom: 24.r, top: 10.r),
+                      padding: EdgeInsets.only(
+                        left: 24.r,
+                        right: 24.r,
+                        bottom: 24.r,
+                        top: 10.r,
+                      ),
                       child: Row(
                         children: [
                           Expanded(
@@ -162,10 +178,20 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
                               onPressed: widget.onCancel,
                               style: OutlinedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(vertical: 16.h),
-                                side: BorderSide(color: Colors.grey.withOpacity(0.4)),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
+                                side: BorderSide(
+                                  color: Colors.grey.withOpacity(0.4),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14.r),
+                                ),
                               ),
-                              child: Text(S.of(context).cancel, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600)),
+                              child: Text(
+                                S.of(context).cancel,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
                           ),
                           SizedBox(width: 16.w),
@@ -176,20 +202,28 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
                                 padding: EdgeInsets.symmetric(vertical: 16.h),
                                 backgroundColor: theme.colorScheme.primary,
                                 foregroundColor: theme.colorScheme.onPrimary,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14.r),
+                                ),
                                 elevation: 0,
                               ),
-                              child: Text(S.of(context).save, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600)),
+                              child: Text(
+                                S.of(context).save,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -203,7 +237,10 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (showImage) ...[
-          Text(S.of(context).image, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15.sp)),
+          Text(
+            S.of(context).image,
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15.sp),
+          ),
           SizedBox(height: 10.h),
           Stack(
             children: [
@@ -227,7 +264,11 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
                       shape: BoxShape.circle,
                     ),
                     padding: EdgeInsets.all(8.r),
-                    child: const Icon(Icons.delete_outline, color: Colors.white, size: 22),
+                    child: const Icon(
+                      Icons.delete_outline,
+                      color: Colors.white,
+                      size: 22,
+                    ),
                   ),
                 ),
               ),
@@ -242,21 +283,30 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
         SizedBox(height: 20.h),
         _buildTextField(S.of(context).type, _typeController, isDark),
         SizedBox(height: 20.h),
-        _buildTextField(S.of(context).example, _exampleController, isDark, maxLines: 3),
+        _buildTextField(
+          S.of(context).example,
+          _exampleController,
+          isDark,
+          maxLines: 3,
+        ),
       ],
     );
   }
 
   Widget _buildNormalForm(bool isDark) {
     final normalCard = widget.card as NormalCardEntity;
-    final showFrontImage = !(_isDeletedFront || normalCard.frontImageUrl.isEmpty);
+    final showFrontImage =
+        !(_isDeletedFront || normalCard.frontImageUrl.isEmpty);
     final showBackImage = !(_isDeletedBack || normalCard.backImageUrl.isEmpty);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (showFrontImage) ...[
-          Text("Front Image", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15.sp)),
+          Text(
+            "Front Image",
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15.sp),
+          ),
           SizedBox(height: 10.h),
           Stack(
             children: [
@@ -275,9 +325,16 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
                 child: GestureDetector(
                   onTap: () => setState(() => _isDeletedFront = true),
                   child: Container(
-                    decoration: BoxDecoration(color: Colors.red.withOpacity(0.9), shape: BoxShape.circle),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.9),
+                      shape: BoxShape.circle,
+                    ),
                     padding: EdgeInsets.all(8.r),
-                    child: const Icon(Icons.delete_outline, color: Colors.white, size: 22),
+                    child: const Icon(
+                      Icons.delete_outline,
+                      color: Colors.white,
+                      size: 22,
+                    ),
                   ),
                 ),
               ),
@@ -285,12 +342,20 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
           ),
           SizedBox(height: 20.h),
         ],
-        _buildTextField(S.of(context).FrontSide, _frontController, isDark, maxLines: 3),
-        
+        _buildTextField(
+          S.of(context).FrontSide,
+          _frontController,
+          isDark,
+          maxLines: 3,
+        ),
+
         SizedBox(height: 28.h),
-        
+
         if (showBackImage) ...[
-          Text("Back Image", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15.sp)),
+          Text(
+            "Back Image",
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15.sp),
+          ),
           SizedBox(height: 10.h),
           Stack(
             children: [
@@ -309,9 +374,16 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
                 child: GestureDetector(
                   onTap: () => setState(() => _isDeletedBack = true),
                   child: Container(
-                    decoration: BoxDecoration(color: Colors.red.withOpacity(0.9), shape: BoxShape.circle),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.9),
+                      shape: BoxShape.circle,
+                    ),
                     padding: EdgeInsets.all(8.r),
-                    child: const Icon(Icons.delete_outline, color: Colors.white, size: 22),
+                    child: const Icon(
+                      Icons.delete_outline,
+                      color: Colors.white,
+                      size: 22,
+                    ),
                   ),
                 ),
               ),
@@ -319,14 +391,26 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
           ),
           SizedBox(height: 20.h),
         ],
-        _buildTextField(S.of(context).BackSide, _backController, isDark, maxLines: 3),
+        _buildTextField(
+          S.of(context).BackSide,
+          _backController,
+          isDark,
+          maxLines: 3,
+        ),
       ],
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller, bool isDark, {int maxLines = 1}) {
+  Widget _buildTextField(
+    String label,
+    TextEditingController controller,
+    bool isDark, {
+    int maxLines = 1,
+  }) {
     // Provide a subtle filler color
-    final fillColor = isDark ? Colors.grey.withOpacity(0.1) : Colors.grey.withOpacity(0.05);
+    final fillColor = isDark
+        ? Colors.grey.withOpacity(0.1)
+        : Colors.grey.withOpacity(0.05);
     final borderColor = isDark ? Colors.white12 : Colors.black12;
 
     return Column(
@@ -334,7 +418,11 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
       children: [
         Text(
           label,
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp, color: isDark ? Colors.grey.shade400 : Colors.grey.shade700),
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 14.sp,
+            color: isDark ? Colors.grey.shade400 : Colors.grey.shade700,
+          ),
         ),
         SizedBox(height: 8.h),
         TextField(
@@ -351,9 +439,15 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1.5),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.primary,
+                width: 1.5,
+              ),
             ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 16.h),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 18.w,
+              vertical: 16.h,
+            ),
           ),
         ),
       ],

@@ -10,4 +10,18 @@ class CollectionEntity {
     required this.collectionName,
     required this.cards_count,
   });
+
+  CollectionEntity copyWith({
+    String? collectionName,
+    int? cards_count,
+    String? collection_id,
+    String? owner_id,
+  }) {
+    return CollectionEntity(
+      collectionName: collectionName ?? this.collectionName,
+      cards_count: cards_count ?? this.cards_count,
+      collection_id: collection_id ?? this.collection_id,
+      owner_id: owner_id ?? this.owner_id,
+    );
+  }
 }

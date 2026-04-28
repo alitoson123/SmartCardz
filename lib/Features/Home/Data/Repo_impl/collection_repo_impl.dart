@@ -68,7 +68,7 @@ class CollectionRepoImpl extends CollectionRepo {
 
   // rename a collection
   @override
-  Future<Either<Failure, void>> renameCollection({
+  Future<Either<Failure, Map<String, String>>> renameCollection({
     required String collectionId,
     required String newName,
   }) async {

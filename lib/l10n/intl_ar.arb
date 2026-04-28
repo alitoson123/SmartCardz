@@ -174,5 +174,6 @@
   "cancelReminder": "إلغاء التذكير",
   "reminderCancelledSuccessfully": "تم إلغاء التذكير بنجاح",
   "youHaveAnActiveReminderSetAt": "لديك تذكير نشط في {time}",
-  "collectionDeletedSuccessfully": "تم حذف المجموعة بنجاح"
-}
+  "collectionDeletedSuccessfully": "تم حذف المجموعة بنجاح",
+  "collectionRenamedSuccessfully": "تم إعادة تسمية المجموعة بنجاح"
+ }

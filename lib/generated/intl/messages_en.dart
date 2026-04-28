@@ -120,6 +120,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Collection deleted successfully",
     ),
     "collectionName": MessageLookupByLibrary.simpleMessage("Collection Name"),
+    "collectionRenamedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "Collection renamed successfully",
+    ),
     "collectionsTitle": MessageLookupByLibrary.simpleMessage("Collections"),
     "color": MessageLookupByLibrary.simpleMessage("Color"),
     "completeDetails": MessageLookupByLibrary.simpleMessage(

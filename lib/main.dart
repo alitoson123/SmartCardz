@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/Features/Home/Data/Repo_impl/collection_repo_impl.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/add_collection_cubit.dart/add_collection_cubit.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/delete_collection_cubit.dart/delete_collection_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/actions_collection_cubit/actions_collection_cubit.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
 import 'package:smart_cards/core/services/Bloc_observes_service/my_Bloc_observe.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collections_stats_cubit/collections_stats_cubit.dart';
 import 'package:smart_cards/Features/Home/Domain/Repos/collection_stats_repo/collection_stats_repo.dart';
-import 'package:smart_cards/core/services/notifications_service/local_notification_service.dart';
-
 import 'package:smart_cards/core/utils/app_theme/dark_theme.dart';
 import 'package:smart_cards/core/utils/app_theme/light_theme.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
@@ -35,7 +32,6 @@ void main() async {
     cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED, // مش يمسح الـ cache تلقائي
   );
 
-
   Bloc.observer = MyBlocObserver(); // bloc observer
 
   // Initialize AdMob SDK
@@ -57,11 +53,13 @@ class SmartCards extends StatelessWidget {
             BlocProvider(create: (context) => AppInitCubit()),
             BlocProvider(create: (context) => ThemeCubit()),
             BlocProvider(create: (context) => AppLanguageCubit()),
+
             BlocProvider(
-              create: (context) => AddCollectionCubit(
-                addCollectionRepo: getIt<CollectionRepoImpl>(),
+              create: (context) => ActionsCollectionCubit(
+                collectionRepo: getIt<CollectionRepoImpl>(),
               ),
             ),
+
             BlocProvider(
               create: (context) => GetCollectionsCubit(
                 collectionRepoImpl: getIt<CollectionRepoImpl>(),
@@ -70,11 +68,6 @@ class SmartCards extends StatelessWidget {
             BlocProvider(
               create: (context) => CollectionsStatsCubit(
                 repository: getIt<CollectionStatsRepo>(),
-              ),
-            ),
-            BlocProvider(
-              create: (context) => DeleteCollectionCubit(
-                collectionRepo: getIt<CollectionRepoImpl>(),
               ),
             ),
           ],

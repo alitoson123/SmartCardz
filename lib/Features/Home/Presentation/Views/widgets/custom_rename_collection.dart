@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_cards/core/services/app_services/collection_service.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/actions_collection_cubit/actions_collection_cubit.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 
@@ -14,9 +15,15 @@ class CustomRenameCollection extends StatefulWidget {
 }
 
 class _CustomRenameCollectionState extends State<CustomRenameCollection> {
-  final TextEditingController controller = TextEditingController();
+  late TextEditingController controller;
   bool isButtonEnabled = false;
 
+@override
+  void initState() {
+    controller = TextEditingController(text: widget.collection.collectionName);
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   void dispose() {
     controller.dispose();
@@ -52,10 +59,11 @@ class _CustomRenameCollectionState extends State<CustomRenameCollection> {
         TextButton(
           onPressed: isButtonEnabled
               ? () {
-                  CollectionService.renameCollection(
+                  context.read<ActionsCollectionCubit>().renameCollection(
                     collectionId: widget.collection.collection_id,
-                    newCollectionName: controller.text,
+                    newName: controller.text,
                   );
+
                   Navigator.pop(context);
                   Navigator.pop(context);
                 }
