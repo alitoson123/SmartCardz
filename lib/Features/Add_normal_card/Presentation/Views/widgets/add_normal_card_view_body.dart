@@ -12,7 +12,6 @@ import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
 import 'package:smart_cards/core/messages/message.dart';
 import 'package:smart_cards/core/services/image_service/put_image_and_get_url.dart';
-import 'package:smart_cards/core/services/notifications_service/local_notification_service.dart';
 import 'package:smart_cards/core/utils/helpers/network_utils.dart';
 import 'package:smart_cards/core/utils/widgets/app_button.dart';
 import 'package:smart_cards/core/utils/widgets/app_header.dart';
@@ -136,31 +135,6 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
                   AppButton(
                     text: S.of(context).addCard,
                     onPressed: addCard,
-                    icon: Icons.add,
-                  ),
-                  SizedBox(height: 16.h),
-                  AppButton(
-                    text: S.of(context).addCard,
-                    onPressed: () {
-                      localnotificationService.showBasicNotification(
-                        id: 1,
-                        title: 'Test Notification',
-                        body: 'This is a basic notification',
-                      );
-                      localnotificationService.showRepeatedNotification(
-                        id: 2,
-                        title: 'Recurring Notification',
-                        body: 'This notification repeats every minute',
-                      );
-                      localnotificationService.showSchduledNotification(
-                        id: 3,
-                        title: 'Scheduled Notification',
-                        body: 'This notification repeats every minute',
-                        hour: 1,
-                        minute: 5,
-                        isrepeat: true,
-                      );
-                    },
                     icon: Icons.add,
                   ),
                 ],

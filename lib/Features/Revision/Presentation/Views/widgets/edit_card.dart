@@ -131,6 +131,7 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          // title
                           Text(
                             S.of(context).editCard,
                             style: TextStyle(
@@ -138,6 +139,7 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
+                          // close button
                           GestureDetector(
                             onTap: widget.onCancel,
                             child: Container(
@@ -163,7 +165,7 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
                       ),
                     ),
 
-                    // Footer Actions
+                    // action buttons
                     Padding(
                       padding: EdgeInsets.only(
                         left: 24.r,
@@ -173,6 +175,7 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
                       ),
                       child: Row(
                         children: [
+                          // cancel button
                           Expanded(
                             child: OutlinedButton(
                               onPressed: widget.onCancel,
@@ -195,6 +198,7 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
                             ),
                           ),
                           SizedBox(width: 16.w),
+                          // save button
                           Expanded(
                             child: ElevatedButton(
                               onPressed: _onSave,
@@ -229,6 +233,7 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
     );
   }
 
+  // build ai form
   Widget _buildAiForm(bool isDark) {
     final aiCard = widget.card as AICardEntity;
     final showImage = !(_isDeletedFront || aiCard.image_url.isEmpty);
@@ -277,7 +282,7 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
           SizedBox(height: 24.h),
         ],
 
-        _buildTextField(S.of(context).definition, _defController, isDark),
+        _buildTextField(S.of(context).definition, _defController, isDark ,maxLines: 2),
         SizedBox(height: 20.h),
         _buildTextField(S.of(context).word, _wordController, isDark),
         SizedBox(height: 20.h),
@@ -293,6 +298,7 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
     );
   }
 
+  // build normal form
   Widget _buildNormalForm(bool isDark) {
     final normalCard = widget.card as NormalCardEntity;
     final showFrontImage =
@@ -401,6 +407,7 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
     );
   }
 
+  // build text field
   Widget _buildTextField(
     String label,
     TextEditingController controller,
@@ -454,11 +461,13 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
     );
   }
 
+  // save function
   void _onSave() {
     if (isAiCard) {
       final aiCard = widget.card as AICardEntity;
       final updatedCard = aiCard.copyWith(
         image_url: _isDeletedFront ? "" : aiCard.image_url,
+        aiImagePath: _isDeletedFront ? "" : aiCard.aiImagePath,
         definition: _defController.text,
         word: _wordController.text,
         type: _typeController.text,
@@ -470,6 +479,8 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
       final updatedCard = normalCard.copyWith(
         frontImageUrl: _isDeletedFront ? "" : normalCard.frontImageUrl,
         backImageUrl: _isDeletedBack ? "" : normalCard.backImageUrl,
+        frontImagePath: _isDeletedFront ? "" : normalCard.frontImagePath,
+        backImagePath: _isDeletedBack ? "" : normalCard.backImagePath,
         frontSide: _frontController.text,
         backSide: _backController.text,
       );

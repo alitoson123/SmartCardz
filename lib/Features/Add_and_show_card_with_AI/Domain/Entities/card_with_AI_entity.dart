@@ -34,6 +34,7 @@ class AICardEntity extends BaseCardEntity {
   @override
   AICardEntity copyWith({
     String? image_url,
+    String? aiImagePath,
     String? definition,
     String? word,
     String? type,
@@ -55,6 +56,7 @@ class AICardEntity extends BaseCardEntity {
       definition: definition ?? this.definition,
       example: example ?? this.example,
       image_url: image_url ?? this.image_url,
+      aiImagePath: aiImagePath ?? this.aiImagePath,
       is_valid: is_valid ?? this.is_valid,
       state: state ?? this.state,
       ease: ease ?? this.ease,
