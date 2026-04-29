@@ -282,7 +282,12 @@ class _EditCardOverlayState extends State<EditCardOverlay> {
           SizedBox(height: 24.h),
         ],
 
-        _buildTextField(S.of(context).definition, _defController, isDark ,maxLines: 2),
+        _buildTextField(
+          S.of(context).definition,
+          _defController,
+          isDark,
+          maxLines: 2,
+        ),
         SizedBox(height: 20.h),
         _buildTextField(S.of(context).word, _wordController, isDark),
         SizedBox(height: 20.h),

@@ -58,7 +58,7 @@ class CardService {
         .where('collectionId', isEqualTo: collectionId)
         .where('due_date', isLessThanOrEqualTo: now)
         .orderBy('due_date')
-        .limit(70)
+        .limit(50)
         .get();
 
     // 2️⃣ كل الكروت اللي لسه في مرحلة التعلم (learning / relearning)

@@ -27,8 +27,11 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
   }) async {
     // log(BASE_URL);
     // Split words and generate unique IDs for each
-    final List<String> words =
-        word.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+    final List<String> words = word
+        .split(',')
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
+        .toList();
 
     List<String> ids = [];
     if (words.length <= 1) {
@@ -51,10 +54,9 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
     List<AICardEntity> cards = [];
     for (int i = 0; i < result.length; i++) {
       // Assign the corresponding generated ID to each card
-      final id =
-          i < ids.length
-              ? ids[i]
-              : FirebaseFirestore.instance.collection('cards').doc().id;
+      final id = i < ids.length
+          ? ids[i]
+          : FirebaseFirestore.instance.collection('cards').doc().id;
       cards.add(AICardModel.fromJson(result[i], id: id));
     }
 
