@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'dart:io' show Platform;
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/actions_collection_cubit/actions_collection_cubit.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/actions_collection_cubit/actions_collection_states.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
@@ -31,23 +32,25 @@ class _HomeViewState extends State<HomeView> {
 
   Future<void> _checkForUpdate() async {
     try {
-      final updateInfo = await InAppUpdate.checkForUpdate();
+      if (Platform.isAndroid) {
+        final updateInfo = await InAppUpdate.checkForUpdate();
 
-      if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
-        final prefs = SharedPreferencesService.instance;
-        final dismissCount = prefs.getInt('update_dismiss_count') ?? 0;
+        if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
+          final prefs = SharedPreferencesService.instance;
+          final dismissCount = prefs.getInt('update_dismiss_count') ?? 0;
 
-        // لو رفض أكتر من 3 مرات → حوّله لـ Immediate (إجباري)
-        if (dismissCount >= 3) {
-          await InAppUpdate.performImmediateUpdate();
-        } else {
-          final result = await InAppUpdate.startFlexibleUpdate();
-
-          if (result == AppUpdateResult.success) {
-            await InAppUpdate.completeFlexibleUpdate();
+          // لو رفض أكتر من 3 مرات → حوّله لـ Immediate (إجباري)
+          if (dismissCount >= 3) {
+            await InAppUpdate.performImmediateUpdate();
           } else {
-            // رفض → زوّد العداد
-            await prefs.setInt('update_dismiss_count', dismissCount + 1);
+            final result = await InAppUpdate.startFlexibleUpdate();
+
+            if (result == AppUpdateResult.success) {
+              await InAppUpdate.completeFlexibleUpdate();
+            } else {
+              // رفض → زوّد العداد
+              await prefs.setInt('update_dismiss_count', dismissCount + 1);
+            }
           }
         }
       }

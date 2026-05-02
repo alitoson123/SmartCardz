@@ -45,6 +45,27 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	
+	<!-- Google Sign-in Section -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.6387433425-haqu4i2aed1e306cjg1tf83jtq5q1dt7</string>
+			</array>
+		</dict>
+	</array>
+	<!-- End of the Google Sign-in Section -->
+
+	<!-- Image Picker Permissions -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to the photo library to let you choose images for your cards and profile.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to the camera to let you take photos for your cards and profile.</string>
+	<!-- End Image Picker Permissions -->
 
 	<key>CFBundleLocalizations</key>
 <array>
