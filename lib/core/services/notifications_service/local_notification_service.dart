@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -11,11 +10,69 @@ class localnotificationService {
 
   static ontap(NotificationResponse datails) {}
   static Future<void> init() async {
-    /* // init timezone handling
-    tz.initializeTimeZones();
-    final currentTimeZone = await FlutterTimezone.getLocalTimezone();
-    tz.setLocalLocation(tz.getLocation(currentTimeZone.toString()));
-*/
+    // init timezone handling
+    try {
+      tz.initializeTimeZones();
+    } catch (e) {
+      debugPrint('initializeTimeZones failed: $e');
+    }
+
+    bool timezoneSet = false;
+
+    try {
+      final currentTimeZoneRaw = await FlutterTimezone.getLocalTimezone();
+      final String currentTimeZone = currentTimeZoneRaw.toString();
+
+      // 1. Try to set it directly
+      try {
+        tz.setLocalLocation(tz.getLocation(currentTimeZone));
+        timezoneSet = true;
+      } catch (_) {}
+
+      // 2. If it fails, extract the IANA Timezone ID using Regex
+      if (!timezoneSet) {
+        try {
+          final RegExp regex = RegExp(r'([a-zA-Z_]+(?:/[a-zA-Z_]+)+)');
+          final match = regex.firstMatch(currentTimeZone);
+          if (match != null) {
+            tz.setLocalLocation(tz.getLocation(match.group(0)!));
+            timezoneSet = true;
+          }
+        } catch (_) {}
+      }
+    } catch (e) {
+      debugPrint('Failed to get local timezone from device: $e');
+    }
+
+    // 3. Fallback attempts
+    if (!timezoneSet) {
+      final List<String> fallbackTimezones = [
+        'Africa/Cairo', // User's local timezone
+        'Asia/Riyadh',
+        'UTC',
+        'GMT',
+      ];
+
+      for (final fallback in fallbackTimezones) {
+        try {
+          tz.setLocalLocation(tz.getLocation(fallback));
+          timezoneSet = true;
+          break;
+        } catch (_) {}
+      }
+    }
+
+    // 4. Ultimate fallback: Use any available timezone from the database to prevent crash
+    if (!timezoneSet) {
+      try {
+        if (tz.timeZoneDatabase.locations.isNotEmpty) {
+          tz.setLocalLocation(tz.timeZoneDatabase.locations.values.first);
+        }
+      } catch (_) {}
+    }
+
+    // log(tz.local.toString());
+
     InitializationSettings initializationSettings = InitializationSettings(
       android: AndroidInitializationSettings('@drawable/ic_notification'),
       iOS: DarwinInitializationSettings(),
@@ -116,31 +173,9 @@ class localnotificationService {
           color: Color(0xFF4A90E2),
         );
 
-    tz.initializeTimeZones();
-
-    final currentTimeZoneRaw = await FlutterTimezone.getLocalTimezone();
-    String currentTimeZone = currentTimeZoneRaw.toString();
-
-    // Windows bug workaround: extract IANA timezone ID (e.g. "Africa/Cairo")
-    if (currentTimeZone.contains('TimezoneInfo(')) {
-      final startIndex = currentTimeZone.indexOf('TimezoneInfo(') + 13;
-      final endIndex = currentTimeZone.indexOf(',', startIndex);
-      if (endIndex != -1) {
-        currentTimeZone = currentTimeZone
-            .substring(startIndex, endIndex)
-            .trim();
-      }
-    }
-    log("Extracted Timezone: $currentTimeZone");
-
-    try {
-      tz.setLocalLocation(tz.getLocation(currentTimeZone));
-    } catch (e) {
-      log("Error setting location, falling back to UTC: $e");
-      tz.setLocalLocation(tz.getLocation('UTC'));
-    }
-
+    // Reliance on global initialization in init()
     final now = tz.TZDateTime.now(tz.local);
+
     var scheduledDate = tz.TZDateTime(
       tz.local,
       now.year,

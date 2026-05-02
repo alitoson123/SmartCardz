@@ -16,18 +16,22 @@ class AppInitCubit extends Cubit<AppInitState> {
     emit(AppInitLoadingState());
 
     try {
-      // Hive
-      await Hive.initFlutter();
-      Hive.registerAdapter(UserModelAdapter());
-      Hive.registerAdapter(TimestampAdapter());
+      // Run independent initializations in parallel
+      await Future.wait([
+        // 1. Hive
+        () async {
+          await Hive.initFlutter();
+          Hive.registerAdapter(UserModelAdapter());
+          Hive.registerAdapter(TimestampAdapter());
+          await Hive.openBox<UserModel>(K_USER_BOX);
+        }(),
 
-      await Hive.openBox<UserModel>(K_USER_BOX);
+        // 2. SharedPreferences
+        SharedPreferencesService.instance.init(),
 
-      // SharedPreferences
-      await SharedPreferencesService.instance.init();
-
-      // Notifications
-      await localnotificationService.init();
+        // 3. Notifications
+        localnotificationService.init(),
+      ]);
 
       // Notifications First Launch Logic
       final prefs = SharedPreferencesService.instance;
