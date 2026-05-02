@@ -31,6 +31,16 @@ class localnotificationService {
           AndroidFlutterLocalNotificationsPlugin
         >()
         ?.requestNotificationsPermission();
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin
+        >()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   }
 
   static Future<void> showBasicNotification({
@@ -60,6 +70,7 @@ class localnotificationService {
       body: body,
       notificationDetails: NotificationDetails(
         android: androidPlatformChannelSpecifics,
+        iOS: const DarwinNotificationDetails(),
       ),
       payload: payload,
     );
@@ -90,6 +101,7 @@ class localnotificationService {
       repeatInterval: RepeatInterval.daily,
       notificationDetails: NotificationDetails(
         android: androidPlatformChannelSpecifics,
+        iOS: const DarwinNotificationDetails(),
       ),
       payload: payload,
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
@@ -157,6 +169,7 @@ class localnotificationService {
       scheduledDate: scheduledDate,
       notificationDetails: const NotificationDetails(
         android: androidPlatformChannelSpecifics,
+        iOS: DarwinNotificationDetails(),
       ),
       payload: 'zonedSchedule',
       // Android specific: Allow notification while device is in low-power mode
