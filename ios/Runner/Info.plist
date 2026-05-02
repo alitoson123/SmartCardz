@@ -47,6 +47,8 @@
 	<true/>
 	
 	<!-- Google Sign-in Section -->
+	<key>GIDClientID</key>
+	<string>6387433425-haqu4i2aed1e306cjg1tf83jtq5q1dt7.apps.googleusercontent.com</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
