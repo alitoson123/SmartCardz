@@ -9,7 +9,8 @@ class CustomTextField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     required this.hint,
-    this.maxLines = 1,
+    this.minLines = 1,
+    this.maxLines = 5,
     this.onImageTap,
     this.imagePath,
     this.onImageCanel,
@@ -21,6 +22,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
 
   final String hint;
+  final int? minLines;
   final int? maxLines;
   final void Function()? onImageTap;
   final File? imagePath;
@@ -55,7 +57,9 @@ class CustomTextField extends StatelessWidget {
           ),
           child: TextField(
             controller: controller,
+            minLines: minLines,
             maxLines: maxLines,
+            scrollPhysics: const BouncingScrollPhysics(),
             onSubmitted: onSubmitted,
             decoration: InputDecoration(
               prefixIcon: prefixIcon,

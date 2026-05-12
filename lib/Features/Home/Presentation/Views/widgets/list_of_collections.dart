@@ -7,6 +7,9 @@ import 'package:smart_cards/Features/Home/Presentation/Views/widgets/custom_dele
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/custom_rename_collection.dart';
 import 'package:smart_cards/Features/Home/Presentation/Views/widgets/item_of_collections.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
+import 'package:smart_cards/core/messages/message.dart';
+import 'package:smart_cards/core/utils/helpers/network_utils.dart';
+import 'package:smart_cards/core/views/widgets/app_dialog.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
 class ListOfCollections extends StatelessWidget {
@@ -75,6 +78,18 @@ class ListOfCollections extends StatelessWidget {
   }
 
   Future<void> onRefresh(BuildContext context) async {
+    // Refresh is a read — nothing to queue offline. Skip if no connectivity.
+    if (!await NetworkUtils.isOnline()) {
+      if (context.mounted) {
+        Message().showAppDialog(
+          context: context,
+          type: DialogType.error,
+          message: S.of(context).NoInternetConnection,
+        );
+      }
+      return;
+    }
+
     // Refresh collections from Firestore using Cubit (this gets rid of StreamBuilder)
     context.read<GetCollectionsCubit>().getCollections();
 

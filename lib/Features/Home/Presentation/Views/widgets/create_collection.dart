@@ -18,7 +18,6 @@ class CreateCollectionDialog extends StatefulWidget {
 class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
   final TextEditingController controller = TextEditingController();
   bool isButtonEnabled = false;
-  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +40,7 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
           ),
         ),
         ElevatedButton(
-          onPressed: isButtonEnabled && !isLoading
-              ? () => createCollection(context)
-              : null,
+          onPressed: isButtonEnabled ? () => createCollection(context) : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: isButtonEnabled
                 ? Colors.blueAccent
@@ -53,16 +50,10 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
             ),
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
           ),
-          child: isLoading
-              ? SizedBox(
-                  height: 20.h,
-                  width: 20.w,
-                  child: CircularProgressIndicator(strokeWidth: 2.w),
-                )
-              : Text(
-                  S.of(context).create,
-                  style: TextStyle(color: Colors.white),
-                ),
+          child: Text(
+            S.of(context).create,
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ],
     );
@@ -97,6 +88,7 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
   void createCollection(BuildContext context) async {
     if (!await NetworkUtils.isOnline()) {
       // check if the device is online
+      if (!context.mounted) return;
       Navigator.pop(context);
       Message().showAppDialog(
         context: context,
@@ -105,16 +97,16 @@ class _CreateCollectionDialogState extends State<CreateCollectionDialog> {
       );
       return;
     }
-    setState(() => isLoading = true); // set loading state = true
+
+    if (!context.mounted) return;
 
     context.read<ActionsCollectionCubit>().addCollectionMethod(
       // call add collection cubit
       collectionName: controller.text.trim(),
     );
 
+    if (!context.mounted) return;
     Navigator.pop(context); // close dialog
-
-    setState(() => isLoading = false); // set loading state = false
   }
 
   @override

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/actions_collection_cubit/actions_collection_cubit.dart';
+import 'package:smart_cards/core/messages/message.dart';
+import 'package:smart_cards/core/utils/helpers/network_utils.dart';
+import 'package:smart_cards/core/views/widgets/app_dialog.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:smart_cards/Features/Home/Domain/Entities/collection_entity.dart';
 
@@ -20,7 +23,21 @@ class CustomDeleteCollection extends StatelessWidget {
         ),
 
         TextButton(
-          onPressed: () {
+          onPressed: () async {
+            if (!await NetworkUtils.isOnline()) {
+              if (context.mounted) {
+                Navigator.pop(context); // Close AlertDialog
+                Message().showAppDialog(
+                  context: context,
+                  type: DialogType.error,
+                  message: S.of(context).NoInternetConnection,
+                );
+
+                return;
+              }
+            }
+            if (!context.mounted) return;
+
             context.read<ActionsCollectionCubit>().deleteCollection(
               collectionId: collection.collection_id,
             );

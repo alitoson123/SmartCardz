@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/core/views/widgets/app_dialog.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -34,7 +35,11 @@ class BloconsumerOfSignInBody extends StatelessWidget {
     return BlocConsumer<SignInCubit, SignInStates>(
       listener: (context, state) async {
         if (state is SignInErrorState) {
-          Message().MessageErrorMethod(context, message: state.errMessage);
+          Message().showAppDialog(
+            context: context,
+            type: DialogType.error,
+            message: state.errMessage,
+          );
         }
         if (state is SignInSuccessState) {
           Message().MessageSuccessMethod(

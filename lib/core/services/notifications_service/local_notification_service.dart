@@ -93,11 +93,7 @@ class localnotificationService {
         .resolvePlatformSpecificImplementation<
           IOSFlutterLocalNotificationsPlugin
         >()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
+        ?.requestPermissions(alert: true, badge: true, sound: true);
   }
 
   static Future<void> showBasicNotification({

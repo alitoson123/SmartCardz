@@ -35,7 +35,8 @@ class _HomeViewState extends State<HomeView> {
       if (Platform.isAndroid) {
         final updateInfo = await InAppUpdate.checkForUpdate();
 
-        if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
+        if (updateInfo.updateAvailability ==
+            UpdateAvailability.updateAvailable) {
           final prefs = SharedPreferencesService.instance;
           final dismissCount = prefs.getInt('update_dismiss_count') ?? 0;
 
@@ -61,86 +62,85 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).home),
-        actions: [
-          IconButton(
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                useSafeArea: true,
-                backgroundColor: Colors.transparent,
-                builder: (context) => const ReminderBottomSheet(),
-              );
-            },
-            icon: Icon(Icons.alarm),
+    return BlocConsumer<ActionsCollectionCubit, ActionsCollectionStates>(
+      listener: (context, state) {
+        if (state is ActionsCollectionFailure) {
+          Message().showAppDialog(
+            context: context,
+            type: DialogType.error,
+            message: state.errMessage,
+          );
+        }
+
+        if (state is AddCollectionSuccess) {
+          context.read<GetCollectionsCubit>().addCollectionLocally(
+            state.collectionEntity,
+          );
+          Message().MessageSuccessMethod(
+            context,
+            message: S.of(context).CollectionCreatedSuccessfully,
+            duration: Duration(milliseconds: 400),
+          );
+        }
+
+        if (state is DeleteCollectionSuccess) {
+          context.read<GetCollectionsCubit>().removeCollectionLocally(
+            state.collectionId,
+          );
+
+          Message().MessageSuccessMethod(
+            context,
+            message: S.of(context).collectionDeletedSuccessfully,
+            duration: Duration(milliseconds: 400),
+          );
+        }
+
+        if (state is RenameCollectionSuccess) {
+          context.read<GetCollectionsCubit>().renameCollectionLocally(
+            state.collectionId,
+            state.collectionName,
+          );
+          Message().MessageSuccessMethod(
+            context,
+            message: S.of(context).collectionRenamedSuccessfully,
+            duration: Duration(milliseconds: 400),
+          );
+        }
+      },
+      builder: (context, state) {
+        return ModalProgressHUD(
+          inAsyncCall: state is ActionsCollectionLoading,
+          opacity: 0.1,
+          progressIndicator: const CircularProgressIndicator(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(S.of(context).home),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      useSafeArea: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => const ReminderBottomSheet(),
+                    );
+                  },
+                  icon: Icon(Icons.alarm),
+                ),
+                IconButton(
+                  onPressed: () {
+                    context.push(AppRoutes.settingsScreen);
+                  },
+                  icon: Icon(Icons.settings),
+                ),
+              ],
+            ),
+            body: const HomeViewBody(),
+            floatingActionButton: const AddOptions(),
           ),
-          IconButton(
-            onPressed: () {
-              context.push(AppRoutes.settingsScreen);
-            },
-            icon: Icon(Icons.settings),
-          ),
-        ],
-      ),
-      body: HomeViewBody(),
-      floatingActionButton:
-          BlocConsumer<ActionsCollectionCubit, ActionsCollectionStates>(
-            listener: (context, state) {
-              if (state is ActionsCollectionFailure) {
-                Message().showAppDialog(
-                  context: context,
-                  type: DialogType.error,
-                  message: state.errMessage,
-                );
-              }
-
-              if (state is AddCollectionSuccess) {
-                context.read<GetCollectionsCubit>().addCollectionLocally(
-                  state.collectionEntity,
-                );
-                Message().MessageSuccessMethod(
-                  context,
-                  message: S.of(context).CollectionCreatedSuccessfully,
-                  duration: Duration(milliseconds: 400),
-                );
-              }
-
-              if (state is DeleteCollectionSuccess) {
-                context.read<GetCollectionsCubit>().removeCollectionLocally(
-                  state.collectionId,
-                );
-
-                Message().MessageSuccessMethod(
-                  context,
-                  message: S.of(context).collectionDeletedSuccessfully,
-                  duration: Duration(milliseconds: 400),
-                );
-              }
-
-              if (state is RenameCollectionSuccess) {
-                context.read<GetCollectionsCubit>().renameCollectionLocally(
-                  state.collectionId,
-                  state.collectionName,
-                );
-                Message().MessageSuccessMethod(
-                  context,
-                  message: S.of(context).collectionRenamedSuccessfully,
-                  duration: Duration(milliseconds: 400),
-                );
-              }
-            },
-            builder: (context, state) {
-              return ModalProgressHUD(
-                inAsyncCall: state is ActionsCollectionLoading,
-                opacity: 0.5,
-                progressIndicator: CircularProgressIndicator(),
-                child: AddOptions(),
-              );
-            },
-          ),
+        );
+      },
     );
   }
 }

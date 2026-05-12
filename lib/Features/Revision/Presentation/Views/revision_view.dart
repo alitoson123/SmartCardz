@@ -95,7 +95,10 @@ class _RevisionViewState extends State<RevisionView> {
                     value: 'clear_whiteboard',
                     child: Row(
                       children: [
-                        Icon(Icons.delete_outline, color: Colors.red),
+                        Icon(
+                          Icons.cleaning_services_rounded,
+                          color: Colors.blue,
+                        ),
                         SizedBox(width: 8.w),
                         Text(S.of(context).clearWhiteboard),
                       ],
@@ -163,6 +166,11 @@ class _RevisionViewState extends State<RevisionView> {
                   clearWhiteboardNotifier.value =
                       !clearWhiteboardNotifier.value;
                 } else if (value == 'edit_card') {
+                  // Disable the whiteboard before opening the edit dialog
+                  // to prevent accidental drawing on top of the modal.
+                  if (isWhiteboardEnabled) {
+                    setState(() => isWhiteboardEnabled = false);
+                  }
                   editCardNotifier.value = !editCardNotifier.value;
                 } else if (value.startsWith('color_')) {
                   final index = int.parse(value.split('_')[1]);

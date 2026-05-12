@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/core/views/widgets/app_dialog.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -46,7 +47,11 @@ class blocConsumerOfForgetPasswordViewBody extends StatelessWidget {
           GoRouter.of(context).pop();
         }
         if (state is ForgetPasswordFailureState) {
-          Message().MessageErrorMethod(context, message: state.errMessage);
+          Message().showAppDialog(
+            context: context,
+            type: DialogType.error,
+            message: state.errMessage,
+          );
         }
       },
       builder: (context, state) {
