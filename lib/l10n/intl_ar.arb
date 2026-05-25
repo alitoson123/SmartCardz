@@ -175,5 +175,6 @@
   "reminderCancelledSuccessfully": "تم إلغاء التذكير بنجاح",
   "youHaveAnActiveReminderSetAt": "لديك تذكير نشط في {time}",
   "collectionDeletedSuccessfully": "تم حذف المجموعة بنجاح",
-  "collectionRenamedSuccessfully": "تم إعادة تسمية المجموعة بنجاح"
+  "collectionRenamedSuccessfully": "تم إعادة تسمية المجموعة بنجاح",
+  "continueWithApple": "المتابعة باستخدام Apple"
  }

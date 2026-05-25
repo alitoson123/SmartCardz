@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class Auth {
   Future<User> signInWithEmailAndPasswordAndIsLoginCheck({
@@ -98,6 +99,50 @@ class Auth {
     } catch (e) {
       print('❌ Google Sign-In failed: $e');
       rethrow; // You can also return null if you prefer
+    }
+  }
+
+  Future<User?> signInWithApple() async {
+    try {
+      final AuthorizationCredentialAppleID appleIdCredential =
+          await SignInWithApple.getAppleIDCredential(
+            scopes: [
+              AppleIDAuthorizationScopes.email,
+              AppleIDAuthorizationScopes.fullName,
+            ],
+          );
+
+      final OAuthProvider oAuthProvider = OAuthProvider('apple.com');
+      final AuthCredential credential = oAuthProvider.credential(
+        idToken: appleIdCredential.identityToken,
+        accessToken: appleIdCredential.authorizationCode,
+      );
+
+      final UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
+
+      final User? user = userCredential.user;
+
+      // Optionally: you can print or log user info
+      print('✅ Signed in with Apple as: ${user?.displayName} (${user?.email})');
+
+      return user;
+    } catch (e) {
+      print('❌ Apple Sign-In failed: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> deleteAuthAccount() async {
+    try {
+      await FirebaseAuth.instance.currentUser?.delete();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        throw Exception(
+          'Please log out and log back in before deleting your account.',
+        );
+      }
+      throw Exception(e.message ?? 'Failed to delete account.');
     }
   }
 }

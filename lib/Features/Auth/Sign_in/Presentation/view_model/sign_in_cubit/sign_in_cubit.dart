@@ -33,4 +33,23 @@ class SignInCubit extends Cubit<SignInStates> {
       (Sucess) => emit(SignInSuccessState(userEntity: Sucess)),
     );
   }
+
+  Future<void> SignInWithAppleMethod() async {
+    emit(SignInInitialState());
+    emit(SignInLoadingState());
+    var user = await authRepoObject.signInWithApple();
+    user.fold(
+      (Failure) => emit(SignInErrorState(errMessage: Failure.errorMessage)),
+      (Sucess) => emit(SignInSuccessState(userEntity: Sucess)),
+    );
+  }
+
+  Future<void> deleteAccountMethod() async {
+    emit(SignInLoadingState());
+    var result = await authRepoObject.deleteAccount();
+    result.fold(
+      (failure) => emit(SignInErrorState(errMessage: failure.errorMessage)),
+      (success) => emit(DeleteAccountSuccessState()),
+    );
+  }
 }

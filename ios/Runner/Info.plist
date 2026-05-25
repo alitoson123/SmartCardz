@@ -59,6 +59,12 @@
 				<string>com.googleusercontent.apps.6387433425-haqu4i2aed1e306cjg1tf83jtq5q1dt7</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.cardify.smartcards</string>
+			</array>
+		</dict>
 	</array>
 	<!-- End of the Google Sign-in Section -->
 
@@ -78,5 +84,7 @@
 <array>
   <string>fetch</string>
 </array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>

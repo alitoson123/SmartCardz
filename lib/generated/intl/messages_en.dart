@@ -129,6 +129,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Complete your details or continue \n with social media",
     ),
     "congratulations": MessageLookupByLibrary.simpleMessage("Congratulations"),
+    "continueWithApple": MessageLookupByLibrary.simpleMessage(
+      "Continue with Apple",
+    ),
     "continueWithGoogle": MessageLookupByLibrary.simpleMessage(
       "Continue with Google",
     ),

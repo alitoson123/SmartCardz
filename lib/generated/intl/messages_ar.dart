@@ -125,6 +125,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "أكمل بياناتك أو تابع\nعبر وسائل التواصل الاجتماعي",
     ),
     "congratulations": MessageLookupByLibrary.simpleMessage("تهانينا"),
+    "continueWithApple": MessageLookupByLibrary.simpleMessage(
+      "المتابعة باستخدام Apple",
+    ),
     "continueWithGoogle": MessageLookupByLibrary.simpleMessage(
       "المتابعة باستخدام Google",
     ),

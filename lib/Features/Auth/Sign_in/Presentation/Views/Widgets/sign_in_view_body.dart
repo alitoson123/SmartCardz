@@ -10,6 +10,8 @@ import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/tex
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/Views/Widgets/text_of_title_and_subtitle.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/view_model/sign_in_cubit/sign_in_cubit.dart';
 import 'package:smart_cards/core/utils/widgets/app_button.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'dart:io' show Platform;
 
 class SignInViewBody extends StatefulWidget {
   const SignInViewBody({super.key});
@@ -76,12 +78,28 @@ class _SignInViewBodyState extends State<SignInViewBody> {
               SizedBox(height: 35.h),
 
               GoogleSignInButton(
+                text: S.of(context).continueWithGoogle,
+                imagePath: 'assets/images/google.png',
                 onPressed: () async {
                   BlocProvider.of<SignInCubit>(
                     context,
                   ).SignInWithGoogleMethod();
                 },
               ),
+
+              SizedBox(height: 15.h),
+
+              if (Platform.isIOS)
+                SignInWithAppleButton(
+                  text: S.of(context).continueWithApple,
+                  style: SignInWithAppleButtonStyle.black,
+                  height: 48.h, // Approximate height to match standard buttons
+                  onPressed: () async {
+                    BlocProvider.of<SignInCubit>(
+                      context,
+                    ).SignInWithAppleMethod();
+                  },
+                ),
 
               //  RowOfSocialMediaLogos(),
               SizedBox(height: 20.h),

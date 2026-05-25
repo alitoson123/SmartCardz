@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:smart_cards/Features/Auth/Data/models/user_model.dart';
 import 'package:smart_cards/Features/Auth/Domain/Entities/user_entity.dart';
 import 'package:smart_cards/Features/Auth/Domain/Repos/auth_repo.dart';
@@ -114,6 +116,114 @@ class AuthRepoImpl extends AuthRepo {
       );
     } catch (e) {
       final errorMessage = e.toString().replaceFirst('Exception: ', '');
+      return left(ServerFailure(errorMessage: errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> signInWithApple() async {
+    try {
+      final user = await authObject.signInWithApple();
+
+      var userEntity = UserModel.fromFirebaseAddUserOfSignUpAndSignInWithGoogle(
+        user,
+      );
+
+      bool isTrue = await CheckIsUserAddDataBefore(
+        useruid: userEntity.useruid!,
+      );
+
+      if (isTrue) {
+        var userData = await getUser(); // Step 2
+
+        await LocalServiceWithHive().saveUser(userData); // Step 3
+      } else {
+        await addUser(
+          // Step 1
+          data: userEntity,
+          MapOfData: userEntity.toMapOfSignUp(),
+        );
+
+        var userData = await getUser(); // Step 2
+
+        await LocalServiceWithHive().saveUser(userData); // Step 3
+      }
+
+      return right(
+        UserModel.fromFirebaseAddUserOfSignUpAndSignInWithGoogle(user),
+      );
+    } catch (e) {
+      final errorMessage = e.toString().replaceFirst('Exception: ', '');
+      return left(ServerFailure(errorMessage: errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteAccount() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        return left(ServerFailure(errorMessage: 'No user logged in.'));
+      }
+
+      // 1. Re-authentication Logic
+      String providerId = '';
+      for (var userInfo in user.providerData) {
+        if (userInfo.providerId == 'google.com' || userInfo.providerId == 'apple.com') {
+          providerId = userInfo.providerId;
+          break;
+        }
+      }
+
+      try {
+        if (providerId == 'google.com') {
+          final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+          if (googleUser == null) {
+            return left(ServerFailure(errorMessage: 'Re-authentication cancelled by user.'));
+          }
+          final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+          final AuthCredential credential = GoogleAuthProvider.credential(
+            accessToken: googleAuth.accessToken,
+            idToken: googleAuth.idToken,
+          );
+          await user.reauthenticateWithCredential(credential);
+
+        } else if (providerId == 'apple.com') {
+          final AuthorizationCredentialAppleID appleIdCredential =
+              await SignInWithApple.getAppleIDCredential(
+            scopes: [
+              AppleIDAuthorizationScopes.email,
+              AppleIDAuthorizationScopes.fullName,
+            ],
+          );
+          final OAuthProvider oAuthProvider = OAuthProvider('apple.com');
+          final AuthCredential credential = oAuthProvider.credential(
+            idToken: appleIdCredential.identityToken,
+            accessToken: appleIdCredential.authorizationCode,
+          );
+          await user.reauthenticateWithCredential(credential);
+        }
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'requires-recent-login') {
+          return left(ServerFailure(errorMessage: 'Please log out and log back in to verify your identity.'));
+        }
+        return left(ServerFailure(errorMessage: e.message ?? 'Re-authentication failed.'));
+      } catch (e) {
+        return left(ServerFailure(errorMessage: 'An error occurred during re-authentication.'));
+      }
+
+      // 2. Delete user document from Firestore
+      await arudUserObject.deleteUser(documentName: "users", useruid: user.uid);
+
+      // 3. Delete user account from Firebase Auth
+      await authObject.deleteAuthAccount();
+
+      return right(null);
+    } catch (e) {
+      final errorMessage = e.toString().replaceFirst('Exception: ', '');
+      if (errorMessage.contains('requires-recent-login')) {
+        return left(ServerFailure(errorMessage: 'Please log out and log back in before deleting your account.'));
+      }
       return left(ServerFailure(errorMessage: errorMessage));
     }
   }
