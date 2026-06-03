@@ -60,20 +60,20 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDYgVX_TirguX4Jn7-X7KK-bUqcC1SZmVU',
-    appId: '1:6387433425:ios:4249c56ea7b35f5f162af0',
+    appId: '1:6387433425:ios:3f8fa364152bf27d162af0',
     messagingSenderId: '6387433425',
     projectId: 'smart-cards-c1327',
     storageBucket: 'smart-cards-c1327.firebasestorage.app',
-    iosBundleId: 'com.example.smartCards',
+    iosBundleId: 'com.cardify.smartcards',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDYgVX_TirguX4Jn7-X7KK-bUqcC1SZmVU',
-    appId: '1:6387433425:ios:4249c56ea7b35f5f162af0',
+    appId: '1:6387433425:ios:3f8fa364152bf27d162af0',
     messagingSenderId: '6387433425',
     projectId: 'smart-cards-c1327',
     storageBucket: 'smart-cards-c1327.firebasestorage.app',
-    iosBundleId: 'com.example.smartCards',
+    iosBundleId: 'com.cardify.smartcards',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

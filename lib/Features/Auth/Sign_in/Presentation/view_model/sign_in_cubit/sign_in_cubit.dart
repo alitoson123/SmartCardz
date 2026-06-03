@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Auth/Domain/Repos/auth_repo.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/view_model/sign_in_cubit/sign_in_states.dart';
+import 'package:smart_cards/core/errors/failure.dart';
 
 class SignInCubit extends Cubit<SignInStates> {
   SignInCubit(this.authRepoObject) : super(SignInInitialState());
@@ -29,7 +30,13 @@ class SignInCubit extends Cubit<SignInStates> {
     emit(SignInLoadingState());
     var user = await authRepoObject.signInWithGoogle();
     user.fold(
-      (Failure) => emit(SignInErrorState(errMessage: Failure.errorMessage)),
+      (failure) {
+        if (failure is CancelFailure) {
+          emit(SignInInitialState());
+        } else {
+          emit(SignInErrorState(errMessage: failure.errorMessage));
+        }
+      },
       (Sucess) => emit(SignInSuccessState(userEntity: Sucess)),
     );
   }
@@ -39,7 +46,13 @@ class SignInCubit extends Cubit<SignInStates> {
     emit(SignInLoadingState());
     var user = await authRepoObject.signInWithApple();
     user.fold(
-      (Failure) => emit(SignInErrorState(errMessage: Failure.errorMessage)),
+      (failure) {
+        if (failure is CancelFailure) {
+          emit(SignInInitialState());
+        } else {
+          emit(SignInErrorState(errMessage: failure.errorMessage));
+        }
+      },
       (Sucess) => emit(SignInSuccessState(userEntity: Sucess)),
     );
   }

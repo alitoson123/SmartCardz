@@ -112,3 +112,7 @@ class ServerFailure extends Failure {
     }
   }
 }
+
+class CancelFailure extends Failure {
+  CancelFailure({super.errorMessage = 'Operation cancelled'});
+}

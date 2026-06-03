@@ -86,6 +86,9 @@ class AuthRepoImpl extends AuthRepo {
   Future<Either<Failure, UserEntity>> signInWithGoogle() async {
     try {
       final user = await authObject.signInWithGoogle();
+      if (user == null) {
+        return left(CancelFailure());
+      }
 
       var userEntity = UserModel.fromFirebaseAddUserOfSignUpAndSignInWithGoogle(
         user,
@@ -124,6 +127,9 @@ class AuthRepoImpl extends AuthRepo {
   Future<Either<Failure, UserEntity>> signInWithApple() async {
     try {
       final user = await authObject.signInWithApple();
+      if (user == null) {
+        return left(CancelFailure());
+      }
 
       var userEntity = UserModel.fromFirebaseAddUserOfSignUpAndSignInWithGoogle(
         user,
@@ -152,6 +158,11 @@ class AuthRepoImpl extends AuthRepo {
       return right(
         UserModel.fromFirebaseAddUserOfSignUpAndSignInWithGoogle(user),
       );
+    } on SignInWithAppleAuthorizationException catch (e) {
+      if (e.code == AuthorizationErrorCode.canceled) {
+        return left(CancelFailure());
+      }
+      return left(ServerFailure(errorMessage: e.toString()));
     } catch (e) {
       final errorMessage = e.toString().replaceFirst('Exception: ', '');
       return left(ServerFailure(errorMessage: errorMessage));
