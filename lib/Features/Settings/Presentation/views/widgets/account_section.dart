@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_cards/Features/Settings/Presentation/views/widgets/custom_divider.dart';
+//import 'package:smart_cards/Features/Settings/Presentation/views/widgets/custom_divider.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/widgets/section_header.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/widgets/settings_group.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/widgets/settings_item.dart';
@@ -23,13 +23,13 @@ class AccountSection extends StatelessWidget {
               title: S.of(context).Email,
               subtitle: LocalServiceWithHive().getUser()?.email ?? 'Email',
             ),
-            CustomDivider(),
+            /*       CustomDivider(),
             // Plan
             SettingsItem(
               icon: Icons.person_outline,
               title: S.of(context).Plan,
               subtitle: S.of(context).free,
-            ),
+            ),*/
           ],
         ),
         SizedBox(height: 24.h),
