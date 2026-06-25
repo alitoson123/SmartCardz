@@ -2,19 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
-const Color K_PRIMARY_COLOR = Color(0xff1E88E5);
-const String K_USER_BOX = 'userBox';
-const String K_COLLECTION_BOX = 'collectionBox';
-const String K_Normar_Cards_BOX = 'normalCard';
-const String K_AI_Cards_BOX = 'AICard';
-const String K_DUE_CARDS_BOX = 'dueCard';
-const String K_IS_LOGIN = 'isLogin';
-const String K_CURRENT_USER = 'currentUser';
-const String K_APP_THEME = 'appTheme';
-const String K_APP_LANGUAGE = 'appLanguage';
-const String K_PENDING_RATINGS_BOX = 'pending_ratings_box';
-const String K_APP_VERSION = '2.1.0';
-const String K_Stats_Prefix = 'collection_stats_';
+class AppConstants {
+  static const Color K_PRIMARY_COLOR = Color(0xff1E88E5);
+  static const String K_USER_BOX = 'userBox';
+  static const String K_COLLECTION_BOX = 'collectionBox';
+  static const String K_Normar_Cards_BOX = 'normalCard';
+  static const String K_AI_Cards_BOX = 'AICard';
+  static const String K_DUE_CARDS_BOX = 'dueCard';
+  static const String K_IS_LOGIN = 'isLogin';
+  static const String K_CURRENT_USER = 'currentUser';
+  static const String K_APP_THEME = 'appTheme';
+  static const String K_APP_LANGUAGE = 'appLanguage';
+  static const String K_PENDING_RATINGS_BOX = 'pending_ratings_box';
+  static const String K_APP_VERSION = '2.1.0';
+  static const String K_Stats_Prefix = 'collection_stats_';
+  
+  // RevenueCat API Keys
+  static const String revenueCatAppleApiKey = 'appl_VDbIdfTsfimBRtcsIWoKWQDnPfJ';
+  static const String revenueCatGoogleApiKey = 'goog_BiUdyZxFyKTZFVloVXcUFzeLvYz';
+
+  // The test key you provided (for sandbox/debug only)
+  static const String revenueCatTestKey = 'test_TrRWfkAxXIjePfktUdjjmXrXZvO';
+
+  // Entitlement identifier — must match RevenueCat dashboard exactly
+  static const String proEntitlementId = 'Cardify_Pro';
+
+  // Product identifiers
+  static const String productMonthly = 'monthly';
+  static const String productThreeMonth = 'three_month';
+  static const String productSixMonth = 'six_month';
+  static const String productYearly = 'yearly';
+  static const String productLifetime = 'lifetime';
+  static const String productConsumable = 'consumable';
+}
+
 
 class Style {
   TextStyle textStyle14 = TextStyle(fontSize: 14.sp);

@@ -27,7 +27,7 @@ class AboutAppSection extends StatelessWidget {
             SettingsItem(
               icon: Icons.verified_outlined,
               title: S.of(context).version,
-              subtitle: K_APP_VERSION,
+              subtitle: AppConstants.K_APP_VERSION,
             ),
           ],
         ),

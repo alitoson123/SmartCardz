@@ -27,7 +27,7 @@ class CollectionStatsLocalDataSourceImpl
   }) async {
     final prefs = await SharedPreferences.getInstance();
     final jsonString = jsonEncode(stats.toJson());
-    await prefs.setString('$K_Stats_Prefix$collectionId', jsonString);
+    await prefs.setString('${AppConstants.K_Stats_Prefix}$collectionId', jsonString);
     // Object → toJson() → Map → jsonEncode → String → SharedPreferences
   }
 
@@ -37,7 +37,7 @@ class CollectionStatsLocalDataSourceImpl
     required String collectionId,
   }) async {
     final prefs = await SharedPreferences.getInstance();
-    final jsonString = prefs.getString('$K_Stats_Prefix$collectionId');
+    final jsonString = prefs.getString('${AppConstants.K_Stats_Prefix}$collectionId');
 
     // If no data is cached yet, return null. The Repo will handle this.
     if (jsonString == null) return null;
@@ -60,7 +60,7 @@ class CollectionStatsLocalDataSourceImpl
       final statsModel = entry.value;
 
       final jsonString = jsonEncode(statsModel.toJson());
-      await prefs.setString('$K_Stats_Prefix$collectionId', jsonString);
+      await prefs.setString('${AppConstants.K_Stats_Prefix}$collectionId', jsonString);
     }
   }
 }

@@ -9,6 +9,7 @@ abstract class AddAndShowCardRepo {
     required String outputLanguage,
     required String userId,
     required String cardId,
+    required bool withImage,
   });
 
   Future<Either<Failure, void>> addCard({

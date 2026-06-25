@@ -1,7 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/add_and_show_card_repo_impl/add_and_show_card_repo_impl.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Repos/add_and_show_card_repo.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Repos/quota_repo.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/add_ai_card_cubit/add_ai_card_cubit.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/quota_cubit/quota_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/show_ai_card_cubit/show_ai_card_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/add_and_show_card_view.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/Views/widgets/select_input_language.dart';
@@ -21,6 +24,7 @@ import 'package:smart_cards/Features/Revision/Presentation/Views/revision_view.d
 import 'package:smart_cards/Features/Settings/Presentation/views/settings_view.dart';
 import 'package:smart_cards/Features/Splash/Presentation/views/spalsh_view.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
+import 'package:smart_cards/core/services/purchase_service/purchase_service_logic.dart';
 import 'package:smart_cards/core/views/collection_view.dart';
 
 class AppRoutes {
@@ -64,12 +68,19 @@ class AppRoutes {
             providers: [
               BlocProvider(
                 create: (context) => ShowAICardCubit(
-                  addAndShowCardRepoImpl: getIt<AddAndShowCardRepoImpl>(),
+                  addAndShowCardRepo: getIt<AddAndShowCardRepo>(),
+                  quotaRepo: getIt<QuotaRepo>(),
                 ),
               ),
               BlocProvider(
+                create: (context) => QuotaCubit(
+                  quotaRepo: getIt<QuotaRepo>(),
+                  purchaseService: getIt<PurchaseServiceLigic>(),
+                )..fetchQuota(FirebaseAuth.instance.currentUser!.uid),
+              ),
+              BlocProvider(
                 create: (context) => AddAICardCubit(
-                  addAndShowCardRepoImpl: getIt<AddAndShowCardRepoImpl>(),
+                  addAndShowCardRepoImpl: getIt<AddAndShowCardRepo>(),
                 ),
               ),
             ],

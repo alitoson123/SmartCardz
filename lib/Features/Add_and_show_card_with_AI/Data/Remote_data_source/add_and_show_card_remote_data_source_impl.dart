@@ -24,6 +24,7 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
     required String outputLanguage,
     required String userId,
     required String cardId,
+    required bool withImage,
   }) async {
     // log(BASE_URL);
     // Split words and generate unique IDs for each
@@ -48,7 +49,7 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
     var result = await dioService.getMethod(
       url:
           '$BASE_URL?words=$word&lang=$inputLanguage&output_lang=$outputLanguage&age=5&level=beginner&style=Photorealistic&userid=$userId&card_id=$idsString',
-    );
+    ); // '$BASE_URL?words=$word&lang=$inputLanguage&output_lang=$outputLanguage&age=5&level=beginner&style=Photorealistic&userid=$userId&card_id=$idsString&with_image=$withImage',
 
     // log(result.toString());
     List<AICardEntity> cards = [];

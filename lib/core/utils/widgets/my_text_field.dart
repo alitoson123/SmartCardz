@@ -31,7 +31,7 @@ class MyTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: SignUpModelObject.myTextLabel,
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        floatingLabelStyle: TextStyle(color: K_PRIMARY_COLOR),
+        floatingLabelStyle: TextStyle(color: AppConstants.K_PRIMARY_COLOR),
         contentPadding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 14.r),
         hintText: SignUpModelObject.myHintText,
         suffixIcon: SignUpModelObject.myIcon,

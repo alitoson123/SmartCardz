@@ -6,6 +6,7 @@ import 'package:smart_cards/Features/Settings/Presentation/views/widgets/actions
 import 'package:smart_cards/Features/Settings/Presentation/views/widgets/appearance_section.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/widgets/language_section.dart';
 import 'package:smart_cards/Features/Settings/Presentation/views/widgets/notification_section.dart';
+import 'package:smart_cards/Features/Settings/Presentation/views/widgets/subscription_section.dart';
 import 'package:smart_cards/core/utils/widgets/app_header.dart';
 import 'package:smart_cards/generated/l10n.dart';
 
@@ -26,6 +27,9 @@ class SettingsViewBody extends StatelessWidget {
               title: S.of(context).settingsTitle,
             ),
             SizedBox(height: 30.h),
+ 
+            SubscriptionSection(),
+
             // Account section
             AccountSection(),
 

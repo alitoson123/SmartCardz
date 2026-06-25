@@ -8,17 +8,17 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   Future<void> changeTheme(String theme) async {
     if (theme == "Light" || theme == "فاتح") {
-      await SharedPreferencesService.instance.setString(K_APP_THEME, 'Light');
+      await SharedPreferencesService.instance.setString(AppConstants.K_APP_THEME, 'Light');
       emit(ThemeLightState());
     } else if (theme == "Dark" || theme == "داكن") {
-      await SharedPreferencesService.instance.setString(K_APP_THEME, 'Dark');
+      await SharedPreferencesService.instance.setString(AppConstants.K_APP_THEME, 'Dark');
       emit(ThemeDarkState());
     }
   }
 
   Future<void> loadInitialTheme() async {
     String saved =
-        SharedPreferencesService.instance.getString(K_APP_THEME) ?? 'Light';
+        SharedPreferencesService.instance.getString(AppConstants.K_APP_THEME) ?? 'Light';
     if (saved == "Light") {
       emit(const ThemeLightState());
     } else {

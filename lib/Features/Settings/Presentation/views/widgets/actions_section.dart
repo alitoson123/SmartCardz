@@ -7,6 +7,7 @@ import 'package:smart_cards/Features/Settings/Presentation/views/widgets/setting
 import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:smart_cards/core/services/Shared_preferences_service/shared_preferences.dart';
+import 'package:smart_cards/core/services/purchase_service/purchase_service.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_cards/Features/Auth/Sign_in/Presentation/view_model/sign_in_cubit/sign_in_cubit.dart';
@@ -29,7 +30,7 @@ class ActionsSection extends StatelessWidget {
             );
           } else if (state is DeleteAccountSuccessState) {
             // Delete local data and navigate to login
-            SharedPreferencesService.instance.remove(K_IS_LOGIN);
+            SharedPreferencesService.instance.remove(AppConstants.K_IS_LOGIN);
             context.go(AppRoutes.signInScreen);
           }
         },
@@ -93,7 +94,9 @@ class ActionsSection extends StatelessWidget {
   }
 
   Future<void> logout(BuildContext context) async {
-    await SharedPreferencesService.instance.remove(K_IS_LOGIN);
+    await SharedPreferencesService.instance.remove(AppConstants.K_IS_LOGIN);
+    await PurchaseService().logOutFromRevenueCat();
+    
     // await PushNotificationService.removeFcmToken();
     if (!context.mounted) return;
 

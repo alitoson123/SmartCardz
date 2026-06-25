@@ -17,3 +17,21 @@ class ShowAICardFailure extends ShowAICardStates {
 
   ShowAICardFailure({required this.errorMessage});
 }
+
+class ShowAICardQuotaExceeded extends ShowAICardStates {
+  final bool withImage;
+
+  ShowAICardQuotaExceeded({required this.withImage});
+}
+
+class ShowAICardSuccessWithWarning extends ShowAICardStates {
+  final List<AICardEntity> card;
+  final int requestedCount;
+  final int allowedCount;
+
+  ShowAICardSuccessWithWarning({
+    required this.card,
+    required this.requestedCount,
+    required this.allowedCount,
+  });
+}

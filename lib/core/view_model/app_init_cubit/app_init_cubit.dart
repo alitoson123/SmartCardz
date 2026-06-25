@@ -23,7 +23,7 @@ class AppInitCubit extends Cubit<AppInitState> {
           await Hive.initFlutter();
           Hive.registerAdapter(UserModelAdapter());
           Hive.registerAdapter(TimestampAdapter());
-          await Hive.openBox<UserModel>(K_USER_BOX);
+          await Hive.openBox<UserModel>(AppConstants.K_USER_BOX);
         }(),
 
         // 2. SharedPreferences

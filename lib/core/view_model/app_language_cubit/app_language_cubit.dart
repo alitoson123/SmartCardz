@@ -8,17 +8,17 @@ class AppLanguageCubit extends Cubit<AppLanguageState> {
 
   Future<void> changeLanguage(String language) async {
     if (language == 'en') {
-      await SharedPreferencesService.instance.setString(K_APP_LANGUAGE, 'en');
+      await SharedPreferencesService.instance.setString(AppConstants.K_APP_LANGUAGE, 'en');
       emit(AppLanguageEnState());
     } else if (language == 'ar') {
-      await SharedPreferencesService.instance.setString(K_APP_LANGUAGE, 'ar');
+      await SharedPreferencesService.instance.setString(AppConstants.K_APP_LANGUAGE, 'ar');
       emit(AppLanguageArState());
     }
   }
 
   Future<void> loadInitialLanguage() async {
     String saved =
-        SharedPreferencesService.instance.getString(K_APP_LANGUAGE) ?? 'en';
+        SharedPreferencesService.instance.getString(AppConstants.K_APP_LANGUAGE) ?? 'en';
     if (saved == "ar") {
       emit(const AppLanguageArState());
     } else {

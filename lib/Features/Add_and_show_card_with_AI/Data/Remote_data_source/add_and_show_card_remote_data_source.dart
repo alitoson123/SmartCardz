@@ -7,6 +7,7 @@ abstract class AddAndShowCardRemoteDataSource {
     required String outputLanguage,
     required String userId,
     required String cardId,
+    required bool withImage,
   });
 
   Future<void> addCard({

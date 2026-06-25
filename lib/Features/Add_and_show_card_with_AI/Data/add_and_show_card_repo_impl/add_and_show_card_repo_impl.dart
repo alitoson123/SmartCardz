@@ -19,6 +19,7 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
     required String outputLanguage,
     required String userId,
     required String cardId,
+    required bool withImage,
   }) async {
     try {
       var result = await addAndShowCardRemoteDataSource.showCard(
@@ -27,6 +28,7 @@ class AddAndShowCardRepoImpl extends AddAndShowCardRepo {
         outputLanguage: outputLanguage,
         userId: userId,
         cardId: cardId,
+        withImage: withImage,
       );
 
       return right(result);

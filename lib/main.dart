@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/Features/Home/Data/Repo_impl/collection_repo_impl.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/actions_collection_cubit/actions_collection_cubit.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
+import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
 import 'package:smart_cards/core/services/Bloc_observes_service/my_Bloc_observe.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collections_stats_cubit/collections_stats_cubit.dart';
@@ -16,11 +18,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_cards/core/view_model/app_init_cubit/app_init_cubit.dart';
 import 'package:smart_cards/core/view_model/app_language_cubit/app_language_cubit.dart';
 import 'package:smart_cards/core/view_model/app_language_cubit/app_language_states.dart';
+import 'package:smart_cards/core/view_model/app_purchase_cubit/app_purchase_cubit.dart';
 import 'package:smart_cards/core/view_model/app_theme_cubit/app_theme_cubit.dart';
 import 'package:smart_cards/core/view_model/app_theme_cubit/app_theme_states.dart';
 import 'firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+import 'dart:io' show Platform;
+
 //import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
@@ -37,7 +43,32 @@ void main() async {
   // for google ads
   // Initialize AdMob SDK
   //await MobileAds.instance.initialize();
+
+  await _configureRevenueCat();
+
   runApp(const SmartCards());
+}
+
+Future<void> _configureRevenueCat() async {
+  // Enable verbose logging in debug mode only
+  await Purchases.setLogLevel(kDebugMode ? LogLevel.debug : LogLevel.error);
+
+  final PurchasesConfiguration configuration;
+
+  if (Platform.isAndroid) {
+    configuration = PurchasesConfiguration(AppConstants.revenueCatGoogleApiKey);
+  } else {
+    // iOS / macOS
+    configuration = PurchasesConfiguration(AppConstants.revenueCatAppleApiKey);
+  }
+
+  // If you have a logged-in Firebase user, pass their UID as appUserID.
+  // If anonymous, omit it — RevenueCat will generate one automatically.
+  // Example (do this AFTER Firebase auth):
+  //   final user = FirebaseAuth.instance.currentUser;
+  //   if (user != null) configuration.appUserID = user.uid;
+
+  await Purchases.configure(configuration);
 }
 
 class SmartCards extends StatelessWidget {
@@ -71,6 +102,7 @@ class SmartCards extends StatelessWidget {
                 repository: getIt<CollectionStatsRepo>(),
               ),
             ),
+            BlocProvider(create: (context) => SubscriptionCubit()),
           ],
           child: BlocBuilder<ThemeCubit, ThemeState>(
             builder: (context, themeState) {

@@ -23,6 +23,10 @@ import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cub
 import 'package:smart_cards/core/views/collection_view.dart';
 import 'package:smart_cards/core/views/widgets/app_dialog.dart';
 import 'package:smart_cards/generated/l10n.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/quota_cubit/quota_cubit.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/quota_cubit/quota_states.dart';
+import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/quota_entity.dart';
 
 class AddAndShowCardViewBody extends StatefulWidget {
   const AddAndShowCardViewBody({super.key});
@@ -45,6 +49,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
   late String selectedOutputLanguage = selectedInputLanguage;
   final String cardId = FirebaseFirestore.instance.collection('cards').doc().id;
   bool isLoading = false;
+  bool generateWithImage = false;
 
   @override
   void initState() {
@@ -73,8 +78,30 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
               message: state.errorMessage,
             );
           }
+          if (state is ShowAICardQuotaExceeded) {
+            setState(() => isLoading = false);
+            _showUpgradeBottomSheet(
+              context,
+              title: 'Quota Exceeded',
+              message: state.withImage
+                  ? 'You have run out of image flashcard generation quota.'
+                  : 'You have reached your daily limit for text flashcards.',
+            );
+          }
+          if (state is ShowAICardSuccessWithWarning) {
+            setState(() => isLoading = false);
+            context.read<QuotaCubit>().fetchQuota(FirebaseAuth.instance.currentUser!.uid);
+            _showUpgradeBottomSheet(
+              context,
+              title: 'Partial Generation',
+              message:
+                  'You requested ${state.requestedCount} flashcards, but only ${state.allowedCount} free generations remain today.\nUpgrade to Cardify Pro for unlimited AI flashcard generation.',
+            );
+            controller.forward(from: 0);
+          }
           if (state is ShowAICardSuccess) {
             setState(() => isLoading = false);
+            context.read<QuotaCubit>().fetchQuota(FirebaseAuth.instance.currentUser!.uid);
             controller.forward(from: 0);
           }
 
@@ -108,6 +135,10 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                         //***************************************************** */
                         //   Selection section
                         buildSelectionRow(),
+                        SizedBox(height: 18.h),
+                        //***************************************************** */
+                        // Quota and Settings
+                        _buildQuotaAndSettings(),
                         SizedBox(height: 18.h),
                         //***************************************************** */
                         //   Text field
@@ -208,6 +239,139 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
           );
         },
       ),
+    );
+  }
+
+  void _showUpgradeBottomSheet(
+    BuildContext context, {
+    required String title,
+    required String message,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.all(20.r),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              SizedBox(height: 24.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Maybe Later'),
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        RevenueCatUI.presentPaywallIfNeeded('cardify_pro');
+                      },
+                      child: const Text('Upgrade to Pro'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildQuotaAndSettings() {
+    return Column(
+      children: [
+        SwitchListTile(
+          title: Text(
+            'Generate with Images',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          subtitle: const Text('Requires premium quota or free welcome bonus'),
+          value: generateWithImage,
+          onChanged: (val) {
+            setState(() {
+              generateWithImage = val;
+            });
+          },
+          secondary: Icon(
+            generateWithImage ? Icons.image : Icons.hide_image,
+            color: generateWithImage
+                ? Theme.of(context).primaryColor
+                : Colors.grey,
+          ),
+        ),
+        BlocBuilder<QuotaCubit, QuotaStates>(
+          builder: (context, state) {
+            if (state is QuotaLoadedSuccessfully) {
+              int textLimit = state.isPro 
+                  ? QuotaEntity.premiumTextLimit 
+                  : QuotaEntity.dailyFreeTextLimit;
+              int remainingText = state.isPro
+                  ? (textLimit - state.quota.premiumTextCardsUsed)
+                  : state.quota.remainingFreeText;
+
+              int imageLimit = state.isPro 
+                  ? QuotaEntity.premiumImageLimit 
+                  : QuotaEntity.lifetimeFreeImageLimit;
+              int remainingImage = state.isPro
+                  ? (imageLimit - state.quota.premiumImageCardsUsed)
+                  : state.quota.remainingFreeImage;
+
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      generateWithImage
+                          ? 'Image Quota: $remainingImage / $imageLimit'
+                          : 'Text Quota: $remainingText / $textLimit',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    if (!state.isPro)
+                      GestureDetector(
+                        onTap: () =>
+                            RevenueCatUI.presentPaywallIfNeeded('cardify_pro'),
+                        child: Text(
+                          'Upgrade',
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          },
+        ),
+      ],
     );
   }
 
@@ -326,6 +490,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
       outputLanguage: selectedOutputLanguage,
       userId: FirebaseAuth.instance.currentUser!.uid,
       cardId: cardId,
+      withImage: generateWithImage,
     );
   }
 

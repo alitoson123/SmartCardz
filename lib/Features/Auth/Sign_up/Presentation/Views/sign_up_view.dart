@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_cards/core/services/purchase_service/purchase_service.dart';
 import 'package:smart_cards/core/views/widgets/app_dialog.dart';
 import 'package:smart_cards/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,7 +62,16 @@ class BlocConsumerOfSignUpViewBody extends StatelessWidget {
             message: 'Sign up successfully',
           );
 
-          await SharedPreferencesService.instance.setBool(K_IS_LOGIN, true);
+          await SharedPreferencesService.instance.setBool(
+            AppConstants.K_IS_LOGIN,
+            true,
+          );
+
+          if (state.userEntity.useruid != null) {
+            await PurchaseService().identifyUserWithRevenueCat(
+              state.userEntity.useruid!,
+            );
+          }
 
           //   PushNotificationService.saveToken();
 

@@ -37,7 +37,7 @@ class _SplashViewState extends State<SplashView> {
             context.read<AppLanguageCubit>().loadInitialLanguage();
 
             final isLoginPref = SharedPreferencesService.instance.getBool(
-              K_IS_LOGIN,
+              AppConstants.K_IS_LOGIN,
             );
             final firebaseUser = FirebaseAuth.instance.currentUser;
 
@@ -63,7 +63,7 @@ class _SplashViewState extends State<SplashView> {
               // Also clear the stale pref flag if it somehow survived.
               if (isLoginPref == true) {
                 await SharedPreferencesService.instance.setBool(
-                  K_IS_LOGIN,
+                  AppConstants.K_IS_LOGIN,
                   false,
                 );
               }

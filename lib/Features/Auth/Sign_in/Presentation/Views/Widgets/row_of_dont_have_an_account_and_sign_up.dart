@@ -19,7 +19,7 @@ class RowOfDontHaveAnAccountAndSignUp extends StatelessWidget {
           },
           child: Text(
             S.of(context).signUpTitle,
-            style: Style().textStyle16.copyWith(color: K_PRIMARY_COLOR),
+            style: Style().textStyle16.copyWith(color:  AppConstants.K_PRIMARY_COLOR),
           ),
         ),
       ],
