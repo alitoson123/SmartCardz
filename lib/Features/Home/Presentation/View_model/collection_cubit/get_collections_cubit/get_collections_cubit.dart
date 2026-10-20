@@ -57,4 +57,37 @@ class GetCollectionsCubit extends Cubit<GetCollectionsStates> {
       emit(GetCollectionsSuccess(collections: updatedList));
     }
   }
+
+  /// Updates the [folderId] of a collection in-memory so the home list
+  /// reflects a move action immediately, without a network round-trip.
+  void moveCollectionLocally(String collectionId, String? folderId) {
+    if (state is GetCollectionsSuccess) {
+      final currentState = state as GetCollectionsSuccess;
+      final updatedList = currentState.collections
+          .map(
+            (e) => e.collection_id == collectionId
+                ? e.copyWith(folder_id: folderId)
+                : e,
+          )
+          .toList();
+      emit(GetCollectionsLoading());
+      emit(GetCollectionsSuccess(collections: updatedList));
+    }
+  }
+
+  /// When a folder is deleted, all collections that belonged to it are moved
+  /// back to root (folder_id = null) in-memory, without a network round-trip.
+  void unassignFolderLocally(String folderId) {
+    if (state is GetCollectionsSuccess) {
+      final currentState = state as GetCollectionsSuccess;
+      final updatedList = currentState.collections
+          .map(
+            (e) => e.folder_id == folderId ? e.copyWith(folder_id: null) : e,
+          )
+          .toList();
+      emit(GetCollectionsLoading());
+      emit(GetCollectionsSuccess(collections: updatedList));
+    }
+  }
 }
+

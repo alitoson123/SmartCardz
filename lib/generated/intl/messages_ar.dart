@@ -110,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "continueWithGoogle":
             MessageLookupByLibrary.simpleMessage("المتابعة باستخدام Google"),
         "create": MessageLookupByLibrary.simpleMessage("إنشاء"),
+        "createAndMove": MessageLookupByLibrary.simpleMessage("إنشاء ونقل"),
         "createCollectionTitle":
             MessageLookupByLibrary.simpleMessage("إنشاء مجموعة جديدة"),
         "createFlashcardSubtitle": MessageLookupByLibrary.simpleMessage(
@@ -129,6 +130,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("حذف المجموعة"),
         "deleteCollectionConfirm": MessageLookupByLibrary.simpleMessage(
             "هل أنت متأكد من حذف هذه المجموعة؟ لا يمكن التراجع عن هذا الإجراء."),
+        "deleteFolder": MessageLookupByLibrary.simpleMessage("حذف المجلد"),
+        "deleteFolderConfirm": MessageLookupByLibrary.simpleMessage(
+            "هل أنت متأكد أنك تريد حذف هذا المجلد؟ سيتم نقل المجموعات الموجودة بداخله إلى الرئيسية."),
         "disableWhiteboard":
             MessageLookupByLibrary.simpleMessage("تعطيل السبورة"),
         "dontHaveAccount":
@@ -159,6 +163,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorOccurred": m1,
         "example": MessageLookupByLibrary.simpleMessage("المثال"),
         "firstName": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
+        "folderCreatedAndMovedSuccessfully":
+            MessageLookupByLibrary.simpleMessage(
+                "تم إنشاء المجلد والنقل بنجاح"),
+        "folderDeletedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("تم حذف المجلد بنجاح"),
+        "folderName": MessageLookupByLibrary.simpleMessage("اسم المجلد"),
+        "folderRenamedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "تمت إعادة تسمية المجلد بنجاح"),
         "forgotPasswordSubtitle": MessageLookupByLibrary.simpleMessage(
             "أدخل بريدك الإلكتروني وسنرسل لك\nرابط استعادة الحساب"),
         "forgotPasswordTitle":
@@ -179,11 +191,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "light": MessageLookupByLibrary.simpleMessage("فاتح"),
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "medium": MessageLookupByLibrary.simpleMessage("متوسط"),
+        "moveCollection": MessageLookupByLibrary.simpleMessage("نقل"),
+        "moveToFolder": MessageLookupByLibrary.simpleMessage("نقل إلى مجلد"),
         "newCollection": MessageLookupByLibrary.simpleMessage("مجموعة جديدة"),
+        "newFolder": MessageLookupByLibrary.simpleMessage("+ مجلد جديد"),
         "noBackSideData": MessageLookupByLibrary.simpleMessage(
             "لا توجد بيانات في الوجه الخلفي"),
         "noCardsDue":
             MessageLookupByLibrary.simpleMessage("لا توجد بطاقات للمراجعة 🎉"),
+        "noFoldersYet":
+            MessageLookupByLibrary.simpleMessage("لا توجد مجلدات بعد."),
         "noFrontSideData": MessageLookupByLibrary.simpleMessage(
             "لا توجد بيانات في الوجه الأمامي"),
         "noValidCardsToAdd": MessageLookupByLibrary.simpleMessage(
@@ -213,9 +230,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تم إلغاء التذكير بنجاح"),
         "reminderSetSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم تعيين التذكير بنجاح"),
+        "removeFromFolder": MessageLookupByLibrary.simpleMessage(
+            "إزالة من المجلد (نقل إلى الرئيسية)"),
         "rename": MessageLookupByLibrary.simpleMessage("إعادة تسمية"),
         "renameCollection":
             MessageLookupByLibrary.simpleMessage("إعادة تسمية المجموعة"),
+        "renameFolder":
+            MessageLookupByLibrary.simpleMessage("إعادة تسمية المجلد"),
         "repeatDaily": MessageLookupByLibrary.simpleMessage("تكرار يومي"),
         "revisionTitle": MessageLookupByLibrary.simpleMessage("المراجعة"),
         "sameTimeEveryDay":

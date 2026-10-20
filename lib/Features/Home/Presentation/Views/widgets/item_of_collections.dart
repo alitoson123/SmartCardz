@@ -172,7 +172,7 @@ class _ItemOfCollectionsState extends State<ItemOfCollections> {
               );
             },
           ),
-          trailing: Icon(Icons.arrow_forward_ios, size: 18.sp),
+       //   trailing: Icon(Icons.arrow_forward_ios, size: 18.sp),
           onTap: () {
             context.push(
               AppRoutes.revisionCardScreen,

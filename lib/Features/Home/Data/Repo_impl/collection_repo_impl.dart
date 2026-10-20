@@ -87,4 +87,26 @@ class CollectionRepoImpl extends CollectionRepo {
       }
     }
   }
+
+  // move a collection
+  @override
+  Future<Either<Failure, void>> moveCollection({
+    required String collectionId,
+    String? folderId,
+  }) async {
+    try {
+      await CollectionService.moveCollection(
+        collectionId: collectionId,
+        folderId: folderId,
+      );
+      return right(null);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return left(ServerFailure.fromFirebaseError(e));
+      } else {
+        return left(ServerFailure(errorMessage: e.toString()));
+      }
+    }
+  }
 }
+

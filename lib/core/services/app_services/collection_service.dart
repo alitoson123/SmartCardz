@@ -9,6 +9,7 @@ class CollectionService {
   // create collection
   Future<CollectionEntity> createNewCollection({
     required String collectionName,
+    String? folderId,
   }) async {
     final ref = firestore.collection('collections').doc();
     await ref.set({
@@ -16,6 +17,7 @@ class CollectionService {
       'ownerId': FirebaseAuth.instance.currentUser!.uid,
       'collection_name': collectionName,
       'cards_count': 0,
+      'folder_id': folderId,
       'created_at': FieldValue.serverTimestamp(),
     });
 
@@ -83,6 +85,16 @@ and if You didn't return it, you would have to trigger a completely new fetch of
       'collection_id': collectionId,
       'collection_name': newCollectionName,
     };
+  }
+
+  // move collection
+  static Future<void> moveCollection({
+    required String collectionId,
+    String? folderId,
+  }) async {
+    await firestore.collection('collections').doc(collectionId).update({
+      'folder_id': folderId,
+    });
   }
 
   // get card cards and due cards count

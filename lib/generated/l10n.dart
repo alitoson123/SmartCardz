@@ -1779,6 +1779,136 @@ class S {
       args: [],
     );
   }
+
+  /// `Move`
+  String get moveCollection {
+    return Intl.message(
+      'Move',
+      name: 'moveCollection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Move to Folder`
+  String get moveToFolder {
+    return Intl.message(
+      'Move to Folder',
+      name: 'moveToFolder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `+ New Folder`
+  String get newFolder {
+    return Intl.message(
+      '+ New Folder',
+      name: 'newFolder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove from Folder (Move to Home)`
+  String get removeFromFolder {
+    return Intl.message(
+      'Remove from Folder (Move to Home)',
+      name: 'removeFromFolder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Folder created and moved successfully`
+  String get folderCreatedAndMovedSuccessfully {
+    return Intl.message(
+      'Folder created and moved successfully',
+      name: 'folderCreatedAndMovedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Folder Name`
+  String get folderName {
+    return Intl.message(
+      'Folder Name',
+      name: 'folderName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create & Move`
+  String get createAndMove {
+    return Intl.message(
+      'Create & Move',
+      name: 'createAndMove',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No folders yet.`
+  String get noFoldersYet {
+    return Intl.message(
+      'No folders yet.',
+      name: 'noFoldersYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rename Folder`
+  String get renameFolder {
+    return Intl.message(
+      'Rename Folder',
+      name: 'renameFolder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Folder`
+  String get deleteFolder {
+    return Intl.message(
+      'Delete Folder',
+      name: 'deleteFolder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this folder? Collections inside will be moved to Home.`
+  String get deleteFolderConfirm {
+    return Intl.message(
+      'Are you sure you want to delete this folder? Collections inside will be moved to Home.',
+      name: 'deleteFolderConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Folder renamed successfully`
+  String get folderRenamedSuccessfully {
+    return Intl.message(
+      'Folder renamed successfully',
+      name: 'folderRenamedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Folder deleted successfully`
+  String get folderDeletedSuccessfully {
+    return Intl.message(
+      'Folder deleted successfully',
+      name: 'folderDeletedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

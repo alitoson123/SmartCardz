@@ -6,6 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_cards/Features/Home/Data/Repo_impl/collection_repo_impl.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/actions_collection_cubit/actions_collection_cubit.dart';
 import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/folder_cubit/get_folders_cubit/get_folders_cubit.dart';
+import 'package:smart_cards/Features/Home/Presentation/View_model/folder_cubit/actions_folder_cubit/actions_folder_cubit.dart';
+import 'package:smart_cards/Features/Home/Data/Repo_impl/folder_repo_impl.dart';
 import 'package:smart_cards/constant.dart';
 import 'package:smart_cards/core/services/locator_service/service_locator.dart';
 import 'package:smart_cards/core/services/Bloc_observes_service/my_Bloc_observe.dart';
@@ -27,7 +30,7 @@ import 'generated/l10n.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'dart:io' show Platform;
 
-//import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +45,7 @@ void main() async {
 
   // for google ads
   // Initialize AdMob SDK
-  //await MobileAds.instance.initialize();
+  await MobileAds.instance.initialize();
 
   await _configureRevenueCat();
 
@@ -91,10 +94,20 @@ class SmartCards extends StatelessWidget {
                 collectionRepo: getIt<CollectionRepoImpl>(),
               ),
             ),
+            BlocProvider(
+              create: (context) => ActionsFolderCubit(
+                folderRepo: getIt<FolderRepoImpl>(),
+              ),
+            ),
 
             BlocProvider(
               create: (context) => GetCollectionsCubit(
                 collectionRepoImpl: getIt<CollectionRepoImpl>(),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => GetFoldersCubit(
+                folderRepoImpl: getIt<FolderRepoImpl>(),
               ),
             ),
             BlocProvider(

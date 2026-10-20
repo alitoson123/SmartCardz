@@ -1,4 +1,4 @@
-/*import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class BannerAdWidget extends StatefulWidget {
@@ -13,7 +13,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
   bool _isLoaded = false;
 
   // ← Use test ID during development. Replace before publishing.
-  static const String _adUnitId = 'ca-app-pub-3940256099942544/6300978111';
+  static const String _adUnitId = 'ca-app-pub-4023356754088047/4499257988';
 
   @override
   void initState() {
@@ -52,4 +52,4 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
     );
   }
 }
-*/
+

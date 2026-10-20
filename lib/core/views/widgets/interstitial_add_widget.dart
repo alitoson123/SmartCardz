@@ -1,11 +1,11 @@
-/*import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class InterstitialAdManager {
   InterstitialAd? _interstitialAd;
 
   static const String _adUnitId =
-      'ca-app-pub-3940256099942544/1033173712'; // test ID
+      'ca-app-pub-4023356754088047/3162125587'; // test ID
 
   /// Call this to preload the ad before you need to show it
   void loadAd() {
@@ -39,4 +39,4 @@ class InterstitialAdManager {
     _interstitialAd = null;
   }
 }
-*/
+

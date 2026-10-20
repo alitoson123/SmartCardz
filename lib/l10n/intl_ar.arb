@@ -176,5 +176,18 @@
   "youHaveAnActiveReminderSetAt": "لديك تذكير نشط في {time}",
   "collectionDeletedSuccessfully": "تم حذف المجموعة بنجاح",
   "collectionRenamedSuccessfully": "تم إعادة تسمية المجموعة بنجاح",
-  "continueWithApple": "المتابعة باستخدام Apple"
+  "continueWithApple": "المتابعة باستخدام Apple",
+  "moveCollection": "نقل",
+  "moveToFolder": "نقل إلى مجلد",
+  "newFolder": "+ مجلد جديد",
+  "removeFromFolder": "إزالة من المجلد (نقل إلى الرئيسية)",
+  "folderCreatedAndMovedSuccessfully": "تم إنشاء المجلد والنقل بنجاح",
+  "folderName": "اسم المجلد",
+  "createAndMove": "إنشاء ونقل",
+  "noFoldersYet": "لا توجد مجلدات بعد.",
+  "renameFolder": "إعادة تسمية المجلد",
+  "deleteFolder": "حذف المجلد",
+  "deleteFolderConfirm": "هل أنت متأكد أنك تريد حذف هذا المجلد؟ سيتم نقل المجموعات الموجودة بداخله إلى الرئيسية.",
+  "folderRenamedSuccessfully": "تمت إعادة تسمية المجلد بنجاح",
+  "folderDeletedSuccessfully": "تم حذف المجلد بنجاح"
  }

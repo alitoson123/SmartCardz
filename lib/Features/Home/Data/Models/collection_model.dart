@@ -7,6 +7,8 @@ class CollectionModel extends CollectionEntity {
     required super.cards_count,
     required super.collection_id,
     required super.owner_id,
+    super.folder_id,
+    required super.createdAt,
   });
 
   // from firestore doc
@@ -17,6 +19,8 @@ class CollectionModel extends CollectionEntity {
       collectionName: data['collection_name'] ?? '',
       cards_count: data['cards_count'] ?? 0,
       collection_id: data['id'],
+      folder_id: data['folder_id'],
+      createdAt: (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
 
@@ -26,7 +30,7 @@ class CollectionModel extends CollectionEntity {
       'collection_name': collectionName,
       'cards_count': cards_count,
       'owner_id': owner_id,
-      'created_at': FieldValue.serverTimestamp(),
+      'folder_id': folder_id,
     };
   }
 
@@ -37,12 +41,16 @@ class CollectionModel extends CollectionEntity {
     int? cards_count,
     String? collection_id,
     String? owner_id,
+    String? folder_id,
+    DateTime? createdAt,
   }) {
     return CollectionModel(
       collectionName: collectionName ?? this.collectionName,
       cards_count: cards_count ?? this.cards_count,
       collection_id: collection_id ?? this.collection_id,
       owner_id: owner_id ?? this.owner_id,
+      folder_id: folder_id ?? this.folder_id,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 
@@ -52,6 +60,8 @@ class CollectionModel extends CollectionEntity {
       collectionName: collection.collectionName,
       cards_count: collection.cards_count,
       collection_id: collection.collection_id,
+      folder_id: collection.folder_id,
+      createdAt: collection.createdAt,
     );
   }
 }

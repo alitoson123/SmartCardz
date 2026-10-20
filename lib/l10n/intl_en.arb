@@ -172,5 +172,18 @@
   "youHaveAnActiveReminderSetAt": "You have an active reminder set at {time}",
   "collectionDeletedSuccessfully": "Collection deleted successfully",
   "collectionRenamedSuccessfully": "Collection renamed successfully",
-  "continueWithApple": "Continue with Apple"
+  "continueWithApple": "Continue with Apple",
+  "moveCollection": "Move",
+  "moveToFolder": "Move to Folder",
+  "newFolder": "+ New Folder",
+  "removeFromFolder": "Remove from Folder (Move to Home)",
+  "folderCreatedAndMovedSuccessfully": "Folder created and moved successfully",
+  "folderName": "Folder Name",
+  "createAndMove": "Create & Move",
+  "noFoldersYet": "No folders yet.",
+  "renameFolder": "Rename Folder",
+  "deleteFolder": "Delete Folder",
+  "deleteFolderConfirm": "Are you sure you want to delete this folder? Collections inside will be moved to Home.",
+  "folderRenamedSuccessfully": "Folder renamed successfully",
+  "folderDeletedSuccessfully": "Folder deleted successfully"
 }

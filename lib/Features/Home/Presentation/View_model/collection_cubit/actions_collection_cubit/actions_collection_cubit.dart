@@ -56,4 +56,26 @@ class ActionsCollectionCubit extends Cubit<ActionsCollectionStates> {
       ),
     );
   }
+
+  // move collection
+  Future<void> moveCollection({
+    required String collectionId,
+    String? folderId,
+  }) async {
+    emit(ActionsCollectionLoading());
+    final result = await collectionRepo.moveCollection(
+      collectionId: collectionId,
+      folderId: folderId,
+    );
+    result.fold(
+      (failure) =>
+          emit(ActionsCollectionFailure(errMessage: failure.errorMessage)),
+      (success) => emit(
+        MoveCollectionSuccess(
+          collectionId: collectionId,
+          folderId: folderId,
+        ),
+      ),
+    );
+  }
 }

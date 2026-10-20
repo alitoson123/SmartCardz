@@ -117,6 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "continueWithGoogle":
             MessageLookupByLibrary.simpleMessage("Continue with Google"),
         "create": MessageLookupByLibrary.simpleMessage("Create"),
+        "createAndMove": MessageLookupByLibrary.simpleMessage("Create & Move"),
         "createCollectionTitle":
             MessageLookupByLibrary.simpleMessage("Create a New Collection"),
         "createFlashcardSubtitle": MessageLookupByLibrary.simpleMessage(
@@ -136,6 +137,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Delete Collection"),
         "deleteCollectionConfirm": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to delete this collection? This action cannot be undone."),
+        "deleteFolder": MessageLookupByLibrary.simpleMessage("Delete Folder"),
+        "deleteFolderConfirm": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete this folder? Collections inside will be moved to Home."),
         "disableWhiteboard":
             MessageLookupByLibrary.simpleMessage("Disable whiteboard"),
         "dontHaveAccount":
@@ -166,6 +170,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorOccurred": m1,
         "example": MessageLookupByLibrary.simpleMessage("Example"),
         "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
+        "folderCreatedAndMovedSuccessfully":
+            MessageLookupByLibrary.simpleMessage(
+                "Folder created and moved successfully"),
+        "folderDeletedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Folder deleted successfully"),
+        "folderName": MessageLookupByLibrary.simpleMessage("Folder Name"),
+        "folderRenamedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Folder renamed successfully"),
         "forgotPasswordSubtitle": MessageLookupByLibrary.simpleMessage(
             "please enter your email and we will send \n you a link to return to your account"),
         "forgotPasswordTitle":
@@ -186,11 +198,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "light": MessageLookupByLibrary.simpleMessage("Light"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
+        "moveCollection": MessageLookupByLibrary.simpleMessage("Move"),
+        "moveToFolder": MessageLookupByLibrary.simpleMessage("Move to Folder"),
         "newCollection": MessageLookupByLibrary.simpleMessage("New collection"),
+        "newFolder": MessageLookupByLibrary.simpleMessage("+ New Folder"),
         "noBackSideData":
             MessageLookupByLibrary.simpleMessage("No back side data"),
         "noCardsDue":
             MessageLookupByLibrary.simpleMessage("No cards due for review 🎉"),
+        "noFoldersYet": MessageLookupByLibrary.simpleMessage("No folders yet."),
         "noFrontSideData":
             MessageLookupByLibrary.simpleMessage("No front side data"),
         "noValidCardsToAdd":
@@ -221,9 +237,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Reminder cancelled successfully"),
         "reminderSetSuccessfully":
             MessageLookupByLibrary.simpleMessage("Reminder set successfully"),
+        "removeFromFolder": MessageLookupByLibrary.simpleMessage(
+            "Remove from Folder (Move to Home)"),
         "rename": MessageLookupByLibrary.simpleMessage("Rename"),
         "renameCollection":
             MessageLookupByLibrary.simpleMessage("Rename Collection"),
+        "renameFolder": MessageLookupByLibrary.simpleMessage("Rename Folder"),
         "repeatDaily": MessageLookupByLibrary.simpleMessage("Repeat daily"),
         "revisionTitle": MessageLookupByLibrary.simpleMessage("Revision"),
         "sameTimeEveryDay":

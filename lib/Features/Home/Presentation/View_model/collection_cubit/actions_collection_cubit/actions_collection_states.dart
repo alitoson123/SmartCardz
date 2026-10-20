@@ -27,6 +27,16 @@ class RenameCollectionSuccess extends ActionsCollectionStates {
   });
 }
 
+class MoveCollectionSuccess extends ActionsCollectionStates {
+  final String collectionId;
+  final String? folderId;
+
+  MoveCollectionSuccess({
+    required this.collectionId,
+    this.folderId,
+  });
+}
+
 class ActionsCollectionFailure extends ActionsCollectionStates {
   final String errMessage;
   ActionsCollectionFailure({required this.errMessage});

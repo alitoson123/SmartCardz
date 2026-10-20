@@ -14,4 +14,8 @@ abstract class CollectionRepo {
     required String collectionId,
     required String newName,
   });
+  Future<Either<Failure, void>> moveCollection({
+    required String collectionId,
+    String? folderId,
+  });
 }

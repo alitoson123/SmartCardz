@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ArudUser {
+  
   Future<void> addUser({
     required String documentName,
     required Map<String, dynamic> data,

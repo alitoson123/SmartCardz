@@ -23,6 +23,8 @@ import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cub
 import 'package:smart_cards/core/views/collection_view.dart';
 import 'package:smart_cards/core/views/widgets/app_dialog.dart';
 import 'package:smart_cards/generated/l10n.dart';
+import 'package:smart_cards/core/views/widgets/banner_ad_widget.dart';
+import 'package:smart_cards/core/views/widgets/interstitial_add_widget.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/quota_cubit/quota_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/quota_cubit/quota_states.dart';
@@ -38,7 +40,8 @@ class AddAndShowCardViewBody extends StatefulWidget {
 class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     with SingleTickerProviderStateMixin {
   // for google ads
-  // final InterstitialAdManager interstitialAdManager = InterstitialAdManager();
+  final InterstitialAdManager interstitialAdManager = InterstitialAdManager();
+  int cardSaveCount = 0;
   late AnimationController controller;
   late Animation<double> fadeAnimation;
   final TextEditingController textController = TextEditingController();
@@ -61,7 +64,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     fadeAnimation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
 
     // for google ads
-    //  interstitialAdManager.loadAd();
+    interstitialAdManager.loadAd();
   }
 
   @override
@@ -181,16 +184,18 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                         SizedBox(height: 6.h),
                         //***************************************************** */
                         //   Preview section
-                        if (state is ShowAICardSuccess)
+                        if (state is ShowAICardSuccess || state is ShowAICardSuccessWithWarning)
                           ListOfPreviewSection(
                             fadeAnimation: fadeAnimation,
                             textController: textController,
                             selectedCollectionId: selectedCollectionId,
-                            card: state.card,
+                            card: state is ShowAICardSuccess 
+                                ? state.card 
+                                : (state as ShowAICardSuccessWithWarning).card,
                           ),
                         //***************************************************** */
                         //   Add card button
-                        if (state is ShowAICardSuccess)
+                        if (state is ShowAICardSuccess || state is ShowAICardSuccessWithWarning)
                           BlocConsumer<AddAICardCubit, AddAICardStates>(
                             listener: (context, addState) {
                               if (addState is AddAICardSuccess) {
@@ -199,9 +204,10 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                                 context.read<ShowAICardCubit>().reset();
 
                                 // for google ads
-                                //   if (cardSaveCount % 2 == 0) {
-                                //  interstitialAdManager.showAd();
-                                //    }
+                                cardSaveCount++;
+                                if (cardSaveCount % 2 == 0) {
+                                  interstitialAdManager.showAd();
+                                }
 
                                 Message().MessageSuccessMethod(
                                   context,
@@ -223,7 +229,9 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                             builder: (context, addState) {
                               return AppButton(
                                 text: S.of(context).addCard,
-                                onPressed: () => addAICards(state.card),
+                                onPressed: () => addAICards(state is ShowAICardSuccess 
+                                    ? state.card 
+                                    : (state as ShowAICardSuccessWithWarning).card),
                                 icon: Icons.add,
                               );
                             },
@@ -233,7 +241,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                   ),
                 ),
                 // for google ads
-                // const BannerAdWidget(),
+                const BannerAdWidget(),
               ],
             ),
           );

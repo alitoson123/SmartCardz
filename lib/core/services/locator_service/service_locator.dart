@@ -22,6 +22,8 @@ import 'package:smart_cards/core/services/firebase_auth_service/firebase_auth_se
 import 'package:smart_cards/Features/Home/Domain/Repos/collection_stats_repo/collection_stats_repo.dart';
 import 'package:smart_cards/Features/Home/Data/Repo_impl/collection_stats_repo_impl.dart';
 import 'package:smart_cards/Features/Home/Data/collection_stats_local_data_source/collection_stats_local_data_source.dart';
+import 'package:smart_cards/core/services/app_services/folder_service.dart';
+import 'package:smart_cards/Features/Home/Data/Repo_impl/folder_repo_impl.dart';
 import 'package:smart_cards/Features/Home/Data/collection_stats_remote_data_source/collection_stats_remote_data_source.dart';
 
 final getIt = GetIt.instance;
@@ -32,6 +34,7 @@ void setup() {
   getIt.registerLazySingleton<DioService>(() => DioService(dio: dio));
   getIt.registerLazySingleton<CardService>(() => CardService());
   getIt.registerLazySingleton<CollectionService>(() => CollectionService());
+  getIt.registerLazySingleton<FolderService>(() => FolderService());
   getIt.registerLazySingleton<PurchaseServiceLigic>(() => PurchaseServiceLigic.instance);
 
   //  Register AI Card Feature dependencies
@@ -71,6 +74,13 @@ void setup() {
       collectionRemoteDataSource: CollectionRemoteDataSourceImpl(
         collectionService: getIt<CollectionService>(),
       ),
+    ),
+  );
+
+  //  Register Folder Feature dependencies
+  getIt.registerLazySingleton<FolderRepoImpl>(
+    () => FolderRepoImpl(
+      folderService: getIt<FolderService>(),
     ),
   );
 
