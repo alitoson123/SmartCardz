@@ -19,7 +19,7 @@ import 'package:smart_cards/core/utils/widgets/app_header.dart';
 import 'package:smart_cards/core/views/collection_view.dart';
 import 'package:smart_cards/core/views/widgets/app_dialog.dart';
 import 'package:smart_cards/generated/l10n.dart';
-import 'package:smart_cards/core/views/widgets/banner_ad_widget.dart';
+//import 'package:smart_cards/core/views/widgets/banner_ad_widget.dart';
 
 class AddNormalCardViewBody extends StatefulWidget {
   const AddNormalCardViewBody({super.key});
@@ -145,8 +145,8 @@ class _AddNormalCardViewBodyState extends State<AddNormalCardViewBody> {
           ),
         ),
         // for google ads
-        SizedBox(height: 8.h),
-        const BannerAdWidget(), // ← Adds banner at the bottom
+     //   SizedBox(height: 8.h),
+      //  const BannerAdWidget(), // ← Adds banner at the bottom
       ],
     );
   }

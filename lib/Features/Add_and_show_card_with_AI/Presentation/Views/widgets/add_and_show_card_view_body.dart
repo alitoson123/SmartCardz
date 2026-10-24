@@ -19,12 +19,11 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View
 import 'package:smart_cards/Features/Add_normal_card/Presentation/Views/widgets/custom_selection.dart';
 import 'package:smart_cards/core/utils/widgets/app_button.dart';
 import 'package:smart_cards/core/utils/widgets/app_header.dart';
-import 'package:smart_cards/Features/Home/Presentation/View_model/collection_cubit/get_collections_cubit/get_collections_cubit.dart';
-import 'package:smart_cards/core/views/collection_view.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_cards/core/navigator/routes.dart';
 import 'package:smart_cards/core/views/widgets/app_dialog.dart';
 import 'package:smart_cards/generated/l10n.dart';
-import 'package:smart_cards/core/views/widgets/banner_ad_widget.dart';
-import 'package:smart_cards/core/views/widgets/interstitial_add_widget.dart';
+//import 'package:smart_cards/core/views/widgets/interstitial_add_widget.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/quota_cubit/quota_cubit.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Presentation/View_model/quota_cubit/quota_states.dart';
@@ -40,8 +39,8 @@ class AddAndShowCardViewBody extends StatefulWidget {
 class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     with SingleTickerProviderStateMixin {
   // for google ads
-  final InterstitialAdManager interstitialAdManager = InterstitialAdManager();
-  int cardSaveCount = 0;
+ // final InterstitialAdManager interstitialAdManager = InterstitialAdManager();
+ // int cardSaveCount = 0;
   late AnimationController controller;
   late Animation<double> fadeAnimation;
   final TextEditingController textController = TextEditingController();
@@ -64,7 +63,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     fadeAnimation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
 
     // for google ads
-    interstitialAdManager.loadAd();
+  //  interstitialAdManager.loadAd();
   }
 
   @override
@@ -204,11 +203,11 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                                 context.read<ShowAICardCubit>().reset();
 
                                 // for google ads
-                                cardSaveCount++;
+                           /*     cardSaveCount++;
                                 if (cardSaveCount % 2 == 0) {
                                   interstitialAdManager.showAd();
                                 }
-
+*/
                                 Message().MessageSuccessMethod(
                                   context,
                                   message: S.of(context).CardSavedSuccessfully,
@@ -241,7 +240,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                   ),
                 ),
                 // for google ads
-                const BannerAdWidget(),
+              //  const BannerAdWidget(),
               ],
             ),
           );
@@ -383,6 +382,23 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     );
   }
 
+  Future<Map<String, dynamic>?> _selectCollection() async {
+    final result = await context.push<Map<String, dynamic>>(
+      AppRoutes.collectionsScreen,
+    );
+
+    if (!mounted) return null;
+
+    if (result != null) {
+      setState(() {
+        selectedCollectionName = result['name'];
+        selectedCollectionId = result['id'];
+      });
+      return result;
+    }
+    return null;
+  }
+
   //  selection row
   Widget buildSelectionRow() {
     return Row(
@@ -391,26 +407,8 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
         Expanded(
           child: CustomSelection(
             label: selectedCollectionName ?? S.of(context).selectCollection,
-
             icon: Icons.collections_bookmark_rounded,
-            onTap: () async {
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BlocProvider.value(
-                    value: context.read<GetCollectionsCubit>(),
-                    child: CollectionView(),
-                  ),
-                ),
-              );
-
-              if (result != null && result is Map<String, dynamic>) {
-                setState(() {
-                  selectedCollectionName = result['name'];
-                  selectedCollectionId = result['id'];
-                });
-              }
-            },
+            onTap: () => _selectCollection(),
           ),
         ),
         SizedBox(width: 12.w),
@@ -477,6 +475,7 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
 
     // check internet connection
     if (!await NetworkUtils.isOnline()) {
+      if (!mounted) return;
       Message().showAppDialog(
         context: context,
         type: DialogType.error,
@@ -504,25 +503,8 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
 
   // add ai cards
   Future<void> addAICards(List<AICardEntity> cards) async {
-    if (selectedCollectionId == null) {
-      Message().showAppDialog(
-        context: context,
-        type: DialogType.warning,
-        message: S.of(context).PleaseSelectACollection,
-      );
-      //   context.push(AppRoutes.);
-
-      return;
-    }
-
     // check if there are valid cards
-    bool hasValidCards = false;
-    for (var item in cards) {
-      if (item.is_valid == true) {
-        hasValidCards = true;
-        break;
-      }
-    }
+    final bool hasValidCards = cards.any((item) => item.is_valid == true);
     // if there are no valid cards show a message
     if (!hasValidCards) {
       Message().showAppDialog(
@@ -535,6 +517,30 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
       // clear the text field
       textController.clear();
       return;
+    }
+
+    if (selectedCollectionId == null) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(
+              S.of(context).PleaseSelectACollection,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
+            ),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Theme.of(context).primaryColor,
+          ),
+        );
+
+      final result = await _selectCollection();
+      if (!mounted) return;
+      if (result == null || selectedCollectionId == null) {
+        return;
+      }
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
     }
 
     // Check the network connection

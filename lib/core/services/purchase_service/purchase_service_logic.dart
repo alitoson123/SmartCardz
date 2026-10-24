@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:smart_cards/constant.dart';
-
+import 'package:smart_cards/core/services/promo_code_service/promo_code_service.dart';
 
 /// Wraps RevenueCat SDK calls and surfaces typed results.
 class PurchaseServiceLigic {
@@ -37,18 +37,25 @@ class PurchaseServiceLigic {
 
   // ─── Entitlement Check ────────────────────────────────────────────────────
 
-  /// Returns true if the user has an active "cardify_pro" entitlement.
+  /// Returns true if the user has an active "cardify_pro" entitlement
+  /// from RevenueCat OR an active promo code entitlement from Firestore.
   Future<bool> isProUser() async {
     final info = await getCustomerInfo();
-    return info?.entitlements.active
+    final bool isRcPro = info?.entitlements.active
             .containsKey(AppConstants.proEntitlementId) ??
         false;
+    if (isRcPro) return true;
+
+    return await PromoCodeService.instance.isPromoProActive();
   }
 
-  /// Synchronous check using a cached CustomerInfo object.
+  /// Synchronous check using a cached CustomerInfo object or cached promo status.
   bool isProUserFromInfo(CustomerInfo info) {
-    return info.entitlements.active
+    final bool isRcPro = info.entitlements.active
         .containsKey(AppConstants.proEntitlementId);
+    if (isRcPro) return true;
+
+    return PromoCodeService.instance.isPromoProActiveSync();
   }
 
   // ─── Offerings ────────────────────────────────────────────────────────────

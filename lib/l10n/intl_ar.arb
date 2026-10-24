@@ -189,5 +189,15 @@
   "deleteFolder": "حذف المجلد",
   "deleteFolderConfirm": "هل أنت متأكد أنك تريد حذف هذا المجلد؟ سيتم نقل المجموعات الموجودة بداخله إلى الرئيسية.",
   "folderRenamedSuccessfully": "تمت إعادة تسمية المجلد بنجاح",
-  "folderDeletedSuccessfully": "تم حذف المجلد بنجاح"
- }
+  "folderDeletedSuccessfully": "تم حذف المجلد بنجاح",
+  "redeemCode": "تفعيل كود",
+  "haveAnActivationCode": "هل لديك كود تفعيل؟",
+  "enterActivationCode": "أدخل كود الاشتراك أو التفعيل.",
+  "codeHint": "اكتب الكود هنا",
+  "codeRedeemedSuccessfully": "تم تفعيل الكود بنجاح! تم تفعيل Cardify Pro.",
+  "invalidCode": "كود التفعيل غير صحيح.",
+  "codeAlreadyUsed": "هذا الكود تم استخدامه مسبقاً.",
+  "codeExpired": "انتهت صلاحية هذا الكود.",
+  "codeRedeeming": "جاري التحقق من الكود...",
+  "mustBeLoggedInToRedeem": "يجب تسجيل الدخول أولاً لتفعيل الكود."
+}

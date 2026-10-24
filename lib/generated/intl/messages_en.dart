@@ -100,6 +100,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Choose from gallery"),
         "clearWhiteboard":
             MessageLookupByLibrary.simpleMessage("Clear whiteboard"),
+        "codeAlreadyUsed": MessageLookupByLibrary.simpleMessage(
+            "This code has already been used."),
+        "codeExpired":
+            MessageLookupByLibrary.simpleMessage("This code has expired."),
+        "codeHint": MessageLookupByLibrary.simpleMessage("Enter code"),
+        "codeRedeemedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Code redeemed successfully! Cardify Pro unlocked."),
+        "codeRedeeming":
+            MessageLookupByLibrary.simpleMessage("Validating code..."),
         "collectionDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Collection deleted successfully"),
         "collectionName":
@@ -150,6 +159,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "editCard": MessageLookupByLibrary.simpleMessage("Edit Card"),
         "enableDisableWhiteboard":
             MessageLookupByLibrary.simpleMessage("Enable / Disable whiteboard"),
+        "enterActivationCode": MessageLookupByLibrary.simpleMessage(
+            "Enter your promo or invite code."),
         "enterBackSide":
             MessageLookupByLibrary.simpleMessage("Enter the back side"),
         "enterCollectionName":
@@ -189,8 +200,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("This may take a few seconds"),
         "green": MessageLookupByLibrary.simpleMessage("Green"),
         "hard": MessageLookupByLibrary.simpleMessage("Hard"),
+        "haveAnActivationCode":
+            MessageLookupByLibrary.simpleMessage("Have an activation code?"),
         "home": MessageLookupByLibrary.simpleMessage("Cardify"),
         "image": MessageLookupByLibrary.simpleMessage("Image"),
+        "invalidCode":
+            MessageLookupByLibrary.simpleMessage("Invalid activation code."),
         "isNotValidTryToFixTheSpelling": MessageLookupByLibrary.simpleMessage(
             "is not valid, try to fix the spelling"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
@@ -200,6 +215,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
         "moveCollection": MessageLookupByLibrary.simpleMessage("Move"),
         "moveToFolder": MessageLookupByLibrary.simpleMessage("Move to Folder"),
+        "mustBeLoggedInToRedeem": MessageLookupByLibrary.simpleMessage(
+            "You must be signed in to redeem a code."),
         "newCollection": MessageLookupByLibrary.simpleMessage("New collection"),
         "newFolder": MessageLookupByLibrary.simpleMessage("+ New Folder"),
         "noBackSideData":
@@ -230,6 +247,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ratingSavedLoadingNext": MessageLookupByLibrary.simpleMessage(
             "Rating saved ✅\nLoading next card..."),
         "red": MessageLookupByLibrary.simpleMessage("Red"),
+        "redeemCode": MessageLookupByLibrary.simpleMessage("Redeem Code"),
         "registerAccount":
             MessageLookupByLibrary.simpleMessage("Register Account"),
         "remindMeAt": MessageLookupByLibrary.simpleMessage("REMIND ME AT"),

@@ -13,20 +13,16 @@ class SubscriptionCubit extends Cubit<SubscriptionState> {
 
   // Register the RevenueCat listener once
   void _listenToUpdates() {
-    Purchases.addCustomerInfoUpdateListener((CustomerInfo info) {
-      final isPro = _service.isProUserFromInfo(info);
+    Purchases.addCustomerInfoUpdateListener((CustomerInfo info) async {
+      final isPro = await _service.isProUser();
       emit(SubscriptionSuccess(isPro: isPro, customerInfo: info));
     });
   }
 
   Future<void> checkStatus() async {
     emit(SubscriptionLoading());
+    final isPro = await _service.isProUser();
     final info = await _service.getCustomerInfo();
-    if (info == null) {
-      emit(SubscriptionError('Could not load subscription status.'));
-      return;
-    }
-    final isPro = _service.isProUserFromInfo(info);
     emit(SubscriptionSuccess(isPro: isPro, customerInfo: info));
   }
 }

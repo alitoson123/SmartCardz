@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
+import 'package:smart_cards/Features/Settings/Presentation/views/widgets/redeem_code_dialog.dart';
 import 'package:smart_cards/core/services/purchase_service/purchase_service_logic.dart';
 import 'package:smart_cards/core/view_model/app_purchase_cubit/app_purchase_cubit.dart';
 import 'package:smart_cards/core/view_model/app_purchase_cubit/app_purchase_states.dart';
+import 'package:smart_cards/generated/l10n.dart';
 
 class SubscriptionSection extends StatelessWidget {
   const SubscriptionSection({super.key});
@@ -58,6 +60,15 @@ class SubscriptionSection extends StatelessWidget {
                 onTap: () => RevenueCatUI.presentCustomerCenter(),
               ),
 
+            // Redeem Code (Free users)
+            if (!isPro)
+              ListTile(
+                leading: const Icon(Icons.card_giftcard_rounded),
+                title: Text(S.of(context).redeemCode),
+                subtitle: Text(S.of(context).haveAnActivationCode),
+                onTap: () => _showRedeemDialog(context),
+              ),
+
             // Restore purchases (Free users or after reinstall)
             if (!isPro)
               ListTile(
@@ -71,8 +82,16 @@ class SubscriptionSection extends StatelessWidget {
     );
   }
 
+  void _showRedeemDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => const RedeemCodeDialog(),
+    );
+  }
+
   Future<void> _showPaywall(BuildContext context) async {
     final result = await RevenueCatUI.presentPaywallIfNeeded('cardify_pro');
+    if (!context.mounted) return;
     if (result == PaywallResult.purchased || result == PaywallResult.restored) {
       context.read<SubscriptionCubit>().checkStatus();
     }

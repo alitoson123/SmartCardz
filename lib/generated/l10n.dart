@@ -1909,6 +1909,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Redeem Code`
+  String get redeemCode {
+    return Intl.message(
+      'Redeem Code',
+      name: 'redeemCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Have an activation code?`
+  String get haveAnActivationCode {
+    return Intl.message(
+      'Have an activation code?',
+      name: 'haveAnActivationCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your promo or invite code.`
+  String get enterActivationCode {
+    return Intl.message(
+      'Enter your promo or invite code.',
+      name: 'enterActivationCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter code`
+  String get codeHint {
+    return Intl.message(
+      'Enter code',
+      name: 'codeHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Code redeemed successfully! Cardify Pro unlocked.`
+  String get codeRedeemedSuccessfully {
+    return Intl.message(
+      'Code redeemed successfully! Cardify Pro unlocked.',
+      name: 'codeRedeemedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid activation code.`
+  String get invalidCode {
+    return Intl.message(
+      'Invalid activation code.',
+      name: 'invalidCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This code has already been used.`
+  String get codeAlreadyUsed {
+    return Intl.message(
+      'This code has already been used.',
+      name: 'codeAlreadyUsed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This code has expired.`
+  String get codeExpired {
+    return Intl.message(
+      'This code has expired.',
+      name: 'codeExpired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Validating code...`
+  String get codeRedeeming {
+    return Intl.message(
+      'Validating code...',
+      name: 'codeRedeeming',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You must be signed in to redeem a code.`
+  String get mustBeLoggedInToRedeem {
+    return Intl.message(
+      'You must be signed in to redeem a code.',
+      name: 'mustBeLoggedInToRedeem',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

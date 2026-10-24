@@ -95,6 +95,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseFromGallery":
             MessageLookupByLibrary.simpleMessage("الاختيار من المعرض"),
         "clearWhiteboard": MessageLookupByLibrary.simpleMessage("مسح السبورة"),
+        "codeAlreadyUsed": MessageLookupByLibrary.simpleMessage(
+            "هذا الكود تم استخدامه مسبقاً."),
+        "codeExpired":
+            MessageLookupByLibrary.simpleMessage("انتهت صلاحية هذا الكود."),
+        "codeHint": MessageLookupByLibrary.simpleMessage("اكتب الكود هنا"),
+        "codeRedeemedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "تم تفعيل الكود بنجاح! تم تفعيل Cardify Pro."),
+        "codeRedeeming":
+            MessageLookupByLibrary.simpleMessage("جاري التحقق من الكود..."),
         "collectionDeletedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم حذف المجموعة بنجاح"),
         "collectionName": MessageLookupByLibrary.simpleMessage("اسم المجموعة"),
@@ -143,6 +152,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "editCard": MessageLookupByLibrary.simpleMessage("تعديل البطاقة"),
         "enableDisableWhiteboard":
             MessageLookupByLibrary.simpleMessage("تفعيل / تعطيل السبورة"),
+        "enterActivationCode": MessageLookupByLibrary.simpleMessage(
+            "أدخل كود الاشتراك أو التفعيل."),
         "enterBackSide":
             MessageLookupByLibrary.simpleMessage("أدخل الوجه الخلفي"),
         "enterCollectionName":
@@ -182,8 +193,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "جاري إنشاء بطاقتك الذكية...\nقد يستغرق هذا بضع ثوانٍ"),
         "green": MessageLookupByLibrary.simpleMessage("أخضر"),
         "hard": MessageLookupByLibrary.simpleMessage("صعب"),
+        "haveAnActivationCode":
+            MessageLookupByLibrary.simpleMessage("هل لديك كود تفعيل؟"),
         "home": MessageLookupByLibrary.simpleMessage("Cardify"),
         "image": MessageLookupByLibrary.simpleMessage("الصورة"),
+        "invalidCode":
+            MessageLookupByLibrary.simpleMessage("كود التفعيل غير صحيح."),
         "isNotValidTryToFixTheSpelling": MessageLookupByLibrary.simpleMessage(
             "غير صالح، حاول تصحيح الإملاء"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
@@ -193,6 +208,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "medium": MessageLookupByLibrary.simpleMessage("متوسط"),
         "moveCollection": MessageLookupByLibrary.simpleMessage("نقل"),
         "moveToFolder": MessageLookupByLibrary.simpleMessage("نقل إلى مجلد"),
+        "mustBeLoggedInToRedeem": MessageLookupByLibrary.simpleMessage(
+            "يجب تسجيل الدخول أولاً لتفعيل الكود."),
         "newCollection": MessageLookupByLibrary.simpleMessage("مجموعة جديدة"),
         "newFolder": MessageLookupByLibrary.simpleMessage("+ مجلد جديد"),
         "noBackSideData": MessageLookupByLibrary.simpleMessage(
@@ -224,6 +241,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ratingSavedLoadingNext": MessageLookupByLibrary.simpleMessage(
             "تم حفظ التقييم ✅\nجاري تحميل البطاقة التالية..."),
         "red": MessageLookupByLibrary.simpleMessage("أحمر"),
+        "redeemCode": MessageLookupByLibrary.simpleMessage("تفعيل كود"),
         "registerAccount": MessageLookupByLibrary.simpleMessage("تسجيل حساب"),
         "remindMeAt": MessageLookupByLibrary.simpleMessage("تذكيري في"),
         "reminderCancelledSuccessfully":

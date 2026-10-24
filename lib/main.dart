@@ -30,7 +30,6 @@ import 'generated/l10n.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'dart:io' show Platform;
 
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,7 +44,7 @@ void main() async {
 
   // for google ads
   // Initialize AdMob SDK
-  await MobileAds.instance.initialize();
+  //await MobileAds.instance.initialize();
 
   await _configureRevenueCat();
 

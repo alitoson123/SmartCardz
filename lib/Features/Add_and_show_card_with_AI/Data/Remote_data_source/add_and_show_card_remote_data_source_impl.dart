@@ -48,7 +48,7 @@ class ShowCardRemoteDataSourceImpl extends AddAndShowCardRemoteDataSource {
 
     var result = await dioService.getMethod(
       url:
-          '$BASE_URL?words=$word&lang=$inputLanguage&output_lang=$outputLanguage&age=5&level=beginner&style=Photorealistic&userid=$userId&card_id=$idsString',
+          '$BASE_URL?words=$word&lang=$inputLanguage&output_lang=$outputLanguage&age=5&level=beginner&style=Photorealistic&userid=$userId&card_id=$idsString&with_image=$withImage',
     ); // '$BASE_URL?words=$word&lang=$inputLanguage&output_lang=$outputLanguage&age=5&level=beginner&style=Photorealistic&userid=$userId&card_id=$idsString&with_image=$withImage',
 
     // log(result.toString());

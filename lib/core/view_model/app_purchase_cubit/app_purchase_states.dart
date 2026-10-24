@@ -8,8 +8,8 @@ class SubscriptionLoading extends SubscriptionState {}
 
 class SubscriptionSuccess extends SubscriptionState {
   final bool isPro;
-  final CustomerInfo customerInfo;
-  SubscriptionSuccess({required this.isPro, required this.customerInfo});
+  final CustomerInfo? customerInfo;
+  SubscriptionSuccess({required this.isPro, this.customerInfo});
 }
 
 class SubscriptionError extends SubscriptionState {
