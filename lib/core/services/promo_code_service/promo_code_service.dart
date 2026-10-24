@@ -93,6 +93,11 @@ class PromoCodeService {
 
       final userSnap = await tx.get(userRef);
       final newProUntil = _calculateNewProUntil(userSnap.data(), duration);
+      final quotaRef = _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('ai_quota')
+          .doc('usage');
 
       tx.update(codeRef, {
         'is_used': true,
@@ -104,6 +109,13 @@ class PromoCodeService {
         'pro_until': Timestamp.fromDate(newProUntil),
         'is_pro': true,
         'last_redeemed_code': code,
+      }, SetOptions(merge: true));
+
+      // Reset AI quota usage to 0 for the fresh subscription period
+      tx.set(quotaRef, {
+        'premiumImageCardsUsed': 0,
+        'premiumTextCardsUsed': 0,
+        'premiumPeriodEnd': Timestamp.fromDate(newProUntil),
       }, SetOptions(merge: true));
 
       _cachedProUntil = newProUntil;
@@ -169,6 +181,25 @@ class PromoCodeService {
       return false;
     }
     return _cachedProUntil!.isAfter(DateTime.now());
+  }
+
+  /// Returns the pro_until DateTime if active, checking cache first then Firestore.
+  Future<DateTime?> getProUntil(String uid) async {
+    if (_cachedUserId == uid && _cachedProUntil != null) {
+      return _cachedProUntil;
+    }
+    try {
+      final snap = await _firestore.collection('users').doc(uid).get();
+      final proUntil = (snap.data()?['pro_until'] as Timestamp?)?.toDate();
+      if (proUntil != null) {
+        _cachedProUntil = proUntil;
+        _cachedUserId = uid;
+      }
+      return proUntil;
+    } catch (e) {
+      debugPrint('[PromoCodeService] getProUntil error: $e');
+      return null;
+    }
   }
 
   /// Clears cache on user sign-out.

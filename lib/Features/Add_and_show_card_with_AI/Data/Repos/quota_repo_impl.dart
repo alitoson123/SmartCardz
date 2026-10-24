@@ -4,6 +4,7 @@ import 'package:smart_cards/Features/Add_and_show_card_with_AI/Data/Models/quota
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Entities/quota_entity.dart';
 import 'package:smart_cards/Features/Add_and_show_card_with_AI/Domain/Repos/quota_repo.dart';
 import 'package:smart_cards/core/errors/failure.dart';
+import 'package:smart_cards/core/services/promo_code_service/promo_code_service.dart';
 import 'package:smart_cards/core/services/purchase_service/purchase_service_logic.dart';
 
 class QuotaRepoImpl implements QuotaRepo {
@@ -53,28 +54,31 @@ class QuotaRepoImpl implements QuotaRepo {
         needsUpdate = true;
       }
 
-      // 2. Premium reset checking RevenueCat
-      final customerInfo = await purchaseService.getCustomerInfo();
-      if (customerInfo != null &&
-          purchaseService.isProUserFromInfo(customerInfo)) {
-        // Find the pro entitlement
-        final entitlement = customerInfo.entitlements.active['cardify_pro'];
-        if (entitlement != null) {
-          final rcExpiration = entitlement.expirationDate != null
-              ? DateTime.tryParse(entitlement.expirationDate!)
-              : null;
+      // 2. Premium reset checking RevenueCat & Promo Code
+      final isPro = await purchaseService.isProUser();
+      if (isPro) {
+        DateTime? activePeriodEnd;
 
-          // If we haven't stored a period end, or the RevenueCat expiration is newer than what we stored
-          if (quota.premiumPeriodEnd == null ||
-              (rcExpiration != null &&
-                  rcExpiration.isAfter(quota.premiumPeriodEnd!))) {
-            quota = quota.copyWith(
-              premiumImageCardsUsed: 0,
-              premiumTextCardsUsed: 0,
-              premiumPeriodEnd: rcExpiration,
-            );
-            needsUpdate = true;
-          }
+        // Check RevenueCat first
+        final customerInfo = await purchaseService.getCustomerInfo();
+        final entitlement = customerInfo?.entitlements.active['cardify_pro'];
+        if (entitlement != null && entitlement.expirationDate != null) {
+          activePeriodEnd = DateTime.tryParse(entitlement.expirationDate!);
+        }
+
+        // If not from RevenueCat, check Promo Code pro_until
+        activePeriodEnd ??= await PromoCodeService.instance.getProUntil(userId);
+
+        // If we haven't stored a period end, or the new period end is newer than what we stored
+        if (quota.premiumPeriodEnd == null ||
+            (activePeriodEnd != null &&
+                activePeriodEnd.isAfter(quota.premiumPeriodEnd!))) {
+          quota = quota.copyWith(
+            premiumImageCardsUsed: 0,
+            premiumTextCardsUsed: 0,
+            premiumPeriodEnd: activePeriodEnd,
+          );
+          needsUpdate = true;
         }
       } else {
         // Not a pro user anymore
