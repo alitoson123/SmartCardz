@@ -38,9 +38,6 @@ class AddAndShowCardViewBody extends StatefulWidget {
 
 class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
     with SingleTickerProviderStateMixin {
-  // for google ads
- // final InterstitialAdManager interstitialAdManager = InterstitialAdManager();
- // int cardSaveCount = 0;
   late AnimationController controller;
   late Animation<double> fadeAnimation;
   final TextEditingController textController = TextEditingController();
@@ -239,8 +236,6 @@ class _AddAndShowCardViewBodyState extends State<AddAndShowCardViewBody>
                     ),
                   ),
                 ),
-                // for google ads
-              //  const BannerAdWidget(),
               ],
             ),
           );

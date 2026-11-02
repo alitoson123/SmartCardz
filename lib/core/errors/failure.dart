@@ -37,6 +37,7 @@ class ServerFailure extends Failure {
           errorMessage: "No internet connection or network error.",
         );
       case DioExceptionType.unknown:
+      default:
         return ServerFailure(
           errorMessage: "Unexpected error occurred: ${dioException.message}",
         );

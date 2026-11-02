@@ -42,10 +42,6 @@ void main() async {
 
   Bloc.observer = MyBlocObserver(); // bloc observer
 
-  // for google ads
-  // Initialize AdMob SDK
-  //await MobileAds.instance.initialize();
-
   await _configureRevenueCat();
 
   runApp(const SmartCards());
