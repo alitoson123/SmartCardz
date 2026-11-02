@@ -111,7 +111,7 @@ class QuotaRepoImpl implements QuotaRepo {
   }) async {
     try {
       final quotaResult = await getQuota(userId);
-      return quotaResult.fold((failure) => Left(failure), (quota) async {
+      return await quotaResult.fold((failure) async => Left(failure), (quota) async {
         final isPro = await purchaseService.isProUser();
         int allowedCount = 0;
         //  Pro
