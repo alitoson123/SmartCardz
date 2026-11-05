@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,11 +21,67 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+  Timer? _safetyTimeoutTimer;
+  bool _hasNavigated = false;
+
   @override
   void initState() {
     super.initState();
 
+    // Failsafe: Never stay stuck on splash screen for more than 3 seconds
+    _safetyTimeoutTimer = Timer(const Duration(seconds: 3), () {
+      if (mounted && !_hasNavigated) {
+        _navigateNext();
+      }
+    });
+
     context.read<AppInitCubit>().initialize();
+  }
+
+  @override
+  void dispose() {
+    _safetyTimeoutTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _navigateNext() async {
+    if (_hasNavigated || !mounted) return;
+    _hasNavigated = true;
+    _safetyTimeoutTimer?.cancel();
+
+    try {
+      context.read<ThemeCubit>().loadInitialTheme();
+      context.read<AppLanguageCubit>().loadInitialLanguage();
+    } catch (_) {}
+
+    bool isLoggedIn = false;
+    try {
+      final isLoginPref = SharedPreferencesService.instance.getBool(
+        AppConstants.K_IS_LOGIN,
+      );
+      final firebaseUser = FirebaseAuth.instance.currentUser;
+      isLoggedIn = isLoginPref == true && firebaseUser != null;
+
+      if (!isLoggedIn) {
+        if (firebaseUser != null) {
+          await FirebaseAuth.instance.signOut();
+        }
+        if (isLoginPref == true) {
+          await SharedPreferencesService.instance.setBool(
+            AppConstants.K_IS_LOGIN,
+            false,
+          );
+        }
+      }
+    } catch (_) {}
+
+    if (!mounted) return;
+
+    if (isLoggedIn) {
+      context.go(AppRoutes.homeScreen);
+    } else {
+      context.go(AppRoutes.onBoardingPage);
+    }
   }
 
   @override
@@ -32,49 +89,11 @@ class _SplashViewState extends State<SplashView> {
     return Scaffold(
       body: BlocListener<AppInitCubit, AppInitState>(
         listener: (context, state) async {
-          if (state is AppInitSuccessState) {
-            context.read<ThemeCubit>().loadInitialTheme();
-            context.read<AppLanguageCubit>().loadInitialLanguage();
-
-            final isLoginPref = SharedPreferencesService.instance.getBool(
-              AppConstants.K_IS_LOGIN,
-            );
-            final firebaseUser = FirebaseAuth.instance.currentUser;
-
-            // Both must agree the user is authenticated.
-            // On Android, SharedPreferences can be restored via Auto Backup
-            // after reinstall while the Firebase session also persists —
-            // producing a stale "logged-in" state with no real session.
-            // We therefore treat the user as logged in only when BOTH agree.
-            final isLoggedIn = isLoginPref == true && firebaseUser != null;
-
+          if (state is AppInitSuccessState || state is AppInitFailedState) {
             await Future.delayed(const Duration(milliseconds: 500));
-
-            if (!mounted) return;
-
-            if (isLoggedIn) {
-              context.go(AppRoutes.homeScreen);
-            } else {
-              // If Firebase still has a stale session (e.g., from Android backup
-              // restoring K_IS_LOGIN while Firebase token was persisted), clean it.
-              if (firebaseUser != null) {
-                await FirebaseAuth.instance.signOut();
-              }
-              // Also clear the stale pref flag if it somehow survived.
-              if (isLoginPref == true) {
-                await SharedPreferencesService.instance.setBool(
-                  AppConstants.K_IS_LOGIN,
-                  false,
-                );
-              }
-              context.go(AppRoutes.onBoardingPage);
+            if (mounted) {
+              _navigateNext();
             }
-          }
-
-          if (state is AppInitFailedState) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.errMessage)));
           }
         },
         child: Container(
@@ -91,8 +110,6 @@ class _SplashViewState extends State<SplashView> {
                   color: Colors.blue.shade900,
                 ),
               ),
-              //    SizedBox(height: 20.h),
-              //   const CircularProgressIndicator(),
             ],
           ),
         ),

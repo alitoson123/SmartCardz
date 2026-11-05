@@ -42,6 +42,8 @@ void main() async {
 
   Bloc.observer = MyBlocObserver(); // bloc observer
 
+  setup();
+
   await _configureRevenueCat();
 
   runApp(const SmartCards());

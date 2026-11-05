@@ -33,7 +33,10 @@ class _NotificationSectionState extends State<NotificationSection> {
     });
 
     if (value) {
-      // User turned ON the switch: schedule reminder with saved data or defaults
+      // User turned ON the switch: request permission if not yet granted
+      await localnotificationService.requestPermissions();
+
+      // schedule reminder with saved data or defaults
       final int hour = prefs.getInt('reminder_hour') ?? 5;
       final String period = prefs.getString('reminder_period') ?? 'PM';
       final bool repeatDaily = prefs.getBool('reminder_repeat_daily') ?? true;

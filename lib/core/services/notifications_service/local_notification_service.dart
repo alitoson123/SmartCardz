@@ -73,27 +73,46 @@ class localnotificationService {
 
     // log(tz.local.toString());
 
-    InitializationSettings initializationSettings = InitializationSettings(
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
       android: AndroidInitializationSettings('@drawable/ic_notification'),
-      iOS: DarwinInitializationSettings(),
+      iOS: DarwinInitializationSettings(
+        requestAlertPermission: false,
+        requestBadgePermission: false,
+        requestSoundPermission: false,
+      ),
     );
     await flutterLocalNotificationsPlugin.initialize(
       settings: initializationSettings,
       onDidReceiveBackgroundNotificationResponse: ontap,
       onDidReceiveNotificationResponse: ontap,
     );
+  }
 
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
-        ?.requestNotificationsPermission();
+  static Future<bool> requestPermissions() async {
+    try {
+      final androidImplementation = flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
+      final androidGranted =
+          await androidImplementation?.requestNotificationsPermission();
 
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin
-        >()
-        ?.requestPermissions(alert: true, badge: true, sound: true);
+      final iosImplementation = flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >();
+      final iosGranted = await iosImplementation?.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+
+      return (androidGranted ?? true) && (iosGranted ?? true);
+    } catch (e) {
+      debugPrint('Error requesting notification permissions: $e');
+      return false;
+    }
   }
 
   static Future<void> showBasicNotification({
@@ -169,47 +188,56 @@ class localnotificationService {
     required int minute,
     required bool isrepeat,
   }) async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-          'id_3',
-          'scheduled_notification',
-          channelDescription: 'scheduled_notification_description',
-          importance: Importance.max,
-          priority: Priority.high,
-          ticker: 'ticker',
-          icon: 'ic_notification',
-          color: Color(0xFF4A90E2),
-        );
+    try {
+      const AndroidNotificationDetails androidPlatformChannelSpecifics =
+          AndroidNotificationDetails(
+            'id_3',
+            'scheduled_notification',
+            channelDescription: 'scheduled_notification_description',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker',
+            icon: 'ic_notification',
+            color: Color(0xFF4A90E2),
+          );
 
-    // Reliance on global initialization in init()
-    final now = tz.TZDateTime.now(tz.local);
+      // Reliance on global initialization in init()
+      final now = tz.TZDateTime.now(tz.local);
 
-    var scheduledDate = tz.TZDateTime(
-      tz.local,
-      now.year,
-      now.month,
-      now.day,
-      hour,
-      minute,
-    );
+      var scheduledDate = tz.TZDateTime(
+        tz.local,
+        now.year,
+        now.month,
+        now.day,
+        hour,
+        minute,
+      );
 
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      id: id,
-      title: title,
-      body: body,
-      scheduledDate: scheduledDate,
-      notificationDetails: const NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: DarwinNotificationDetails(),
-      ),
-      payload: 'zonedSchedule',
-      // Android specific: Allow notification while device is in low-power mode
-      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-      // Make notification repeat DAILY at same time
-      matchDateTimeComponents: isrepeat == true
-          ? DateTimeComponents.time
-          : null,
-    );
+      // If scheduled time has already passed today, advance to tomorrow
+      if (scheduledDate.isBefore(now)) {
+        scheduledDate = scheduledDate.add(const Duration(days: 1));
+      }
+
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        id: id,
+        title: title,
+        body: body,
+        scheduledDate: scheduledDate,
+        notificationDetails: const NotificationDetails(
+          android: androidPlatformChannelSpecifics,
+          iOS: DarwinNotificationDetails(),
+        ),
+        payload: 'zonedSchedule',
+        // Android specific: Allow notification while device is in low-power mode
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        // Make notification repeat DAILY at same time
+        matchDateTimeComponents: isrepeat == true
+            ? DateTimeComponents.time
+            : null,
+      );
+    } catch (e) {
+      debugPrint('Error in showSchduledNotification: $e');
+    }
   }
 
   static Future<void> cancelNotification(int id) async {

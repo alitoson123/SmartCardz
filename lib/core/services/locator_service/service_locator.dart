@@ -30,6 +30,10 @@ final getIt = GetIt.instance;
 final Dio dio = Dio();
 
 void setup() {
+  if (getIt.isRegistered<DioService>()) {
+    return;
+  }
+
   // 1. Register AppServices first
   getIt.registerLazySingleton<DioService>(() => DioService(dio: dio));
   getIt.registerLazySingleton<CardService>(() => CardService());
